@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import S05 from "./S05/S05_05_06";
+import S05 from "./Pages/Class/ClassMain/ClassMain";
 import SideBar from "./Common/SideBar";
 
 function App() {

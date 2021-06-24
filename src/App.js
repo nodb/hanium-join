@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Route, BrowserRouter } from "react-router-dom";
 
-import S04 from "./S04/S04";
+import S04 from "./Pages/Main/Main";
 import App2 from "./App2";
 
 import Header from "./Common/Header";

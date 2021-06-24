@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
-import StudentBox from "./S05_Student";
-import AssignmentBox from "./S05_Assignment";
+import StudentBox from "./Student";
+import AssignmentBox from "./Assignment";
 
 const Student = [
   {

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import ClassBox from "./S04_ClassBox";
-import Plus from "./S04_Plus";
-import ClassAdd from "./S04_ClassAdd";
+import ClassBox from "./ClassBox";
+import Plus from "./Plus";
+import ClassAdd from "./ClassAdd";
 
 const item = [
   {

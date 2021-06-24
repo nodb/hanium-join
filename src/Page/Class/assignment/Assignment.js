@@ -1,20 +1,28 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Common/Navbar";
 import imgfile from "./images/assign_example.PNG";
 
-export const LayoutType2 = () => {
+export const Assignment = () => {
   const count = 0;
 
   return (
-    <div style={{display : "flex",
-    flexDirection : "column" }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div className="row">
         <Navbar />
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
             <h1 className="h4">과제명</h1>
           </div>
-          <div class="textviewer" style={{height:"200px", width:"600px", border:"solid 1px", textAlign:"center", lineHeight:"200px"}}>
+          <div
+            class="textviewer"
+            style={{
+              height: "200px",
+              width: "600px",
+              border: "solid 1px",
+              textAlign: "center",
+              lineHeight: "200px",
+            }}
+          >
             <div>과제 설명 예시 칸</div>
           </div>
           <img src={imgfile} />
@@ -25,7 +33,7 @@ export const LayoutType2 = () => {
             <textarea
               class="form-control"
               id="exampleFormControlTextarea1"
-              style={{width:"520px", marginRight: "20px"}}
+              style={{ width: "520px", marginRight: "20px" }}
             />
             <button type="submit" class="btn btn-secondary">
               확인
@@ -49,4 +57,4 @@ export const LayoutType2 = () => {
   );
 };
 
-export default LayoutType2;
+export default Assignment;

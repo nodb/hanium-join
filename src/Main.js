@@ -18,7 +18,7 @@ const Main = () => {
       {/* <P08 /> */}
       {/* <P09_07 /> */}
       {/* <P10/> */}
-      <SubmitAndDiscuss/>
+      <SubmitAndDiscuss />
     </main>
   );
 };

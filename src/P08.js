@@ -4,8 +4,7 @@ import { Button, Table } from "reactstrap";
 
 export const P08 = ({ list }) => {
   return (
-    <div style={{display : "flex",
-    flexDirection : "column" }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div className="row">
         <Navbar />
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">

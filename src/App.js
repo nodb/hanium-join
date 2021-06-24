@@ -1,7 +1,7 @@
 import React ,{useState,useEffect} from 'react';
-import Footer from './Footer';
-import Main from './Main';
-import Header from './Header';
+import Footer from './Common/Footer';
+import Main from './Common/Main';
+import Header from './Common/Header';
 
 const App=() =>{
     return(

@@ -1,5 +1,5 @@
 import React from "react";
-import MypageLayout from './MypageLayout';
+import MypageLayout from '../Pages/Mypage/MypageLayout';
 
 
 const Main=()=>{

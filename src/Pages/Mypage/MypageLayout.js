@@ -1,5 +1,4 @@
 import React from 'react'
-import CommuModal from './CommuModal'
 import MyInfo from './MyInfo'
 import MyClass from './MyClass.js'
 import MyAssignment from './MyAssignment'
@@ -53,11 +52,11 @@ export const MypageLayout = () => {
         </div>
 
           <div>
-            {/* <MyInfo /> */}
+            <MyInfo />
             {/* <MyClass /> */}
             {/* <MyAssignment /> */}
             {/* <MyModify /> */}
-            <CommuModal />
+
           </div>
 
       <canvas className="my-4 w-100" id="myChart" width={900} height={380} />

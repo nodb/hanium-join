@@ -4,6 +4,7 @@ import SubmitAndDiscuss from "../Page/Class/assignment/SubmitAndDiscuss";
 import P09_07 from "../Professor/P09_07";
 import P12 from "../Professor/P12";
 import Navbar from "./Navbar";
+import Assignment from "../Page/Class/assignment/Assignment";
 
 const Main = () => {
   return (
@@ -12,9 +13,8 @@ const Main = () => {
         <div className="row">
           <Navbar />
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <Assignment />
             {/* <SubmitAndDiscuss /> */}
-            {/* <P09_07 /> */}
-            <P12 />
           </main>
         </div>
       </div>

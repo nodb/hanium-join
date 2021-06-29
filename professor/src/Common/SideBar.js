@@ -46,15 +46,18 @@ const SideBar = ({ list }) => {
               {item.title === "과제 관리" && (
                 <Link
                   to="/class/enrol"
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                  }}
                   style={{ textDecoration: "none", color: "black" }}
                   className="nav-link active"
                   aria-current="page"
                 >
                   <span data-feather="assignment-management" />
-                  {isOpen ? "▼" : "▶"} 과제 관리
+                  <div
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                    }}
+                  >
+                    {isOpen ? "▼" : "▶"} 과제 관리
+                  </div>
                   <Collapse isOpen={isOpen}>
                     <Link
                       to=""

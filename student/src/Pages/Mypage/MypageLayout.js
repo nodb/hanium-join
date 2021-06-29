@@ -3,7 +3,7 @@ import MyInfo from './MyInfo'
 import MyClass from './MyClass.js'
 import MyAssignment from './MyAssignment'
 import MyModify from './MyModify'
-
+import { Redirect, Route, Switch,Link } from 'react-router-dom'
 
 export const MypageLayout = () => {
     return (
@@ -18,30 +18,34 @@ export const MypageLayout = () => {
             <span data-feather="plus-circle" />
           </a>
         </h6>
-          <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="#">
-              <span data-feather="home" />
+        
+        <li>
+            <Link className="nav-link" to="/myinfo">
+            <span data-feather="file" />
               개인 정보
-            </a>
+            </Link>
           </li>
+
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <span data-feather="file" />
+          <Link className="nav-link" to="/class">
+            <span data-feather="file" />
               수강 과목
-            </a>
-          </li>
+            </Link>
+            </li>
+
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <span data-feather="shopping-cart" />
+          <Link className="nav-link" to="/myassignment">
+            <span data-feather="file" />
               과제 제출함
-            </a>
-          </li>
+            </Link>
+            </li>
+
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <span data-feather="users" />
-              회원정보 수정
-            </a>
-          </li>
+          <Link className="nav-link" to="/mymodify">
+            <span data-feather="file" />
+              회원정보 수정
+            </Link>
+            </li>
           
        </ul>
       </div>
@@ -52,11 +56,13 @@ export const MypageLayout = () => {
         </div>
 
           <div>
-            <MyInfo />
-            {/* <MyClass /> */}
-            {/* <MyAssignment /> */}
-            {/* <MyModify /> */}
-
+          <Switch>
+            <Route path="/myinfo" exact component={MyInfo}></Route>
+            <Route path="/class" exact component={MyClass}></Route>
+            <Route path="/myassignment" excat component={MyAssignment}></Route>
+            <Route path="/mymodify" exact component={MyModify}></Route>       
+            <Redirect to="/myinfo" />
+          </Switch>
           </div>
 
       <canvas className="my-4 w-100" id="myChart" width={900} height={380} />

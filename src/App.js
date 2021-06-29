@@ -16,12 +16,10 @@ const Footer = styled.div`
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <Route path="/" component={S04} exact={true} />
-        <Route path="/class" component={App2} />
-        <Footer />
-      </BrowserRouter>
+      <Header />
+      <Route path="/class" exact component={S04} />
+      <Route path="/class/main" component={App2} />
+      <Footer />
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   DropdownItem,
   DropdownMenu,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const HeaderBar = styled.div`
   border-bottom: 0.5px solid #d8d8d8;
@@ -54,7 +55,9 @@ function Header() {
             <DropdownItem text>Dropdown Item Text</DropdownItem>
             <DropdownItem disabled>잘 되넹</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>마이페이지</DropdownItem>
+            <Link to="/mypage/">
+              <DropdownItem>마이페이지</DropdownItem>
+            </Link>
             <DropdownItem>로그아웃</DropdownItem>
             <DropdownItem>Quo Action</DropdownItem>
           </DropdownMenu>

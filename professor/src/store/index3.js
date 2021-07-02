@@ -56,7 +56,7 @@ const initialState = {
     {
       id: 1,
       memberId: "jdyj",
-      memberPassword: "패스워드",
+      memberPassword: "asdf",
       memberName: "조재영",
       phoneNumber: "010-1234-5678",
       email: "abcd@souletaca.ek.kr",

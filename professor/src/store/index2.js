@@ -9,35 +9,6 @@ const initialState = {
       id: 1,
       className: "시스템 프로그래밍",
       classCode: "000001",
-      teams: [
-        {
-          id: 1,
-          teamName: "TEAM 1",
-          members: [
-            {
-              id: 1,
-              memberId: "jdyj",
-              memberPassword: "asdf",
-              memberName: "조재영",
-              phoneNumber: "010-1234-5678",
-              email: "abcd@souletaca.ek.kr",
-              department: "컴퓨터공학과",
-              studentId: "18111234",
-              grade: 1,
-            },
-          ],
-          assignmentList: [
-            {
-              id: 1,
-              submit: false,
-            },
-            {
-              id: 2,
-              submit: true,
-            },
-          ],
-        },
-      ],
       assignments: [
         {
           id: 1,
@@ -59,6 +30,23 @@ const initialState = {
           teams: [
             {
               id: 1,
+              teamName: "TEAM 1",
+              members: [
+                {
+                  id: 1,
+                  memberId: "jdyj",
+                  memberPassword: "asdf",
+                  memberName: "조재영",
+                  phoneNumber: "010-1234-5678",
+                  email: "abcd@souletaca.ek.kr",
+                  department: "컴퓨터공학과",
+                  studentId: "18111234",
+                  grade: 1,
+                  profileImage: "profile.jpg",
+                },
+              ],
+              submit: false,
+              report: "report.pdf",
             },
           ],
         },

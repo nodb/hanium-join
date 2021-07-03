@@ -1,0 +1,38 @@
+@BASE_URL=http://localhost:3000
+
+GET {{BASE_URL}}/members/1
+
+POST {{BASE_URL}}/members
+Content-Type: application/json
+
+//store에 있는 reducer정보와 동일하게 매칭시켜주기 
+{
+    "id": 1,
+    "memberId": "jdyj",
+    "memberPassword": "asdf",
+    "memberName": "조재영",
+    "phoneNumber": "010-1234-5678",
+    "email": "abcd@souletaca.ek.kr",
+    "department": "컴퓨터공학과",
+    "studentId": "18111234",
+    "grade": 1,
+    "profileImage": "profile.jpg"
+}
+
+PUT {{BASE_URL}}/members/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "memberId": "jdyj",
+    "memberPassword": "asdf",
+    "memberName": "조재영",
+    "phoneNumber": "010-1234-5678",
+    "email": "abcd@souletaca.ek.kr",
+    "department": "컴퓨터공학과",
+    "studentId": "18111234",
+    "grade": 1,
+    "profileImage": "profile.jpg"
+}
+
+DELETE {{BASE_URL}}/members/1

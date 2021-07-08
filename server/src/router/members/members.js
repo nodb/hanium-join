@@ -80,9 +80,9 @@ export const queryMemberMdByEmail = async (ctx, next) => {
 
 export const removeMemberMd = async (ctx, next) => {
   const { email } = ctx.params;
-  const { conn } = ctx.state;
-  await conn.query("DELETE FROM tb_member");
-  console.log("ok");
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+  await conn.query("DELETE FROM tb_member where email = ?", [email]);
   await next();
 };
 
@@ -96,5 +96,7 @@ export const create = [
 ];
 
 export const read = [];
+
+export const update = [];
 
 export const remove = [removeMemberMd, responseMiddleware];

@@ -4,19 +4,19 @@ import { Link } from "react-router-dom";
 const defaultList = [
   {
     title: "▶ 개인 정보",
-    url: "/mypage/myinfo",
+    url: "/professor/mypage/myinfo",
   },
   {
     title: "▶ 강의 과목",
-    url: "/mypage/class",
+    url: "/professor/mypage/class",
   },
   {
     title: "▶ 등록한 과제",
-    url: "/mypage/assignment",
+    url: "/professor/mypage/assignment",
   },
   {
     title: "▶ 회원 정보 수정",
-    url: "/mypage/modify",
+    url: "/professor/mypage/modify",
   },
 ];
 

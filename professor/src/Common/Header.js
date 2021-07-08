@@ -33,7 +33,10 @@ function Header() {
         rel="stylesheet"
       ></link>
       <HeaderBar>
-        <Link to="/class" style={{ textDecoration: "none", color: "black" }}>
+        <Link
+          to="/professor/class"
+          style={{ textDecoration: "none", color: "black" }}
+        >
           <HeaderText>Join</HeaderText>
         </Link>
         <Dropdown
@@ -51,7 +54,7 @@ function Header() {
           </DropdownToggle>
           <DropdownMenu right>
             <Link
-              to="/mypage/myinfo"
+              to="/professor/mypage/myinfo"
               style={{ textDecoration: "none", color: "black" }}
             >
               <DropdownItem>마이페이지</DropdownItem>

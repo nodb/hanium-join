@@ -22,7 +22,7 @@ const P11_07 = () => {
   const history = useHistory();
 
   const modifyAssignment = () => {
-    history.push("/class/assignment");
+    history.push("/professor/class/assignment");
   };
 
   return (

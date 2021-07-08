@@ -1,38 +1,28 @@
-@BASE_URL=http://localhost:3000
+@BASE_URL=http://localhost:3000/api/v1
 
-GET {{BASE_URL}}/members/1
 
 POST {{BASE_URL}}/members
 Content-Type: application/json
 
-//store에 있는 reducer정보와 동일하게 매칭시켜주기 
 {
-    "id": 1,
-    "memberId": "jdyj",
-    "memberPassword": "asdf",
-    "memberName": "조재영",
-    "phoneNumber": "010-1234-5678",
-    "email": "abcd@souletaca.ek.kr",
-    "department": "컴퓨터공학과",
-    "studentId": "18111234",
-    "grade": 1,
-    "profileImage": "profile.jpg"
+    "email": "jdyj1234@naver.com",
+    "password": "password",
+    "name" : "test",
+    "mobile": "010-1234-1234",
+    "type" : "P"
 }
 
-PUT {{BASE_URL}}/members/1
+
+GET {{BASE_URL}}/members/1
+
+PUT {{BASE_URL}}/members/jdyj@naver.com
 Content-Type: application/json
 
+//store에 있는 reducer정보와 동일하게 매칭시켜주기 
 {
-    "id": 1,
-    "memberId": "jdyj",
-    "memberPassword": "asdf",
-    "memberName": "조재영",
-    "phoneNumber": "010-1234-5678",
-    "email": "abcd@souletaca.ek.kr",
-    "department": "컴퓨터공학과",
-    "studentId": "18111234",
-    "grade": 1,
-    "profileImage": "profile.jpg"
+    "name" : "하위",
+    "mobile" : "010-1234-4312",
+    "type" : "S"
 }
 
-DELETE {{BASE_URL}}/members/1
+DELETE {{BASE_URL}}/members/"jdyj@naver.com"

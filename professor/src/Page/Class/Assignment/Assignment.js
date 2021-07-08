@@ -8,7 +8,7 @@ const assignment = ({ list }) => {
   return (
     <>
       <div class="mt-2">
-        <Link to="/class/assignment/modify">
+        <Link to="/professor/class/assignment/modify">
           <Button size="sm" style={{ marginRight: "20px" }}>
             수정
           </Button>

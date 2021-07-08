@@ -1,18 +1,18 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const defaultList = [
   {
     title: "▶ 수업 명1",
-    url: "/class/main",
+    url: "/student/class/main",
   },
   {
     title: "▶ 수업 명2",
-    url: "/class/main",
+    url: "/student/class/main",
   },
   {
     title: "▶ 수업 명3",
-    url: "/class/main",
+    url: "/student/class/main",
   },
 ];
 

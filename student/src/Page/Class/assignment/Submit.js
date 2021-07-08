@@ -6,7 +6,7 @@ const Submit = () => {
   const history = useHistory();
 
   const submitAssignment = () => {
-    history.push("/class/main/assignment");
+    history.push("/student/class/main/assignment");
   };
 
   return (
@@ -40,7 +40,7 @@ const Submit = () => {
         </Dropzone>
 
         <div class="mt-5 d-flex" style={{ marginLeft: "500px" }}>
-          <Link to="/class/main/assignment">
+          <Link to="/student/class/main/assignment">
             <Button color="secondary" size="sm" style={{ marginRight: "8px" }}>
               취소
             </Button>

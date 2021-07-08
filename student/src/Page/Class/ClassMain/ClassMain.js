@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import StudentBox from "./Student";
 import AssignmentBox from "./Assignment";
-import {Link} from "react-router-dom"; 
+import { Link } from "react-router-dom";
 
 const Student = [
   {
@@ -37,7 +37,7 @@ const Assignment = [
     id: 1,
     name: "과제명1",
     deadline: "2021-06-25",
-    url: "/class/main/assignment",
+    url: "/student/class/main/assignment",
   },
   {
     id: 2,
@@ -71,7 +71,14 @@ function S05_05_06() {
       </div>
       <Text>과제</Text>
       {Assignment.map((item) => {
-        return (<Link to={item.url} style={{textDecoration:"none", color:"black"}}><AssignmentBox assignment={item}></AssignmentBox></Link>);
+        return (
+          <Link
+            to={item.url}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <AssignmentBox assignment={item}></AssignmentBox>
+          </Link>
+        );
       })}
     </>
   );

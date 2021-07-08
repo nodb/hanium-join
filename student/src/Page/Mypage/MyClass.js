@@ -39,7 +39,7 @@ function MyClass() {
         classes.map((item) => {
           return (
             <Link
-              to="/class/main"
+              to="/student/class/main"
               style={{ textDecoration: "none", color: "black" }}
             >
               <ClassText>

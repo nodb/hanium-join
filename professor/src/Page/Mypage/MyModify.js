@@ -13,7 +13,7 @@ import {
 const MyModify = (props) => {
   const history = useHistory();
   const changeMyInfo = () => {
-    history.push("/mypage/myinfo");
+    history.push("/professor/mypage/myinfo");
   };
 
   return (

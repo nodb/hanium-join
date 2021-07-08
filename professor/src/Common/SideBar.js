@@ -5,19 +5,19 @@ import { Collapse } from "reactstrap";
 const defaultList = [
   {
     title: "▶ 수강생 관리",
-    url: "/class/enrol",
+    url: "/professor/class/enrol",
   },
   {
     title: "▶ 구성 팀 확인",
-    url: "/class/team",
+    url: "/professor/class/team",
   },
   {
     title: "과제 관리",
-    url: "/class/assignmentList",
+    url: "/professor/class/assignmentList",
   },
   {
     title: "▶ 리포트 확인",
-    url: "/class/report",
+    url: "/professor/class/report",
   },
 ];
 
@@ -45,7 +45,7 @@ const SideBar = ({ list }) => {
               )}
               {item.title === "과제 관리" && (
                 <Link
-                  to="/class/assignmentList"
+                  to="/professor/class/assignmentList"
                   style={{ textDecoration: "none", color: "black" }}
                   className="nav-link active"
                   aria-current="page"
@@ -60,7 +60,7 @@ const SideBar = ({ list }) => {
                   </div>
                   <Collapse isOpen={isOpen}>
                     <Link
-                      to="/class/assignment/teamView"
+                      to="/professor/class/assignment/teamView"
                       style={{ textDecoration: "none", color: "black" }}
                       className="nav-link active"
                       aria-current="page"
@@ -68,7 +68,7 @@ const SideBar = ({ list }) => {
                       ▶ 팀별 보기
                     </Link>
                     <Link
-                      to="/class/assignment/assignView"
+                      to="/professor/class/assignment/assignView"
                       style={{ textDecoration: "none", color: "black" }}
                       className="nav-link active"
                       aria-current="page"

@@ -59,7 +59,7 @@ function S04() {
         {item.map((item) => {
           return (
             <Link
-              to="/class/enrol"
+              to="/professor/class/enrol"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ClassBox item={item}></ClassBox>

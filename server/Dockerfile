@@ -1,7 +1,7 @@
 FROM node:12-alpine
 WORKDIR /SERVER
 COPY package*.json /SERVER/
-RUN yarn add
+RUN npm install
 COPY . /SERVER/
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
 EXPOSE 3000

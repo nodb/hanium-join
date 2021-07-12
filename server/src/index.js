@@ -3,12 +3,10 @@ import Router from "./router";
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
 import Config from "./config";
-import { async } from "regenerator-runtime";
 
 const pool = mariadb.createPool({
   host: Config.DB_HOST,
   user: Config.DB_USER,
-  port: Config.DB_PORT,
   password: Config.DB_PASSWORD,
   database: Config.DB_DATABASE,
   connectionLimit: Config.DB_CONNECTION_LIMIT,

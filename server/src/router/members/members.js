@@ -98,9 +98,10 @@ export const queryMemberMdByEmail = async (ctx, next) => {
 };
 
 export const removeMemberMd = async (ctx, next) => {
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
-  await conn.query("DELETE FROM tb_member WHERE email = ?", [ctx.params.email]);
+  const { conn } = ctx.state;
+  const { email } = ctx.params;
+
+  await conn.query("DELETE FROM tb_member WHERE email = ?", [email]);
   await next();
 };
 

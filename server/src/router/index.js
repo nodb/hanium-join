@@ -7,7 +7,6 @@ const router = new Router({
   prefix: "/api/v1",
 });
 
-router.use("/my", my.routes());
 router.use("/classes", classes.routes());
 router.use("/members", members.routes());
 

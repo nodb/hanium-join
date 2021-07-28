@@ -14,13 +14,13 @@ const initialState = {
           id: 1,
           progress: true,
           name: "과제 명 1",
-          content: "ㅁㄴㅇㄹ",
+          content: "",
           image: "C:InfoTechimage",
           comment: [
             {
               id: 1,
-              content: "ㅁㄴㅇㄹ",
-              name: "조재영",
+              content: "",
+              name: "",
               createdAt: "2021-06-21",
             },
           ],
@@ -34,9 +34,9 @@ const initialState = {
               members: [
                 {
                   id: 1,
-                  memberId: "jdyj",
+                  memberId: "",
                   memberPassword: "asdf",
-                  memberName: "조재영",
+                  memberName: "",
                   phoneNumber: "010-1234-5678",
                   email: "abcd@souletaca.ek.kr",
                   department: "컴퓨터공학과",

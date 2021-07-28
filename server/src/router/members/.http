@@ -1,8 +1,6 @@
 @BASE_URL=http://localhost:3000/api/v1
 
-
-
-GET {{BASE_URL}}/members/jdyj1234@naver.com
+GET {{BASE_URL}}/members/jdyj@naver.com
 
 
 POST {{BASE_URL}}/members
@@ -16,13 +14,13 @@ Content-Type: application/json
     "type" : "P"
 }
 
-PUT {{BASE_URL}}/members/jdyj1234@naver.com
+PUT {{BASE_URL}}/members/jdyj@naver.com
 Content-Type: application/json
 
 {
-    "name" : "해윙",
+    "name" : "test2",
     "type" : "S",
     "mobile": "010-4312-4132"
 }
 
-DELETE {{BASE_URL}}/members/jdyj1234@naver.com
+DELETE {{BASE_URL}}/members/jdyj@naver.com

@@ -1,22 +1,22 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const defaultList = [
   {
     title: "▶ 개인정보",
-    url: "/mypage/myinfo",
+    url: "/student/mypage/myinfo",
   },
   {
     title: "▶ 수강 과목",
-    url: "/mypage/class",
+    url: "/student/mypage/class",
   },
   {
     title: "▶ 과제 제출함",
-    url: "/mypage/myassignment",
+    url: "/student/mypage/myassignment",
   },
   {
     title: "▶ 회원 정보 수정",
-    url: "/mypage/mymodify",
+    url: "/student/mypage/mymodify",
   },
 ];
 

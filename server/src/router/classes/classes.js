@@ -1,4 +1,4 @@
-export const responseMiddleware = async (ctx, next) => {
+export const responseMiddleware = async (ctx) => {
   const { id } = ctx.params;
   const { method } = ctx.state;
   const data = ctx.request.body;
@@ -11,7 +11,7 @@ export const responseMiddleware = async (ctx, next) => {
   };
 };
 
-export const get = async (ctx, next) => {
+export const get = async (ctx) => {
   ctx.state = 200;
   ctx.body = "GET";
 };

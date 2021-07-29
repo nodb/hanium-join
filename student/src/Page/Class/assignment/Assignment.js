@@ -38,14 +38,14 @@ export const Assignment = () => {
       </div>
       <div class="form-inline pb-4 mt-3">
         <Link
-          to="/class/main/assignment/submit"
+          to="/student/class/main/assignment/submit"
           style={{ textDecoration: "none", color: "black" }}
         >
           과제 제출하러 가기
         </Link>
       </div>
       <tr>
-        <Link to="/class/main">
+        <Link to="/student/class/main">
           <button
             href="#"
             class="btn btn-secondary btn-sm"

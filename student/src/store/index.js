@@ -4,11 +4,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 const initialState = {
   // 초기 test 값
-<<<<<<< HEAD
-  test: {
-    name: "join",
-  },
-=======
   classes: [
     {
       id: 1,
@@ -81,7 +76,6 @@ const initialState = {
       ],
     },
   ],
->>>>>>> master
 };
 
 const store = createStore(reducer, initialState, composeWithDevTools());

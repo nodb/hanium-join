@@ -11,7 +11,7 @@ const Discuss = () => {
   const history = useHistory();
 
   const submitDiscuss = () => {
-    history.push("/class/main/assignment");
+    history.push("/student/class/main/assignment");
   };
 
   return (
@@ -32,7 +32,7 @@ const Discuss = () => {
           </Button>
         </div>
         <div class="mt-3">
-          <Link to="/class/main/assignment">
+          <Link to="/student/class/main/assignment">
             <Button
               color="secondary"
               size="sm"

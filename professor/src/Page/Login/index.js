@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
@@ -26,6 +26,7 @@ function Login() {
   const idChangeHandler = (e) => {
     setId(e.currentTarget.value);
   };
+
   const pwChangeHandler = (e) => {
     setPw(e.currentTarget.value);
   };
@@ -33,7 +34,7 @@ function Login() {
   const history = useHistory();
 
   const submitHandler = () => {
-    history.push("/class");
+    history.push("/professor/class");
   };
   return (
     <Box>
@@ -71,4 +72,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withRouter(Login);

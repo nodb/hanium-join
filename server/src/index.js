@@ -35,7 +35,7 @@ const main = async () => {
 
     app.listen(3000);
 
-    console.log("Join web server started [port: 3000]");
+    console.log("Join web server started [port:3000]");
   } catch (e) {
     console.log(e);
   }

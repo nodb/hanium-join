@@ -58,7 +58,7 @@ const MyAssignment = (props) => {
                   <td>{item.name}</td>
                   <td>
                     <Link
-                      to="/class/assignment"
+                      to="/professor/class/assignment"
                       style={{ textDecoration: "none", color: "black" }}
                     >
                       {item.content}

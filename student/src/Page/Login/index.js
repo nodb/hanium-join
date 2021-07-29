@@ -33,7 +33,7 @@ function Login() {
   const history = useHistory();
 
   const submitHandler = () => {
-    history.push("/class");
+    history.push("/student/class");
   };
   return (
     <Box>

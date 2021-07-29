@@ -1,7 +1,7 @@
 import Router from "@koa/router";
 import * as my from "./my";
 
-const router = new Router();
+const router = new Router({prefix:"/api/v1"});
 
 router.get("/", my.get);
 router.post("/:id", my.post, my.responseMiddleware);

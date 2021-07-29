@@ -1,4 +1,16 @@
-@BASE_URL=http://localhost:3000
+@BASE_URL=http://localhost:3000/api/v1
+
+
+POST {{BASE_URL}}/members
+Content-Type:application/json
+
+{
+    "email":"asdf2@naver.com",
+    "name" : "asdf",
+    "password":"test",
+    "mobile":"010-1234-5678",
+    "type":"p"
+}
 
 GET {{BASE_URL}}/members/1
 

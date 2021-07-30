@@ -3,12 +3,14 @@ import Router from "./router";
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
 import Config from "./config";
+import cors from "koa-cors";
 
 const pool = mariadb.createPool({
   host: Config.DB_HOST,
   user: Config.DB_USER,
   password: Config.DB_PASSWORD,
   database: Config.DB_DATABASE,
+  port: Config.DB_PORT,
   connectionLimit: Config.DB_CONNECTION_LIMIT,
 });
 
@@ -22,6 +24,7 @@ const main = async () => {
     // const conn = await getMariadbConnection();
 
     const app = new Koa();
+    app.use(cors());
 
     app.use(KoaBody());
 

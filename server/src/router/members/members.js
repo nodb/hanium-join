@@ -25,7 +25,7 @@ export const getDataFromBodyMd = async (ctx, next) => {
 };
 
 export const validateDataMd = async (ctx, next) => {
-  const { email, password, name, type } = ctx.state.reqBody;
+  const { email, password, name, type, mobile } = ctx.state.reqBody;
 
   if (!email || !password || !type || !name) {
     throw Boom.badRequest();
@@ -64,7 +64,7 @@ export const isDuplicatedEmailMd = async (ctx, next) => {
   if (rows.length > 0) {
     throw Boom.badRequest();
   }
-
+  
   ctx.state.conn = conn;
 
   await next();

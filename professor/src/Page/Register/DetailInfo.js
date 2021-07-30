@@ -4,6 +4,9 @@ import RegisterButton from "./RegisterButton";
 import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../_actions/userAction";
+import { typeParameter } from "@babel/types";
 const Box = styled.div`
   display: block;
   width: 500px;
@@ -29,8 +32,10 @@ function Register(props) {
   const [pwC, setPwC] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [mobile, setMobile] = useState("");
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const idChangeHandler = (e) => {
     setId(e.currentTarget.value);
@@ -58,10 +63,27 @@ function Register(props) {
   const checkPasswordC = (pwProp, pwCProp) => {
     setPasswordCAvailable(pwProp === pwCProp);
   };
+  const mobileChangeHandler = (e) => {
+    setMobile(e.currentTarget.value);
+  }
 
-  const register = () => {
-    history.push("/login");
-  };
+  const onSubmitHandler = (e) => {
+    if (pw === pwC) {
+      let body = {
+        email: email,
+        name: name,
+        password: pw,
+        mobile: mobile,
+        type:"P",
+      };
+      dispatch(registerUser(body)).then((res) => {
+        alert("가입이 정상적으로 완료되었습니다.");
+        props.history.push("/login");
+      });
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  }
 
   return (
     <Box>
@@ -112,6 +134,8 @@ function Register(props) {
         name="phone"
         placeholder="전화번호"
         type="tel"
+        value={mobile}
+        onChange={mobileChangeHandler}
       />
       <InputWithLabel
         label="생년월일"
@@ -119,7 +143,7 @@ function Register(props) {
         placeholder="생년월일"
         type="date"
       />
-      <RegisterButton onClick={register}>회원가입</RegisterButton>
+      <RegisterButton onClick={onSubmitHandler}>회원가입</RegisterButton>
     </Box>
   );
 }

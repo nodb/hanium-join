@@ -1,28 +1,26 @@
 @BASE_URL=http://localhost:3000/api/v1
 
+GET {{BASE_URL}}/members/jdyj@naver.com
+
 
 POST {{BASE_URL}}/members
 Content-Type: application/json
 
 {
-    "email": "jdyj1234@naver.com",
+    "email": "jdyj@naver.com",
     "password": "password",
     "name" : "test",
     "mobile": "010-1234-1234",
     "type" : "P"
 }
 
-
-GET {{BASE_URL}}/members/1
-
-PUT {{BASE_URL}}/members/jdyj@naver.com
+PUT {{BASE_URL}}/members/jdyj1234@naver.com
 Content-Type: application/json
 
-//store에 있는 reducer정보와 동일하게 매칭시켜주기 
 {
-    "name" : "하위",
-    "mobile" : "010-1234-4312",
-    "type" : "S"
+    "name" : "test2",
+    "type" : "S",
+    "mobile": "010-4312-4132"
 }
 
 DELETE {{BASE_URL}}/members/jdyj1234@naver.com

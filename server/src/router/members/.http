@@ -4,13 +4,15 @@ GET {{BASE_URL}}/members/jdyj@naver.com
 
 
 
-GET {{BASE_URL}}/members
+GET {{BASE_URL}}/members?skip=0&limit=4
+
+GET {{BASE_URL}}/members/2
 
 POST {{BASE_URL}}/members
 Content-Type: application/json
 
 {
-    "email": "jdyj@naver.com",
+    "email": "jdyj4@naver.com",
     "password": "password",
     "name" : "test",
     "mobile": "010-1234-1234",
@@ -61,7 +63,7 @@ Content-Type: image/jpg
 
 
 
-PUT {{BASE_URL}}/members/jdyj@naver.com
+PUT {{BASE_URL}}/members/2
 Content-Type: application/json
 
 {

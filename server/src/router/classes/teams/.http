@@ -1,0 +1,32 @@
+@BASE_URL=http://localhost:3000
+
+GET {{BASE_URL}}/classes/1/teams/1
+
+POST {{BASE_URL}}/classes/1/teams
+Content-Type: application/json
+
+//store에 있는 reducer정보와 동일하게 매칭시켜주기 
+{
+    "id": 1,
+    "teamName": "TEAM 1",
+    "teamMember" : [
+        {
+            "memberId": 1
+        }
+    ]
+}
+
+PUT {{BASE_URL}}/classes/1/teams/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "teamName": "TEAM 1",
+    "teamMember" : [
+        {
+            "memberId": 1
+        }
+    ]    
+}
+
+DELETE {{BASE_URL}}/classes/1

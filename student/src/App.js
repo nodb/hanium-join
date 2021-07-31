@@ -1,7 +1,7 @@
 import React from "react";
 import Footer from "./Common/Footer";
 import Header from "./Common/Header";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Assignment from "./Assignment";
 import Main from "./Page/Main/Main";
 import MyPage from "./MyPage";
@@ -20,6 +20,7 @@ const App = () => {
         <Route path="/class" exact component={Main} />
         <Route path="/mypage" component={MyPage} />
         <Route path="/class/main" component={Assignment} />
+        <Redirect to="/login" />
       </Switch>
       <Footer />
     </>

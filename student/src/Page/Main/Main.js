@@ -53,7 +53,11 @@ function S04() {
         {item.map((item) => {
           return (
             <Link
+<<<<<<< HEAD
               to="/class/main"
+=======
+              to="/student/class/main"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <ClassBox item={item}></ClassBox>

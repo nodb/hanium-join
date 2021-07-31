@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @BASE_URL=http://localhost:3000
 
 GET {{BASE_URL}}/classes
@@ -28,3 +29,35 @@ Content-Type: application/json
 }
 
 DELETE {{BASE_URL}}/classes/1
+=======
+@BASE_URL=http://localhost:3000
+
+GET {{BASE_URL}}/classes
+
+POST {{BASE_URL}}/classes/1
+Content-Type: application/json
+
+//store에 있는 reducer정보와 동일하게 매칭시켜주기 
+{
+    "id" : 1,
+    "className" : "과목 명 1",
+    "classCode" : "000001",
+    "members" : [],
+    "teams" : [],
+    "assignments": []
+}
+
+PUT {{BASE_URL}}/classes/1
+Content-Type: application/json
+
+{
+    "id" : 2,
+    "className" : "과목 명 1",
+    "classCode" : "000001",
+    "members" : [],
+    "teams" : [],
+    "assignments": [] 
+}
+
+DELETE {{BASE_URL}}/classes/1
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d

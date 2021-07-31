@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @BASE_URL=http://localhost:3000
 
 GET {{BASE_URL}}/classes/1/assignments/1
@@ -43,4 +44,51 @@ Content-Type: application/json
     "deadline": "2021-06-21"
 }
 
+=======
+@BASE_URL=http://localhost:3000
+
+GET {{BASE_URL}}/classes/1/assignments/1
+
+POST {{BASE_URL}}/classes/1/assignments
+Content-Type: application/json
+
+//store에 있는 reducer정보와 동일하게 매칭시켜주기 
+{
+    "id": 1,
+    "name": "과제명 1",
+    "content": "내용",
+    "image" : "assginmentImage.jpg",
+    "comment": [
+        {
+            "content" : "내용",
+            "name": "조재영",
+            "createdAt" : "2021-06-21"
+        }
+    ],
+    "point": 10,
+    "createdAt": "2020-05-21",
+    "deadline": "2021-06-21"
+}
+
+PUT {{BASE_URL}}/classes/1/assignments/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "과제명 1",
+    "content": "내용",
+    "image" : "assginmentImage.jpg",
+    "comment": [
+        {
+            "content" : "내용",
+            "name": "조재영",
+            "createdAt" : "2021-06-21"
+        }
+    ],
+    "point": 10,
+    "createdAt": "2020-05-21",
+    "deadline": "2021-06-21"
+}
+
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 DELETE {{BASE_URL}}/classes/1/assignments/1

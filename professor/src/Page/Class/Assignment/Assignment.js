@@ -8,7 +8,11 @@ const assignment = ({ list }) => {
   return (
     <>
       <div class="mt-2">
+<<<<<<< HEAD
         <Link to="/class/assignment/modify">
+=======
+        <Link to="/professor/class/assignment/modify">
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
           <Button size="sm" style={{ marginRight: "20px" }}>
             수정
           </Button>

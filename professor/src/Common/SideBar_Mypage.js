@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const defaultList = [
   {
     title: "▶ 개인 정보",
+<<<<<<< HEAD
     url: "/mypage/myinfo",
   },
   {
@@ -17,6 +18,21 @@ const defaultList = [
   {
     title: "▶ 회원 정보 수정",
     url: "/mypage/modify",
+=======
+    url: "/professor/mypage/myinfo",
+  },
+  {
+    title: "▶ 강의 과목",
+    url: "/professor/mypage/class",
+  },
+  {
+    title: "▶ 등록한 과제",
+    url: "/professor/mypage/assignment",
+  },
+  {
+    title: "▶ 회원 정보 수정",
+    url: "/professor/mypage/modify",
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   },
 ];
 

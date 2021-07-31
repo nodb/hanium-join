@@ -1,9 +1,14 @@
 import React from "react";
+<<<<<<< HEAD
 import {Link} from "react-router-dom";
+=======
+import { Link } from "react-router-dom";
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 
 const defaultList = [
   {
     title: "▶ 수업 명1",
+<<<<<<< HEAD
     url: "/class/main",
   },
   {
@@ -13,6 +18,17 @@ const defaultList = [
   {
     title: "▶ 수업 명3",
     url: "/class/main",
+=======
+    url: "/student/class/main",
+  },
+  {
+    title: "▶ 수업 명2",
+    url: "/student/class/main",
+  },
+  {
+    title: "▶ 수업 명3",
+    url: "/student/class/main",
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   },
 ];
 

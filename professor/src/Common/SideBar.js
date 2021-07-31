@@ -5,6 +5,7 @@ import { Collapse } from "reactstrap";
 const defaultList = [
   {
     title: "▶ 수강생 관리",
+<<<<<<< HEAD
     url: "/class/enrol",
   },
   {
@@ -18,6 +19,21 @@ const defaultList = [
   {
     title: "▶ 리포트 확인",
     url: "/class/report",
+=======
+    url: "/professor/class/enrol",
+  },
+  {
+    title: "▶ 구성 팀 확인",
+    url: "/professor/class/team",
+  },
+  {
+    title: "과제 관리",
+    url: "/professor/class/assignmentList",
+  },
+  {
+    title: "▶ 리포트 확인",
+    url: "/professor/class/report",
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   },
 ];
 
@@ -45,7 +61,11 @@ const SideBar = ({ list }) => {
               )}
               {item.title === "과제 관리" && (
                 <Link
+<<<<<<< HEAD
                   to="/class/assignmentList"
+=======
+                  to="/professor/class/assignmentList"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
                   style={{ textDecoration: "none", color: "black" }}
                   className="nav-link active"
                   aria-current="page"
@@ -60,7 +80,11 @@ const SideBar = ({ list }) => {
                   </div>
                   <Collapse isOpen={isOpen}>
                     <Link
+<<<<<<< HEAD
                       to="/class/assignment/teamView"
+=======
+                      to="/professor/class/assignment/teamView"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
                       style={{ textDecoration: "none", color: "black" }}
                       className="nav-link active"
                       aria-current="page"
@@ -68,7 +92,11 @@ const SideBar = ({ list }) => {
                       ▶ 팀별 보기
                     </Link>
                     <Link
+<<<<<<< HEAD
                       to="/class/assignment/assignView"
+=======
+                      to="/professor/class/assignment/assignView"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
                       style={{ textDecoration: "none", color: "black" }}
                       className="nav-link active"
                       aria-current="page"

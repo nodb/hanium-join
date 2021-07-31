@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { useState, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
+=======
+import React, { useState } from "react";
+import { Link, useHistory, withRouter } from "react-router-dom";
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 import styled from "styled-components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
@@ -26,6 +31,10 @@ function Login() {
   const idChangeHandler = (e) => {
     setId(e.currentTarget.value);
   };
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   const pwChangeHandler = (e) => {
     setPw(e.currentTarget.value);
   };
@@ -33,7 +42,11 @@ function Login() {
   const history = useHistory();
 
   const submitHandler = () => {
+<<<<<<< HEAD
     history.push("/class");
+=======
+    history.push("/professor/class");
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   };
   return (
     <Box>
@@ -71,4 +84,8 @@ function Login() {
   );
 }
 
+<<<<<<< HEAD
 export default Login;
+=======
+export default withRouter(Login);
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d

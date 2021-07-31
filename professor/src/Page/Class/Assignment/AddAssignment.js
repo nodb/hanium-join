@@ -22,7 +22,11 @@ const P09_07 = () => {
   };
 
   const createAssignment = () => {
+<<<<<<< HEAD
     history.push("/class/assignmentList");
+=======
+    history.push("/professor/class/assignmentList");
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
     // 생성 로직
   };
 

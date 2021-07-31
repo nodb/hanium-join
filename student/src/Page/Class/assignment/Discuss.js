@@ -11,7 +11,11 @@ const Discuss = () => {
   const history = useHistory();
 
   const submitDiscuss = () => {
+<<<<<<< HEAD
     history.push("/class/main/assignment");
+=======
+    history.push("/student/class/main/assignment");
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   };
 
   return (
@@ -32,7 +36,11 @@ const Discuss = () => {
           </Button>
         </div>
         <div class="mt-3">
+<<<<<<< HEAD
           <Link to="/class/main/assignment">
+=======
+          <Link to="/student/class/main/assignment">
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
             <Button
               color="secondary"
               size="sm"

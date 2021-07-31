@@ -10,7 +10,10 @@
     "eslint-plugin-json": "^3.0.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
+<<<<<<< HEAD
     "mariadb": "^2.5.4",
+=======
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
     "open-color": "^1.8.0",
     "react": "^17.0.2",
     "react-datepicker": "^4.1.1",

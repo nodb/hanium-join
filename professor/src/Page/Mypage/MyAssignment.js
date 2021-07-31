@@ -58,7 +58,11 @@ const MyAssignment = (props) => {
                   <td>{item.name}</td>
                   <td>
                     <Link
+<<<<<<< HEAD
                       to="/class/assignment"
+=======
+                      to="/professor/class/assignment"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
                       style={{ textDecoration: "none", color: "black" }}
                     >
                       {item.content}

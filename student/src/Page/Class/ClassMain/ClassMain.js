@@ -3,7 +3,11 @@ import styled from "styled-components";
 
 import StudentBox from "./Student";
 import AssignmentBox from "./Assignment";
+<<<<<<< HEAD
 import {Link} from "react-router-dom"; 
+=======
+import { Link } from "react-router-dom";
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 
 const Student = [
   {
@@ -37,7 +41,11 @@ const Assignment = [
     id: 1,
     name: "과제명1",
     deadline: "2021-06-25",
+<<<<<<< HEAD
     url: "/class/main/assignment",
+=======
+    url: "/student/class/main/assignment",
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   },
   {
     id: 2,
@@ -71,7 +79,18 @@ function S05_05_06() {
       </div>
       <Text>과제</Text>
       {Assignment.map((item) => {
+<<<<<<< HEAD
         return (<Link to={item.url} style={{textDecoration:"none", color:"black"}}><AssignmentBox assignment={item}></AssignmentBox></Link>);
+=======
+        return (
+          <Link
+            to={item.url}
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <AssignmentBox assignment={item}></AssignmentBox>
+          </Link>
+        );
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
       })}
     </>
   );

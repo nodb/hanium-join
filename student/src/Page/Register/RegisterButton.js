@@ -20,4 +20,8 @@ const RegisterButton = ({ children, ...rest }) => (
   <Wrapper {...rest}>{children}</Wrapper>
 );
 
+<<<<<<< HEAD
 export default RegisterButton;
+=======
+export default RegisterButton;
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d

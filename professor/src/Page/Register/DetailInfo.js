@@ -4,6 +4,12 @@ import RegisterButton from "./RegisterButton";
 import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { useHistory } from "react-router-dom";
+<<<<<<< HEAD
+=======
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../_actions/userAction";
+import { typeParameter } from "@babel/types";
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 const Box = styled.div`
   display: block;
   width: 500px;
@@ -29,8 +35,15 @@ function Register(props) {
   const [pwC, setPwC] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+<<<<<<< HEAD
 
   const history = useHistory();
+=======
+  const [mobile, setMobile] = useState("");
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 
   const idChangeHandler = (e) => {
     setId(e.currentTarget.value);
@@ -58,10 +71,34 @@ function Register(props) {
   const checkPasswordC = (pwProp, pwCProp) => {
     setPasswordCAvailable(pwProp === pwCProp);
   };
+<<<<<<< HEAD
 
   const register = () => {
     history.push("/login");
   };
+=======
+  const mobileChangeHandler = (e) => {
+    setMobile(e.currentTarget.value);
+  }
+
+  const onSubmitHandler = (e) => {
+    if (pw === pwC) {
+      let body = {
+        email: email,
+        name: name,
+        password: pw,
+        mobile: mobile,
+        type:"P",
+      };
+      dispatch(registerUser(body)).then((res) => {
+        alert("가입이 정상적으로 완료되었습니다.");
+        props.history.push("/login");
+      });
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  }
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 
   return (
     <Box>
@@ -112,6 +149,11 @@ function Register(props) {
         name="phone"
         placeholder="전화번호"
         type="tel"
+<<<<<<< HEAD
+=======
+        value={mobile}
+        onChange={mobileChangeHandler}
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
       />
       <InputWithLabel
         label="생년월일"
@@ -119,7 +161,11 @@ function Register(props) {
         placeholder="생년월일"
         type="date"
       />
+<<<<<<< HEAD
       <RegisterButton onClick={register}>회원가입</RegisterButton>
+=======
+      <RegisterButton onClick={onSubmitHandler}>회원가입</RegisterButton>
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
     </Box>
   );
 }

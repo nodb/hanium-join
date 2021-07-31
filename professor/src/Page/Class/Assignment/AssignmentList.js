@@ -24,7 +24,11 @@ const assignmentList = () => {
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
         <h4>등록된 과제 확인</h4>
+<<<<<<< HEAD
         <Link to="/class/addAssignment">
+=======
+        <Link to="/professor/class/addAssignment">
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
           <Button class="ms-auto" size="sm">
             과제 추가
           </Button>
@@ -47,7 +51,11 @@ const assignmentList = () => {
                 <th scope="row">{assignment.id}</th>
                 <td>
                   <Link
+<<<<<<< HEAD
                     to="/class/assignment"
+=======
+                    to="/professor/class/assignment"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
                     style={{ textDecoration: "none", color: "black" }}
                   >
                     {assignment.assignmentName}

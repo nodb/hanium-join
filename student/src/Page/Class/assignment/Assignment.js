@@ -38,14 +38,22 @@ export const Assignment = () => {
       </div>
       <div class="form-inline pb-4 mt-3">
         <Link
+<<<<<<< HEAD
           to="/class/main/assignment/submit"
+=======
+          to="/student/class/main/assignment/submit"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
           style={{ textDecoration: "none", color: "black" }}
         >
           과제 제출하러 가기
         </Link>
       </div>
       <tr>
+<<<<<<< HEAD
         <Link to="/class/main">
+=======
+        <Link to="/student/class/main">
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
           <button
             href="#"
             class="btn btn-secondary btn-sm"

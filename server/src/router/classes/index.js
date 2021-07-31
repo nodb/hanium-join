@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Router from "@koa/router";
 import * as classes from "./classes";
 import teams from "./teams";
@@ -14,3 +15,13 @@ router.use("/:id/teams", teams.routes());
 router.use("/:id/assignments", assignments.routes());
 
 export default router;
+=======
+import Router from "@koa/router";
+import * as classes from "./classes";
+import teams from "./teams";
+import assignments from "./assignments";
+
+const router = new Router();
+
+export default router;
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d

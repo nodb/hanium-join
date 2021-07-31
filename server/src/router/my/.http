@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @BASE_URL=http://localhost:3000
 
 GET {{BASE_URL}}/my
@@ -25,4 +26,33 @@ Content-Type: application/json
 {
     "name": "이름",
     "phone": "전화번호"
+=======
+@BASE_URL=http://localhost:3000
+
+GET {{BASE_URL}}/my
+
+POST {{BASE_URL}}/my/1
+Content-Type: application/json
+
+//store에 있는 reducer정보와 동일하게 매칭시켜주기 
+{
+    "name": "이름",
+    "phone": "전화번호"
+}
+
+PUT {{BASE_URL}}/my/2
+Content-Type: application/json
+
+{
+    "name": "이름",
+    "phone": "전화번호"
+}
+
+DELETE {{BASE_URL}}/my/3
+Content-Type: application/json
+
+{
+    "name": "이름",
+    "phone": "전화번호"
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 }

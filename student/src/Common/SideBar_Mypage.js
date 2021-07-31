@@ -1,9 +1,14 @@
 import React from "react";
+<<<<<<< HEAD
 import {Link} from "react-router-dom";
+=======
+import { Link } from "react-router-dom";
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
 
 const defaultList = [
   {
     title: "▶ 개인정보",
+<<<<<<< HEAD
     url: "/mypage/myinfo",
   },
   {
@@ -17,6 +22,21 @@ const defaultList = [
   {
     title: "▶ 회원 정보 수정",
     url: "/mypage/mymodify",
+=======
+    url: "/student/mypage/myinfo",
+  },
+  {
+    title: "▶ 수강 과목",
+    url: "/student/mypage/class",
+  },
+  {
+    title: "▶ 과제 제출함",
+    url: "/student/mypage/myassignment",
+  },
+  {
+    title: "▶ 회원 정보 수정",
+    url: "/student/mypage/mymodify",
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   },
 ];
 

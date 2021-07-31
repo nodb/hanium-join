@@ -24,7 +24,11 @@ const PhoneVerification = styled.div`
   font-size: 30px;
   padding-top: 50px;
   width: 200px;
+<<<<<<< HEAD
   height: 150px;
+=======
+  height: 200px;
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
   overflow: hidden;
 `;
 
@@ -32,7 +36,14 @@ function RegisterBox(props) {
   return (
     <Box>
       <Title>회원가입</Title>
+<<<<<<< HEAD
       <Link to="/register/terms">
+=======
+      <Link
+        to="/register/terms"
+        style={{ textDecoration: "none", color: "black" }}
+      >
+>>>>>>> 3eb3fac170c5980ada387928f12e91ed9e75d89d
         <PhoneVerification>
           14세 이상<br></br> 회원가입
         </PhoneVerification>

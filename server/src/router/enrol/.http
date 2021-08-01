@@ -1,0 +1,14 @@
+@BASE_URL=http://localhost:3000/api/v1
+
+GET {{BASE_URL}}/enrol/aeab5f98-4861-4a89-8beb-a18ece072c6c
+
+POST {{BASE_URL}}/enrol
+Content-Type: application/json
+
+{
+    "memberId" : "c0ab93bf-cb51-40c5-9e35-41e112c9e330",
+    "classId" : "aeab5f98-4861-4a89-8beb-a18ece072c6c"
+}
+
+
+DELETE {{BASE_URL}}/classes/1

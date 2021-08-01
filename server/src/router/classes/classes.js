@@ -1,147 +1,78 @@
 import Boom from "@hapi/boom";
+import { v4 as UUID } from "uuid";
+import * as CommonMd from "../middlewares";
 
-export const responseMiddleware = async (ctx) => {
-  const { body } = ctx.state;
+export const readClassAllMd = async (ctx, next) => {
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+  const rows = await conn.query(
+    "SELECT id, name, code, tb_member_id FROM tb_class"
+  );
 
-  ctx.state = 200;
-
-  ctx.body = body;
+  ctx.state.body = {
+    results: rows,
+  };
+  await next();
 };
 
 export const getDataFromBodyMd = async (ctx, next) => {
-  const { name, code, isCheck } = ctx.request.body;
-
-  console.log(ctx.request.body);
+  const { name, code, memberId } = ctx.request.body;
 
   ctx.state.reqBody = {
-    name, 
-    code, 
-    isCheck,
+    name,
+    code,
+    memberId,
   };
 
   await next();
 };
 
 export const validateDataMd = async (ctx, next) => {
-  const { name, code, isCheck } = ctx.state.reqBody;
+  const { name, code } = ctx.state.reqBody;
 
-  if (!code || !isCheck || !name) {
-    throw Boom.badRequest();
+  if (!name || !code) {
+    throw Boom.badRequest("field is not");
   }
 
   await next();
 };
 
-export const validateParamMd = async (ctx, next) => {
-  const { email } = ctx.params;
+export const saveClassMd = async (ctx, next) => {
+  const { name, code, memberId } = ctx.state.reqBody;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
-  const rows = await conn.query("SELECT * FROM tb_member WHERE email = ?", [
-    email,
-  ]);
-
-  if (rows.length === 0) {
-    throw Boom.badRequest();
-  }
-
-  ctx.state.conn = conn;
-
-  await next();
-};
-
-export const isDuplicatedEmailMd = async (ctx, next) => {
-  const { email } = ctx.state.reqBody;
-  const { dbPool } = ctx;
-
-  const conn = await dbPool.getConnection();
-  const rows = await conn.query("SELECT * FROM tb_member WHERE email = ?", [
-    email,
-  ]);
-
-  if (rows.length > 0) {
-    throw Boom.badRequest();
-  }
-  
-  ctx.state.conn = conn;
-
-  await next();
-};
-
-export const saveMemberMd = async (ctx, next) => {
-  const { email, password, name, type, mobile } = ctx.state.reqBody;
-  const { conn } = ctx.state;
-
-  // eslint-disable-next-line max-len
   await conn.query(
-    "INSERT INTO tb_member(email, name, password, type, mobile) VALUES (?, ?, password(?), ?, ?)",
-    [email, name, password, type, mobile]
+    "INSERT INTO tb_class(id, name, code, tb_member_id) VALUES (?, ?, ?, ?)",
+    [UUID(), name, code, memberId]
   );
+
+  ctx.state.conn = conn;
 
   await next();
 };
 
-export const queryMemberMdByEmail = async (ctx, next) => {
-  const { email } = ctx.state.reqBody;
+export const queryClassMdByCode = async (ctx, next) => {
+  const { code } = ctx.state.reqBody;
   const { conn } = ctx.state;
-
   const rows = await conn.query(
-    "SELECT email, name, type, mobile, createdAt FROM tb_member WHERE email = ?",
-    [email]
+    "SELECT id, name, code, tb_member_id FROM tb_class WHERE code = ?",
+    [code]
   );
 
-  ctx.state.body = rows[0];
+  ctx.state.body = {
+    ...rows[0],
+  };
 
   await next();
 };
 
-export const removeMemberMd = async (ctx, next) => {
-  const { conn } = ctx.state;
-  const { email } = ctx.params;
-
-  await conn.query("DELETE FROM tb_member WHERE email = ?", [email]);
-  await next();
-};
-
-export const readMemberMd = async (ctx, next) => {
-  const { conn } = ctx.state;
-  const { email } = ctx.params;
-
-  const rows = await conn.query(
-    "SELECT email, name, type, mobile, createdAt FROM tb_member WHERE email = ?",
-    [email]
-  );
-
-  ctx.state.body = rows[0];
-
-  await next();
-};
-
-export const updateMemberMd = async (ctx, next) => {
-  const { conn } = ctx.state;
-  const { email } = ctx.params;
-  const { name, type, mobile } = ctx.request.body;
-
-  const sql =
-    "UPDATE tb_member SET name = ?, type = ?, mobile = ? WHERE email = ?";
-  const rows = await conn.query(sql, [name, type, mobile, email]);
-
-  ctx.state.body = rows[0];
-
-  await next();
-};
+export const readAll = [readClassAllMd, CommonMd.responseMd];
 
 export const create = [
   getDataFromBodyMd,
   validateDataMd,
-  isDuplicatedEmailMd,
-  saveMemberMd,
-  queryMemberMdByEmail,
-  responseMiddleware,
+  saveClassMd,
+  queryClassMdByCode,
+  CommonMd.responseMd,
 ];
-
-export const read = [validateParamMd, readMemberMd, responseMiddleware];
-
-export const update = [validateParamMd, updateMemberMd, responseMiddleware];
-
-export const remove = [validateParamMd, removeMemberMd, responseMiddleware];

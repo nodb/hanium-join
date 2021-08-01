@@ -1,8 +1,9 @@
 import Router from "@koa/router";
 import * as classes from "./classes";
-import teams from "./teams";
-import assignments from "./assignments";
 
 const router = new Router();
+
+router.get("/", ...classes.readAll);
+router.post("/", ...classes.create);
 
 export default router;

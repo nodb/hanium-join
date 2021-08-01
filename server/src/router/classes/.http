@@ -1,30 +1,21 @@
-@BASE_URL=http://localhost:3000
+@BASE_URL=http://localhost:3000/api/v1
 
 GET {{BASE_URL}}/classes
 
-POST {{BASE_URL}}/classes/1
+POST {{BASE_URL}}/classes
 Content-Type: application/json
 
-//store에 있는 reducer정보와 동일하게 매칭시켜주기 
 {
-    "id" : 1,
-    "className" : "과목 명 1",
-    "classCode" : "000001",
-    "members" : [],
-    "teams" : [],
-    "assignments": []
+    "name" : "생명과학",
+    "code" : "ASD348FC",
+    "memberId" : "bf451109-4994-431b-8e79-dfed28280379"
 }
 
 PUT {{BASE_URL}}/classes/1
 Content-Type: application/json
 
 {
-    "id" : 2,
-    "className" : "과목 명 1",
-    "classCode" : "000001",
-    "members" : [],
-    "teams" : [],
-    "assignments": [] 
+    
 }
 
 DELETE {{BASE_URL}}/classes/1

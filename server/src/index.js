@@ -1,9 +1,11 @@
 import Koa from "koa";
-import Router from "./router";
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
-import Config from "./config";
 import cors from "koa-cors";
+import path from "path";
+import Config from "./config";
+import Router from "./router";
+import { errorHandleMd } from "./middlewares";
 
 const pool = mariadb.createPool({
   host: Config.DB_HOST,
@@ -14,30 +16,23 @@ const pool = mariadb.createPool({
   connectionLimit: Config.DB_CONNECTION_LIMIT,
 });
 
-// const getMariadbConnection = async () => {
-//   const conn = await pool.getConnection();
-//   return conn;
-// };
-
 const main = async () => {
   try {
-    // const conn = await getMariadbConnection();
-
     const app = new Koa();
     app.use(cors());
+    app.use(KoaBody({
+      multipart: true,
+      formidable: {
+        uploadDir: path.join(__dirname, "../upload"),
+        keepExtensions: true,
+      },
+    }));
 
-    app.use(KoaBody());
-
+    // 데이터베이스 Pool을 Koa Context에 저장한다.
     app.context.dbPool = pool;
 
+    app.use(errorHandleMd);
     app.use(Router.routes()).use(Router.allowedMethods());
-
-    app.use(async (ctx, next) => {
-      ctx.body = "Hello World";
-
-      next();
-    });
-
     app.listen(3000);
 
     console.log("Join web server started [port:3000]");

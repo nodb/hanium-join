@@ -2,6 +2,8 @@
 
 GET {{BASE_URL}}/members/jdyj@naver.com
 
+GET {{{BASE_URL}}/members?skip=0&
+
 
 POST {{BASE_URL}}/members
 Content-Type: application/json
@@ -13,6 +15,37 @@ Content-Type: application/json
     "mobile": "010-1234-1234",
     "type" : "P"
 }
+
+POST {{BASE_URL}}/members
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+jdyj1234@naver.com
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="password"
+
+password
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+test
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="mobile"
+
+010-1234-5678
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="type"
+
+p
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="test.jpg"
+Content-Type: image/png
+
+< ../../../testdata/test.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 
 PUT {{BASE_URL}}/members/jdyj@naver.com
 Content-Type: application/json

@@ -28,7 +28,7 @@ export const validateDataMd = async (ctx, next) => {
   const { email, password, name, type } = ctx.state.reqBody;
 
   if (!email || !password || !type || !name) {
-    throw Boom.badRequest();
+    throw Boom.badRequest("field is not fulfiled");
   }
 
   await next();
@@ -36,24 +36,15 @@ export const validateDataMd = async (ctx, next) => {
 
 export const validateParamMd = async (ctx, next) => {
   const { email } = ctx.params;
-  const { dbPool } = ctx;
 
-  const conn = await dbPool.getConnection();
-  const rows = await conn.query("SELECT * FROM tb_member WHERE email = ?", [
-    email,
-  ]);
-
-  if (rows.length === 0) {
-    throw Boom.badRequest();
-  }
-
-  ctx.state.conn = conn;
+  // 1. 이메일 형식에 맞는지
 
   await next();
 };
 
 export const isDuplicatedEmailMd = async (ctx, next) => {
   const { email } = ctx.state.reqBody;
+  const { files } = ctx.request;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
@@ -62,7 +53,7 @@ export const isDuplicatedEmailMd = async (ctx, next) => {
   ]);
 
   if (rows.length > 0) {
-    throw Boom.badRequest();
+    throw Boom.badRequest("duplicated email");
   }
 
   ctx.state.conn = conn;
@@ -133,12 +124,55 @@ export const updateMemberMd = async (ctx, next) => {
   await next();
 };
 
+export const validateListParamMd = async (ctx, next) => {
+  let { skip, limit } = ctx.query;
+
+  if (!skip) skip = 0;
+  if (!limit) limit = 10;
+
+  ctx.state.query = {
+    skip,
+    limit,
+  };
+
+  await next();
+};
+
+export const readMemberAllMd = async (ctx, next) => {
+  const { skip, limit } = ctx.state.query;
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+  const rows = await conn.query(
+    "SELECT email,name,type,mobile,createdAt FROM tb_member LIMIT ?, ?",
+    [skip, limit]
+  );
+
+  ctx.state.body = rows;
+  await next();
+};
+
+export const readMemberAllCountMd = async (ctx, state) => {
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+  const rows = await conn.query("SELECT COUNT(*) AS count FROM tb_member");
+
+  ctx.state.body = {};
+};
+
 export const create = [
   getDataFromBodyMd,
   validateDataMd,
   isDuplicatedEmailMd,
   saveMemberMd,
   queryMemberMdByEmail,
+  responseMiddleware,
+];
+
+// skip, limit (skip: 시작위치, limit : 가져올 데이터 수)의 정보가 필요하다.
+export const readAll = [
+  validateListParamMd,
+  readMemberAllMd,
+  readMemberAllCountMd,
   responseMiddleware,
 ];
 

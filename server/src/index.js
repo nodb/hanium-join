@@ -1,7 +1,9 @@
 import Koa from "koa";
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
+import path from "path";
 import Config from "./config";
+import { errorHandleMd } from "./middlewares";
 import Router from "./router";
 
 const pool = mariadb.createPool({
@@ -22,17 +24,21 @@ const main = async () => {
     // const conn = await getMariadbConnection();
 
     const app = new Koa();
-    app.use(KoaBody());
+    app.use(
+      KoaBody({
+        multipart: true,
+        formidable: {
+          uploadDir: path.join(__dirname, "../upload"),
+          keepExtensions: true,
+        },
+      })
+    );
 
+    // 데이터베이스 Pool을 Koa Context에 저장한다. ->글로벌하게 설정
     app.context.dbPool = pool;
 
+    app.use(errorHandleMd);
     app.use(Router.routes()).use(Router.allowedMethods());
-
-    app.use(async (ctx, next) => {
-      ctx.body = "Hello World";
-      next();
-    });
-
     app.listen(3000);
 
     console.log("Join web server started [port:3000]");

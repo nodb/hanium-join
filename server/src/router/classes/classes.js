@@ -69,6 +69,8 @@ export const queryClassMdByCode = async (ctx, next) => {
 
 export const readAll = [readClassAllMd, CommonMd.responseMd];
 
+export const readClass = [];
+
 export const create = [
   getDataFromBodyMd,
   validateDataMd,

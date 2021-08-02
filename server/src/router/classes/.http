@@ -6,16 +6,7 @@ POST {{BASE_URL}}/classes
 Content-Type: application/json
 
 {
-    "name" : "생명과학",
-    "code" : "ASD348FC",
-    "memberId" : "bf451109-4994-431b-8e79-dfed28280379"
+    "name" : "물리",
+    "code" : "ASD312FC",
+    "memberId" : "82887b9e-688f-4413-935b-65f1a37ef183"
 }
-
-PUT {{BASE_URL}}/classes/1
-Content-Type: application/json
-
-{
-    
-}
-
-DELETE {{BASE_URL}}/classes/1

@@ -4,7 +4,7 @@ const config = {
   DB_PASSWORD: "whwodud123",
   DB_DATABASE: "mydb",
   DB_PORT: 3307,
-  DB_CONNECTION_LIMIT: 5,
+  DB_CONNECTION_LIMIT: 10,
 };
 
 export default config;

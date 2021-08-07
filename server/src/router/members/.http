@@ -13,22 +13,22 @@ Content-Type: application/json
 
 {
     "name" : "test",
-    "email": "jdy1232@naver.com",
-    "password": "password",
-    "mobile": "010-1234-1234",
+    "email": "zxcbvb1@naver.com",
+    "password": "pasbbsword",
+    "mobile": "010-1222-1234",
     "type" : "P",
     "birthDate" : "2021-03-03"
 }
 
 
 
-PUT {{BASE_URL}}/members/bf451109-4994-431b-8e79-dfed28280379
+PUT {{BASE_URL}}/members/158d6b47-ce6f-48b0-afc1-bb59f91b99f2
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="email"
 
-jd2@naver.com
+as111@naver.com
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="password"
 

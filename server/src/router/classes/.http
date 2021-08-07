@@ -1,21 +1,15 @@
 @BASE_URL=http://localhost:3000/api/v1
 
-GET {{BASE_URL}}/classes
+GET {{BASE_URL}}/classes/professor/378c7532-36df-4f88-81ab-223fa5c2dd53
+
+GET {{BASE_URL}}/classes/student/158d6b47-ce6f-48b0-afc1-bb59f91b99f2
+
 
 POST {{BASE_URL}}/classes
 Content-Type: application/json
 
 {
-    "name" : "생명과학",
-    "code" : "ASD348FC",
-    "memberId" : "bf451109-4994-431b-8e79-dfed28280379"
+    "name" : "지구과학",
+    "code" : "AZXCSQ",
+    "memberId" : "378c7532-36df-4f88-81ab-223fa5c2dd53"
 }
-
-PUT {{BASE_URL}}/classes/1
-Content-Type: application/json
-
-{
-    
-}
-
-DELETE {{BASE_URL}}/classes/1

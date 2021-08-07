@@ -4,6 +4,7 @@ GET {{BASE_URL}}/classes/professor/378c7532-36df-4f88-81ab-223fa5c2dd53
 
 GET {{BASE_URL}}/classes/student/158d6b47-ce6f-48b0-afc1-bb59f91b99f2
 
+<<<<<<< HEAD
 
 POST {{BASE_URL}}/classes
 Content-Type: application/json
@@ -12,4 +13,10 @@ Content-Type: application/json
     "name" : "지구과학",
     "code" : "AZXCSQ",
     "memberId" : "378c7532-36df-4f88-81ab-223fa5c2dd53"
+=======
+{
+    "name" : "물리",
+    "code" : "ASD312FC",
+    "memberId" : "82887b9e-688f-4413-935b-65f1a37ef183"
+>>>>>>> d7ff874ca155b3b381cd5faff0c33575b5ef79bb
 }

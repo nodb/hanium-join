@@ -100,6 +100,8 @@ export const readStudentAll = [readClassStudentMd, CommonMd.responseMd];
 
 export const readClass = [];
 
+export const readClass = [];
+
 export const create = [
   getDataFromBodyMd,
   validateDataMd,

@@ -1,13 +1,14 @@
 import Boom from "@hapi/boom";
 import * as CommonMd from "../middlewares";
 
-export const readClassCodeMd = async (ctx, next) => {
+export const readClassCodeStudnetMd = async (ctx, next) => {
   const { dbPool } = ctx;
-  const {} = ctx.query;
+  const { classCode, memberId } = ctx.query;
   const conn = await dbPool.getConnection();
   await conn.query(
     // eslint-disable-next-line max-len
-    "SELECT a.name, a.endDate FROM tb_team t JOIN tb_assignment_team at ON t.id = at.tb_team_id JOIN tb_assignment a ON at.tb_assignment_id = a.id"
+    "SELECT m.name as memberName, m.department, m.grade, a.name as assignmentName, a.endDate FROM tb_class c JOIN tb_team t ON t.tb_class_code = c.code JOIN tb_assignment_team at ON t.id = at.tb_team_id JOIN tb_assignment a ON a.id = at.tb_assignment_id LEFT JOIN tb_team_member tm ON t.id = tm.tb_team_id LEFT JOIN tb_member m ON m.id = tm.tb_member_id WHERE c.code = ? AND m.id = ?",
+    [classCode, memberId]
   );
 };
 
@@ -98,9 +99,9 @@ export const readProfessorAll = [readClassProfessorMd, CommonMd.responseMd];
 
 export const readStudentAll = [readClassStudentMd, CommonMd.responseMd];
 
-export const readClass = [];
+export const readClassStudent = [];
 
-export const readClass = [];
+export const readClassProfessor = [];
 
 export const create = [
   getDataFromBodyMd,

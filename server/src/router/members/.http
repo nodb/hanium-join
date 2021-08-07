@@ -13,17 +13,10 @@ Content-Type: application/json
 
 {
     "name" : "test",
-<<<<<<< HEAD
     "email": "zxcbvb1@naver.com",
     "password": "pasbbsword",
     "mobile": "010-1222-1234",
     "type" : "P",
-=======
-    "email": "asddfghg12@naver.com",
-    "password": "password",
-    "mobile": "010-1234-1234",
-    "type" : "S",
->>>>>>> d7ff874ca155b3b381cd5faff0c33575b5ef79bb
     "birthDate" : "2021-03-03"
 }
 

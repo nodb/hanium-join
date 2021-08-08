@@ -120,7 +120,7 @@ export const updateMemberMd = async (ctx, next) => {
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
-  const { name, type, mobile } = ctx.request.body'
+  const { name, type, mobile } = ctx.request.body;
 
   const sql =
     "UPDATE tb_member SET name = ?, type = ?, mobile = ? WHERE id = ?";

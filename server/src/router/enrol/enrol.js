@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import Boom from "@hapi/boom";
 import * as CommonMd from "../middlewares";
 
@@ -32,7 +33,7 @@ export const isDuplicatedEnrolMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT * FROM tb_enrol WHERE member_id = ? and class_id = ? and isAccept=0 ",
+    "SELECT * FROM tb_enrol WHERE member_id = ? and class_code = ? and isAccept=0 ",
     [memberId, classCode]
   );
 
@@ -51,7 +52,7 @@ export const saveEnrolMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   await conn.query(
-    "INSERT INTO tb_enrol(member_id,class_id,isAccept) VALUES (?,?,0) ",
+    "INSERT INTO tb_enrol(member_id,class_code,isAccept) VALUES (?,?,0) ",
     [memberId, classCode]
   );
 
@@ -61,11 +62,10 @@ export const saveEnrolMd = async (ctx, next) => {
 // Select 정보 body에 담기
 export const queryEnrolMd = async (ctx, next) => {
   const { memberId, classCode } = ctx.state.reqBody;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT * FROM tb_enrol WHERE member_id = ? and class_id = ? and isAccept=0 ",
+    "SELECT * FROM tb_enrol WHERE member_id = ? and class_code = ? and isAccept=0 ",
     [memberId, classCode]
   );
 
@@ -76,12 +76,12 @@ export const queryEnrolMd = async (ctx, next) => {
 
 // 수강 신청 목록 read
 export const readEnrolListMd = async (ctx, next) => {
-  const { classCode } = ctx.state.reqBody;
+  const { classCode } = ctx.params;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT (member_id) FROM tb_enrol WHERE class_id=? and isAccept = 0",
+    "SELECT m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 0",
     [classCode]
   );
 
@@ -89,16 +89,18 @@ export const readEnrolListMd = async (ctx, next) => {
     rows,
   };
 
+  ctx.state.conn = conn;
+
   await next();
 };
 
 // 수강 신청 total
 export const readEnrolCountMd = async (ctx, next) => {
-  const { classCode } = ctx.state.reqBody;
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { classCode } = ctx.params;
+  const { conn } = ctx.state;
+
   const rows = await conn.query(
-    "SELECT COUNT(*) AS count FROM tb_enrol WHERE class_id=? and isAccept=0",
+    "SELECT COUNT(*) AS count FROM tb_enrol WHERE class_code=? and isAccept=0",
     [classCode]
   );
 
@@ -112,12 +114,12 @@ export const readEnrolCountMd = async (ctx, next) => {
 
 // 수강생 목록 read
 export const readStudentListMd = async (ctx, next) => {
-  const { classCode } = ctx.state.reqBody;
+  const { classCode } = ctx.params;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT member_id FROM tb_enrol WHERE class_id=? and isAccept = 1",
+    "SELECT m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 1",
     [classCode]
   );
 
@@ -125,15 +127,18 @@ export const readStudentListMd = async (ctx, next) => {
     results: rows,
   };
 
+  ctx.state.conn = conn;
+
   await next();
 };
 
 // 수강생 total
 export const readStudentCountMd = async (ctx, next) => {
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { classCode } = ctx.params;
+  const { conn } = ctx.state;
+
   const rows = await conn.query(
-    "SELECT COUNT(*) AS count FROM tb_enrol WHERE class_id=? and isAccept=1",
+    "SELECT COUNT(*) AS count FROM tb_enrol WHERE class_code=? and isAccept=1",
     [classCode]
   );
 
@@ -152,7 +157,7 @@ export const UpdateAcceptMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "UPDATE tb_enrol SET isAccept=1 WHERE member_id=? and class_id=?",
+    "UPDATE tb_enrol SET isAccept=1 WHERE member_id=? and class_code=?",
     [memberId, classCode]
   );
 
@@ -170,7 +175,7 @@ export const validateRejectMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT FROM tb_enrol WHERE member_id=? and class_id=? and isAccept=0",
+    "SELECT FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=0",
     [memberId, classCode]
   );
 
@@ -178,17 +183,18 @@ export const validateRejectMd = async (ctx, next) => {
     throw Boom.badRequest("not exist enrol");
   }
 
+  ctx.state.conn = conn;
+
   await next();
 };
 
 // 교수님이 신청을 거절 눌러 delete
 export const rejectEnrolMd = async (ctx, next) => {
   const { memberId, classCode } = ctx.state.reqBody;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   await conn.query(
-    "DELETE FROM tb_enrol WHERE member_id=? and class_id=? and isAccept=0",
+    "DELETE FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=0",
     [memberId, classCode]
   );
 
@@ -197,12 +203,12 @@ export const rejectEnrolMd = async (ctx, next) => {
 
 // 교수님이 삭제 전에 validate
 export const validateRemoveMd = async (ctx, next) => {
-  const { memberId, classCode } = ctx.state.reqBody;
+  const { memberId, classCode } = ctx.query;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT FROM tb_enrol WHERE member_id=? and class_id=? and isAccept=1",
+    "SELECT FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=1",
     [memberId, classCode]
   );
 
@@ -210,17 +216,18 @@ export const validateRemoveMd = async (ctx, next) => {
     throw Boom.badRequest("not exist student");
   }
 
+  ctx.state.conn = conn;
+
   await next();
 };
 
 // 교수님이 수강생을 delete
 export const removeStudentMd = async (ctx, next) => {
-  const { memberId, classCode } = ctx.state.reqBody;
-  const { dbPool } = ctx;
+  const { memberId, classCode } = ctx.query;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   await conn.query(
-    "DELETE FROM tb_enrol WHERE member_id=? and class_id=? and isAccept=1",
+    "DELETE FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=1",
     [memberId, classCode]
   );
 
@@ -252,7 +259,7 @@ export const readStudent = [
 ];
 
 // 교수님이 수강생 목록에서 수락을 누른 경우
-export const accept = [UpdateAcceptMd, CommonMd.responseMd];
+export const accept = [getDataFromBodyMd, UpdateAcceptMd, CommonMd.responseMd];
 
 // 교수님이 수강 신청 목록에서 거절을 누른 경우
 export const reject = [validateRejectMd, rejectEnrolMd, CommonMd.responseMd];

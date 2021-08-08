@@ -106,6 +106,8 @@ export const readEnrolCountMd = async (ctx, next) => {
     ...ctx.state.body,
     total: rows[0].readStudentCountMd,
   };
+
+  await next();
 };
 
 // 수강생 목록 read
@@ -139,6 +141,8 @@ export const readStudentCountMd = async (ctx, next) => {
     ...ctx.state.body,
     total: rows[0].readStudentCountMd,
   };
+
+  await next();
 };
 
 // 교수님이 수락을 눌러 isAccept가 1로 update

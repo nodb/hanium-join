@@ -2,28 +2,24 @@ import Koa from "koa";
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
 import path from "path";
+import cors from "koa-cors";
 import Config from "./config";
-import { errorHandleMd } from "./middlewares";
 import Router from "./router";
+import { errorHandleMd } from "./middlewares";
 
 const pool = mariadb.createPool({
   host: Config.DB_HOST,
   user: Config.DB_USER,
   password: Config.DB_PASSWORD,
   database: Config.DB_DATABASE,
+  port: Config.DB_PORT,
   connectionLimit: Config.DB_CONNECTION_LIMIT,
 });
 
-// const getMariadbConnection = async () => {
-//   const conn = await pool.getConnection();
-//   return conn;
-// };
-
 const main = async () => {
   try {
-    // const conn = await getMariadbConnection();
-
     const app = new Koa();
+    app.use(cors());
     app.use(
       KoaBody({
         multipart: true,
@@ -34,7 +30,7 @@ const main = async () => {
       })
     );
 
-    // 데이터베이스 Pool을 Koa Context에 저장한다. ->글로벌하게 설정
+    // 데이터베이스 Pool을 Koa Context에 저장한다.
     app.context.dbPool = pool;
 
     app.use(errorHandleMd);

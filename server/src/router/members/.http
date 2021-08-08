@@ -5,16 +5,23 @@ GET {{BASE_URL}}/members/jdyj@naver.com
 GET {{{BASE_URL}}/members?skip=0&
 
 
+
+GET {{BASE_URL}}/members?skip=0&limit=4
+
+GET {{BASE_URL}}/members/2
+
 POST {{BASE_URL}}/members
 Content-Type: application/json
 
 {
-    "email": "jdyj1234@naver.com",
+    "email": "jdyj4@naver.com",
     "password": "password",
     "name" : "test",
     "mobile": "010-1234-1234",
     "type" : "P"
 }
+
+
 
 POST {{BASE_URL}}/members
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -22,7 +29,7 @@ Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0g
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="email"
 
-jdyj1234@naver.com
+jdyj@naver.com
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="password"
 
@@ -34,20 +41,31 @@ test
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="mobile"
 
-010-1234-5678
+010-1234-1234
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="type"
 
-p
+P
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="test.jpg"
-Content-Type: image/png
+Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
+Content-Type: image/jpg
 
-< ../../../testdata/test.jpg
+< ../../../testdata/taxonomy.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
+Content-Type: image/jpg
+
+< ../../../testdata/taxonomy.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
+Content-Type: image/jpg
+
+< ../../../testdata/taxonomy.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 
-PUT {{BASE_URL}}/members/jdyj@naver.com
+
+PUT {{BASE_URL}}/members/2
 Content-Type: application/json
 
 {

@@ -1,3 +1,3 @@
 import errorHandleMd from "./errorHandleMd";
 
-export default { errorHandleMd };
+export { errorHandleMd };

@@ -1,12 +1,5 @@
 import Boom from "@hapi/boom";
-
-export const responseMiddleware = async (ctx) => {
-  const { body } = ctx.state;
-
-  ctx.state = 200;
-
-  ctx.body = body;
-};
+import * as CommonMd from "../middlewares";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile } = ctx.request.body;
@@ -25,7 +18,7 @@ export const getDataFromBodyMd = async (ctx, next) => {
 };
 
 export const validateDataMd = async (ctx, next) => {
-  const { email, password, name, type } = ctx.state.reqBody;
+  const { email, password, name, type, mobile } = ctx.state.reqBody;
 
   if (!email || !password || !type || !name) {
     throw Boom.badRequest("field is not fulfiled");
@@ -34,10 +27,17 @@ export const validateDataMd = async (ctx, next) => {
   await next();
 };
 
-export const validateParamMd = async (ctx, next) => {
-  const { email } = ctx.params;
+export const validateUpdateDataMd = async (ctx, next) => {
+  const {
+    // eslint-disable-next-line no-unused-vars
+    name,
+    type,
+    mobile,
+  } = ctx.state.reqBody;
 
-  // 1. 이메일 형식에 맞는지
+  if (!type || !name) {
+    throw Boom.badRequest("field is not fulfiled");
+  }
 
   await next();
 };
@@ -46,6 +46,8 @@ export const isDuplicatedEmailMd = async (ctx, next) => {
   const { email } = ctx.state.reqBody;
   const { files } = ctx.request;
   const { dbPool } = ctx;
+
+  console.log(files);
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query("SELECT * FROM tb_member WHERE email = ?", [
@@ -90,49 +92,42 @@ export const queryMemberMdByEmail = async (ctx, next) => {
 
 export const removeMemberMd = async (ctx, next) => {
   const { conn } = ctx.state;
-  const { email } = ctx.params;
+  const { id } = ctx.params;
 
-  await conn.query("DELETE FROM tb_member WHERE email = ?", [email]);
+  await conn.query("DELETE FROM tb_member WHERE email = ?", [id]);
   await next();
 };
 
 export const readMemberMd = async (ctx, next) => {
-  const { conn } = ctx.state;
-  const { email } = ctx.params;
+  const { id } = ctx.params;
+  const { dbPool } = ctx;
 
+  const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT email, name, type, mobile, createdAt FROM tb_member WHERE email = ?",
-    [email]
+    "SELECT id, email, name, type, mobile, createdAt FROM tb_member WHERE id = ?",
+    [id]
   );
 
-  ctx.state.body = rows[0];
+  ctx.state.body = {
+    ...rows[0],
+  };
 
   await next();
 };
 
 export const updateMemberMd = async (ctx, next) => {
-  const { conn } = ctx.state;
-  const { email } = ctx.params;
-  const { name, type, mobile } = ctx.request.body;
+  const { id } = ctx.params;
+  const { dbPool } = ctx;
+
+  const conn = await dbPool.getConnection();
+  const { name, type, mobile } = ctx.request.body'
 
   const sql =
-    "UPDATE tb_member SET name = ?, type = ?, mobile = ? WHERE email = ?";
-  const rows = await conn.query(sql, [name, type, mobile, email]);
+    "UPDATE tb_member SET name = ?, type = ?, mobile = ? WHERE id = ?";
+  const rows = await conn.query(sql, [name, type, mobile, id]);
 
-  ctx.state.body = rows[0];
-
-  await next();
-};
-
-export const validateListParamMd = async (ctx, next) => {
-  let { skip, limit } = ctx.query;
-
-  if (!skip) skip = 0;
-  if (!limit) limit = 10;
-
-  ctx.state.query = {
-    skip,
-    limit,
+  ctx.state.body = {
+    ...rows[0],
   };
 
   await next();
@@ -143,41 +138,65 @@ export const readMemberAllMd = async (ctx, next) => {
   const { dbPool } = ctx;
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT email,name,type,mobile,createdAt FROM tb_member LIMIT ?, ?",
+    "SELECT id, email, name, type, mobile, createdAt FROM tb_member LIMIT ?, ?",
     [skip, limit]
   );
 
-  ctx.state.body = rows;
+  ctx.state.body = {
+    results: rows,
+  };
+
   await next();
 };
 
-export const readMemberAllCountMd = async (ctx, state) => {
+export const readMemberAllCountMd = async (ctx, next) => {
   const { dbPool } = ctx;
   const conn = await dbPool.getConnection();
-  const rows = await conn.query("SELECT COUNT(*) AS count FROM tb_member");
+  const rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_member");
 
-  ctx.state.body = {};
+  ctx.state.body = {
+    ...ctx.state.body,
+    total: rows[0].count,
+  };
+
+  await next();
 };
 
+// eslint-disable-next-line max-len
 export const create = [
   getDataFromBodyMd,
   validateDataMd,
   isDuplicatedEmailMd,
   saveMemberMd,
   queryMemberMdByEmail,
-  responseMiddleware,
+  CommonMd.responseMd,
 ];
 
-// skip, limit (skip: 시작위치, limit : 가져올 데이터 수)의 정보가 필요하다.
+// skip, limit (skip: 시작위치, limit: 가져올 데이터 수)
+// ex) skip=0, limit=10 이면 0번째부터 10개를 가져와라
+// skip=10, limit=10 10번째부터 10개를 가져와라
 export const readAll = [
-  validateListParamMd,
+  CommonMd.validataListParamMd,
   readMemberAllMd,
   readMemberAllCountMd,
-  responseMiddleware,
+  CommonMd.responseMd,
 ];
 
-export const read = [validateParamMd, readMemberMd, responseMiddleware];
+export const read = [
+  CommonMd.validateIdParamMd,
+  readMemberMd,
+  CommonMd.responseMd,
+];
 
-export const update = [validateParamMd, updateMemberMd, responseMiddleware];
+export const update = [
+  CommonMd.validateIdParamMd,
+  validateUpdateDataMd,
+  updateMemberMd,
+  CommonMd.responseMd,
+];
 
-export const remove = [validateParamMd, removeMemberMd, responseMiddleware];
+export const remove = [
+  CommonMd.validateIdParamMd,
+  removeMemberMd,
+  CommonMd.responseMd,
+];

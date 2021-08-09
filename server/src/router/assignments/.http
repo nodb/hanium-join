@@ -1,0 +1,101 @@
+@BASE_URL=http://localhost:3000/api/v1
+
+POST {{BASE_URL}}/assignments
+Content-Type: application/json
+
+{
+    "name" : "과제 테스트",
+    "content" : "과제 테스트 내용",
+    "classCode" : "09329b56-2bc7-4052-bd26-e81f88e61fc7"
+}
+
+###
+
+GET {{BASE_URL}}/assignments
+
+###
+
+GET {{BASE_URL}}/assignments/b156f59e-ad36-447f-ac55-3a5e3df1ad99
+
+###
+
+DELETE {{BASE_URL}}/assignments/64d367d6-6fc6-493d-a68c-fee95355b52c
+
+###
+POST {{BASE_URL}}/assignments
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+과제 테스트
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+과제 테스트 내용
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="progress"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="point"
+
+100
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="startDate"
+
+2021-08-04 14:39:22
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="endDate"
+
+2021-08-04 14:39:22
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="classCode"
+
+ASDCZXC
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
+Content-Type: image/jpg
+
+< ../../../testdata/taxonomy.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+PUT {{BASE_URL}}/assignments/b156f59e-ad36-447f-ac55-3a5e3df1ad99
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+과제 수정 테스트
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+과제 수정 테스트 내용
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="progress"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="point"
+
+100
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="startDate"
+
+2021-08-04 14:39:22
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="endDate"
+
+2021-08-04 14:39:22
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="classCode"
+
+ASDCZXC
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
+Content-Type: image/jpg
+
+< ../../../testdata/taxonomy.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

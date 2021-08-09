@@ -7,7 +7,7 @@ const router = new Router();
 router.get("/", ...classes.readAll);
 
 // // 강의 상세 조회
-// router.get("/:classId", ...classes.readClass);
+// router.get("/:classCode", ...classes.readClass);
 
 // 강의 생성
 router.post("/", ...classes.create);

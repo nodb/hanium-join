@@ -33,7 +33,7 @@ export const readClassStudentMd = async (ctx, next) => {
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
     // eslint-disable-next-line max-len
-    "SELECT c.name, c.code FROM tb_class c JOIN tb_enrol e ON e.class_code = c.code WHERE e.isAccept = 1 AND e.member_id = ?",
+    "SELECT c.name, c.code, m.name, e.isAccept as professorName FROM tb_class c JOIN tb_enrol e ON e.class_code = c.code JOIN tb_member m ON c.tb_member_id = m.id WHERE e.member_id = ?",
     [memberId]
   );
 
@@ -100,8 +100,6 @@ export const readProfessorAll = [readClassProfessorMd, CommonMd.responseMd];
 export const readStudentAll = [readClassStudentMd, CommonMd.responseMd];
 
 export const readClassStudent = [];
-
-export const readClassProfessor = [];
 
 export const create = [
   getDataFromBodyMd,

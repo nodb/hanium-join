@@ -5,8 +5,6 @@ import * as CommonMd from "../middlewares";
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile, birthDate } = ctx.request.body;
 
-  console.log(ctx.request.body);
-
   ctx.state.reqBody = {
     email,
     password,
@@ -122,7 +120,7 @@ export const readMemberIdMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT id, email, name, type, mobile, createdAt FROM tb_member WHERE id = ?",
+    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department FROM tb_member WHERE id = ?",
     [id]
   );
 

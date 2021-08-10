@@ -9,4 +9,7 @@ router.post("/", ...comments.create);
 // 조회
 router.get("/:assignmentId", ...comments.readAll);
 
+// 삭제
+router.delete("/:id", ...comments.remove);
+
 export default router;

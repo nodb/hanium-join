@@ -1,8 +1,8 @@
 import Koa from "koa";
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
-import path from "path";
 import cors from "koa-cors";
+import path from "path";
 import Config from "./config";
 import Router from "./router";
 import { errorHandleMd } from "./middlewares";
@@ -19,7 +19,9 @@ const pool = mariadb.createPool({
 const main = async () => {
   try {
     const app = new Koa();
+
     app.use(cors());
+
     app.use(
       KoaBody({
         multipart: true,

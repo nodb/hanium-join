@@ -16,6 +16,6 @@ router.put("/", ...enrol.accept);
 router.delete("/", ...enrol.reject);
 
 // 교수님이 수강생을 삭제한 경우
-router.delete("/students/", ...enrol.remove);
+router.delete("/students", ...enrol.remove);
 
 export default router;

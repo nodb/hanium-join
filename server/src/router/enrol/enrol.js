@@ -170,7 +170,7 @@ export const UpdateAcceptMd = async (ctx, next) => {
 
 // 교수님이 신청 거절 전에 validate
 export const validateRejectMd = async (ctx, next) => {
-  const { memberId, classCode } = ctx.state.reqBody;
+  const { memberId, classCode } = ctx.query;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
@@ -190,12 +190,11 @@ export const validateRejectMd = async (ctx, next) => {
 
 // 교수님이 신청을 거절 눌러 delete
 export const rejectEnrolMd = async (ctx, next) => {
-  const { memberId, classCode } = ctx.state.reqBody;
+  const { memberId, classCode } = ctx.query;
   const { conn } = ctx.state;
-
   await conn.query(
-    "DELETE FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=0",
-    [memberId, classCode]
+    "DELETE FROM tb_enrol WHERE member_id=? AND class_code=? AND isAccept=0",
+    [parseInt(memberId, 10), classCode]
   );
 
   await next();

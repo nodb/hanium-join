@@ -1,0 +1,16 @@
+@BASE_URL=http://localhost:3000/api/v1
+
+GET {{BASE_URL}}/teams/ASDCZXC
+
+GET {{BASE_URL}}/teams/2
+
+POST {{BASE_URL}}/comments
+Content-Type: application/json
+
+{
+    "memberId" : 1,
+    "assignmentId" : 1,
+    "contents": "안녕하세요1234"
+}
+
+DELETE {{BASE_URL}}/comments/fdb32a5e-b155-473b-bc7a-6851101fb20a

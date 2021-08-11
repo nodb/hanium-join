@@ -1,6 +1,8 @@
 @BASE_URL=http://localhost:3000/api/v1
 
-GET {{BASE_URL}}/comments/1?skip=0&limit=6
+GET {{BASE_URL}}/teams/ASDCZXC
+
+GET {{BASE_URL}}/teams/2
 
 POST {{BASE_URL}}/comments
 Content-Type: application/json

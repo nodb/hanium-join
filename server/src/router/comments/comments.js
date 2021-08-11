@@ -32,7 +32,8 @@ export const createCommentMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   await conn.query(
-    "INSERT INTO tb_comment(id, contents, tb_member_id, tb_assignment_id) VALUES (?,?,?,?)",
+    "INSERT INTO tb_comment(id, contents, member_id, assignment_id) \
+    VALUES (?,?,?,?)",
     [UUID(), contents, memberId, assignmentId]
   );
 
@@ -48,7 +49,10 @@ export const readCommentAllMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT C.createdAt, C.contents, M.name FROM tb_comment C JOIN tb_member M ON C.tb_member_id = M.id WHERE C.tb_assignment_id=? LIMIT ?, ?",
+    // eslint-disable-next-line max-len
+    "SELECT C.createdAt, C.contents, M.name FROM tb_comment C \
+    JOIN tb_member M ON C.member_id = M.id \
+    WHERE C.assignment_id=? LIMIT ?, ?",
     [assignmentId, skip, limit]
   );
 

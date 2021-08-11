@@ -62,7 +62,7 @@ export const saveAssignmentMd = async (ctx, next) => {
 
   await conn.query(
     // eslint-disable-next-line max-len
-    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, tb_class_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, class_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       UUID(),
       name,
@@ -101,7 +101,7 @@ export const readAssignmentAllMd = async (ctx, next) => {
   const { dbPool } = ctx;
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT id, name, content, progress, point, startDate, endDate, image, tb_class_code FROM tb_assignment LIMIT ?, ?",
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment LIMIT ?, ?",
     [skip, limit]
   );
 
@@ -115,7 +115,7 @@ export const readAssignmentAllMd = async (ctx, next) => {
 export const readAssignmentAllCountMd = async (ctx, next) => {
   const { dbPool } = ctx;
   const conn = await dbPool.getConnection();
-  const rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_assignment");
+  const rows = await conn.query("SELECT COUNT(*) AS count FROM tb_assignment");
 
   ctx.state.body = {
     ...ctx.state.body,
@@ -131,7 +131,8 @@ export const readAssignmentIdMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT id, name, content, progress, point, startDate, endDate, image, tb_class_code FROM tb_assignment WHERE id = ?",
+    // eslint-disable-next-line max-len
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?",
     [id]
   );
 
@@ -170,7 +171,7 @@ export const updateAssignmentMd = async (ctx, next) => {
 
   const sql =
     // eslint-disable-next-line max-len
-    "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, tb_class_code = ?  WHERE id = ?";
+    "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, class_code = ?  WHERE id = ?";
   await conn.query(sql, [
     name,
     content,
@@ -194,7 +195,7 @@ export const queryAssignmentMdById = async (ctx, next) => {
 
   const sql =
     // eslint-disable-next-line max-len
-    "SELECT id, name, content, progress, point, startDate, endDate, image, tb_class_code FROM tb_assignment WHERE id = ?";
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?";
   const rows = await conn.query(sql, [id]);
 
   ctx.state.body = {

@@ -1,8 +1,8 @@
 @BASE_URL=http://localhost:3000/api/v1
 
-GET {{BASE_URL}}/classes/professor/378c7532-36df-4f88-81ab-223fa5c2dd53
+GET {{BASE_URL}}/classes/professor/1
 
-GET {{BASE_URL}}/classes/student/158d6b47-ce6f-48b0-afc1-bb59f91b99f2
+GET {{BASE_URL}}/classes/student/1
 
 
 POST {{BASE_URL}}/classes
@@ -11,5 +11,5 @@ Content-Type: application/json
 {
     "name" : "지구과학",
     "code" : "AZXCSQ",
-    "memberId" : "378c7532-36df-4f88-81ab-223fa5c2dd53"
+    "memberId" : "a5ee25f3-40c2-4a0e-aabb-e8164e19c689"
 }

@@ -137,7 +137,11 @@ function P05_04() {
       <TitleBox>
         <Text style={{ width: "150px", fontSize: "23px" }}>구성 팀 확인</Text>
         <Link
+<<<<<<< HEAD
           to="/class/assign"
+=======
+          to="/professor/class/assign"
+>>>>>>> jaeyoung
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <LinkButton>팀 편성하기</LinkButton>

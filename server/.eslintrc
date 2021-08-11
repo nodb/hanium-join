@@ -1,9 +1,13 @@
 {
     "parser": "babel-eslint",
+<<<<<<< HEAD
     "extends": "airbnb",
     "plugins": [
         "react",
         "jsx-a11y",
+=======
+    "plugins": [
+>>>>>>> jaeyoung
         "import",
         "json"
     ],
@@ -28,6 +32,7 @@
             "error",
             2
         ],
+<<<<<<< HEAD
         "react/prefer-stateless-function": "off",
         "react/jsx-one-expression-per-line": "off",
         "react/jsx-filename-extension": [
@@ -39,6 +44,8 @@
                 ]
             }
         ],
+=======
+>>>>>>> jaeyoung
         "no-underscore-dangle": [
             "warn",
             {
@@ -50,7 +57,11 @@
         "max-len": [
             "error",
             {
+<<<<<<< HEAD
                 "code": 120,
+=======
+                "code": 256,
+>>>>>>> jaeyoung
                 "tabWidth": 2,
                 "ignoreUrls": true
             }

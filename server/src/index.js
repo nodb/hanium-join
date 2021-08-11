@@ -19,6 +19,7 @@ const pool = mariadb.createPool({
 const main = async () => {
   try {
     const app = new Koa();
+<<<<<<< HEAD
     app.use(cors());
     app.use(KoaBody({
       multipart: true,
@@ -27,6 +28,20 @@ const main = async () => {
         keepExtensions: true,
       },
     }));
+=======
+
+    app.use(cors());
+
+    app.use(
+      KoaBody({
+        multipart: true,
+        formidable: {
+          uploadDir: path.join(__dirname, "../upload"),
+          keepExtensions: true,
+        },
+      })
+    );
+>>>>>>> jaeyoung
 
     // 데이터베이스 Pool을 Koa Context에 저장한다.
     app.context.dbPool = pool;

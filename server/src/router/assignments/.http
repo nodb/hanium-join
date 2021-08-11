@@ -9,6 +9,7 @@ Content-Type: application/json
     "classCode" : "09329b56-2bc7-4052-bd26-e81f88e61fc7"
 }
 
+
 ###
 
 GET {{BASE_URL}}/assignments

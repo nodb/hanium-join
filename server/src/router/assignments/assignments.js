@@ -4,7 +4,7 @@ import * as CommonMd from "../middlewares";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const {
-    name, content, progress, point, startDate, endDate, image, classCode,
+    name, content, progress, point, startDate, endDate, image, classCode, teams
   } = ctx.request.body;
 
   console.log(ctx.request.body);
@@ -18,7 +18,7 @@ export const getDataFromBodyMd = async (ctx, next) => {
 
 export const validateDataMd = async (ctx, next) => {
   const {
-    name, content, progress, point, startDate, endDate, image, classCode,
+    name, content, progress, point, startDate, endDate, image, classCode, teams
   } = ctx.request.body;
 
   if (!name || !point || !startDate || !endDate || !classCode) {
@@ -30,7 +30,7 @@ export const validateDataMd = async (ctx, next) => {
 
 export const saveAssignmentMd = async (ctx, next) => {
   const {
-    name, content, progress, point, startDate, endDate, classCode,
+    name, content, progress, point, startDate, endDate, classCode, teams
   } = ctx.request.body;
 
   const { image } = ctx.request.files;
@@ -39,12 +39,20 @@ export const saveAssignmentMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   ctx.state.conn = conn;
-
+  const assignmentId = UUID();
+  const imageName = image===undefined ? null:image.name;
   await conn.query(
     // eslint-disable-next-line max-len
-    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, tb_class_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    [UUID(), name, content, progress, point, startDate, endDate, image.name, classCode],
+    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, class_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [assignmentId, name, content, progress, point, startDate, endDate, imageName, classCode],
   );
+  for(let i=0; i<teams.length; i++){
+    await conn.query(
+      // eslint-disable-next-line max-len
+      "INSERT INTO tb_assignment_team(id, isCheck, assignment_id, team_id) VALUES (?, ?, ?, ?)",
+      [UUID(), 0, assignmentId, teams[i]],
+    );
+  }
 
   await next();
 };
@@ -54,7 +62,7 @@ export const queryAssignmentMd = async (ctx, next) => {
   // const { conn } = ctx.state;
 
   // const rows = await conn.query(
-  //   "SELECT id, name, content, progress, point, startDate, endDate, image, tb_class_code FROM tb_assignment WHERE id = ?",
+  //   "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?",
   //   [id],
   // );
 
@@ -68,24 +76,41 @@ export const queryAssignmentMd = async (ctx, next) => {
 
 export const readAssignmentAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
+  let { classCode } = ctx.query;
   const { dbPool } = ctx;
   const conn = await dbPool.getConnection();
-  const rows = await conn.query(
-    "SELECT id, name, content, progress, point, startDate, endDate, image, tb_class_code FROM tb_assignment LIMIT ?, ?",
-    [skip, limit],
-  );
-
+  let rows;
+  if(classCode){
+    rows = await conn.query(
+      "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE class_code = ? LIMIT ?, ?",
+      [classCode, skip, limit],
+    );
+  } else {
+    rows = await conn.query(
+      "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment LIMIT ?, ?",
+      [skip, limit],
+    );
+  }
+  
   ctx.state.body = {
     results: rows,
   };
+
+  ctx.state.query = {
+    ...ctx.state.query,
+    classCode: classCode,
+  }
 
   await next();
 };
 
 export const readAssignmentAllCountMd = async (ctx, next) => {
   const { dbPool } = ctx;
+  const { classCode } = ctx.state.query;
   const conn = await dbPool.getConnection();
-  const rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_assignment");
+  let rows;
+  if(classCode) rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_assignment WHERE class_code = ?", [classCode]);
+  else rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_assignment");
 
   ctx.state.body = {
     ...ctx.state.body,
@@ -95,19 +120,29 @@ export const readAssignmentAllCountMd = async (ctx, next) => {
   await next();
 };
 
-export const readAssignmentIdMd = async (ctx, next) => {
+export const readAssignmentByIdMd = async (ctx, next) => {
   const { id } = ctx.params;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT id, name, content, progress, point, startDate, endDate, image, tb_class_code FROM tb_assignment WHERE id = ?",
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?",
     [id],
   );
 
   ctx.state.body = {
     ...rows[0],
   };
+
+  const teams = await conn.query(
+    "SELECT at.id, t.name, at.team_id FROM tb_assignment_team at JOIN tb_team t ON at.team_id = t.id WHERE assignment_id = ?",
+    [id]
+  );
+
+  ctx.state.body = {
+    ...ctx.state.body,
+    team: teams,
+  }
 
   await next();
 };
@@ -134,17 +169,26 @@ export const updateAssignmentMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const {
-    name, content, progress, point, startDate, endDate, classCode,
+    name, content, progress, point, startDate, endDate, classCode, teams
   } = ctx.request.body;
 
   const { image } = ctx.request.files;
-
+  const imageName = image===undefined ? null:image.name;
   const sql =
   // eslint-disable-next-line max-len
-  "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, tb_class_code = ?  WHERE id = ?";
+  "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, class_code = ?  WHERE id = ?";
   await conn.query(sql, [
-    name, content, progress, point, startDate, endDate, image.name, classCode, id,
+    name, content, progress, point, startDate, endDate, imageName, classCode, id,
   ]);
+  await conn.query("DELETE FROM tb_assignment_team WHERE assignment_id = ?", [id]);
+
+  // for(let i=0; i<teams.length; i++){
+  //   await conn.query(
+  //     // eslint-disable-next-line max-len
+  //     "INSERT INTO tb_assignment_team(id, isCheck, assignment_id, team_id) VALUES (?, ?, ?, ?)",
+  //     [UUID(), 0, assignmentId, teams[i]],
+  //   );
+  // }
 
   ctx.state.conn = conn;
 
@@ -157,11 +201,34 @@ export const queryAssignmentMdById = async (ctx, next) => {
 
   const sql =
     // eslint-disable-next-line max-len
-    "SELECT id, name, content, progress, point, startDate, endDate, image, tb_class_code FROM tb_assignment WHERE id = ?";
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?";
   const rows = await conn.query(sql, [id]);
 
   ctx.state.body = {
     ...rows[0],
+  };
+
+  await next();
+};
+
+export const readAssignmentByMemberMd = async (ctx, next) => {
+  const { memberId } = ctx.params;
+  const { skip, limit } = ctx.state.query;
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+  const rows = await conn.query(
+    "select a.name, a.content, at.isCheck, a.startDate, a.endDate \
+    from tb_team_member tm \
+    JOIN tb_team t ON t.id = tm.team_id \
+    JOIN tb_assignment_team at ON at.team_id = t.id \
+    JOIN tb_assignment a ON a.id = at.assignment_id \
+    JOIN tb_class c ON c.code = a.class_code \
+    WHERE tm.member_id = ? LIMIT ?, ?",
+    [memberId, skip, limit],
+  );
+
+  ctx.state.body = {
+    results: rows,
   };
 
   await next();
@@ -182,9 +249,15 @@ export const readAll = [
   CommonMd.responseMd,
 ];
 
+export const readByMember = [
+  CommonMd.validataListParamMd,
+  readAssignmentByMemberMd,
+  CommonMd.responseMd,
+];
+
 export const readId = [
   CommonMd.validateIdParamMd,
-  readAssignmentIdMd,
+  readAssignmentByIdMd,
   CommonMd.responseMd,
 ];
 

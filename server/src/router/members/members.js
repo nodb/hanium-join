@@ -1,20 +1,9 @@
 import Boom from "@hapi/boom";
-<<<<<<< HEAD
-import * as CommonMd from "../middlewares";
-
-export const getDataFromBodyMd = async (ctx, next) => {
-  const {
-    email, password, name, type, mobile,
-  } = ctx.request.body;
-
-  console.log(ctx.request.body);
-=======
 import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile, birthDate } = ctx.request.body;
->>>>>>> jaeyoung
 
   ctx.state.reqBody = {
     email,
@@ -22,27 +11,16 @@ export const getDataFromBodyMd = async (ctx, next) => {
     name,
     type,
     mobile,
-<<<<<<< HEAD
-=======
     birthDate,
->>>>>>> jaeyoung
   };
 
   await next();
 };
 
 export const validateDataMd = async (ctx, next) => {
-<<<<<<< HEAD
-  const {
-    email, password, name, type, mobile,
-  } = ctx.state.reqBody;
-
-  if (!email || !password || !type || !name) {
-=======
   const { email, password, name, type, mobile, birthDate } = ctx.state.reqBody;
 
   if (!email || !password || !type || !name || !mobile || !birthDate) {
->>>>>>> jaeyoung
     throw Boom.badRequest("field is not fulfiled");
   }
 
@@ -50,16 +28,6 @@ export const validateDataMd = async (ctx, next) => {
 };
 
 export const validateUpdateDataMd = async (ctx, next) => {
-<<<<<<< HEAD
-  const {
-    // eslint-disable-next-line no-unused-vars
-    name, type, mobile,
-  } = ctx.state.reqBody;
-
-  if (!type || !name) {
-    throw Boom.badRequest("field is not fulfiled");
-  }
-=======
   // const {
   //   // eslint-disable-next-line no-unused-vars
   //   name,
@@ -70,7 +38,6 @@ export const validateUpdateDataMd = async (ctx, next) => {
   // // if (!name || !password || !mobile) {
   // //   throw Boom.badRequest("field is not fulfiled");
   // // }
->>>>>>> jaeyoung
 
   await next();
 };
@@ -97,25 +64,14 @@ export const isDuplicatedEmailMd = async (ctx, next) => {
 };
 
 export const saveMemberMd = async (ctx, next) => {
-<<<<<<< HEAD
-  const {
-    email, password, name, type, mobile,
-  } = ctx.state.reqBody;
-=======
   const { email, password, name, type, mobile, birthDate } = ctx.state.reqBody;
->>>>>>> jaeyoung
   const { conn } = ctx.state;
 
   // eslint-disable-next-line max-len
   await conn.query(
-<<<<<<< HEAD
-    "INSERT INTO tb_member(email, name, password, type, mobile) VALUES (?, ?, password(?), ?, ?)",
-    [email, name, password, type, mobile],
-=======
     "INSERT INTO tb_member(id, email, name, password, type, mobile, birthDate) \
     VALUES (?, ?, ?, password(?), ?, ?, ?)",
     [UUID(), email, name, password, type, mobile, birthDate]
->>>>>>> jaeyoung
   );
 
   await next();
@@ -126,13 +82,8 @@ export const queryMemberMdByEmail = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-<<<<<<< HEAD
-    "SELECT email, name, type, mobile, createdAt FROM tb_member WHERE email = ?",
-    [email],
-=======
     "SELECT id, email, name, type, mobile, createdAt FROM tb_member WHERE email = ?",
     [email]
->>>>>>> jaeyoung
   );
 
   ctx.state.body = rows[0];
@@ -140,8 +91,6 @@ export const queryMemberMdByEmail = async (ctx, next) => {
   await next();
 };
 
-<<<<<<< HEAD
-=======
 export const queryMemberMdById = async (ctx, next) => {
   const { id } = ctx.params;
   const { conn } = ctx.state;
@@ -158,33 +107,20 @@ export const queryMemberMdById = async (ctx, next) => {
   await next();
 };
 
->>>>>>> jaeyoung
 export const removeMemberMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { id } = ctx.params;
 
-<<<<<<< HEAD
-  await conn.query("DELETE FROM tb_member WHERE email = ?", [id]);
-  await next();
-};
-
-export const readMemberMd = async (ctx, next) => {
-=======
   await conn.query("DELETE FROM tb_member WHERE id = ?", [id]);
   await next();
 };
 
 export const readMemberIdMd = async (ctx, next) => {
->>>>>>> jaeyoung
   const { id } = ctx.params;
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-<<<<<<< HEAD
-    "SELECT id, email, name, type, mobile, createdAt FROM tb_member WHERE id = ?",
-    [id],
-=======
     "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department \
     FROM tb_member WHERE id = ?",
     [id]
@@ -205,7 +141,6 @@ export const readMemberEmailMd = async (ctx, next) => {
   const rows = await conn.query(
     "SELECT id, email, name, type, mobile, createdAt FROM tb_member WHERE id = ?",
     [email]
->>>>>>> jaeyoung
   );
 
   ctx.state.body = {
@@ -220,16 +155,6 @@ export const updateMemberMd = async (ctx, next) => {
   const { dbPool } = ctx;
 
   const conn = await dbPool.getConnection();
-<<<<<<< HEAD
-  const { name, type, mobile } = ctx.request.body;
-
-  const sql = "UPDATE tb_member SET name = ?, type = ?, mobile = ? WHERE id = ?";
-  const rows = await conn.query(sql, [name, type, mobile, id]);
-
-  ctx.state.body = {
-    ...rows[0],
-  };
-=======
   const { name, password, grade, department, studentID, mobile } =
     ctx.request.body;
 
@@ -250,7 +175,6 @@ export const updateMemberMd = async (ctx, next) => {
   ]);
 
   ctx.state.conn = conn;
->>>>>>> jaeyoung
 
   await next();
 };
@@ -261,11 +185,7 @@ export const readMemberAllMd = async (ctx, next) => {
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT id, email, name, type, mobile, createdAt FROM tb_member LIMIT ?, ?",
-<<<<<<< HEAD
-    [skip, limit],
-=======
     [skip, limit]
->>>>>>> jaeyoung
   );
 
   ctx.state.body = {
@@ -289,9 +209,6 @@ export const readMemberAllCountMd = async (ctx, next) => {
 };
 
 // eslint-disable-next-line max-len
-<<<<<<< HEAD
-export const create = [getDataFromBodyMd, validateDataMd, isDuplicatedEmailMd, saveMemberMd, queryMemberMdByEmail, CommonMd.responseMd,
-=======
 export const create = [
   getDataFromBodyMd,
   validateDataMd,
@@ -299,21 +216,11 @@ export const create = [
   saveMemberMd,
   queryMemberMdByEmail,
   CommonMd.responseMd,
->>>>>>> jaeyoung
 ];
 
 // skip, limit (skip: 시작위치, limit: 가져올 데이터 수)
 // ex) skip=0, limit=10 이면 0번째부터 10개를 가져와라
 // skip=10, limit=10 10번째부터 10개를 가져와라
-<<<<<<< HEAD
-export const readAll = [CommonMd.validataListParamMd, readMemberAllMd, readMemberAllCountMd, CommonMd.responseMd];
-
-export const read = [CommonMd.validateIdParamMd, readMemberMd, CommonMd.responseMd];
-
-export const update = [CommonMd.validateIdParamMd, validateUpdateDataMd, updateMemberMd, CommonMd.responseMd];
-
-export const remove = [CommonMd.validateIdParamMd, removeMemberMd, CommonMd.responseMd];
-=======
 export const readAll = [
   CommonMd.validataListParamMd,
   readMemberAllMd,
@@ -346,4 +253,3 @@ export const remove = [
   removeMemberMd,
   CommonMd.responseMd,
 ];
->>>>>>> jaeyoung

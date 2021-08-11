@@ -2,23 +2,6 @@
 
 GET {{BASE_URL}}/members/jdyj@naver.com
 
-<<<<<<< HEAD
-
-
-GET {{BASE_URL}}/members?skip=0&limit=4
-
-GET {{BASE_URL}}/members/2
-
-POST {{BASE_URL}}/members
-Content-Type: application/json
-
-{
-    "email": "jdyj4@naver.com",
-    "password": "password",
-    "name" : "test",
-    "mobile": "010-1234-1234",
-    "type" : "P"
-=======
 GET {{BASE_URL}}/members?skip=0&limit=4
 
 GET {{BASE_URL}}/members
@@ -33,26 +16,17 @@ Content-Type: application/json
     "mobile": "010-1222-1234",
     "type" : "S",
     "birthDate" : "2021-03-03"
->>>>>>> jaeyoung
 }
 
 
 
-<<<<<<< HEAD
-POST {{BASE_URL}}/members
-=======
 PUT {{BASE_URL}}/members/158d6b47-ce6f-48b0-afc1-bb59f91b99f2
->>>>>>> jaeyoung
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="email"
 
-<<<<<<< HEAD
-jdyj@naver.com
-=======
 as111@naver.com
->>>>>>> jaeyoung
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="password"
 
@@ -62,27 +36,6 @@ Content-Disposition: form-data; name="name"
 
 test
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-<<<<<<< HEAD
-Content-Disposition: form-data; name="mobile"
-
-010-1234-1234
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="type"
-
-P
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
-Content-Type: image/jpg
-
-< ../../../testdata/taxonomy.jpg
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
-Content-Type: image/jpg
-
-< ../../../testdata/taxonomy.jpg
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
-=======
 Content-Disposition: form-data; name="grade"
 
 2
@@ -100,25 +53,10 @@ Content-Disposition: form-data; name="mobile"
 010-1234-1234
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="profileImg"; filename="taxonomy.jpg"
->>>>>>> jaeyoung
 Content-Type: image/jpg
 
 < ../../../testdata/taxonomy.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 
-<<<<<<< HEAD
-
-PUT {{BASE_URL}}/members/2
-Content-Type: application/json
-
-{
-    "name" : "test2",
-    "type" : "S",
-    "mobile": "010-4312-4132"
-}
-
-DELETE {{BASE_URL}}/members/jdyj@naver.com
-=======
 DELETE {{BASE_URL}}/members/4119a188-24da-4728-a1c8-271f224be847
->>>>>>> jaeyoung

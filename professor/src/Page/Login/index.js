@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import { useMember } from "../../components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
 
@@ -23,6 +24,8 @@ function Login() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
+  const { listAllMember, memberList } = useMember();
+
   const idChangeHandler = (e) => {
     setId(e.currentTarget.value);
   };
@@ -36,6 +39,26 @@ function Login() {
   const submitHandler = () => {
     history.push("/professor/class");
   };
+
+  useEffect(() => {
+    const fetch = async  () => {
+      try {
+
+        await listAllMember();
+
+      } catch(err) {
+        console.log(err);
+      }
+    }
+
+    fetch();
+
+  }, [])
+
+
+  console.log(memberList)
+
+
   return (
     <Box>
       <Title>로그인</Title>
@@ -68,6 +91,14 @@ function Login() {
       >
         <span>회원가입</span>
       </Link>
+
+      {memberList.results.map(row => {
+        return (
+          <p>
+            {row.id} - {row.name}
+          </p>
+        )
+      })}
     </Box>
   );
 }

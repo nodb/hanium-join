@@ -1,12 +1,29 @@
 import Boom from "@hapi/boom";
-import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
 
-export const readClassAllMd = async (ctx, next) => {
+export const readClassProfessorMd = async (ctx, next) => {
   const { dbPool } = ctx;
+  const { memberId } = ctx.params;
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT id, name, code, tb_member_id FROM tb_class"
+    "SELECT name, code FROM tb_class WHERE member_id = ?",
+    [memberId]
+  );
+
+  ctx.state.body = {
+    results: rows,
+  };
+  await next();
+};
+
+export const readClassStudentMd = async (ctx, next) => {
+  const { dbPool } = ctx;
+  const { memberId } = ctx.params;
+  const conn = await dbPool.getConnection();
+  const rows = await conn.query(
+    // eslint-disable-next-line max-len
+    "SELECT c.name as className, c.code, m.name as professorName , e.isAccept FROM tb_class c JOIN tb_enrol e ON e.class_code = c.code JOIN tb_member m ON c.member_id = m.id WHERE e.member_id = ?",
+    [memberId]
   );
 
   ctx.state.body = {
@@ -43,8 +60,8 @@ export const saveClassMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   await conn.query(
-    "INSERT INTO tb_class(id, name, code, tb_member_id) VALUES (?, ?, ?, ?)",
-    [UUID(), name, code, memberId]
+    "INSERT INTO tb_class(name, code, member_id) VALUES (?, ?, ?)",
+    [name, code, memberId]
   );
 
   ctx.state.conn = conn;
@@ -56,7 +73,7 @@ export const queryClassMdByCode = async (ctx, next) => {
   const { code } = ctx.state.reqBody;
   const { conn } = ctx.state;
   const rows = await conn.query(
-    "SELECT id, name, code, tb_member_id FROM tb_class WHERE code = ?",
+    "SELECT name, code, member_id FROM tb_class WHERE code = ?",
     [code]
   );
 
@@ -67,9 +84,9 @@ export const queryClassMdByCode = async (ctx, next) => {
   await next();
 };
 
-export const readAll = [readClassAllMd, CommonMd.responseMd];
+export const readProfessorAll = [readClassProfessorMd, CommonMd.responseMd];
 
-export const readClass = [];
+export const readStudentAll = [readClassStudentMd, CommonMd.responseMd];
 
 export const create = [
   getDataFromBodyMd,

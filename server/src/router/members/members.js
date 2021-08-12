@@ -5,8 +5,6 @@ import * as CommonMd from "../middlewares";
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile, birthDate } = ctx.request.body;
 
-  console.log(ctx.request.body);
-
   ctx.state.reqBody = {
     email,
     password,
@@ -71,7 +69,8 @@ export const saveMemberMd = async (ctx, next) => {
 
   // eslint-disable-next-line max-len
   await conn.query(
-    "INSERT INTO tb_member(id, email, name, password, type, mobile, birthDate) VALUES (?, ?, ?, password(?), ?, ?, ?)",
+    "INSERT INTO tb_member(id, email, name, password, type, mobile, birthDate) \
+    VALUES (?, ?, ?, password(?), ?, ?, ?)",
     [UUID(), email, name, password, type, mobile, birthDate]
   );
 
@@ -97,8 +96,8 @@ export const queryMemberMdById = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const sql =
-    // eslint-disable-next-line max-len
-    "SELECT id, email, name, type, mobile, createdAt, birthdate, department, grade, studentID FROM tb_member WHERE id = ?";
+    "SELECT id, email, name, type, mobile, createdAt, birthdate, department, grade, studentID \
+    FROM tb_member WHERE id = ?";
   const rows = await conn.query(sql, [id]);
 
   ctx.state.body = {
@@ -122,7 +121,8 @@ export const readMemberIdMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
-    "SELECT id, email, name, type, mobile, createdAt FROM tb_member WHERE id = ?",
+    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department \
+    FROM tb_member WHERE id = ?",
     [id]
   );
 

@@ -17,6 +17,9 @@ const errorHandleMd = async (ctx, next) => {
       };
     }
   }
+  if (ctx.state.conn) {
+    ctx.state.conn.release();
+  }
 };
 
 export default errorHandleMd;

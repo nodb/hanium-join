@@ -10,8 +10,8 @@ POST {{BASE_URL}}/members/register
 Content-Type: application/json
 
 {
-    "name" : "test",
-    "email": "zzcv1@naver.com",
+    "name" : "student1",
+    "email": "profess22@naver.com",
     "password": "pasbbsword",
     "mobile": "010-1222-1234",
     "type" : "S",

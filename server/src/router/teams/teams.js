@@ -7,9 +7,11 @@ export const saveTeamMd = async (ctx, next) => {
 
   const conn = await dbPool.getConnection();
   await conn.query(
-    "INSERT INTO tb_team (id, name, class_code)  VALUES (?, ?, ?)",
+    "INSERT INTO tb_team (id, name, class_code) VALUES (?, ?, ?)",
     [UUID(), name, classCode]
   );
+
+  ctx.state.conn = conn;
   await next();
 };
 
@@ -19,6 +21,7 @@ export const readTeamAllMd = async (ctx, next) => {
   const conn = await dbPool.getConnection();
   const rows = await conn.query(
     // eslint-disable-next-line max-len
+    // eslint-disable-next-line no-multi-str
     "SELECT t.id as teamId, t.name as teamName, m.name, m.grade, m.department \
     FROM tb_team t \
     JOIN tb_team_member tm ON t.id = tm.team_id \
@@ -45,16 +48,16 @@ export const deleteTeamMd = async (ctx, next) => {
 export const insertStudentTeamMd = async (ctx, next) => {
   const { dbPool } = ctx;
   const payload = ctx.request.body;
-  console.log(payload);
 
   const conn = await dbPool.getConnection();
 
   const tuples = payload.map((obj) => [obj.teamId, obj.memberId]);
   console.log(tuples);
 
-  await conn.query("INSERT INTO tb_team_member (team_id, member_id) VALUES ?", [
-    tuples,
-  ]);
+  await conn.batch(
+    "INSERT INTO tb_team_member (team_id, member_id) VALUES (?,?)",
+    tuples
+  );
 
   await next();
 };
@@ -94,7 +97,21 @@ export const deleteStudentTeamMd = async (ctx, next) => {
   await next();
 };
 
-export const create = [saveTeamMd, CommonMd.responseMd];
+export const queryTeamMd = async (ctx, next) => {
+  const { name, classCode } = ctx.request.body;
+  const { conn } = ctx.state;
+
+  const rows = await conn.query(
+    "SELECT id, name, class_code FROM tb_team WHERE name = ? AND class_code = ?",
+    [name, classCode]
+  );
+
+  ctx.state.body = rows[0];
+
+  await next();
+};
+
+export const create = [saveTeamMd, queryTeamMd, CommonMd.responseMd];
 
 // 팀원 전체 조회
 export const readAll = [readTeamAllMd, CommonMd.responseMd];

@@ -1,0 +1,121 @@
+@BASE_URL=http://localhost:3000/api/v1
+
+# @name professor
+POST {{BASE_URL}}/members/register
+Content-Type: application/json
+
+{
+    "name" : "professor1",
+    "email": "professor1@naver.com",
+    "password": "pasbbsword",
+    "mobile": "010-1222-1234",
+    "type" : "P",
+    "birthDate" : "2021-03-03"
+}
+
+@professorId={{professor.response.body.id}}
+
+# @name student1
+POST {{BASE_URL}}/members/register
+Content-Type: application/json
+
+{
+    "name" : "student1",
+    "email": "student12@naver.com",
+    "password": "pasbbsword",
+    "mobile": "010-1222-1234",
+    "type" : "S",
+    "birthDate" : "2021-03-03"
+}
+
+@student1Id={{student1.response.body.id}}
+
+# @name student2
+POST {{BASE_URL}}/members/register
+Content-Type: application/json
+
+{
+    "name" : "student2",
+    "email": "student21@naver.com",
+    "password": "pasbbsword",
+    "mobile": "010-1222-1234",
+    "type" : "S",
+    "birthDate" : "2021-03-03"
+}
+
+@student2Id={{student2.response.body.id}}
+
+
+# @name class
+POST {{BASE_URL}}/classes
+Content-Type: application/json
+
+{
+    "name" : "지구과학",
+    "code" : "AZSDQDZF",
+    "memberId" : "{{professorId}}"
+}
+
+@classCode={{class.response.body.code}}
+
+# @name enrol1
+POST {{BASE_URL}}/enrol
+Content-Type: application/json
+
+{
+    "memberId" : "{{student1Id}}",
+    "classCode" : "{{classCode}}",
+    "isAccept": 0
+}
+
+# @name enrol2
+POST {{BASE_URL}}/enrol
+Content-Type: application/json
+
+{
+    "memberId" : "{{student2Id}}",
+    "classCode" : "{{classCode}}",
+    "isAccept": 0
+}
+
+PUT {{BASE_URL}}/enrol
+Content-Type: application/json
+
+{
+    "memberId" : "{{student1Id}}",
+    "classCode" : "{{classCode}}"
+}
+
+
+PUT {{BASE_URL}}/enrol
+Content-Type: application/json
+
+{
+    "memberId" : "{{student2Id}}",
+    "classCode" : "{{classCode}}"
+}
+
+# @name team1
+POST {{BASE_URL}}/teams
+Content-Type: application/json
+
+{
+    "name" : "Team1",
+    "classCode" : "{{classCode}}"
+}
+
+@team1Id={{team1.response.body.id}}
+
+POST {{BASE_URL}}/teams/students
+Content-Type: application/json
+
+[
+    {
+        "teamId" : "{{team1Id}}",
+        "memberId": "{{student1Id}}"
+    },
+    {
+        "teamId" : "{{team1Id}}",
+        "memberId" : "{{student2Id}}"
+    }
+]

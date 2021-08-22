@@ -5,8 +5,8 @@ import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../../_actions/userAction";
 import { typeParameter } from "@babel/types";
+
 const Box = styled.div`
   display: block;
   width: 500px;
@@ -65,7 +65,7 @@ function Register(props) {
   };
   const mobileChangeHandler = (e) => {
     setMobile(e.currentTarget.value);
-  }
+  };
 
   const onSubmitHandler = (e) => {
     if (pw === pwC) {
@@ -74,16 +74,12 @@ function Register(props) {
         name: name,
         password: pw,
         mobile: mobile,
-        type:"P",
+        type: "P",
       };
-      dispatch(registerUser(body)).then((res) => {
-        alert("가입이 정상적으로 완료되었습니다.");
-        props.history.push("/login");
-      });
     } else {
       alert("비밀번호가 일치하지 않습니다.");
     }
-  }
+  };
 
   return (
     <Box>

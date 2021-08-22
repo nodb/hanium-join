@@ -47,5 +47,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "immutable": "^4.0.0-rc.14",
+    "redux-actions": "^2.6.5",
+    "redux-pender": "^2.0.12"
   }
 }

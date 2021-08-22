@@ -6,12 +6,21 @@ Content-Type: application/json
 {
     "name" : "과제 테스트",
     "content" : "과제 테스트 내용",
-    "classCode" : "09329b56-2bc7-4052-bd26-e81f88e61fc7"
+    "progress" : "1",
+    "point" : "100",
+    "startDate" : "2021-08-04 14:39:22",
+    "endDate" : "2021-08-04 14:39:22",
+    "classCode" : "09329b56-2bc7-4052-bd26-e81f88e61fc7",
+    "teams":[]
 }
 
 ###
 
 GET {{BASE_URL}}/assignments
+
+###
+
+GET {{BASE_URL}}/assignments?classCode=ASDCZXC
 
 ###
 
@@ -54,6 +63,10 @@ Content-Disposition: form-data; name="classCode"
 
 ASDCZXC
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="teams"
+
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
 Content-Type: image/jpg
 
@@ -93,6 +106,10 @@ Content-Disposition: form-data; name="endDate"
 Content-Disposition: form-data; name="classCode"
 
 ASDCZXC
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="teams"
+
+[]
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
 Content-Type: image/jpg

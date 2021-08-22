@@ -14,12 +14,8 @@
     "koa-body": "^4.2.0",
     "koa-cors": "^0.0.16",
     "koa-proxy": "^1.0.0-alpha.3",
-<<<<<<< HEAD
-    "mariadb": "^2.5.4"
-=======
     "mariadb": "^2.5.4",
     "uuid": "^8.3.2"
->>>>>>> jaeyoung
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

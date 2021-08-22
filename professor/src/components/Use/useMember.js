@@ -1,15 +1,16 @@
 import * as reducer from "../../store/reducer/member";
-import { useShallowEqualSelectorToJS } from "./components";
+import { useActions, useShallowEqualSelectorToJS } from "./components";
 
 const useMember = () => {
-  const memberList = useShallowEqualSelectorToJS((state) =>
-    state.member.get("list")
-  );
+    const memberList = useShallowEqualSelectorToJS((state) => state.member.get("list"));
+    const actions = useActions(reducer);
 
-  const actions = useActions(reducer);
+    return {
+        memberList,
 
-  return {
-    memberList,
-    listAllMember: actions.listAllMember,
-  };
-};
+        listAllMember: actions.listAllMember,
+    }
+
+}
+
+export default useMember;

@@ -1,6 +1,7 @@
 import Boom from "@hapi/boom";
 import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
+import { generateToken } from "../../middlewares/jwtMd";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile, birthDate } = ctx.request.body;
@@ -150,6 +151,67 @@ export const readMemberEmailMd = async (ctx, next) => {
   await next();
 };
 
+export const readStudentLoginMd = async (ctx, next) => {
+  const { email, password } = ctx.request.body;
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+
+  const rows = await conn.query(
+    "SELECT id, name, email, mobile, profileImg, birthDate, department,grade, studentID \
+    FROM tb_member WHERE email = ? AND password = password(?)",
+    [email, password]
+  );
+
+  if (rows.length === 0) {
+    throw Boom.badRequest("wrong id password");
+  }
+
+  ctx.state.body = rows[0];
+
+  await next();
+};
+
+export const readProfessorLoginMd = async (ctx, next) => {
+  const { email, password } = ctx.request.body;
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+  console.log(email);
+  console.log(password);
+
+  const rows = await conn.query(
+    "SELECT id, name, email, mobile, profileImg, birthDate, department \
+    FROM tb_member WHERE email = ? AND password = password(?)",
+    [email, password]
+  );
+
+  if (rows.length === 0) {
+    throw Boom.badRequest("wrong id password");
+  }
+
+  ctx.state.body = rows[0];
+
+  await next();
+};
+
+export const jwtGenerateMd = async (ctx, next) => {
+  const { id, name } = ctx.state.body;
+  const payload = { id, name };
+  let token = null;
+
+  try {
+    token = await generateToken(payload);
+  } catch (e) {
+    ctx.throw(500, e);
+  }
+
+  ctx.cookies.set("access_token", token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24,
+  });
+
+  await next();
+};
+
 export const updateMemberMd = async (ctx, next) => {
   const { id } = ctx.params;
   const { dbPool } = ctx;
@@ -208,6 +270,28 @@ export const readMemberAllCountMd = async (ctx, next) => {
   await next();
 };
 
+export const checkMd = async (ctx, next) => {
+  const { user } = ctx.state;
+
+  if (user === undefined) {
+    ctx.status = 403;
+    throw Boom.badRequest("forbidden");
+  }
+
+  ctx.state.body = user;
+
+  await next();
+};
+
+export const logoutMd = async (ctx, next) => {
+  ctx.cookies.set("access_token", null, {
+    maxAge: 0,
+    httpOnly: true,
+  });
+
+  await next();
+};
+
 // eslint-disable-next-line max-len
 export const create = [
   getDataFromBodyMd,
@@ -253,3 +337,19 @@ export const remove = [
   removeMemberMd,
   CommonMd.responseMd,
 ];
+
+export const studentLogin = [
+  readStudentLoginMd,
+  jwtGenerateMd,
+  CommonMd.responseMd,
+];
+
+export const professorLogin = [
+  readProfessorLoginMd,
+  jwtGenerateMd,
+  CommonMd.responseMd,
+];
+
+export const logout = [logoutMd, CommonMd.responseMd];
+
+export const check = [checkMd, CommonMd.responseMd];

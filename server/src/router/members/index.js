@@ -9,6 +9,18 @@ router.post("/register", ...members.create);
 // 리스트 조회
 router.get("/", ...members.readAll);
 
+// 교수님 로그인
+router.post("/professor/login", ...members.professorLogin);
+
+// 학생 로그인
+router.post("/student/login", ...members.studentLogin);
+
+// 토큰 확인
+router.get("/check", ...members.check);
+
+// 로그아웃
+router.get("/logout", ...members.logout);
+
 // 상세 조회
 router.get("/:id", ...members.readId);
 

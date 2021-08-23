@@ -1,10 +1,11 @@
 const config = {
   DB_HOST: "localhost",
   DB_USER: "root",
-  DB_PASSWORD: "zjavbxj",
+  DB_PASSWORD: "xhRl6034!",
   DB_DATABASE: "mydb",
   DB_PORT: 3306,
-  DB_CONNECTION_LIMIT: 5,
+  DB_CONNECTION_LIMIT: 10,
+  JWT_SECRET: "HEURM_JSON_WEB_TOKEN_KEY_!@#$",
 };
 
 export default config;

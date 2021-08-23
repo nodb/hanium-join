@@ -201,7 +201,7 @@ Content-Type: application/json
 # @name assignmentTeam
 GET {{BASE_URL}}/assignments?assignmentId={{assignmentId}}&teamId={{team1Id}}
 
-@assignmentTeamId = {{assignment.response.body.results[0].id}}
+@assignmentTeamId = {{assignmentTeam.response.body.results[0].id}}
 
 ###
 
@@ -210,5 +210,5 @@ POST {{BASE_URL}}/assignments/submit/{{assignmentTeamId}}
 Content-Type: application/json
 
 {
-    "contents": " "
+    "contents": "테스트테스트"
 }

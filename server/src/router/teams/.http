@@ -4,13 +4,18 @@ GET {{BASE_URL}}/teams/ASDCZXC
 
 GET {{BASE_URL}}/teams/2
 
-POST {{BASE_URL}}/comments
+POST {{BASE_URL}}/teams/students
 Content-Type: application/json
 
-{
-    "memberId" : 1,
-    "assignmentId" : 1,
-    "contents": "안녕하세요1234"
-}
+[
+    {
+        "memberId": "1",
+        "teamId" : "1" 
+    },
+    {
+        "memberId": "2",
+        "teamId" : "1" 
+    }
+]
 
 DELETE {{BASE_URL}}/comments/fdb32a5e-b155-473b-bc7a-6851101fb20a

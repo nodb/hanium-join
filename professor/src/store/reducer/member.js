@@ -12,6 +12,9 @@ export const listAllMember = createAction(
     MemberApi.listAll
 );
 
+export const signupApi = MemberApi.signup;
+export const loginApi = MemberApi.login;
+
 const initialState = Map({ 
     list: Map({
         count: 0,

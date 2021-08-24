@@ -9,6 +9,9 @@ const useMember = () => {
         memberList,
 
         listAllMember: actions.listAllMember,
+
+        signupApi: reducer.signupApi,
+        loginApi: reducer.loginApi,
     }
 
 }

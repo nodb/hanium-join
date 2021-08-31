@@ -5,8 +5,8 @@ const PlusIcon = styled.div`
   width: 50px;
   height: 50px;
   position: fixed;
-  top: 700px;
-  right: 60px;
+  top: 620px;
+  right: 70px;
   cursor: pointer;
 `;
 
@@ -14,7 +14,7 @@ function P04_Plus({ open }) {
   return (
     <PlusIcon onClick={open}>
       <img
-        src={`./BGImg/plus.png`}
+        src="https://image.flaticon.com/icons/png/512/181/181672.png"
         width="100%"
         height="100%"
         alt="plusIcon"

@@ -10,7 +10,7 @@ const PlusIcon = styled.div`
   cursor: pointer;
 `;
 
-function S04_Plus({ open }) {
+function P04_Plus({ open }) {
   return (
     <PlusIcon onClick={open}>
       <img
@@ -23,4 +23,4 @@ function S04_Plus({ open }) {
   );
 }
 
-export default S04_Plus;
+export default P04_Plus;

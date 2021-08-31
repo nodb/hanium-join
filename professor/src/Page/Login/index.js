@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { useMember } from "../../components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
+import { KAKAO_AUTH_URL } from "./Auth";
+import KaKaoBtn from "react-kakao-login";
+import axios from "axios";
 
 const Box = styled.div`
   display: block;
@@ -41,23 +44,18 @@ function Login() {
   };
 
   useEffect(() => {
-    const fetch = async  () => {
+    const fetch = async () => {
       try {
-
         await listAllMember();
-
-      } catch(err) {
+      } catch (err) {
         console.log(err);
       }
-    }
+    };
 
     fetch();
+  }, []);
 
-  }, [])
-
-
-  console.log(memberList)
-
+  console.log(memberList);
 
   return (
     <Box>
@@ -92,12 +90,20 @@ function Login() {
         <span>회원가입</span>
       </Link>
 
-      {memberList.results.map(row => {
+      <KaKaoBtn
+        token="07241739ed29c690aefda0410a6aeb4e"
+        href={KAKAO_AUTH_URL}
+        onSuccess={console.log}
+        onFail={console.error}
+        onLogout={console.info}
+      />
+
+      {memberList.results.map((row) => {
         return (
           <p>
             {row.id} - {row.name}
           </p>
-        )
+        );
       })}
     </Box>
   );

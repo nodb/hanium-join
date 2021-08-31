@@ -39,15 +39,15 @@ const Box = styled.div`
 
 const ButtonText = styled.div`
   margin: 0 auto;
-  width: 600px;
-  height: 19px;
+  width: 550px;
+  height: 11px;
   display: flex;
 `;
 
 const Buttons = styled.button`
   font-family: Roboto;
   font-size: 11px;
-  line-height: 14px;
+  line-height: 11x;
   text-align: center;
   color: #7c7979;
   margin-right: 30px;

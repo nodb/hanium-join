@@ -48,6 +48,7 @@ const NoText = styled.div`
   position: relative;
   top: 370px;
   left: 600px;
+  height: 50px;
   font-family: Monoton;
   font-size: 20px;
   line-height: 31px;

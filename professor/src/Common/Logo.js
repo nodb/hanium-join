@@ -15,19 +15,19 @@ const CircleText = styled.div`
 
   font-family: Monoton;
   font-size: 30px;
-  line-height: 52px;
+  line-height: 50px;
 
   color: #ffffff;
 `;
 
 const LogoText = styled.div`
   width: 71px;
-  height: 42px;
+  height: 40px;
 
   font-family: Roboto;
   font-weight: bold;
   font-size: 30px;
-  line-height: 52px;
+  line-height: 50px;
 
   padding-left: 15px;
 `;

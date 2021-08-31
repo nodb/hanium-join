@@ -11,14 +11,20 @@ import { Link } from "react-router-dom";
 
 const HeaderBar = styled.div`
   width: 100%;
-  height: 60px;
-  padding: 20px 25px 0px 30px;
+  height: 100px;
+  padding: 25px 50px 0px 50px;
 `;
 
 const Box = styled.div`
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
+`;
+
+const MyPage = styled.img`
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
 `;
 
 function Header() {
@@ -35,12 +41,10 @@ function Header() {
           toggle={toggle}
         >
           <DropdownToggle caret color="white" tag="span">
-            <img
-              src="https://m.cusine.co.kr/web/upload/jwgimg_m/right_category_bt.png"
-              width="50px"
-              height="50px"
+            <MyPage
+              src="https://cdn-icons-png.flaticon.com/512/848/848043.png"
               alt="mypage"
-            ></img>
+            ></MyPage>
           </DropdownToggle>
           <DropdownMenu right>
             <Link

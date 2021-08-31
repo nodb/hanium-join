@@ -33,9 +33,10 @@ const item = [
 
 const Box = styled.div`
   margin: 0 auto;
-  width: 1200px;
-  padding-top: 100px;
+  width: 1440px;
   height: 600px;
+  background: rgba(229, 229, 229, 0.6);
+  border-radius: 30px;
 `;
 
 function S04() {
@@ -55,26 +56,20 @@ function S04() {
     setNext(false);
   };
 
-
   const { classesList, listAllClasses } = useClasses();
 
-
-  useEffect (() => {
+  useEffect(() => {
     const fetch = async () => {
-      try { 
+      try {
         const professorInfo = getDataFromStorage();
         await listAllClasses(professorInfo.id);
-      } catch(e) {
+      } catch (e) {
         alert(e);
       }
-    }
+    };
 
     fetch();
-
-    // return () => {
-    //   cleanup
-    // }
-  }, [])
+  }, []);
 
   return (
     <Box>

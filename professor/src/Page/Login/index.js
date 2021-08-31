@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useMember } from "../../components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
-import { saveDataToStorage } from "../../utils/storage"
+import { saveDataToStorage } from "../../utils/storage";
 
 const Box = styled.div`
   display: block;
@@ -21,7 +21,7 @@ const Title = styled.div`
   margin-bottom: 50px;
 `;
 
-const  Login = () => {
+const Login = () => {
   const history = useHistory();
   const { loginApi } = useMember();
   const [data, setData] = useState({
@@ -32,67 +32,28 @@ const  Login = () => {
   const handleChange = (e) => {
     setData({
       ...data,
-      [e.target.name] : e.target.value,
-    })
-  } 
-
-    const submitHandler = async () => {
-      try {
-        const request = {
-          email: data.email,
-          password: data.password,
-        }
-
-        const response = await loginApi(request);
-
-        if (response.data) {
-          saveDataToStorage(response.data)
-        }
-
-        history.push("/professor/class");
-      } catch(e) {
-        alert(e);
-      }
+      [e.target.name]: e.target.value,
+    });
   };
 
+  const submitHandler = async () => {
+    try {
+      const request = {
+        email: data.email,
+        password: data.password,
+      };
 
-  // const [id, setId] = useState("");
-  // const [pw, setPw] = useState("");
+      const response = await loginApi(request);
 
-  // const { listAllMember, memberList } = useMember();
+      if (response.data) {
+        saveDataToStorage(response.data);
+      }
 
-  // const idChangeHandler = (e) => {
-  //   setId(e.currentTarget.value);
-  // };
-
-  // const pwChangeHandler = (e) => {
-  //   setPw(e.currentTarget.value);
-  // };
-
-  // const history = useHistory();
-
-  // const submitHandler = () => {
-  //   history.push("/professor/class");
-  // };
-
-  // useEffect(() => {
-  //   const fetch = async  () => {
-  //     try {
-
-  //       await listAllMember();
-
-  //     } catch(err) {
-  //       console.log(err);
-  //     }
-  //   }
-
-  //   fetch();
-
-  // }, [])
-
-
-  // console.log(memberList)
-
+      history.push("/professor/class");
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   return (
     <Box>
@@ -127,16 +88,8 @@ const  Login = () => {
       >
         <span>회원가입</span>
       </Link>
-{/* 
-      {memberList.results.map(row => {
-        return (
-          <p>
-            {row.id} - {row.name}
-          </p>
-        )
-      })} */}
     </Box>
   );
-}
+};
 
 export default withRouter(Login);

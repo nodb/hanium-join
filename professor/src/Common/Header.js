@@ -11,8 +11,8 @@ import { Link } from "react-router-dom";
 
 const HeaderBar = styled.div`
   width: 100%;
-  height: 100px;
-  padding: 25px 50px 0px 50px;
+  height: 90px;
+  padding: 20px 50px 0px 50px;
 `;
 
 const Box = styled.div`

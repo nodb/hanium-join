@@ -5,7 +5,6 @@ import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../../_actions/userAction";
 import { typeParameter } from "@babel/types";
 import { useMember } from "../../components";
 const Box = styled.div`

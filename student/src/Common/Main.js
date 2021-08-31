@@ -1,4 +1,6 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 import React from "react";
 
 import SubmitAndDiscuss from "../Page/Class/assignment/SubmitAndDiscuss";
@@ -25,6 +27,7 @@ const Main = () => {
 
 export default Main;
 =======
+>>>>>>> master
 import React from "react";
 
 import SubmitAndDiscuss from "../Page/Class/assignment/SubmitAndDiscuss";
@@ -50,4 +53,7 @@ const Main = () => {
 };
 
 export default Main;
+<<<<<<< HEAD
+=======
 >>>>>>> jaeyoung
+>>>>>>> master

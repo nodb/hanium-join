@@ -6,19 +6,25 @@ import {
   DropdownItem,
   DropdownMenu,
 } from "reactstrap";
+import Logo from "./Logo";
 import { Link } from "react-router-dom";
 
 const HeaderBar = styled.div`
-  border-bottom: 0.5px solid #d8d8d8;
   width: 100%;
-  height: 80px;
-  display: inline-flex;
+  height: 100px;
+  padding: 25px 50px 0px 50px;
 `;
 
-const HeaderText = styled.div`
-  width: 100px;
-  font-size: 40px;
-  font-family: "Montserrat", sans-serif;
+const Box = styled.div`
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+`;
+
+const MyPage = styled.img`
+  width: 40px;
+  height: 40px;
+  margin-top: 8px;
 `;
 
 function Header() {
@@ -26,31 +32,19 @@ function Header() {
   const toggle = () => setDropdownOpen((prevSate) => !prevSate);
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.gstatic.com"></link>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
-        rel="stylesheet"
-      ></link>
-      <HeaderBar>
-        <Link
-          to="/professor/class"
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <HeaderText>Join</HeaderText>
-        </Link>
+    <HeaderBar>
+      <Box>
+        <Logo />
         <Dropdown
           className="ms-auto link-light"
           isOpen={dropdownOpen}
           toggle={toggle}
         >
           <DropdownToggle caret color="white" tag="span">
-            <img
-              src="https://m.cusine.co.kr/web/upload/jwgimg_m/right_category_bt.png"
-              width="50px"
-              height="50px"
+            <MyPage
+              src="https://cdn-icons-png.flaticon.com/512/848/848043.png"
               alt="mypage"
-            ></img>
+            ></MyPage>
           </DropdownToggle>
           <DropdownMenu right>
             <Link
@@ -67,8 +61,8 @@ function Header() {
             </Link>
           </DropdownMenu>
         </Dropdown>
-      </HeaderBar>
-    </>
+      </Box>
+    </HeaderBar>
   );
 }
 

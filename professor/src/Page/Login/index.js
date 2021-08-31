@@ -4,9 +4,7 @@ import styled from "styled-components";
 import { useMember } from "../../components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
-import { KAKAO_AUTH_URL } from "./Auth";
-import KaKaoBtn from "react-kakao-login";
-import axios from "axios";
+import { saveDataToStorage } from "../../utils/storage"
 
 const Box = styled.div`
   display: block;
@@ -23,57 +21,97 @@ const Title = styled.div`
   margin-bottom: 50px;
 `;
 
-function Login() {
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
-
-  const { listAllMember, memberList } = useMember();
-
-  const idChangeHandler = (e) => {
-    setId(e.currentTarget.value);
-  };
-
-  const pwChangeHandler = (e) => {
-    setPw(e.currentTarget.value);
-  };
-
+const  Login = () => {
   const history = useHistory();
+  const { loginApi } = useMember();
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const submitHandler = () => {
-    history.push("/professor/class");
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name] : e.target.value,
+    })
+  } 
+
+    const submitHandler = async () => {
+      try {
+        const request = {
+          email: data.email,
+          password: data.password,
+        }
+
+        const response = await loginApi(request);
+
+        if (response.data) {
+          saveDataToStorage(response.data)
+        }
+
+        history.push("/professor/class");
+      } catch(e) {
+        alert(e);
+      }
   };
 
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await listAllMember();
-      } catch (err) {
-        console.log(err);
-      }
-    };
 
-    fetch();
-  }, []);
+  // const [id, setId] = useState("");
+  // const [pw, setPw] = useState("");
 
-  console.log(memberList);
+  // const { listAllMember, memberList } = useMember();
+
+  // const idChangeHandler = (e) => {
+  //   setId(e.currentTarget.value);
+  // };
+
+  // const pwChangeHandler = (e) => {
+  //   setPw(e.currentTarget.value);
+  // };
+
+  // const history = useHistory();
+
+  // const submitHandler = () => {
+  //   history.push("/professor/class");
+  // };
+
+  // useEffect(() => {
+  //   const fetch = async  () => {
+  //     try {
+
+  //       await listAllMember();
+
+  //     } catch(err) {
+  //       console.log(err);
+  //     }
+  //   }
+
+  //   fetch();
+
+  // }, [])
+
+
+  // console.log(memberList)
+
 
   return (
     <Box>
       <Title>로그인</Title>
       <InputWithLabel
-        label="아이디"
-        name="id"
-        placeholder="아이디"
-        value={id}
-        onChange={idChangeHandler}
+        label="이메일"
+        name="email"
+        type="email"
+        placeholder="이메일"
+        value={data.email}
+        onChange={handleChange}
       />
       <InputWithLabel
         label="비밀번호"
         name="password"
         placeholder="비밀번호"
         type="password"
-        value={pw}
-        onChange={pwChangeHandler}
+        value={data.password}
+        onChange={handleChange}
       />
       <LoginButton onClick={submitHandler}>로그인</LoginButton>
       <Link
@@ -89,22 +127,14 @@ function Login() {
       >
         <span>회원가입</span>
       </Link>
-
-      <KaKaoBtn
-        token="07241739ed29c690aefda0410a6aeb4e"
-        href={KAKAO_AUTH_URL}
-        onSuccess={console.log}
-        onFail={console.error}
-        onLogout={console.info}
-      />
-
-      {memberList.results.map((row) => {
+{/* 
+      {memberList.results.map(row => {
         return (
           <p>
             {row.id} - {row.name}
           </p>
-        );
-      })}
+        )
+      })} */}
     </Box>
   );
 }

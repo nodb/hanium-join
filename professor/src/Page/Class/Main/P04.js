@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import ClassBox from "./P04_ClassBox";
 import Plus from "./P04_Plus";
 import ClassAdd from "./P04_ClassAdd";
+import { useClasses } from "../../../components/Use";
+import { getDataFromStorage } from "../../../utils/storage";
 
 const item = [
   {
@@ -53,10 +55,31 @@ function S04() {
     setNext(false);
   };
 
+
+  const { classesList, listAllClasses } = useClasses();
+
+
+  useEffect (() => {
+    const fetch = async () => {
+      try { 
+        const professorInfo = getDataFromStorage();
+        await listAllClasses(professorInfo.id);
+      } catch(e) {
+        alert(e);
+      }
+    }
+
+    fetch();
+
+    // return () => {
+    //   cleanup
+    // }
+  }, [])
+
   return (
     <Box>
       <div style={{ display: "inline-flex" }}>
-        {item.map((item) => {
+        {classesList.results.map((item) => {
           return (
             <Link
               to="/professor/class/enrol"

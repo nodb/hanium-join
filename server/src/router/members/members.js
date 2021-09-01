@@ -46,11 +46,10 @@ export const validateUpdateDataMd = async (ctx, next) => {
 export const isDuplicatedEmailMd = async (ctx, next) => {
   const { email } = ctx.state.reqBody;
   const { files } = ctx.request;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
   console.log(files);
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query("SELECT * FROM tb_member WHERE email = ?", [
     email,
   ]);
@@ -58,8 +57,6 @@ export const isDuplicatedEmailMd = async (ctx, next) => {
   if (rows.length > 0) {
     throw Boom.badRequest("duplicated email");
   }
-
-  ctx.state.conn = conn;
 
   await next();
 };
@@ -118,9 +115,8 @@ export const removeMemberMd = async (ctx, next) => {
 
 export const readMemberIdMd = async (ctx, next) => {
   const { id } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department \
     FROM tb_member WHERE id = ?",
@@ -136,9 +132,8 @@ export const readMemberIdMd = async (ctx, next) => {
 
 export const readMemberEmailMd = async (ctx, next) => {
   const { email } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT id, email, name, type, mobile, createdAt FROM tb_member WHERE id = ?",
     [email]
@@ -153,8 +148,7 @@ export const readMemberEmailMd = async (ctx, next) => {
 
 export const readStudentLoginMd = async (ctx, next) => {
   const { email, password } = ctx.request.body;
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
 
   const rows = await conn.query(
     "SELECT id, name, email, mobile, profileImg, birthDate, department,grade, studentID \
@@ -173,8 +167,8 @@ export const readStudentLoginMd = async (ctx, next) => {
 
 export const readProfessorLoginMd = async (ctx, next) => {
   const { email, password } = ctx.request.body;
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+
   console.log(email);
   console.log(password);
 
@@ -214,9 +208,8 @@ export const jwtGenerateMd = async (ctx, next) => {
 
 export const updateMemberMd = async (ctx, next) => {
   const { id } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const { name, password, grade, department, studentID, mobile } =
     ctx.request.body;
 
@@ -236,15 +229,13 @@ export const updateMemberMd = async (ctx, next) => {
     id,
   ]);
 
-  ctx.state.conn = conn;
-
   await next();
 };
 
 export const readMemberAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+
   const rows = await conn.query(
     "SELECT id, email, name, type, mobile, createdAt FROM tb_member LIMIT ?, ?",
     [skip, limit]
@@ -258,8 +249,8 @@ export const readMemberAllMd = async (ctx, next) => {
 };
 
 export const readMemberAllCountMd = async (ctx, next) => {
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+
   const rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_member");
 
   ctx.state.body = {
@@ -294,6 +285,7 @@ export const logoutMd = async (ctx, next) => {
 
 // eslint-disable-next-line max-len
 export const create = [
+  CommonMd.createConnectionMd,
   getDataFromBodyMd,
   validateDataMd,
   isDuplicatedEmailMd,
@@ -306,6 +298,7 @@ export const create = [
 // ex) skip=0, limit=10 이면 0번째부터 10개를 가져와라
 // skip=10, limit=10 10번째부터 10개를 가져와라
 export const readAll = [
+  CommonMd.createConnectionMd,
   CommonMd.validataListParamMd,
   readMemberAllMd,
   readMemberAllCountMd,
@@ -313,18 +306,21 @@ export const readAll = [
 ];
 
 export const readId = [
+  CommonMd.createConnectionMd,
   CommonMd.validateIdParamMd,
   readMemberIdMd,
   CommonMd.responseMd,
 ];
 
 export const readEmail = [
+  CommonMd.createConnectionMd,
   CommonMd.validateIdParamMd,
   readMemberEmailMd,
   CommonMd.responseMd,
 ];
 
 export const update = [
+  CommonMd.createConnectionMd,
   CommonMd.validateIdParamMd,
   validateUpdateDataMd,
   updateMemberMd,
@@ -333,23 +329,34 @@ export const update = [
 ];
 
 export const remove = [
+  CommonMd.createConnectionMd,
   CommonMd.validateIdParamMd,
   removeMemberMd,
   CommonMd.responseMd,
 ];
 
 export const studentLogin = [
+  CommonMd.createConnectionMd,
   readStudentLoginMd,
   jwtGenerateMd,
   CommonMd.responseMd,
 ];
 
 export const professorLogin = [
+  CommonMd.createConnectionMd,
   readProfessorLoginMd,
   jwtGenerateMd,
   CommonMd.responseMd,
 ];
 
-export const logout = [logoutMd, CommonMd.responseMd];
+export const logout = [
+  CommonMd.createConnectionMd,
+  logoutMd,
+  CommonMd.responseMd,
+];
 
-export const check = [checkMd, CommonMd.responseMd];
+export const check = [
+  CommonMd.createConnectionMd,
+  checkMd,
+  CommonMd.responseMd,
+];

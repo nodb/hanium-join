@@ -4,10 +4,9 @@ import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
 
 export const createDiscussMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { content, memberId, assignmentTeamId } = ctx.request.body;
 
-  const conn = await dbPool.getConnection();
   await conn.query(
     "INSERT INTO tb_discuss(id, content, member_id, assignment_team_id) \
     VALUES (?, ?, ?, ?)",
@@ -18,20 +17,18 @@ export const createDiscussMd = async (ctx, next) => {
 };
 
 export const removeDiscussMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { id } = ctx.params;
 
-  const conn = await dbPool.getConnection();
   await conn.query("DELETE FROM tb_discuss WHERE id = ?", [id]);
 
   await next();
 };
 
 export const readDiscussMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { teamId, assignmentId } = ctx.query;
 
-  const conn = await dbPool.getConnection();
   await conn.query(
     // eslint-disable-next-line max-len
     "SELECT m.name, d.content, d.createdAt \
@@ -43,6 +40,14 @@ export const readDiscussMd = async (ctx, next) => {
   await next();
 };
 
-export const create = [createDiscussMd, CommonMd.responseMd];
+export const create = [
+  CommonMd.createConnectionMd,
+  createDiscussMd,
+  CommonMd.responseMd,
+];
 
-export const remove = [removeDiscussMd, CommonMd.responseMd];
+export const remove = [
+  CommonMd.createConnectionMd,
+  removeDiscussMd,
+  CommonMd.responseMd,
+];

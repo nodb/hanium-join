@@ -12,8 +12,8 @@ const errorHandleMd = async (ctx, next) => {
     } else {
       ctx.status = 500;
       ctx.body = {
-        error: "internal server errorr",
-        message: "internal server errorr",
+        error: "internal server error",
+        message: "internal server errorvvvv",
       };
     }
   } finally {

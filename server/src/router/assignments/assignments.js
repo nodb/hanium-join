@@ -54,10 +54,8 @@ export const saveAssignmentMd = async (ctx, next) => {
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
 
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
-  ctx.state.conn = conn;
   const assignmentId = UUID();
   const imageName = image ? image.name : null;
   const payload = [];
@@ -113,8 +111,8 @@ export const queryAssignmentMd = async (ctx, next) => {
 export const readAssignmentAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { classCode, assignmentId, teamId } = ctx.query;
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+
   let rows;
   if (teamId && assignmentId) {
     rows = await conn.query(
@@ -152,9 +150,8 @@ export const readAssignmentAllMd = async (ctx, next) => {
 };
 
 export const readAssignmentAllCountMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { classCode } = ctx.state.query;
-  const conn = await dbPool.getConnection();
   let rows;
   if (classCode) {
     rows = await conn.query(
@@ -174,9 +171,8 @@ export const readAssignmentAllCountMd = async (ctx, next) => {
 
 export const readAssignmentByIdMd = async (ctx, next) => {
   const { id } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?",
     [id]
@@ -197,12 +193,11 @@ export const readAssignmentByIdMd = async (ctx, next) => {
 };
 
 export const removeAssignmentMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const { id } = ctx.params;
 
-  await conn.query("DELETE FROM tb_Assignment WHERE id = ?", [id]);
+  await conn.query("DELETE FROM tb_assignment WHERE id = ?", [id]);
 
   ctx.state.body = {
     ...ctx.state.body,
@@ -214,9 +209,9 @@ export const removeAssignmentMd = async (ctx, next) => {
 
 export const updateAssignmentMd = async (ctx, next) => {
   const { id } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const payload = [];
-  const conn = await dbPool.getConnection();
+
   const {
     name,
     content,
@@ -250,8 +245,6 @@ export const updateAssignmentMd = async (ctx, next) => {
   await conn.query("DELETE FROM tb_assignment_team WHERE assignment_id = ?", [
     id,
   ]);
-
-  ctx.state.conn = conn;
 
   if (!teams) next();
 
@@ -288,8 +281,8 @@ export const queryAssignmentMdById = async (ctx, next) => {
 export const readAssignmentByMemberMd = async (ctx, next) => {
   const { memberId } = ctx.params;
   const { skip, limit } = ctx.state.query;
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+
   const rows = await conn.query(
     "select a.name, a.content, at.isCheck, a.startDate, a.endDate \
     from tb_team_member tm \
@@ -310,8 +303,8 @@ export const readAssignmentByMemberMd = async (ctx, next) => {
 
 export const readAssignmentByTeamMd = async (ctx, next) => {
   const { id } = ctx.params;
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+
   const rows = await conn.query(
     "select a.name, a.content, at.isCheck, a.startDate, a.endDate " +
       "from tb_team t " +
@@ -329,6 +322,7 @@ export const readAssignmentByTeamMd = async (ctx, next) => {
 };
 
 export const create = [
+  CommonMd.createConnectionMd,
   getDataFromBodyMd,
   validateDataMd,
   saveAssignmentMd,
@@ -337,6 +331,7 @@ export const create = [
 ];
 
 export const readAll = [
+  CommonMd.createConnectionMd,
   CommonMd.validataListParamMd,
   readAssignmentAllMd,
   readAssignmentAllCountMd,
@@ -345,20 +340,27 @@ export const readAll = [
 
 export const readByMember = [
   CommonMd.validataListParamMd,
+  CommonMd.createConnectionMd,
   readAssignmentByMemberMd,
   CommonMd.responseMd,
 ];
 
-export const readByTeam = [readAssignmentByTeamMd, CommonMd.responseMd];
+export const readByTeam = [
+  CommonMd.createConnectionMd,
+  readAssignmentByTeamMd,
+  CommonMd.responseMd,
+];
 
 export const readId = [
   CommonMd.validateIdParamMd,
+  CommonMd.createConnectionMd,
   readAssignmentByIdMd,
   CommonMd.responseMd,
 ];
 
 export const update = [
   CommonMd.validateIdParamMd,
+  CommonMd.createConnectionMd,
   // validateUpdateDataMd,
   updateAssignmentMd,
   queryAssignmentMdById,
@@ -367,6 +369,7 @@ export const update = [
 
 export const remove = [
   CommonMd.validateIdParamMd,
+  CommonMd.createConnectionMd,
   removeAssignmentMd,
   CommonMd.responseMd,
 ];

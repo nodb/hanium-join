@@ -5,7 +5,8 @@ import cors from "koa-cors";
 import path from "path";
 import Config from "./config";
 import Router from "./router";
-import { errorHandleMd } from "./middlewares";
+import { errorHandleMd, jwtMd } from "./middlewares";
+import jwt from "jsonwebtoken";
 
 const pool = mariadb.createPool({
   host: Config.DB_HOST,
@@ -37,6 +38,7 @@ const main = async () => {
     app.context.dbPool = pool;
 
     app.use(errorHandleMd);
+    app.use(jwtMd);
     app.use(Router.routes()).use(Router.allowedMethods());
     app.listen(3000);
 

@@ -3,7 +3,8 @@ import InputWithLabel from "./InputWithLabel";
 import RegisterButton from "./RegisterButton";
 import styled from "styled-components";
 import AlertBox from "./AlertBox";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
+
 const Box = styled.div`
   display: block;
   width: 700px;
@@ -168,6 +169,7 @@ const terms = `제 1 장 총칙
 이 약관은 2021년 07월 01일부터 시행합니다.`;
 
 const RegisterBox = () => {
+<<<<<<< HEAD
 
   const [isChecked, setChecked] = useState(false); //state 선언
   const history = useHistory() // 링크를 이용하지 않고 페이지 이동
@@ -186,10 +188,28 @@ const RegisterBox = () => {
       alert("이용 약관에 동의해 주세요.");
     }
   }
+=======
+  const [isChecked, setChecked] = useState(false);
+  const history = useHistory();
+
+  const handleChange = (e) => {
+    setChecked(e.target.checked);
+  };
+
+  const handleAgreeBox = () => {
+    if (isChecked) {
+      history.push("/register/detailInfo");
+    } else {
+      alert("이용 약관에 동의해 주세요.");
+    }
+  };
+
+>>>>>>> 4d5aa41e408863cb259e01d3bcd237daabad38d9
   return (
     <Box>
       <Title>회원가입</Title>
       <Sub>이용 약관 동의</Sub>
+<<<<<<< HEAD
       <TermBox><pre>{terms}</pre></TermBox>
 
       <AgreeBox>
@@ -208,8 +228,30 @@ const RegisterBox = () => {
         >
           동의하고 넘어가기
         </RegisterButton>
+=======
+      <TermBox>
+        <pre>{terms}</pre>
+      </TermBox>
+
+      <AgreeBox>
+        <input type="checkbox" onChange={handleChange} />
+        <span>동의합니다</span>
+      </AgreeBox>
+      {/* <Link to="/register/detailInfo"> */}
+      <RegisterButton
+        style={{
+          margin: "30px 150px 0 150px",
+          width: "400px",
+          fontSize: "18px",
+        }}
+        onClick={handleAgreeBox}
+      >
+        동의하고 넘어가기
+      </RegisterButton>
+      {/* </Link> */}
+>>>>>>> 4d5aa41e408863cb259e01d3bcd237daabad38d9
     </Box>
   );
-}
+};
 
 export default RegisterBox;

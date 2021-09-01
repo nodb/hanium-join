@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import StudentBox from "./Student";
 import AssignmentBox from "./Assignment";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
+import { useAssignments } from "../../../components/Use";
 
 const Student = [
   {
@@ -32,25 +34,6 @@ const Student = [
   },
 ];
 
-const Assignment = [
-  {
-    id: 1,
-    name: "과제명1",
-    deadline: "2021-06-25",
-    url: "/student/class/main/assignment",
-  },
-  {
-    id: 2,
-    name: "과제명2",
-    deadline: "2021-06-19",
-  },
-  {
-    id: 3,
-    name: "과제명3",
-    deadline: "2021-06-16",
-  },
-];
-
 const Text = styled.div`
   font-family: "Nanum Gothic", sans-serif;
   font-size: 20px;
@@ -61,6 +44,15 @@ const Text = styled.div`
 `;
 
 function S05_05_06() {
+  const { assignmentsList, listAllByClassCode } = useAssignments();
+
+  useEffect(() => {
+    const fetch = async () => {
+      await listAllByClassCode();
+    };
+    fetch();
+  }, []);
+
   return (
     <>
       <Text>팀원</Text>
@@ -70,16 +62,9 @@ function S05_05_06() {
         })}
       </div>
       <Text>과제</Text>
-      {Assignment.map((item) => {
-        return (
-          <Link
-            to={item.url}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <AssignmentBox assignment={item}></AssignmentBox>
-          </Link>
-        );
-      })}
+      {assignmentsList.results.map((item) => (
+        <AssignmentBox key={item.id} assignment={item} />
+      ))}
     </>
   );
 }

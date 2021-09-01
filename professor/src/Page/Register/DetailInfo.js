@@ -4,10 +4,8 @@ import RegisterButton from "./RegisterButton";
 import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { registerUser } from "../../_actions/userAction";
 import { typeParameter } from "@babel/types";
-import { signupApi } from "../../store/reducer/member";
+import { useMember } from "../../components";
 const Box = styled.div`
   display: block;
   width: 500px;
@@ -24,7 +22,6 @@ const Title = styled.div`
 `;
 
 function Register(props) {
-
   const [data, setData] = useState({
     email: "",
     name: "",
@@ -32,52 +29,111 @@ function Register(props) {
     pwC: "",
     mobile: "",
     birth: "",
-    type: "P"
-  })
+    type: "P",
+    errName: undefined,
+    errMessage: undefined,
+  });
 
-  const {signupApi} = useMember();
+  const { signupApi } = useMember();
   const history = useHistory();
 
   const handleError = (name, value) => {
+    if (name === "email") {
+      // return { errName: "email", errMessage: "이메일 주소를 잘못 입력하셨습니다."}
+    }
     if (name === "pw") {
-      if(value.length <8){
-        return {errName:"pw", errMessage: "패스워드는 반드시 8자리 이상"}
+      if (value.length < 8) {
+        return {
+          errName: "pw",
+          errMessage: "패스워드는 반드시 8자리 이상으로 입력해 주세요.",
+        };
       }
     }
     if (name === "pwC") {
-      if(data.pw !== value){
-        return {errName:"pwC", errMessage: "비밀번호와 일치하지 않습니다."}
+      if (data.pw !== value) {
+        return {
+          errName: "pwC",
+          errMessage: "비밀번호와 비밀번호 확인이 일치하지 않습니다.",
+        };
       }
     }
-  }
-  
-  return {
-    errName: undefined,
-    errMessage: undefined
-  }
-}
+
+    return {
+      errName: undefined,
+      errMessage: undefined,
+    };
+  };
+
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+
+    const { errName = undefined, errMessage = undefined } = handleError(
+      name,
+      value
+    );
+
     setData({
       ...data,
-      [name] : value,
+      [name]: value,
+      errName,
       errMessage,
-      errName
-
     });
-  }
+  };
 
-  
-  const onSubmitHandler = async(e) => {
-    if (!data.errName && !data.errMessage){
+  // const [id, setId] = useState("");
+  // const [idAvailable, setIdAvailable] = useState(true);
+  // const [emailAvailable, setEmailAvailable] = useState(true);
+  // const [passwordAvailable, setPasswordAvailable] = useState(true);
+  // const [passwordCAvailable, setPasswordCAvailable] = useState(true);
+  // const [pw, setPw] = useState("");
+  // const [pwC, setPwC] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [name, setName] = useState("");
+  // const [mobile, setMobile] = useState("");
+
+  // const history = useHistory();
+  // const dispatch = useDispatch();
+
+  // const idChangeHandler = (e) => {
+  //   setId(e.currentTarget.value);
+  // };
+  // const pwChangeHandler = (e) => {
+  //   setPw(e.currentTarget.value);
+  //   checkPassword(e.currentTarget.value);
+  // };
+
+  // const pwCChangeHandler = (e) => {
+  //   setPwC(e.currentTarget.value);
+  //   checkPasswordC(pw, e.currentTarget.value);
+  // };
+  // const emailChangeHandler = (e) => {
+  //   setEmail(e.currentTarget.value);
+  // };
+  // const nameChangeHandler = (e) => {
+  //   setName(e.currentTarget.value);
+  // };
+  // const login = () => {};
+  // const checkPassword = (pwProp) => {
+  //   const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/;
+  //   setPasswordAvailable(regExp.test(pwProp));
+  // };
+  // const checkPasswordC = (pwProp, pwCProp) => {
+  //   setPasswordCAvailable(pwProp === pwCProp);
+  // };
+  // const mobileChangeHandler = (e) => {
+  //   setMobile(e.currentTarget.value);
+  // }
+
+  const onSubmitHandler = async (e) => {
+    if (!data.errName && !data.errMessage) {
       const body = {
         email: data.email,
         name: data.name,
         password: data.pw,
         mobile: data.mobile,
-        birthDate : data.birth,
-        type:"P",
+        birthDate: data.birth,
+        type: "P",
       };
       // dispatch(registerUser(body)).then((res) => {
       //   alert("가입이 정상적으로 완료되었습니다.");
@@ -88,15 +144,18 @@ function Register(props) {
         await signupApi(body);
         alert("가입이 정상적으로 완료되었습니다.");
         history.push("/login");
-      }catch(e) {
-        alert(e)
+      } catch (e) {
+        alert(e);
       }
     }
-  }
- 
+  };
 
   return (
     <Box>
+      {data.errName && data.errMessage && (
+        <AlertBox available={false}>{data.errMessage}</AlertBox>
+      )}
+
       <Title>회원가입</Title>
       <InputWithLabel
         label="이름"
@@ -114,7 +173,7 @@ function Register(props) {
         value={data.email}
         onChange={handleChange}
       />
-      {/* <AlertBox available={emailAvailable}>이미 사용중인 이메일입니다</AlertBox> */}
+      {/* <AlertBox available={false}>이미 사용중인 이메일입니다</AlertBox> */}
       {/* <InputWithLabel
         label="아이디"
         name="id"
@@ -125,8 +184,7 @@ function Register(props) {
       {/* <AlertBox available={idAvailable}>이미 사용중인 아이디입니다</AlertBox> */}
       <InputWithLabel
         label="비밀번호"
-        type="password"
-        name="password"
+        name="pw"
         placeholder="비밀번호"
         type="password"
         value={data.pw}
@@ -135,16 +193,16 @@ function Register(props) {
       {/* <AlertBox available={passwordAvailable}>8~15자 영문, 숫자 조합</AlertBox> */}
       <InputWithLabel
         label="비밀번호 확인"
-        name="passwordConfirm"
+        name="pwC"
         placeholder="비밀번호 확인"
         type="password"
         value={data.pwC}
         onChange={handleChange}
       />
-      <AlertBox available={passwordCAvailable}>일치하지 않습니다</AlertBox>
+      {/* <AlertBox available={passwordCAvailable}>일치하지 않습니다</AlertBox> */}
       <InputWithLabel
         label="전화번호"
-        name="phone"
+        name="mobile"
         placeholder="전화번호"
         type="text"
         value={data.mobile}

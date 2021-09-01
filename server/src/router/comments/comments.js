@@ -28,15 +28,12 @@ export const validateDataMd = async (ctx, next) => {
 
 export const createCommentMd = async (ctx, next) => {
   const { memberId, assignmentId, contents } = ctx.state.reqBody;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   await conn.query(
     "INSERT INTO tb_comment(id, contents, member_id, assignment_id) VALUES (?,?,?,?)",
     [UUID(), contents, memberId, assignmentId]
   );
-
-  ctx.state.conn = conn;
 
   await next();
 };
@@ -44,12 +41,11 @@ export const createCommentMd = async (ctx, next) => {
 export const readCommentAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { assignmentId } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     // eslint-disable-next-line max-len
-    "SELECT C.createdAt, C.contents, M.name FROM tb_comment C \
+    "SELECT C.id, C.createdAt, C.contents, M.name FROM tb_comment C \
     JOIN tb_member M ON C.member_id = M.id \
     WHERE C.assignment_id=? LIMIT ?, ?",
     [assignmentId, skip, limit]
@@ -63,8 +59,7 @@ export const readCommentAllMd = async (ctx, next) => {
 };
 
 export const readCommentAllCountMd = async (ctx, next) => {
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
   const rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_comment");
 
   ctx.state.body = {
@@ -76,8 +71,8 @@ export const readCommentAllCountMd = async (ctx, next) => {
 };
 
 export const removeCommentMd = async (ctx, next) => {
-  const { dbPool } = ctx;
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+
   const { id } = ctx.params;
 
   await conn.query("DELETE FROM tb_comment WHERE id = ?", [id]);
@@ -85,6 +80,7 @@ export const removeCommentMd = async (ctx, next) => {
 };
 
 export const create = [
+  CommonMd.createConnectionMd,
   getDataFromBodyMd,
   validateDataMd,
   createCommentMd,
@@ -92,10 +88,15 @@ export const create = [
 ];
 
 export const readAll = [
+  CommonMd.createConnectionMd,
   CommonMd.validataListParamMd,
   readCommentAllMd,
   readCommentAllCountMd,
   CommonMd.responseMd,
 ];
 
-export const remove = [removeCommentMd, CommonMd.responseMd];
+export const remove = [
+  CommonMd.createConnectionMd,
+  removeCommentMd,
+  CommonMd.responseMd,
+];

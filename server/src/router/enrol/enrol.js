@@ -29,9 +29,8 @@ export const validateDataMd = async (ctx, next) => {
 // 학생이 수업 추가를 이미 요청한 경우
 export const isDuplicatedEnrolMd = async (ctx, next) => {
   const { memberId, classCode } = ctx.state.reqBody;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT * FROM tb_enrol WHERE member_id = ? and class_code = ? and isAccept=0 ",
     [memberId, classCode]
@@ -40,8 +39,6 @@ export const isDuplicatedEnrolMd = async (ctx, next) => {
   if (rows.length > 0) {
     throw Boom.badRequest("duplicated enrol");
   }
-
-  ctx.state.conn = conn;
 
   await next();
 };
@@ -77,9 +74,8 @@ export const queryEnrolMd = async (ctx, next) => {
 // 수강 신청 목록 read
 export const readEnrolListMd = async (ctx, next) => {
   const { classCode } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 0",
     [classCode]
@@ -88,8 +84,6 @@ export const readEnrolListMd = async (ctx, next) => {
   ctx.state.body = {
     rows,
   };
-
-  ctx.state.conn = conn;
 
   await next();
 };
@@ -115,9 +109,8 @@ export const readEnrolCountMd = async (ctx, next) => {
 // 수강생 목록 read
 export const readStudentListMd = async (ctx, next) => {
   const { classCode } = ctx.params;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 1",
     [classCode]
@@ -126,8 +119,6 @@ export const readStudentListMd = async (ctx, next) => {
   ctx.state.body = {
     results: rows,
   };
-
-  ctx.state.conn = conn;
 
   await next();
 };
@@ -153,9 +144,8 @@ export const readStudentCountMd = async (ctx, next) => {
 // 교수님이 수락을 눌러 isAccept가 1로 update
 export const UpdateAcceptMd = async (ctx, next) => {
   const { memberId, classCode } = ctx.state.reqBody;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "UPDATE tb_enrol SET isAccept=1 WHERE member_id=? and class_code=?",
     [memberId, classCode]
@@ -171,9 +161,8 @@ export const UpdateAcceptMd = async (ctx, next) => {
 // 교수님이 신청 거절 전에 validate
 export const validateRejectMd = async (ctx, next) => {
   const { memberId, classCode } = ctx.query;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=0",
     [memberId, classCode]
@@ -182,8 +171,6 @@ export const validateRejectMd = async (ctx, next) => {
   if (rows.length === 0) {
     throw Boom.badRequest("not exist enrol");
   }
-
-  ctx.state.conn = conn;
 
   await next();
 };
@@ -203,9 +190,8 @@ export const rejectEnrolMd = async (ctx, next) => {
 // 교수님이 삭제 전에 validate
 export const validateRemoveMd = async (ctx, next) => {
   const { memberId, classCode } = ctx.query;
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=1",
     [memberId, classCode]
@@ -214,8 +200,6 @@ export const validateRemoveMd = async (ctx, next) => {
   if (rows.length === 0) {
     throw Boom.badRequest("not exist student");
   }
-
-  ctx.state.conn = conn;
 
   await next();
 };
@@ -235,6 +219,7 @@ export const removeStudentMd = async (ctx, next) => {
 
 // 학생이 수업 코드를 입력한 경우 -> enrol이 된다.
 export const create = [
+  CommonMd.createConnectionMd,
   getDataFromBodyMd,
   validateDataMd,
   isDuplicatedEnrolMd,
@@ -245,6 +230,7 @@ export const create = [
 
 // 교수님이 생성한 수업에 들어가서 수강 신청 목록을 보는 경우
 export const readEnrol = [
+  CommonMd.createConnectionMd,
   readEnrolListMd,
   readEnrolCountMd,
   CommonMd.responseMd,
@@ -252,16 +238,32 @@ export const readEnrol = [
 
 // 교수님이 생성한 수업에 들어가서 수강생 목록을 보는 경우
 export const readStudent = [
+  CommonMd.createConnectionMd,
   readStudentListMd,
   readStudentCountMd,
   CommonMd.responseMd,
 ];
 
 // 교수님이 수강생 목록에서 수락을 누른 경우
-export const accept = [getDataFromBodyMd, UpdateAcceptMd, CommonMd.responseMd];
+export const accept = [
+  CommonMd.createConnectionMd,
+  getDataFromBodyMd,
+  UpdateAcceptMd,
+  CommonMd.responseMd,
+];
 
 // 교수님이 수강 신청 목록에서 거절을 누른 경우
-export const reject = [validateRejectMd, rejectEnrolMd, CommonMd.responseMd];
+export const reject = [
+  CommonMd.createConnectionMd,
+  validateRejectMd,
+  rejectEnrolMd,
+  CommonMd.responseMd,
+];
 
 // 교수님이 수강생을 삭제한 경우
-export const remove = [validateRemoveMd, removeStudentMd, CommonMd.responseMd];
+export const remove = [
+  CommonMd.createConnectionMd,
+  validateRemoveMd,
+  removeStudentMd,
+  CommonMd.responseMd,
+];

@@ -1,7 +1,7 @@
 const config = {
-  DB_HOST: "127.0.0.1",
-  DB_USER: "root",
-  DB_PASSWORD: "rnlcksgdk125",
+  DB_HOST: "3.137.138.204",
+  DB_USER: "join",
+  DB_PASSWORD: "join1234!@#$",
   DB_DATABASE: "mydb",
   DB_PORT: 3306,
   DB_CONNECTION_LIMIT: 10,

@@ -19,40 +19,68 @@ const Title = styled.div`
   margin-bottom: 50px;
 `;
 
-function Login() {
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+const Login = () => {
 
-  const idChangeHandler = (e) => {
-    setId(e.currentTarget.value);
-  };
+  const { loginApi } = useMember();
 
-  const pwChangeHandler = (e) => {
-    setPw(e.currentTarget.value);
-  };
+  const [data, setData] = useState(
+    {
+      id: "",
+      password: "",
+    }
+  )
 
-  const history = useHistory();
+  const handleChange = (e) =>{
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    })
+  }
+  // const [id, setId] = useState("");
+  // const [pw, setPw] = useState("");
+
+  // const idChangeHandler = (e) => {
+  //   setId(e.currentTarget.value);
+  // };
+
+  // const pwChangeHandler = (e) => {
+  //   setPw(e.currentTarget.value);
+  // };
+
+  // const history = useHistory();
 
   const submitHandler = () => {
-    history.push("/professor/class");
+    try{
+      const request = {
+        email: data.email,
+        password: data.password,
+
+      }
+
+      await loginApi(request)
+      history.pushState("/professor/class");
+    }catch(e){
+      alert(e);
+    }
   };
   return (
     <Box>
       <Title>로그인</Title>
       <InputWithLabel
         label="아이디"
-        name="id"
-        placeholder="아이디"
-        value={id}
-        onChange={idChangeHandler}
+        name="email"
+        type="email"
+        placeholder="이메일"
+        value={data.email}
+        onChange={handleChange}
       />
       <InputWithLabel
         label="비밀번호"
         name="password"
         placeholder="비밀번호"
         type="password"
-        value={pw}
-        onChange={pwChangeHandler}
+        value={data.pw}
+        onChange={handleChange}
       />
       <LoginButton onClick={submitHandler}>로그인</LoginButton>
       <Link

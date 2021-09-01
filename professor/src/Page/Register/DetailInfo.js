@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../_actions/userAction";
 import { typeParameter } from "@babel/types";
+import { signupApi } from "../../store/reducer/member";
 const Box = styled.div`
   display: block;
   width: 500px;
@@ -23,101 +24,113 @@ const Title = styled.div`
 `;
 
 function Register(props) {
-  const [id, setId] = useState("");
-  const [idAvailable, setIdAvailable] = useState(true);
-  const [emailAvailable, setEmailAvailable] = useState(true);
-  const [passwordAvailable, setPasswordAvailable] = useState(true);
-  const [passwordCAvailable, setPasswordCAvailable] = useState(true);
-  const [pw, setPw] = useState("");
-  const [pwC, setPwC] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
 
+  const [data, setData] = useState({
+    email: "",
+    name: "",
+    pw: "",
+    pwC: "",
+    mobile: "",
+    birth: "",
+    type: "P"
+  })
+
+  const {signupApi} = useMember();
   const history = useHistory();
-  const dispatch = useDispatch();
 
-  const idChangeHandler = (e) => {
-    setId(e.currentTarget.value);
-  };
-  const pwChangeHandler = (e) => {
-    setPw(e.currentTarget.value);
-    checkPassword(e.currentTarget.value);
-  };
-
-  const pwCChangeHandler = (e) => {
-    setPwC(e.currentTarget.value);
-    checkPasswordC(pw, e.currentTarget.value);
-  };
-  const emailChangeHandler = (e) => {
-    setEmail(e.currentTarget.value);
-  };
-  const nameChangeHandler = (e) => {
-    setName(e.currentTarget.value);
-  };
-  const login = () => {};
-  const checkPassword = (pwProp) => {
-    const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/;
-    setPasswordAvailable(regExp.test(pwProp));
-  };
-  const checkPasswordC = (pwProp, pwCProp) => {
-    setPasswordCAvailable(pwProp === pwCProp);
-  };
-  const mobileChangeHandler = (e) => {
-    setMobile(e.currentTarget.value);
-  }
-
-  const onSubmitHandler = (e) => {
-    if (pw === pwC) {
-      let body = {
-        email: email,
-        name: name,
-        password: pw,
-        mobile: mobile,
-        type:"P",
-      };
-      dispatch(registerUser(body)).then((res) => {
-        alert("가입이 정상적으로 완료되었습니다.");
-        props.history.push("/login");
-      });
-    } else {
-      alert("비밀번호가 일치하지 않습니다.");
+  const handleError = (name, value) => {
+    if (name === "pw") {
+      if(value.length <8){
+        return {errName:"pw", errMessage: "패스워드는 반드시 8자리 이상"}
+      }
+    }
+    if (name === "pwC") {
+      if(data.pw !== value){
+        return {errName:"pwC", errMessage: "비밀번호와 일치하지 않습니다."}
+      }
     }
   }
+  
+  return {
+    errName: undefined,
+    errMessage: undefined
+  }
+}
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData({
+      ...data,
+      [name] : value,
+      errMessage,
+      errName
+
+    });
+  }
+
+  
+  const onSubmitHandler = async(e) => {
+    if (!data.errName && !data.errMessage){
+      const body = {
+        email: data.email,
+        name: data.name,
+        password: data.pw,
+        mobile: data.mobile,
+        birthDate : data.birth,
+        type:"P",
+      };
+      // dispatch(registerUser(body)).then((res) => {
+      //   alert("가입이 정상적으로 완료되었습니다.");
+      //   props.history.push("/login");
+      // });
+
+      try {
+        await signupApi(body);
+        alert("가입이 정상적으로 완료되었습니다.");
+        history.push("/login");
+      }catch(e) {
+        alert(e)
+      }
+    }
+  }
+ 
 
   return (
     <Box>
       <Title>회원가입</Title>
       <InputWithLabel
         label="이름"
+        type="text"
         name="name"
         placeholder="이름"
-        value={name}
-        onChange={nameChangeHandler}
+        value={data.name}
+        onChange={handleChange}
       />
       <InputWithLabel
         label="이메일"
+        type="email"
         name="email"
         placeholder="이메일"
-        value={email}
-        onChange={emailChangeHandler}
+        value={data.email}
+        onChange={handleChange}
       />
       {/* <AlertBox available={emailAvailable}>이미 사용중인 이메일입니다</AlertBox> */}
-      <InputWithLabel
+      {/* <InputWithLabel
         label="아이디"
         name="id"
         placeholder="아이디"
         value={id}
         onChange={idChangeHandler}
-      />
+      /> */}
       {/* <AlertBox available={idAvailable}>이미 사용중인 아이디입니다</AlertBox> */}
       <InputWithLabel
         label="비밀번호"
+        type="password"
         name="password"
         placeholder="비밀번호"
         type="password"
-        value={pw}
-        onChange={pwChangeHandler}
+        value={data.pw}
+        onChange={handleChange}
       />
       {/* <AlertBox available={passwordAvailable}>8~15자 영문, 숫자 조합</AlertBox> */}
       <InputWithLabel
@@ -125,23 +138,25 @@ function Register(props) {
         name="passwordConfirm"
         placeholder="비밀번호 확인"
         type="password"
-        value={pwC}
-        onChange={pwCChangeHandler}
+        value={data.pwC}
+        onChange={handleChange}
       />
       <AlertBox available={passwordCAvailable}>일치하지 않습니다</AlertBox>
       <InputWithLabel
         label="전화번호"
         name="phone"
         placeholder="전화번호"
-        type="tel"
-        value={mobile}
-        onChange={mobileChangeHandler}
+        type="text"
+        value={data.mobile}
+        onChange={handleChange}
       />
       <InputWithLabel
         label="생년월일"
-        name=""
+        name="birth"
         placeholder="생년월일"
         type="date"
+        value={data.birth}
+        onChange={handleChange}
       />
       <RegisterButton onClick={onSubmitHandler}>회원가입</RegisterButton>
     </Box>

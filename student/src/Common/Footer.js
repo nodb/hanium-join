@@ -1,4 +1,6 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 import React from "react";
 
 const Footer = () => {
@@ -10,6 +12,7 @@ const Footer = () => {
 };
 
 =======
+>>>>>>> master
 import React from "react";
 
 const Footer = () => {
@@ -20,5 +23,9 @@ const Footer = () => {
   );
 };
 
+<<<<<<< HEAD
+export default Footer;
+=======
 >>>>>>> jaeyoung
 export default Footer;
+>>>>>>> master

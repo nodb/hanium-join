@@ -30,7 +30,7 @@ export default handleActions({
         onSuccess: (state, action) => { 
             const data = action.payload.data;
 
-            return state.set("list", fromJS(action.payload.data));
+            return state.set("list", fromJS(data));
             // return state.setIn(["list", "count"], action.payload.data.count)
             // .setIn(["list", "result"], fromJS(action.payload.data.result));
             // return {

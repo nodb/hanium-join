@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import imgfile from "../../../images/assign_example.PNG";
 import { Link } from "react-router-dom";
-import {
-  Form,
-  FormGroup,
-  Label,
-  Col,
-  Input,
-  Button,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-} from "reactstrap";
+import { Form, FormGroup, Label, Col, Input, Button } from "reactstrap";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { useAssignments, useComments } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
@@ -235,15 +223,17 @@ export const Assignment = ({ match }) => {
               <Label for="contents" sm={6} style={{ paddingLeft: "5px" }}>
                 {comment.contents}
               </Label>
-              <Label for="contents" sm={1} style={{ paddingLeft: "5px" }}>
-                <Button
-                  close
-                  style={{ background: "none", border: 0, color: "red" }}
-                  onClick={() => {
-                    deleteCommentHandler(comment.id);
-                  }}
-                />
-              </Label>
+              {comment.memberId === studentInfo.id && (
+                <Label for="contents" sm={1} style={{ paddingLeft: "5px" }}>
+                  <Button
+                    close
+                    style={{ background: "none", border: 0, color: "red" }}
+                    onClick={() => {
+                      deleteCommentHandler(comment.id);
+                    }}
+                  />
+                </Label>
+              )}
             </FormGroup>
           );
         })}

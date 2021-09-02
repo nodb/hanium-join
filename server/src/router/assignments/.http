@@ -4,13 +4,13 @@ POST {{BASE_URL}}/assignments
 Content-Type: application/json
 
 {
-    "name" : "과제 테스트6",
+    "name" : "과제 테스트3",
     "content" : "과제 테스트 내용6",
     "progress" : "1",
     "point" : "100",
     "startDate" : "2021-08-04 14:39:22",
     "endDate" : "2021-08-04 14:39:22",
-    "classCode" : "AXBVRFW",
+    "classCode" : "AZSVBFV",
     "teams":[]
 }
 
@@ -50,7 +50,7 @@ GET {{BASE_URL}}/assignments/1e927a41-edf4-4f01-b8c9-823b09e4d687
 
 ###
 
-DELETE {{BASE_URL}}/assignments/64d367d6-6fc6-493d-a68c-fee95355b52c
+DELETE {{BASE_URL}}/assignments/cd09497b-9cb4-4fef-8e90-9f59cb9e86e4
 
 ###
 POST {{BASE_URL}}/assignments
@@ -83,7 +83,7 @@ Content-Disposition: form-data; name="endDate"
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="classCode"
 
-ASDCZXC
+AZSVBFV
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="teams"
 

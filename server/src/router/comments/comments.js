@@ -46,7 +46,7 @@ export const readCommentAllMd = async (ctx, next) => {
 
   const rows = await conn.query(
     // eslint-disable-next-line max-len
-    "SELECT C.id, C.createdAt, C.contents, M.name FROM tb_comment C \
+    "SELECT C.id, C.createdAt, C.contents, M.name, M.id as memberId FROM tb_comment C \
     JOIN tb_member M ON C.member_id = M.id \
     WHERE C.assignment_id=? LIMIT ?, ?",
     [assignmentId, skip, limit]

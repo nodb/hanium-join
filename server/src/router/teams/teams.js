@@ -93,7 +93,6 @@ export const insertStudentTeamMd = async (ctx, next) => {
 export const readStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, classCode } = ctx.query;
-
   const rows = await conn.query(
     "select m.name, m.grade, m.department \
     FROM (SELECT t.id as teamId FROM tb_team_member tm \
@@ -105,7 +104,8 @@ export const readStudentTeamMd = async (ctx, next) => {
   );
 
   ctx.state.body = {
-    result: rows,
+    results: rows,
+    count: rows.length,
   };
 
   await next();

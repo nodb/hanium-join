@@ -1,14 +1,14 @@
 import { createAction, handleActions } from "redux-actions";
 import { pender } from "redux-pender";
 import { Map, List, fromJS } from "immutable";
-import { MemberApi } from "../../remote";
+import { TeamsApi } from "../../remote";
 
-export const LISTALL_MEMBER = "member/LISTALL";
+export const LISTALL_TEAMS = "team/LISTALL";
 
-export const listAllMember = createAction(LISTALL_MEMBER, MemberApi.listAll);
-
-export const signupApi = MemberApi.signup;
-export const loginApi = MemberApi.login;
+export const teamMemberList = createAction(
+  LISTALL_TEAMS,
+  TeamsApi.teamMemberList
+);
 
 const initialState = Map({
   list: Map({
@@ -20,7 +20,7 @@ const initialState = Map({
 export default handleActions(
   {
     ...pender({
-      type: LISTALL_MEMBER,
+      type: LISTALL_TEAMS,
       onSuccess: (state, action) => {
         return state.set("list", fromJS(action.payload.data));
       },

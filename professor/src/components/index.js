@@ -1,7 +1,3 @@
-import {
-    useMember
- } from "./Use";
+import { useMember, useAssignments } from "./Use";
 
-export {
-    useMember,
-}
+export { useMember, useAssignments };

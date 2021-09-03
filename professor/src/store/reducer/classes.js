@@ -14,39 +14,42 @@ export const createClassesApi = ClassesApi.create;
 export const updateClassesApi = ClassesApi.put;
 export const removeClassesApi = ClassesApi.remove;
 
-// reducer의 초깃값, store 내의 정보를 immutable하게 변경
-const initialState = Map({ 
-    list: Map({
-        count: 0,
-        results: List([])
-    }),
-    class: Map({
-        name: "",
-        code: "",
-    })
+const initialState = Map({
+  list: Map({
+    count: 0,
+    results: List([]),
+  }),
+  class: Map({
+    name: "",
+    code: "",
+  }),
 });
 
-
-// reducer
-export default handleActions({
-    //LISTALL_CLASSES 요청 관리하기
+export default handleActions(
+  {
     ...pender({
-        type: LISTALL_CLASSES, 
-        onSuccess: (state, action) => { 
-            const data = action.payload.data;
+      type: LISTALL_CLASSES,
+      onSuccess: (state, action) => {
+        const data = action.payload.data;
 
-            // set("[변경할 것]", [변경할 내용])
-            return state.set("list", fromJS(data));
-        }
+        return state.set("list", fromJS(data));
+        // return state.setIn(["list", "count"], action.payload.data.count)
+        // .setIn(["list", "result"], fromJS(action.payload.data.result));
+        // return {
+        //     ...state,
+        //     count: action.payload.data.count,
+        // }
+      },
     }),
     ...pender({
-        //GET_CLASSES 요청 관리하기
-        type: GET_CLASSES, 
-        onSuccess: (state, action) => { 
-            const data = action.payload.data;
+      type: GET_CLASSES,
+      onSuccess: (state, action) => {
+        const data = action.payload.data;
 
-            return state.set("class", fromJS(data));
-        }
-    })
-
-}, initialState)
+        return state.set("class", fromJS(data));
+        // return state.setIn(["class", "code"], data.code)
+      },
+    }),
+  },
+  initialState
+);

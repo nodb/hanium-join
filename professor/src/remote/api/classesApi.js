@@ -1,7 +1,8 @@
 import urls from "../urls";
 import httpClient from "../httpClient";
 
-export const create = (form) => httpClient.post(urls.classes, form);
+export const create = (form) =>
+  httpClient.post(`http://localhost:3000/api/v1/classes`, form);
 export const listAll = (id, qs = "") =>
   httpClient.get(`${urls.classes}/${id}?${qs}`);
 export const get = (id) => httpClient.get(`${urls.classes}/${id}`);

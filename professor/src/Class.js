@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import P04 from "./Page/Class/Main/P04";
 import P05 from "./Page/Class/Enrolment/P05_04";
 import P06 from "./Page/Class/Team/P06";
 import P07 from "./Page/Class/Team/P07_05";
@@ -23,13 +22,11 @@ const Contents = styled.div`
   display: flex;
   margin-top: 28px;
 `;
-
-function App() {
+const Class = () => {
   return (
     <>
       <Header />
       <Switch>
-        <Route path="/professor/class" exact component={P04} />
         <Contents>
           <SideBar />
           <Route path="/professor/class/enrol" exact component={P05} />
@@ -70,6 +67,6 @@ function App() {
       <Footer />
     </>
   );
-}
+};
 
-export default App;
+export default Class;

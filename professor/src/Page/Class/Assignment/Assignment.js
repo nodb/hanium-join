@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
 import imgfile from "../../../images/assign_example.PNG";
 import { useAssignments, useComments } from "../../../components/Use";
-import { DateChange } from "../../../utils/dateChange";
+import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { getDataFromStorage } from "../../../utils/storage";
 
 const assignment = ({ match }) => {
@@ -217,22 +217,6 @@ const assignment = ({ match }) => {
         <img src={imgfile} class="mt-3" />
         <FormGroup style={{ marginTop: "30px" }}>
           <p>{assignmentOne.content}</p>
-        </FormGroup>
-        <FormGroup style={{ marginTop: "20px" }}>
-          <Label
-            for="imageFile"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: 0 }}
-          >
-            첨부 파일
-          </Label>
-          <Input type="file" name="imagefile" id="imageFile" />
-        </FormGroup>
-        <FormGroup style={{ marginTop: "10px" }}>
-          <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>
-            해답 파일
-          </Label>
-          <Input type="file" name="solutionFile" id="solutionFile" />
         </FormGroup>
         <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
           댓글 {count}개

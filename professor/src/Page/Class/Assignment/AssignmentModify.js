@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useAssignments } from "../../../components/Use";
+import { DateChange3 } from "../../../utils/dateChange";
 
 const AssignmentModify = ({ match }) => {
-  const [cSelected, setCSelected] = useState([]);
-
   const assignmentId = match.params.id;
 
   const { assignmentOne, getAssignment, updateAssignmentsApi } =
     useAssignments();
 
-  const [data, setData] = useState({
-    name: "",
-    content: "",
-  });
+  const [image, setImage] = useState(null);
+  const imageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+  const [data, setData] = useState();
 
   console.log(data);
 
@@ -39,21 +38,25 @@ const AssignmentModify = ({ match }) => {
     };
     fetch();
   }, []);
-
   useEffect(() => {
     setData({
-      ...data,
-      name: `${assignmentOne.name}`,
-      content: `${assignmentOne.content}`,
+      ...assignmentOne,
     });
   }, [assignmentOne]);
 
   const modifyHandler = async () => {
     try {
-      const request = {
-        name: data.name,
-        content: data.content,
-      };
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("point", data.point);
+      formData.append("startDate", data.startDate);
+      formData.append("endDate", data.endDate);
+      formData.append("content", data.content);
+      formData.append("progress", 1);
+      formData.append("classCode", "AZSVBFV");
+      formData.append("teams", []);
+      formData.append("image", image);
+      console.log(image);
 
       await updateAssignmentsApi(assignmentId);
       history.push(`/professor/class/assignment/${id}`);
@@ -61,6 +64,11 @@ const AssignmentModify = ({ match }) => {
       alert(e);
     }
   };
+
+  if (!data) {
+    return "로딩중";
+  }
+  console.log(DateChange3(data.startDate));
 
   return (
     <Form>
@@ -135,7 +143,7 @@ const AssignmentModify = ({ match }) => {
             type="datetime-local"
             name="startDate"
             id="startDate"
-            value={data.startDate}
+            value={DateChange3(data.startDate)}
             onChange={handleChange}
           />
         </Col>
@@ -160,7 +168,7 @@ const AssignmentModify = ({ match }) => {
             type="datetime-local"
             name="endDate"
             id="endDate"
-            value={data.endDate}
+            value={DateChange3(data.startDate)}
             onChange={handleChange}
           />
         </Col>
@@ -212,7 +220,12 @@ const AssignmentModify = ({ match }) => {
         >
           첨부 파일
         </Label>
-        <Input type="file" name="imagefile" id="imageFile" />
+        <Input
+          type="file"
+          name="imagefile"
+          id="imageFile"
+          onChange={imageChange}
+        />
       </FormGroup>
       <FormGroup style={{ marginTop: "10px" }}>
         <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>

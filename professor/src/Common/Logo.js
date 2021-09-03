@@ -44,7 +44,7 @@ const Logo = () => {
         url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
       </style>
       <Link
-        to="/professor/class"
+        to="/professor/main"
         style={{ textDecoration: "none", color: "black" }}
       >
         <LogoWrap>

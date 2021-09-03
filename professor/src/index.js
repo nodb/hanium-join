@@ -5,32 +5,14 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import App from "./App";
 import store from "./store";
-// import reducer from "./_reducers";
-
-// import { applyMiddleware, createStore } from "redux";
-// import reduxThunk from "redux-thunk";
-// import promiseMiddleware from "redux-promise";
-
-// import { Provider } from "react-redux";
-// import store from "./store";
-
-// const createStoreWithMd = applyMiddleware(
-//   promiseMiddleware,
-//   reduxThunk
-// )(createStore);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-          <App />
+        <App />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-//reportWebVitals();

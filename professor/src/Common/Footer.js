@@ -72,7 +72,7 @@ const Footer = () => {
     <Box>
       <ButtonText>
         {Item.map((item) => (
-          <Buttons>{item.text}</Buttons>
+          <Buttons key={item.id}>{item.text}</Buttons>
         ))}
       </ButtonText>
       <CopyRight>

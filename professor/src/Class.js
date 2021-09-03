@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import P04 from "./Page/Class/Main/P04";
 import P05 from "./Page/Class/Enrolment/P05_04";
 import P06 from "./Page/Class/Team/P06";
 import P07 from "./Page/Class/Team/P07_05";
@@ -17,12 +16,11 @@ import Assignment from "./Page/Class/Assignment/Assignment";
 import Header from "./Common/Header";
 import Footer from "./Common/Footer";
 
-function App() {
+const Class = () => {
   return (
     <>
       <Header />
       <Switch>
-        <Route path="/professor/class" exact component={P04} />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div className="row">
             <SideBar />
@@ -67,6 +65,6 @@ function App() {
       <Footer />
     </>
   );
-}
+};
 
-export default App;
+export default Class;

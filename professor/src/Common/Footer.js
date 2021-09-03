@@ -39,32 +39,34 @@ const Box = styled.div`
 
 const ButtonText = styled.div`
   margin: 0 auto;
-  width: 550px;
+  width: 700px;
   height: 11px;
   display: flex;
 `;
 
 const Buttons = styled.button`
   font-family: Roboto;
-  font-size: 11px;
+  font-size: 16px;
   line-height: 11x;
   text-align: center;
   color: #7c7979;
   margin-right: 30px;
   background: none;
   border: none;
+  margin: 0 auto;
 `;
 
 const CopyRight = styled.div`
   padding-top: 20px;
   margin: 0 auto;
-  width: 300px;
+  width: 350px;
   height: 36px;
   font-family: Roboto;
-  font-size: 11px;
-  line-height: 12px;
+  font-size: 16px;
+  line-height: 20px;
   text-align: center;
   color: #7c7979;
+  margin-bottom: 15px;
 `;
 
 const Footer = () => {

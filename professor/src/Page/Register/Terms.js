@@ -5,7 +5,6 @@ import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { Link, useHistory, useLocation } from "react-router-dom";
 
-
 const Box = styled.div`
   display: block;
   width: 700px;
@@ -170,7 +169,6 @@ const terms = `제 1 장 총칙
 이 약관은 2021년 07월 01일부터 시행합니다.`;
 
 const RegisterBox = () => {
-
   const [isChecked, setChecked] = useState(false);
   const history = useHistory();
 

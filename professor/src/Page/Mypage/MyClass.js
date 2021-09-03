@@ -2,15 +2,53 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+const Box = styled.div`
+`;
+
+const Page = styled.div`
+color: #3D3D3D;
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+margin-top: 27px;
+`;
+
+const Hr = styled.hr`
+width: 1032px;
+height: 0px;
+border: 4px solid #C4C4C4;
+`
+
 const IntroText = styled.div`
   padding-left: 30px;
-  font-size: 18px;
-  color: gray;
+  color: #EF8F88;
+
+  font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
 `;
 
 const ClassText = styled.div`
   font-size: 20px;
   padding-left: 30px;
+
+  font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+line-height: 23px;
+
+color: #000000;
+
+hr{
+  width: 374.01px;
+height: 0px;
+left: 331px;
+margin-top: 0px;
+border: 1px solid #EF8F88;
+margin-bottom: 20px;
+}
 `;
 
 const classes = [
@@ -33,7 +71,11 @@ const classes = [
 
 function MyClass() {
   return (
-    <>
+    <Box>
+    <Page>
+      강의 과목
+    </Page>
+    <Hr />
       <IntroText>강의를 클릭하면 해당 페이지로 이동합니다.</IntroText> <br />
       {classes &&
         classes.map((item) => {
@@ -43,13 +85,14 @@ function MyClass() {
               style={{ textDecoration: "none", color: "black" }}
             >
               <ClassText>
+                <img src={require("../../images/Pencil.png").default} alt="수업"/>
                 {item.name}, 수업코드 : {item.code}
+                <hr />
               </ClassText>
-              <br />
             </Link>
           );
         })}
-    </>
+    </Box>
   );
 }
 

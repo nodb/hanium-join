@@ -21,12 +21,12 @@ function App() {
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
               <Route path="/student/class/main" exact component={ClassMain} />
               <Route
-                path="/student/class/main/assignment"
+                path="/student/class/main/assignment/:id"
                 exact
                 component={Assignment}
               />
               <Route
-                path="/student/class/main/assignment/submit"
+                path="/student/class/main/assignment/:id/submit"
                 exact
                 component={SubmitAndDiscuss}
               />

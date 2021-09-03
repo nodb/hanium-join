@@ -4,9 +4,9 @@ const validateIdParamMd = async (ctx, next) => {
 
   // 1. email 형식에 맞는지 확인?
 
-  // const { dbPool } = ctx;
+  // const { conn } = ctx.state;
 
-  // const conn = await dbPool.getConnection();
+  //
   // const rows = await conn.query("SELECT * FROM tb_member WHERE email = ?", [
   //   email,
   // ]);
@@ -15,7 +15,7 @@ const validateIdParamMd = async (ctx, next) => {
   //   throw Boom.badRequest();
   // }
 
-  // ctx.state.conn = conn;
+  //
 
   await next();
 };

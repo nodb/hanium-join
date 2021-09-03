@@ -1,14 +1,71 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Collapse } from "reactstrap";
+import styled from "styled-components";
+
+const Nav = styled.div`
+  background-color: #E5E5E5;
+  color: black;
+  text-decoration: none;
+  width: 229px;
+  height: 785px;
+  margin: 0px 38px 28px 53px;
+`
+
+const Page = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+color: #6F91B5;
+margin-top: 27px;
+margin-bottom: 15px;
+text-align: center;
+`
+
+const BarHr = styled.hr`
+border: 2px solid #C4C4C4;
+margin: 0 auto;
+height: 0px;
+width: 198px;
+`
+
+
+const Menus = styled.div`
+  margin-top: 18px;
+  text-align: center;
+  list-style: none;
+  a:link { font-family: Roboto;
+    color: #7C7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none; }
+  a:visited { font-family: Roboto;
+    color: #7C7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;}
+  a:hover { font-family: Roboto;
+    color: #000;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;}
+  li {
+      margin: 18px 0px;
+  }
+`
+
 
 const defaultList = [
   {
-    title: "▶ 수강생 관리",
+    title: "수강생 관리",
     url: "/professor/class/enrol",
   },
   {
-    title: "▶ 구성 팀 확인",
+    title: "구성 팀 확인",
     url: "/professor/class/team",
   },
   {
@@ -16,7 +73,7 @@ const defaultList = [
     url: "/professor/class/assignmentList",
   },
   {
-    title: "▶ 리포트 확인",
+    title: "리포트 확인",
     url: "/professor/class/report",
   },
 ];
@@ -24,14 +81,14 @@ const defaultList = [
 const SideBar = ({ list }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <nav
-      id="sidebarMenu"
-      className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-    >
-      <div className="position-sticky pt-3">
-        <ul className="nav flex-column">
+    <Nav>
+      <Page>
+        수업명
+      </Page>
+      <BarHr />
+      <Menus>
           {defaultList.map((item) => (
-            <li className="nav-item">
+            <li>
               {item.title !== "과제 관리" && (
                 <Link
                   to={item.url}
@@ -80,9 +137,8 @@ const SideBar = ({ list }) => {
               )}
             </li>
           ))}
-        </ul>
-      </div>
-    </nav>
+       </Menus> 
+    </Nav>
   );
 };
 

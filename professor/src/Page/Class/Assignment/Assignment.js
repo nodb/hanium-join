@@ -1,61 +1,283 @@
-import React from "react";
-import { Button } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
 import imgfile from "../../../images/assign_example.PNG";
-import { Link } from "react-router-dom";
-const assignment = ({ list }) => {
+import { useAssignments, useComments } from "../../../components/Use";
+import { DateChange, DateChange2 } from "../../../utils/dateChange";
+import { getDataFromStorage } from "../../../utils/storage";
+
+const assignment = ({ match }) => {
+  const history = useHistory();
   const count = 0;
+  const assignmentId = match.params.id;
+  const professorInfo = getDataFromStorage();
+
+  const [data, setData] = useState({
+    contents: "",
+  });
+
+  const { assignmentOne, getAssignment, deleteAssignmentsApi } =
+    useAssignments();
+  const { commentList, listAllComments, createCommentApi } = useComments();
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await getAssignment(assignmentId);
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await listAllComments(assignmentId);
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
+
+  const modifyHandler = () => {
+    history.push(`/professor/class/assignment/${assignmentId}/modify`);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      history.push(`/professor/class/assignmentList`);
+      await deleteAssignmentsApi(assignmentId);
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  const submitCommentHandler = async () => {
+    try {
+      const request = {
+        memberId: professorInfo.id,
+        assignmentId: assignmentId,
+        contents: data.contents,
+      };
+      await createCommentApi(request);
+      await listAllComments(assignmentId);
+      setData({
+        ...data,
+        contents: "",
+      });
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  const deleteCommentHandler = async (commentId) => {
+    try {
+      await deleteCommentApi(commentId);
+      await listAllComments(assignmentId);
+      setData({
+        ...data,
+        contents: "",
+      });
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   return (
     <>
-      <div class="mt-2">
-        <Link to="/professor/class/assignment/modify">
-          <Button size="sm" style={{ marginRight: "20px" }}>
-            수정
-          </Button>
-        </Link>
-        <Button size="sm">삭제</Button>
+      <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          onClick={modifyHandler}
+          size="sm"
+          style={{ marginRight: "20px" }}
+        >
+          수정
+        </Button>
+        <Button onClick={deleteHandler} size="sm">
+          삭제
+        </Button>
       </div>
-      {/* {(assignment) => (
-            <>
-            <h4 class="mt-4">{assignment.name}</h4>
-            <div style={{width:"600px"}}>
-              과제 내용 예시. 우리는 자랑스러운 서울과학기술대학교 컴퓨터공학과 학생. 너무너무
-              행복하다. 푸하하하하. 언젠가 세상을 정복하고 말테야. 과기대의 기술력은 세계 제일
-            </div>
-            <img src={assignment.img} class="mt-3"/>
-            <div style={{fontSize:"14px"}} class="mt-3 mb-3">
-              댓글  {count}개
-            </div>
-            <div>
-              홍길동-등록된 과제에 대한 덧글
-            </div>
-            <hr/>
-            <div>
-              홍길동-등록된 과제에 대한 덧글
-            </div>
-            <hr/>
-            <div>
-              홍길동-등록된 과제에 대한 덧글
-            </div>
-            </>
-          )
+      <Form>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
+        >
+          <Label
+            for="name"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            과제명
+          </Label>
+          <Col sm={10}>
+            <p>{assignmentOne.name}</p>
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
+        >
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            배점
+          </Label>
+          <Col sm={4}>
+            <p>{assignmentOne.point}</p>
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
+        >
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            공개일
+          </Label>
+          <Col sm={5}>
+            <p>{DateChange(assignmentOne.startDate)}</p>
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
+        >
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            마감일
+          </Label>
+          <Col sm={5}>
+            <p>{DateChange(assignmentOne.endDate)}</p>
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            팀지정
+          </Label>
+          {/* {
+            <Col>
+              <Input
+                type="checkbox"
+                name="point"
+                id="point"
+                value={data.point}
+                onChange={handleChange}
+              />
+              1팀
+            </Col>
           } */}
+        </FormGroup>
 
-      <h4 class="mt-4">과제명</h4>
-      <div style={{ width: "600px" }}>
-        과제 내용 예시. 우리는 자랑스러운 서울과학기술대학교 컴퓨터공학과 학생.
-        너무너무 행복하다. 푸하하하하. 언젠가 세상을 정복하고 말테야. 과기대의
-        기술력은 세계 제일
-      </div>
-      <img src={imgfile} class="mt-3" />
-      <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
-        댓글 {count}개
-      </div>
-      <div>홍길동-등록된 과제에 대한 덧글</div>
-      <hr style={{ width: "600px" }} />
-      <div>홍길동-등록된 과제에 대한 덧글</div>
-      <hr style={{ width: "600px" }} />
-      <div>홍길동-등록된 과제에 대한 덧글</div>
+        <img src={imgfile} class="mt-3" />
+        <FormGroup style={{ marginTop: "30px" }}>
+          <p>{assignmentOne.content}</p>
+        </FormGroup>
+        <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
+          댓글 {count}개
+        </div>
+        {commentList.results.map((comment) => {
+          return (
+            <FormGroup
+              row
+              style={{
+                marginLeft: 3,
+                padding: "7px 0px",
+                borderBottom: "1px solid #C4C4C4",
+              }}
+            >
+              <Label
+                for="name"
+                sm={2}
+                style={{ fontWeight: "bold", paddingLeft: "5px" }}
+              >
+                {comment.name} ({DateChange2(comment.createdAt)})
+              </Label>
+              <Label for="contents" sm={6} style={{ paddingLeft: "5px" }}>
+                {comment.contents}
+              </Label>
+              <Label for="contents" sm={1} style={{ paddingLeft: "5px" }}>
+                <Button
+                  close
+                  style={{ background: "none", border: 0, color: "red" }}
+                  onClick={() => {
+                    deleteCommentHandler(comment.id);
+                  }}
+                />
+              </Label>
+            </FormGroup>
+          );
+        })}
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <Col sm={7}>
+            <Input
+              type="conmment"
+              name="contents"
+              id="contents"
+              value={data.contents}
+              onChange={handleChange}
+            />
+          </Col>
+          <Col>
+            <Button size="sm" onClick={submitCommentHandler}>
+              확인
+            </Button>
+          </Col>
+        </FormGroup>
+      </Form>
 
       <Button size="sm" style={{ marginTop: "20px" }}>
         리포트 생성

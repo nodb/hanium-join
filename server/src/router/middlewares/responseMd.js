@@ -5,7 +5,9 @@ const responseMd = async (ctx) => {
 
   ctx.body = body;
 
-  if (conn) conn.release();
+  if (conn) {
+    conn.release();
+  }
 };
 
 export default responseMd;

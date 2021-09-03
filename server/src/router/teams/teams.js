@@ -7,20 +7,19 @@ export const saveTeamMd = async (ctx, next) => {
   const { name, classCode } = ctx.request.body;
 
   await conn.query(
-    "INSERT INTO tb_team (id, name, class_code)  VALUES (?, ?, ?)",
+    "INSERT INTO tb_team (id, name, class_code) VALUES (?, ?, ?)",
     [UUID(), name, classCode]
   );
 
-  ctx.state.conn = conn;
   await next();
 };
 
 export const readTeamAllMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { classCode } = ctx.params;
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     // eslint-disable-next-line max-len
+    // eslint-disable-next-line no-multi-str
     "SELECT t.id as teamId, t.name as teamName, m.name, m.grade, m.department \
     FROM tb_team t \
     JOIN tb_team_member tm ON t.id = tm.team_id \
@@ -66,19 +65,17 @@ export const queryTeamByIdMd = async (ctx, next) => {
 };
 
 export const deleteTeamMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { teamId } = ctx.params;
-  const conn = await dbPool.getConnection();
+
   await conn.query("DELETE FROM tb_team WHERE id = ?", [teamId]);
 
   await next();
 };
 
 export const insertStudentTeamMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const payload = ctx.request.body;
-
-  const conn = await dbPool.getConnection();
 
   const tuples = payload.map((obj) => [obj.teamId, obj.memberId]);
   console.log(tuples);
@@ -86,8 +83,6 @@ export const insertStudentTeamMd = async (ctx, next) => {
     "INSERT INTO tb_team_member (team_id, member_id) VALUES (?, ?)",
     tuples
   );
-
-  ctx.state.conn = conn;
 
   ctx.state.reqBody = {
     ...tuples[0].teamId,
@@ -97,29 +92,30 @@ export const insertStudentTeamMd = async (ctx, next) => {
 };
 
 export const readStudentTeamMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { memberId, classCode } = ctx.query;
-
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "select m.name, m.grade, m.department \
-    FROM (SELECT t.id as teamId FROM tb_team_member tm JOIN tb_member m ON m.id = tm.member_id JOIN tb_team t ON t.id = tm.team_id WHERE t.class_code = ? AND m.id = ?) a \
+    FROM (SELECT t.id as teamId FROM tb_team_member tm \
+    JOIN tb_member m ON m.id = tm.member_id \
+    JOIN tb_team t ON t.id = tm.team_id WHERE t.class_code = ? AND m.id = ?) a \
     JOIN tb_team_member tm ON tm.team_id = a.teamId \
     JOIN tb_member m ON tm.member_id = m.id",
     [classCode, memberId]
   );
+
   ctx.state.body = {
-    result: rows,
+    results: rows,
+    count: rows.length,
   };
 
   await next();
 };
 
 export const duplicatedNameMd = async (ctx, next) => {
-  const { dbPool } = ctx;
+  const { conn } = ctx.state;
   const { name, classCode } = ctx.request.body;
 
-  const conn = await dbPool.getConnection();
   const rows = await conn.query(
     "SELECT * FROM tb_team WHERE name = ? AND class_code =?",
     [name, classCode]
@@ -129,18 +125,13 @@ export const duplicatedNameMd = async (ctx, next) => {
     throw Boom.badRequest("duplicated team name");
   }
 
-  ctx.state.conn = conn;
-
   await next();
 };
 
 // TODO
 export const deleteStudentTeamMd = async (ctx, next) => {
-  const { dbPool } = ctx;
-  const { memberId } = ctx.query;
-  const { teamId } = ctx.query;
-
-  const conn = await dbPool.getConnection();
+  const { conn } = ctx.state;
+  const { memberId, teamId } = ctx.query;
 
   await conn.query(
     "DELETE FROM tb_team_member WHERE member_id IN (?) AND team_id = ?",
@@ -151,6 +142,7 @@ export const deleteStudentTeamMd = async (ctx, next) => {
 };
 
 export const create = [
+  CommonMd.createConnectionMd,
   duplicatedNameMd,
   saveTeamMd,
   queryTeamMd,
@@ -158,20 +150,37 @@ export const create = [
 ];
 
 // 팀원 전체 조회
-export const readAll = [readTeamAllMd, CommonMd.responseMd];
+export const readAll = [
+  CommonMd.createConnectionMd,
+  readTeamAllMd,
+  CommonMd.responseMd,
+];
 
 // 팀 삭제
-export const removeTeam = [deleteTeamMd, CommonMd.responseMd];
+export const removeTeam = [
+  CommonMd.createConnectionMd,
+  deleteTeamMd,
+  CommonMd.responseMd,
+];
 
 // 팀 수정 - 팀에 학생 추가
 export const insertStudentTeam = [
+  CommonMd.createConnectionMd,
   insertStudentTeamMd,
   // queryTeamByIdMd,
   CommonMd.responseMd,
 ];
 
 // 팀 수정 - 팀에서 학생 제거
-export const deleteStudentTeam = [deleteStudentTeamMd, CommonMd.responseMd];
+export const deleteStudentTeam = [
+  CommonMd.createConnectionMd,
+  deleteStudentTeamMd,
+  CommonMd.responseMd,
+];
 
 // 학생 팀 조회
-export const readStudentTeam = [readStudentTeamMd, CommonMd.responseMd];
+export const readStudentTeam = [
+  CommonMd.createConnectionMd,
+  readStudentTeamMd,
+  CommonMd.responseMd,
+];

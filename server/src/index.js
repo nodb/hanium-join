@@ -14,6 +14,7 @@ const pool = mariadb.createPool({
   password: Config.DB_PASSWORD,
   database: Config.DB_DATABASE,
   port: Config.DB_PORT,
+  allowPublicKeyRetrieval: true,
   connectionLimit: Config.DB_CONNECTION_LIMIT,
 });
 

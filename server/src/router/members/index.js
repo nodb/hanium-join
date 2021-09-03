@@ -30,6 +30,10 @@ router.get("/:email", ...members.readEmail);
 // 회원 정보 수정
 router.put("/:id", ...members.update);
 
+
+router.put("/professor/:id", ...members.updateProfessor);
+
+
 // 삭제
 router.delete("/:id", ...members.remove);
 

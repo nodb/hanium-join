@@ -158,7 +158,7 @@ console.log(image);
             type="email"
             name="email"
             id="exampleEmail"
-            placeholder={memberInfo.email}
+            placeholder="이메일을 입력하세요."
             onChange={handleChange}
             value={data.email}
           />

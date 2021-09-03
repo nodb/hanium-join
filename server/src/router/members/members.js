@@ -232,6 +232,30 @@ export const updateMemberMd = async (ctx, next) => {
   await next();
 };
 
+export const updateProfessorMd = async (ctx, next) => {
+  const { id } = ctx.params;
+  const { conn } = ctx.state;
+
+  const { name, password, department, professorID, mobile } = ctx.request.body;
+
+  const profileImg =
+    ctx.request.files === undefined ? null : ctx.request.files.profileImg;
+
+  const sql =
+    // eslint-disable-next-line max-len
+    "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
+  await conn.query(sql, [
+    name,
+    password,
+    department,
+    professorID,
+    profileImg.name,
+    mobile,
+    id,
+  ]);
+
+  await next();
+};
 export const readMemberAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { conn } = ctx.state;
@@ -332,6 +356,15 @@ export const remove = [
   CommonMd.createConnectionMd,
   CommonMd.validateIdParamMd,
   removeMemberMd,
+  CommonMd.responseMd,
+];
+
+export const updateProfessor = [
+  CommonMd.createConnectionMd,
+  CommonMd.validateIdParamMd,
+  validateUpdateDataMd,
+  updateProfessorMd,
+  queryMemberMdById,
   CommonMd.responseMd,
 ];
 

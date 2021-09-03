@@ -21,17 +21,11 @@ function App() {
     <>
       <Header />
       <Contents>
-      {/* <div style={{ display: "flex", flexDirection: "column" }}> */}
-        {/* <div className="row"> */}
           <MySideBar />
-          {/* <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4"> */}
             <Route path="/professor/mypage/myinfo" exact component={MyInfo} />
             <Route path="/professor/mypage/class" exact component={MyClass} />
             <Route path="/professor/mypage/assignment" exact component={MyAssignment} />
             <Route path="/professor/mypage/modify" exact component={MyModify} />
-          {/* </main> */}
-        {/* </div> */}
-      {/* </div> */}
       </Contents>
       <Footer />
     </>

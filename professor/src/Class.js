@@ -17,16 +17,22 @@ import Assignment from "./Page/Class/Assignment/Assignment";
 import Header from "./Common/Header";
 import Footer from "./Common/Footer";
 
+import styled from "styled-components";
+
+const Contents = styled.div`
+  display: flex;
+  margin-top: 28px;
+`
+
 function App() {
   return (
     <>
       <Header />
       <Switch>
+    
         <Route path="/professor/class" exact component={P04} />
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div className="row">
-            <SideBar />
-            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <Contents>
+            <SideBar />    
               <Route path="/professor/class/enrol" exact component={P05} />
               <Route path="/professor/class/team" exact component={P06} />
               <Route path="/professor/class/assign" exact component={P07} />
@@ -60,9 +66,7 @@ function App() {
                 exact
                 component={P13}
               />
-            </main>
-          </div>
-        </div>
+      </Contents>
       </Switch>
       <Footer />
     </>

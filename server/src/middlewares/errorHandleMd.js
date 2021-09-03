@@ -13,8 +13,12 @@ const errorHandleMd = async (ctx, next) => {
       ctx.status = 500;
       ctx.body = {
         error: "internal server error",
-        message: "internal server error",
+        message: "internal server errorvvvv",
       };
+    }
+  } finally {
+    if (ctx.state.conn) {
+      ctx.state.conn.release();
     }
   }
   if (ctx.state.conn) {

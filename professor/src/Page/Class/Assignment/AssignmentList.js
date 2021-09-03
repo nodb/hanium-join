@@ -41,8 +41,8 @@ const assignmentList = () => {
         </Link>
       </div>
       <Table size="sm">
-        <thead style={{ textAlign: "center" }}>
-          <tr>
+        <thead style={{ textAlign: "center", background: "#426589" }}>
+          <tr style={{ color: "white" }}>
             <th>번호</th>
             <th>과제명</th>
             <th>진행</th>
@@ -53,14 +53,14 @@ const assignmentList = () => {
         <tbody style={{ textAlign: "center" }}>
           {assignmentsList.results.map((assignment) => {
             return (
-              <tr>
-                <th scope="row">{count}</th>
-                <td>
-                  <p onClick={() => handler(assignment.id)}>
-                    {assignment.name}
-                  </p>
+              <tr style={{ verticalAlign: "middle", fontWeight: "bold" }}>
+                <th scope="row" style={{ padding: "12px 0px" }}>
+                  {count}
+                </th>
+                <td onClick={() => handler(assignment.id)}>
+                  {assignment.name}
                 </td>
-                <td>{assignment.progress}</td>
+                <td>{assignment.progress === 1 ? "진행 중" : "마감"}</td>
                 <td>{assignment.point}</td>
                 <td>{DateChange(assignment.endDate)}</td>
               </tr>

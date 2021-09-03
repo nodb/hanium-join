@@ -21,11 +21,6 @@ export const DateChange = (date) => {
     " " +
     min +
     "분 ";
-  /*
-      " " +
-      sec +
-      "초 ";
-      */
   return result;
 };
 

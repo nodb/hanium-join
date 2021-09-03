@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useClasses } from "../../../components/Use";
+import { getDataFromStorage } from "../../../utils/storage";
 
 const Block = styled.div`
   display: flex;
@@ -17,10 +19,9 @@ const Block = styled.div`
 `;
 
 const ModalBlock = styled.div`
-  width: 400px;
+  width: 350px;
   background-color: #fff;
-  height: 250px;
-  overflow-y: scroll;
+  height: 450px;
   border-radius: 15px;
   &::-webkit-scrollbar {
     width: 10px;
@@ -40,18 +41,14 @@ const ModalBlock = styled.div`
 
 const Header = styled.div`
   width: 100%;
-  height: 71px;
+  height: 50px;
   box-sizing: border-box;
-  padding-left: 50px;
-  padding-right: 24px;
+  padding-left: 25px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   font-family: Kanit;
   font-size: 18px;
   font-weight: bold;
-  line-height: 1.48;
-  color: #101010;
   border-bottom: 1px solid #dee2e6;
   .button {
     position: relative;
@@ -77,51 +74,70 @@ const Header = styled.div`
 `;
 
 const CodeInput = styled.input`
-  width: 300px;
+  width: 250px;
   height: 30px;
 `;
 
 const AddButton = styled.button`
-  width: 50px;
+  width: 200px;
+  font-size: 15px;
   background: none;
   border: none;
-  cursor: pointer;
   color: red;
 `;
 
-function P04_ClassAdd({ open, next, add, close }) {
+const P04_ClassAdd = ({ open, next, add, close }) => {
+  const [name, setName] = useState("");
+  const { createClassesApi } = useClasses();
+  const professorInfo = getDataFromStorage();
+
+  const handleChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const createClass = async (e) => {
+    const body = {
+      name: name,
+      code: "AZXCSP",
+      memberId: professorInfo.id,
+    };
+
+    try {
+      await createClassesApi(body);
+      console.log(name);
+    } catch (e) {
+      alert(e);
+    }
+  };
+
   return (
     <>
       {open && (
         <Block State={open}>
           <ModalBlock>
-            <Header>강의 추가하기</Header>
+            <Header>수업 등록</Header>
             {!next && (
               <>
-                <div style={{ padding: "30px 45px 45px 45px" }}>
-                  <div>수업명</div>
-                  <CodeInput type="text"></CodeInput>
-                </div>
-                <div style={{ padding: "0 40px 0 40px", display: "flex" }}>
-                  <AddButton onClick={close}>취소</AddButton>
-                  <AddButton style={{ marginLeft: "220px" }} onClick={add}>
-                    추가
-                  </AddButton>
-                </div>
+                <div>등록할 수업명을 입력하여 주세요.</div>
+                <CodeInput
+                  label="수업명"
+                  type="text"
+                  name="className"
+                  placeholder="(수업명)"
+                  value={name}
+                  onChange={handleChange}
+                ></CodeInput>
+                <AddButton onClick={close}>취소</AddButton>
+                <AddButton onClick={add}>추가</AddButton>
               </>
             )}
             {next && (
               <>
-                <div style={{ padding: "30px 45px 45px 45px" }}>
-                  <div>수업코드</div>
-                  <CodeInput type="text" value="F12CZ89"></CodeInput>
-                </div>
-                <div style={{ padding: "0 40px 0 40px", display: "flex" }}>
-                  <AddButton onClick={close}>취소</AddButton>
-                  <AddButton style={{ marginLeft: "220px" }} onClick={close}>
-                    확인
-                  </AddButton>
-                </div>
+                <div>수업명</div>
+                <div>수업 코드는 다음과 같습니다.</div>
+                <div>이 수업 코드는 ~에서도 확인하실 수 있습니다.</div>
+                <AddButton onClick={close}>이전</AddButton>
+                <AddButton onClick={createClass}>확인</AddButton>
               </>
             )}
           </ModalBlock>
@@ -129,6 +145,6 @@ function P04_ClassAdd({ open, next, add, close }) {
       )}
     </>
   );
-}
+};
 
 export default P04_ClassAdd;

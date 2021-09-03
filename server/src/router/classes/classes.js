@@ -28,6 +28,7 @@ export const readClassStudentMd = async (ctx, next) => {
   );
 
   ctx.state.body = {
+    count: rows.length,
     results: rows,
   };
   await next();

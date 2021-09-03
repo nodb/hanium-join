@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 import Class from "../../../images/noclass.png";
 import Line from "../../../images/line.png";
@@ -13,9 +12,16 @@ import { getDataFromStorage } from "../../../utils/storage";
 const Box = styled.div`
   margin: 0 auto;
   width: 1440px;
-  height: 600px;
+  height: 650px;
   background: rgba(229, 229, 229, 0.6);
   border-radius: 30px;
+  padding: 50px;
+`;
+
+const BoxClass = styled.div`
+  width: 100%;
+  height: 510px;
+  display: flex;
 `;
 
 const Circle = styled.div`
@@ -55,7 +61,7 @@ const NoText = styled.div`
   color: #7c7979;
 `;
 
-function S04() {
+const P04 = () => {
   const [Modal, setModalOpen] = useState(false);
   const [next, setNext] = useState(false);
 
@@ -87,10 +93,9 @@ function S04() {
     fetch();
   }, []);
 
-  console.log(classesList);
   return (
     <Box>
-      <div style={{ display: "inline-flex" }}>
+      <BoxClass>
         {classesList.count === 0 && (
           <>
             <Circle>
@@ -101,16 +106,9 @@ function S04() {
           </>
         )}
         {classesList.results.map((item) => {
-          return (
-            <Link
-              to="/professor/class/enrol"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <ClassBox item={item}></ClassBox>
-            </Link>
-          );
+          return <ClassBox key={item.name} item={item}></ClassBox>;
         })}
-      </div>
+      </BoxClass>
       <Plus open={ModalOpen} />
       <ClassAdd
         open={Modal}
@@ -120,6 +118,6 @@ function S04() {
       ></ClassAdd>
     </Box>
   );
-}
+};
 
-export default S04;
+export default P04;

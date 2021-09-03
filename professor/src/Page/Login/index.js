@@ -55,45 +55,6 @@ const Login = () => {
     }
   };
 
-<<<<<<< HEAD
-  // const [id, setId] = useState("");
-  // const [pw, setPw] = useState("");
-
-  // const { listAllMember, memberList } = useMember();
-
-  // const idChangeHandler = (e) => {
-  //   setId(e.currentTarget.value);
-  // };
-
-  // const pwChangeHandler = (e) => {
-  //   setPw(e.currentTarget.value);
-  // };
-
-  // const history = useHistory();
-
-  // const submitHandler = () => {
-  //   history.push("/professor/class");
-  // };
-
-  // useEffect(() => {
-  //   const fetch = async  () => {
-  //     try {
-
-  //       await listAllMember();
-
-  //     } catch(err) {
-  //       console.log(err);
-  //     }
-  //   }
-
-  //   fetch();
-
-  // }, [])
-
-  // console.log(memberList)
-
-=======
->>>>>>> 8961fbfad117639409735673a72efe8e15a342e5
   return (
     <Box>
       <Title>로그인</Title>

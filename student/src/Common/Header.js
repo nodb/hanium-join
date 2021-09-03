@@ -1,4 +1,6 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 import React, { useState } from "react";
 import styled from "styled-components";
 import {
@@ -76,6 +78,7 @@ function Header() {
 
 export default Header;
 =======
+>>>>>>> master
 import React, { useState } from "react";
 import styled from "styled-components";
 import {
@@ -152,4 +155,7 @@ function Header() {
 }
 
 export default Header;
+<<<<<<< HEAD
+=======
 >>>>>>> jaeyoung
+>>>>>>> master

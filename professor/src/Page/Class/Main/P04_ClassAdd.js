@@ -89,7 +89,7 @@ const AddButton = styled.button`
   color: red;
 `;
 
-function S04_ClassAdd({ open, next, add, close }) {
+function P04_ClassAdd({ open, next, add, close }) {
   return (
     <>
       {open && (
@@ -131,4 +131,4 @@ function S04_ClassAdd({ open, next, add, close }) {
   );
 }
 
-export default S04_ClassAdd;
+export default P04_ClassAdd;

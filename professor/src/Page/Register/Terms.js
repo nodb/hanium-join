@@ -174,7 +174,8 @@ const RegisterBox = () => {
 
   const handleChange = (e) => {
     setChecked(e.target.checked);
-  };
+  }
+
 
   const handleAgreeBox = () => {
     if (isChecked) {
@@ -182,31 +183,30 @@ const RegisterBox = () => {
     } else {
       alert("이용 약관에 동의해 주세요.");
     }
-  };
+  }
 
   return (
     <Box>
       <Title>회원가입</Title>
       <Sub>이용 약관 동의</Sub>
-      <TermBox>
-        <pre>{terms}</pre>
-      </TermBox>
+      <TermBox><pre>{terms}</pre></TermBox>
 
       <AgreeBox>
-        <input type="checkbox" onChange={handleChange} />
+        <input type="checkbox" onChange={handleChange}/>
         <span>동의합니다</span>
       </AgreeBox>
       {/* <Link to="/register/detailInfo"> */}
-      <RegisterButton
-        style={{
-          margin: "30px 150px 0 150px",
-          width: "400px",
-          fontSize: "18px",
-        }}
-        onClick={handleAgreeBox}
-      >
-        동의하고 넘어가기
-      </RegisterButton>
+        <RegisterButton
+          style={{
+            margin: "30px 150px 0 150px",
+            width: "400px",
+            fontSize: "18px",
+          }}
+
+          onClick={handleAgreeBox}
+        >
+          동의하고 넘어가기
+        </RegisterButton>
       {/* </Link> */}
     </Box>
   );

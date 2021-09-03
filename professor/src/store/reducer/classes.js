@@ -3,17 +3,34 @@ import { pender } from "redux-pender";
 import { Map, List, fromJS } from "immutable";
 import { ClassesApi } from "../../remote";
 
+<<<<<<< HEAD
 export const LISTALL_CLASSES = "classes/LISTALL";
 export const GET_CLASSES = "classes/GET";
 
 export const listAllClasses = createAction(LISTALL_CLASSES, ClassesApi.listAll);
 
 export const getClasses = createAction(GET_CLASSES, ClassesApi.get);
+=======
+
+export const LISTALL_CLASSES = "classes/LISTALL";
+export const GET_CLASSES = "classes/GET";
+
+export const listAllClasses = createAction(
+    LISTALL_CLASSES,
+    ClassesApi.listAll
+);
+
+export const getClasses = createAction(
+    GET_CLASSES,
+    ClassesApi.get
+);
+>>>>>>> 8961fbfad117639409735673a72efe8e15a342e5
 
 export const createClassesApi = ClassesApi.create;
 export const updateClassesApi = ClassesApi.put;
 export const removeClassesApi = ClassesApi.remove;
 
+<<<<<<< HEAD
 const initialState = Map({
   list: Map({
     count: 0,
@@ -53,3 +70,45 @@ export default handleActions(
   },
   initialState
 );
+=======
+
+const initialState = Map({ 
+    list: Map({
+        count: 0,
+        results: List([])
+    }),
+    class: Map({
+        name: "",
+        code: "",
+    })
+});
+
+
+
+export default handleActions({
+    ...pender({
+        type: LISTALL_CLASSES, 
+        onSuccess: (state, action) => { 
+            const data = action.payload.data;
+
+            return state.set("list", fromJS(action.payload.data));
+            // return state.setIn(["list", "count"], action.payload.data.count)
+            // .setIn(["list", "result"], fromJS(action.payload.data.result));
+            // return {
+            //     ...state,
+            //     count: action.payload.data.count,
+            // }
+        }
+    }),
+    ...pender({
+        type: GET_CLASSES, 
+        onSuccess: (state, action) => { 
+            const data = action.payload.data;
+
+            return state.set("class", fromJS(data));
+            // return state.setIn(["class", "code"], data.code)
+        }
+    })
+
+}, initialState)
+>>>>>>> 8961fbfad117639409735673a72efe8e15a342e5

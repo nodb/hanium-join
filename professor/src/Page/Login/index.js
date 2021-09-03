@@ -55,6 +55,7 @@ const Login = () => {
     }
   };
 
+<<<<<<< HEAD
   // const [id, setId] = useState("");
   // const [pw, setPw] = useState("");
 
@@ -91,6 +92,8 @@ const Login = () => {
 
   // console.log(memberList)
 
+=======
+>>>>>>> 8961fbfad117639409735673a72efe8e15a342e5
   return (
     <Box>
       <Title>로그인</Title>

@@ -117,7 +117,7 @@ export const readAssignmentAllMd = async (ctx, next) => {
   if (teamId && assignmentId) {
     rows = await conn.query(
       // eslint-disable-next-line max-len
-      "SELECT a.id, a.name, a.progress, a.endDate " +
+      "SELECT at.id, a.name, a.content, a.point, a.startDate, a.endDate, a.image, a.progress, a.class_code " +
         "FROM tb_assignment a " +
         "JOIN tb_assignment_team at ON at.assignment_id = a.id " +
         "JOIN tb_team t ON t.id = at.team_id " +
@@ -245,6 +245,19 @@ export const updateAssignmentMd = async (ctx, next) => {
   await conn.query("DELETE FROM tb_assignment_team WHERE assignment_id = ?", [
     id,
   ]);
+
+  if (!teams) next();
+
+  for (let i = 0; i < teams.length; i += 1) {
+    payload.push([UUID(), 0, id, teams[i], null, null]);
+  }
+  if (teams.length) {
+    await conn.batch(
+      // eslint-disable-next-line max-len
+      "INSERT INTO tb_assignment_team(id, isCheck, assignment_id, team_id, contents, file) VALUES (?, ?, ?, ?, ?, ?)",
+      payload
+    );
+  }
 
   if (!teams) next();
 

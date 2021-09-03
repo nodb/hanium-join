@@ -4,13 +4,21 @@ POST {{BASE_URL}}/assignments
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
     "name" : "과제 테스트3",
+=======
+    "name" : "과제 테스트6",
+>>>>>>> 8961fbfad117639409735673a72efe8e15a342e5
     "content" : "과제 테스트 내용6",
     "progress" : "1",
     "point" : "100",
     "startDate" : "2021-08-04 14:39:22",
     "endDate" : "2021-08-04 14:39:22",
+<<<<<<< HEAD
     "classCode" : "AZSVBFV",
+=======
+    "classCode" : "AZXCSQ",
+>>>>>>> 8961fbfad117639409735673a72efe8e15a342e5
     "teams":[]
 }
 
@@ -84,6 +92,10 @@ Content-Disposition: form-data; name="endDate"
 Content-Disposition: form-data; name="classCode"
 
 AZSVBFV
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="teams"
+
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="teams"
 

@@ -1,4 +1,6 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import ClassLayout from "./ClassLayout";
@@ -24,6 +26,7 @@ const App = () => {
 
 export default App;
 =======
+>>>>>>> master
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import ClassLayout from "./ClassLayout";
@@ -48,4 +51,7 @@ const App = () => {
 };
 
 export default App;
+<<<<<<< HEAD
+=======
 >>>>>>> jaeyoung
+>>>>>>> master

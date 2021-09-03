@@ -15,4 +15,8 @@ const useActions = (actions, deps) => {
   )
 }
 
+<<<<<<< HEAD
 export default useActions;
+=======
+export default useActions;
+>>>>>>> 8961fbfad117639409735673a72efe8e15a342e5

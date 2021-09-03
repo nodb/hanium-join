@@ -4,6 +4,7 @@ import RegisterButton from "./RegisterButton";
 import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { typeParameter } from "@babel/types";
 import { useMember } from "../../components";
 const Box = styled.div`
@@ -22,6 +23,7 @@ const Title = styled.div`
 `;
 
 function Register(props) {
+
   const [data, setData] = useState({
     email: "",
     name: "",
@@ -29,57 +31,49 @@ function Register(props) {
     pwC: "",
     mobile: "",
     birth: "",
-    type: "P",
+    type:"P",
     errName: undefined,
     errMessage: undefined,
   });
+
 
   const { signupApi } = useMember();
   const history = useHistory();
 
   const handleError = (name, value) => {
-    if (name === "email") {
+    if (name === "email") { 
       // return { errName: "email", errMessage: "이메일 주소를 잘못 입력하셨습니다."}
     }
     if (name === "pw") {
       if (value.length < 8) {
-        return {
-          errName: "pw",
-          errMessage: "패스워드는 반드시 8자리 이상으로 입력해 주세요.",
-        };
+        return { errName: "pw", errMessage: "패스워드는 반드시 8자리 이상으로 입력해 주세요."}
       }
     }
     if (name === "pwC") {
       if (data.pw !== value) {
-        return {
-          errName: "pwC",
-          errMessage: "비밀번호와 비밀번호 확인이 일치하지 않습니다.",
-        };
+        return { errName: "pwC", errMessage: "비밀번호와 비밀번호 확인이 일치하지 않습니다."}
       }
     }
 
     return {
       errName: undefined,
-      errMessage: undefined,
-    };
-  };
+      errMessage: undefined
+    }
+  }
 
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
 
-    const { errName = undefined, errMessage = undefined } = handleError(
-      name,
-      value
-    );
+    const {errName=undefined, errMessage=undefined } = handleError(name, value);
 
     setData({
       ...data,
-      [name]: value,
+      [name] : value,
       errName,
-      errMessage,
+      errMessage
     });
-  };
+  }
 
   // const [id, setId] = useState("");
   // const [idAvailable, setIdAvailable] = useState(true);
@@ -133,7 +127,7 @@ function Register(props) {
         password: data.pw,
         mobile: data.mobile,
         birthDate: data.birth,
-        type: "P",
+        type:"P",
       };
       // dispatch(registerUser(body)).then((res) => {
       //   alert("가입이 정상적으로 완료되었습니다.");
@@ -144,8 +138,8 @@ function Register(props) {
         await signupApi(body);
         alert("가입이 정상적으로 완료되었습니다.");
         history.push("/login");
-      } catch (e) {
-        alert(e);
+      } catch(e) {
+        alert(e)
       }
     }
   };
@@ -153,7 +147,7 @@ function Register(props) {
   return (
     <Box>
       {data.errName && data.errMessage && (
-        <AlertBox available={false}>{data.errMessage}</AlertBox>
+      <AlertBox available={false}>{data.errMessage}</AlertBox>
       )}
 
       <Title>회원가입</Title>

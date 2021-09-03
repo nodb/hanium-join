@@ -27,8 +27,11 @@ router.get("/:id", ...members.readId);
 // 상세 조회2
 router.get("/:email", ...members.readEmail);
 
-// 회원 정보 수정
-router.put("/:id", ...members.update);
+// 교수님 정보 수정
+router.put("/professor/:id", ...members.updateProfessor);
+
+// 학생 정보 수정
+router.put("/student/:id", ...members.updateStudent);
 
 // 삭제
 router.delete("/:id", ...members.remove);

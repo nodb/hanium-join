@@ -206,14 +206,17 @@ export const jwtGenerateMd = async (ctx, next) => {
   await next();
 };
 
-export const updateMemberMd = async (ctx, next) => {
+export const updateStudentMd = async (ctx, next) => {
   const { id } = ctx.params;
   const { conn } = ctx.state;
 
   const { name, password, grade, department, studentID, mobile } =
     ctx.request.body;
 
-  const { profileImg } = ctx.request.files;
+  const profileImg =
+    ctx.request.files === undefined ? null : ctx.request.files.profileImg;
+
+  const imageName = profileImg ? profileImg.name : null;
 
   const sql =
     // eslint-disable-next-line max-len
@@ -224,7 +227,34 @@ export const updateMemberMd = async (ctx, next) => {
     grade,
     department,
     studentID,
-    profileImg.name,
+    imageName,
+    mobile,
+    id,
+  ]);
+
+  await next();
+};
+
+export const updateProfessorMd = async (ctx, next) => {
+  const { id } = ctx.params;
+  const { conn } = ctx.state;
+
+  const { name, password, department, professorID, mobile } = ctx.request.body;
+
+  const profileImg =
+    ctx.request.files === undefined ? null : ctx.request.files.profileImg;
+
+  const imageName = profileImg ? profileImg.name : null;
+
+  const sql =
+    // eslint-disable-next-line max-len
+    "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
+  await conn.query(sql, [
+    name,
+    password,
+    department,
+    professorID,
+    imageName,
     mobile,
     id,
   ]);
@@ -319,11 +349,20 @@ export const readEmail = [
   CommonMd.responseMd,
 ];
 
-export const update = [
+export const updateStudent = [
   CommonMd.createConnectionMd,
   CommonMd.validateIdParamMd,
   validateUpdateDataMd,
-  updateMemberMd,
+  updateStudentMd,
+  queryMemberMdById,
+  CommonMd.responseMd,
+];
+
+export const updateProfessor = [
+  CommonMd.createConnectionMd,
+  CommonMd.validateIdParamMd,
+  validateUpdateDataMd,
+  updateProfessorMd,
   queryMemberMdById,
   CommonMd.responseMd,
 ];

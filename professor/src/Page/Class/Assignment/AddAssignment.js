@@ -1,208 +1,112 @@
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { Link, useHistory } from "react-router-dom";
-import { useAssignments } from "../../../components/Use";
 
 const P09_07 = () => {
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const [cSelected, setCSelected] = useState([]);
   const history = useHistory();
 
-  const { createAssignmentsApi } = useAssignments();
-
-  const [data, setData] = useState({
-    name: "",
-    content: "",
-  });
-
-  const [image, setImage] = useState(null);
-
-  const createHandler = async () => {
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("point", data.point);
-    formData.append("startDate", data.startDate);
-    formData.append("endDate", data.endDate);
-    formData.append("content", data.content);
-    formData.append("progress", 1);
-    formData.append("classCode", "AZSVBFV");
-    formData.append("teams", []);
-    formData.append("image", image);
-    console.log(image);
-    try {
-      await createAssignmentsApi(formData);
-      history.push("/professor/class/assignmentList");
-    } catch (e) {
-      alert(e);
+  const onCheckboxBtnClick = (selected) => {
+    const index = cSelected.indexOf(selected);
+    if (index < 0) {
+      cSelected.push(selected);
+    } else {
+      cSelected.splice(index, 1);
     }
+    setCSelected([...cSelected]);
   };
 
-  const imageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
-  const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
+  const createAssignment = () => {
+    history.push("/professor/class/assignmentList");
+    // 생성 로직
   };
 
   return (
     <Form>
-      <Button size="sm" style={{ marginTop: "20px" }} onClick={createHandler}>
-        완료
-      </Button>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label for="name" sm={2} style={{ fontWeight: "bold", paddingLeft: 0 }}>
+      <FormGroup style={{ marginTop: "20px" }}>
+        <Label for="assignmentName" style={{ fontWeight: "bold" }}>
           과제명
         </Label>
-        <Col sm={10}>
-          <Input
-            type="name"
-            name="name"
-            id="name"
-            value={data.name}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
-        >
-          배점
-        </Label>
-        <Col sm={4}>
-          <Input
-            type="point"
-            name="point"
-            id="point"
-            value={data.point}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
-        >
-          공개일
-        </Label>
-        <Col sm={5}>
-          <Input
-            type="datetime-local"
-            name="startDate"
-            id="startDate"
-            value={data.startDate}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
-        >
-          마감일
-        </Label>
-        <Col sm={5}>
-          <Input
-            type="datetime-local"
-            name="endDate"
-            id="endDate"
-            value={data.endDate}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-          alignItems: "center",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
-        >
-          팀지정
-        </Label>
-        {
-          <Col>
-            <Input
-              type="checkbox"
-              name="point"
-              id="point"
-              value={data.point}
-              onChange={handleChange}
-            />
-            1팀
-          </Col>
-        }
+        <Input
+          type="name"
+          name="name"
+          id="assignmentName"
+          style={{ width: "600px" }}
+        />
       </FormGroup>
       <FormGroup style={{ marginTop: "30px" }}>
+        <Label for="assignmentText" style={{ fontWeight: "bold" }}>
+          과제 내용
+        </Label>
         <Input
           type="textarea"
-          name="content"
+          name="text"
           id="assignmentText"
-          value={data.content}
-          onChange={handleChange}
-          style={{ height: "300px" }}
+          style={{ height: "300px", width: "600px" }}
         />
       </FormGroup>
       <FormGroup style={{ marginTop: "20px" }}>
-        <Label
-          for="imageFile"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
+        <Input type="file" name="file" id="assignmentFile" />
+      </FormGroup>
+      <div class="mt-2" style={{ fontWeight: "bold" }}>
+        과제 마감 날짜
+      </div>
+      <div class="d-flex mt-1">
+        <DatePicker
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+        />
+        <div>~</div>
+        <DatePicker
+          selected={endDate}
+          onChange={(date) => setEndDate(date)}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          minDate={startDate}
+        />
+      </div>
+      <div class="mt-2 d-flex">
+        <Button
+          color="secondary"
+          onClick={() => onCheckboxBtnClick(1)}
+          active={cSelected.includes(1)}
+          style={{ marginRight: "10px" }}
         >
-          첨부 파일
-        </Label>
-        <Input type="file" onChange={imageChange} />
-      </FormGroup>
-      <FormGroup style={{ marginTop: "10px" }}>
-        <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>
-          해답 파일
-        </Label>
-        <Input type="file" name="solutionFile" id="solutionFile" />
-      </FormGroup>
+          1팀
+        </Button>
+        <Button
+          color="secondary"
+          onClick={() => onCheckboxBtnClick(2)}
+          active={cSelected.includes(2)}
+          style={{ marginRight: "10px" }}
+        >
+          2팀
+        </Button>
+        <Button
+          color="secondary"
+          onClick={() => onCheckboxBtnClick(3)}
+          active={cSelected.includes(3)}
+        >
+          3팀
+        </Button>
+      </div>
+      <p>선택된 팀: {JSON.stringify(cSelected)}</p>
+      <Button
+        size="sm"
+        style={{ marginTop: "20px" }}
+        onClick={createAssignment}
+      >
+        과제 등록
+      </Button>
     </Form>
   );
 };

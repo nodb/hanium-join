@@ -131,31 +131,60 @@ const LinkButton = styled.div`
   line-height: 80px;
 `;
 
+const NoImg = styled.div`
+img{
+  width: 250px;
+  height: 250px;
+}
+`;
+
+const NoText = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 21px;
+text-align: center;
+
+color: #000000;
+`
+
 function P05_04() {
   return (
-    <WrapBox>
-      <TitleBox>
-        <Text style={{ width: "150px", fontSize: "23px" }}>구성 팀 확인</Text>
-        <Link
-          to="/professor/class/assign"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <LinkButton>팀 편성하기</LinkButton>
-        </Link>
-      </TitleBox>
-      {List.map((item) => {
-        return (
-          <>
-            <Text>Team{item._id}</Text>
-            <Box>
-              {item.team.map((data) => {
-                return <StudentBox student={data}></StudentBox>;
-              })}
-            </Box>
-          </>
-        );
-      })}
-    </WrapBox>
+
+    <>
+    <NoImg>
+    <img src={require('../../../images/no_student.png').default} alt="학생없음이미지" />
+    </NoImg>
+    <NoText>
+    아직 수업에 학생이 없습니다.
+    수강생 관리에서 학생을 추가해보세요.
+    </NoText>
+    </>
+
+    // <WrapBox>
+    //   <TitleBox>
+    //     <Text style={{ width: "150px", fontSize: "23px" }}>구성 팀 확인</Text>
+    //     <Link
+    //       to="/professor/class/assign"
+    //       style={{ textDecoration: "none", color: "inherit" }}
+    //     >
+    //       <LinkButton>팀 편성하기</LinkButton>
+    //     </Link>
+    //   </TitleBox>
+    //   {List.map((item) => {
+    //     return (
+    //       <>
+    //         <Text>Team{item._id}</Text>
+    //         <Box>
+    //           {item.team.map((data) => {
+    //             return <StudentBox student={data}></StudentBox>;
+    //           })}
+    //         </Box>
+    //       </>
+    //     );
+    //   })}
+    // </WrapBox>
   );
 }
 

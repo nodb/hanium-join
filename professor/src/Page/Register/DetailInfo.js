@@ -142,7 +142,7 @@ function Register(props) {
         alert(e)
       }
     }
-  };
+  }
 
   return (
     <Box>

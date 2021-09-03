@@ -261,7 +261,6 @@ export const updateProfessorMd = async (ctx, next) => {
 
   await next();
 };
-
 export const readMemberAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { conn } = ctx.state;
@@ -373,6 +372,7 @@ export const remove = [
   removeMemberMd,
   CommonMd.responseMd,
 ];
+
 
 export const studentLogin = [
   CommonMd.createConnectionMd,

@@ -107,6 +107,7 @@ function P05_04() {
           return <StudentList student={item}></StudentList>;
         })}
       </Box>
+      
       <Text>수강 신청</Text>
       <Box>
         {List.map((item) => {

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useMember } from "../../components";
+import { getDataFromStorage } from "../../utils/storage";
+import { Link } from "react-router-dom";
 
 const Box = styled.div`
 `;
@@ -111,7 +114,24 @@ padding-top: 9px;
 
 
 function MyInfo() {
-  return (
+
+const { memberInfo, getInfo } = useMember();
+
+
+useEffect(() => {
+  const fetch = async  () => {
+    try {
+      const professor = getDataFromStorage();
+      await getInfo(professor.id);
+
+    } catch(err) {
+      console.log(err);
+    }
+  }
+  fetch();
+}, [])
+
+return (
     <Box>
     <Page>
       내 프로필
@@ -122,23 +142,33 @@ function MyInfo() {
         <img src={require('../../images/person_default.png').default} alt="이미지" />
       </Myimg>
       <Info>
-        <Name> 홍길동 </Name> <Major> ( 컴퓨터공학과 ) </Major>
+        <Name> {memberInfo.name} </Name> <Major> ( {memberInfo.department} ) </Major>
+        
         <Email>
         <img src={require('../../images/Email.png').default} alt="이메일" />
-        join1234@seoultech.ac.kr
+        {memberInfo.email}
+        </Email>
+        
         <School_num>
         <img src={require('../../images/Major.png').default} alt="학사번호" />
-        12341234
+        {memberInfo.studentID}
         </School_num>
-        </Email>
+      
         <Phone>
         <img src={require('../../images/Phone.png').default} alt="폰" />
-        010-1234-1234
+        {memberInfo.mobile}
         </Phone>
+
       </Info>
-    <Modify>
-      정보 수정
-    </Modify>
+      <Link
+        to="/professor/mypage/modify"
+        style={{ textDecoration: "none", color: "black" }}
+      >
+        <Modify>
+          정보 수정
+        </Modify>
+    </Link>
+
     </InfoBox>
     </Box>
   );

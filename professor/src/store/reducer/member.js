@@ -3,15 +3,20 @@ import { pender } from "redux-pender";
 import { Map, List, fromJS } from "immutable";
 import { MemberApi } from "../../remote";
 
-
 export const LISTALL_MEMBER = "member/LISTALL";
-
+export const INFO_MEMBER = "member/INFO";   // 회원정보 가져오기
 
 export const listAllMember = createAction(
     LISTALL_MEMBER,
     MemberApi.listAll
 );
 
+export const getInfo = createAction(
+    INFO_MEMBER,
+    MemberApi.get
+)
+
+export const infoModifyApi = MemberApi.put;
 export const signupApi = MemberApi.signup;
 export const loginApi = MemberApi.login;
 
@@ -19,6 +24,16 @@ const initialState = Map({
     list: Map({
         count: 0,
         results: List([])
+    }),
+    info: Map({
+        name: "",
+        email: "",
+        professorID: "",
+        moblie: "",
+        department: "",
+        password: "",
+        grade: "",
+        birthDate: "",
     })
 });
 
@@ -38,6 +53,14 @@ export default handleActions({
             //     count: action.payload.data.count,
             // }
         }
-    })
+    }),
+    ...pender({
+        type: INFO_MEMBER,
+        onSuccess: (state, action) => {
+            const data = action.payload.data;
+
+            return state.set("info", fromJS(data));
+        }
+    }),
 
 }, initialState)

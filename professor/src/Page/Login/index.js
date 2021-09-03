@@ -88,14 +88,6 @@ const Login = () => {
       >
         <span>회원가입</span>
       </Link>
-      {/* 
-      {memberList.results.map(row => {
-        return (
-          <p>
-            {row.id} - {row.name}
-          </p>
-        )
-      })} */}
     </Box>
   );
 };

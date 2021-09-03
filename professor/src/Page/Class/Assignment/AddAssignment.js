@@ -3,6 +3,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useAssignments } from "../../../components/Use";
+import styled from "styled-components";
+
+const Box = styled.div`
+  width: 80%;
+`;
 
 const P09_07 = () => {
   const history = useHistory();
@@ -48,162 +53,168 @@ const P09_07 = () => {
   };
 
   return (
-    <Form>
-      <Button size="sm" style={{ marginTop: "20px" }} onClick={createHandler}>
-        완료
-      </Button>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label for="name" sm={2} style={{ fontWeight: "bold", paddingLeft: 0 }}>
-          과제명
-        </Label>
-        <Col sm={10}>
-          <Input
-            type="name"
-            name="name"
-            id="name"
-            value={data.name}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
+    <Box>
+      <Form>
+        <Button size="sm" style={{ marginTop: "20px" }} onClick={createHandler}>
+          완료
+        </Button>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
         >
-          배점
-        </Label>
-        <Col sm={4}>
-          <Input
-            type="point"
-            name="point"
-            id="point"
-            value={data.point}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
-        >
-          공개일
-        </Label>
-        <Col sm={5}>
-          <Input
-            type="datetime-local"
-            name="startDate"
-            id="startDate"
-            value={data.startDate}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
-        >
-          마감일
-        </Label>
-        <Col sm={5}>
-          <Input
-            type="datetime-local"
-            name="endDate"
-            id="endDate"
-            value={data.endDate}
-            onChange={handleChange}
-          />
-        </Col>
-      </FormGroup>
-      <FormGroup
-        row
-        style={{
-          marginLeft: 3,
-          padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
-          alignItems: "center",
-        }}
-      >
-        <Label
-          for="point"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
-        >
-          팀지정
-        </Label>
-        {
-          <Col>
+          <Label
+            for="name"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            과제명
+          </Label>
+          <Col sm={10}>
             <Input
-              type="checkbox"
+              type="name"
+              name="name"
+              id="name"
+              value={data.name}
+              onChange={handleChange}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
+        >
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            배점
+          </Label>
+          <Col sm={4}>
+            <Input
+              type="point"
               name="point"
               id="point"
               value={data.point}
               onChange={handleChange}
             />
-            1팀
           </Col>
-        }
-      </FormGroup>
-      <FormGroup style={{ marginTop: "30px" }}>
-        <Input
-          type="textarea"
-          name="content"
-          id="assignmentText"
-          value={data.content}
-          onChange={handleChange}
-          style={{ height: "300px" }}
-        />
-      </FormGroup>
-      <FormGroup style={{ marginTop: "20px" }}>
-        <Label
-          for="imageFile"
-          sm={2}
-          style={{ fontWeight: "bold", paddingLeft: 0 }}
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
         >
-          첨부 파일
-        </Label>
-        <Input type="file" onChange={imageChange} />
-      </FormGroup>
-      <FormGroup style={{ marginTop: "10px" }}>
-        <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>
-          해답 파일
-        </Label>
-        <Input type="file" name="solutionFile" id="solutionFile" />
-      </FormGroup>
-    </Form>
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            공개일
+          </Label>
+          <Col sm={5}>
+            <Input
+              type="datetime-local"
+              name="startDate"
+              id="startDate"
+              value={data.startDate}
+              onChange={handleChange}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+          }}
+        >
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            마감일
+          </Label>
+          <Col sm={5}>
+            <Input
+              type="datetime-local"
+              name="endDate"
+              id="endDate"
+              value={data.endDate}
+              onChange={handleChange}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <Label
+            for="point"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            팀지정
+          </Label>
+          {
+            <Col>
+              <Input
+                type="checkbox"
+                name="point"
+                id="point"
+                value={data.point}
+                onChange={handleChange}
+              />
+              1팀
+            </Col>
+          }
+        </FormGroup>
+        <FormGroup style={{ marginTop: "30px" }}>
+          <Input
+            type="textarea"
+            name="content"
+            id="assignmentText"
+            value={data.content}
+            onChange={handleChange}
+            style={{ height: "300px" }}
+          />
+        </FormGroup>
+        <FormGroup style={{ marginTop: "20px" }}>
+          <Label
+            for="imageFile"
+            sm={2}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            첨부 파일
+          </Label>
+          <Input type="file" onChange={imageChange} />
+        </FormGroup>
+        <FormGroup style={{ marginTop: "10px" }}>
+          <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>
+            해답 파일
+          </Label>
+          <Input type="file" name="solutionFile" id="solutionFile" />
+        </FormGroup>
+      </Form>
+    </Box>
   );
 };
 

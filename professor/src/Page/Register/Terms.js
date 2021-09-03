@@ -210,6 +210,6 @@ const RegisterBox = () => {
       {/* </Link> */}
     </Box>
   );
-};
+}
 
 export default RegisterBox;

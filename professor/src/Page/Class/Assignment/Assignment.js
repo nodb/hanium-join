@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
+import { Form, FormGroup, Label, Input, Col } from "reactstrap";
 import imgfile from "../../../images/assign_example.PNG";
 import { useAssignments, useComments } from "../../../components/Use";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { getDataFromStorage } from "../../../utils/storage";
+import styled from "styled-components";
+
+const Box = styled.div`
+  width: 80%;
+`;
+
+const Button = styled.div`
+  border: solid;
+  border-width: 1px;
+  border-color: #426589;
+`;
 
 const assignment = ({ match }) => {
   const history = useHistory();
@@ -94,7 +105,7 @@ const assignment = ({ match }) => {
   };
 
   return (
-    <>
+    <Box>
       <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           onClick={modifyHandler}
@@ -112,90 +123,86 @@ const assignment = ({ match }) => {
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "8px 0px",
             borderBottom: "1px solid #C4C4C4",
+            verticalAlign: "middle",
           }}
         >
           <Label
             for="name"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             과제명
           </Label>
-          <Col sm={10}>
-            <p>{assignmentOne.name}</p>
-          </Col>
+          <Col sm={10}>{assignmentOne.name}</Col>
         </FormGroup>
         <FormGroup
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
-            borderBottom: "1px solid #C4C4C4",
-          }}
-        >
-          <Label
-            for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: 0 }}
-          >
-            배점
-          </Label>
-          <Col sm={4}>
-            <p>{assignmentOne.point}</p>
-          </Col>
-        </FormGroup>
-        <FormGroup
-          row
-          style={{
-            marginLeft: 3,
-            padding: "15px 0px",
-            borderBottom: "1px solid #C4C4C4",
-          }}
-        >
-          <Label
-            for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: 0 }}
-          >
-            공개일
-          </Label>
-          <Col sm={5}>
-            <p>{DateChange(assignmentOne.startDate)}</p>
-          </Col>
-        </FormGroup>
-        <FormGroup
-          row
-          style={{
-            marginLeft: 3,
-            padding: "15px 0px",
-            borderBottom: "1px solid #C4C4C4",
-          }}
-        >
-          <Label
-            for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: 0 }}
-          >
-            마감일
-          </Label>
-          <Col sm={5}>
-            <p>{DateChange(assignmentOne.endDate)}</p>
-          </Col>
-        </FormGroup>
-        <FormGroup
-          row
-          style={{
-            marginLeft: 3,
-            padding: "15px 0px",
+            padding: "8px 0px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            배점
+          </Label>
+          <Col sm={4}>{assignmentOne.point}</Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "8px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <Label
+            for="point"
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            공개일
+          </Label>
+          <Col sm={5}>{DateChange(assignmentOne.startDate)}</Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "8px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <Label
+            for="point"
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            마감일
+          </Label>
+          <Col sm={5}>{DateChange(assignmentOne.endDate)}</Col>
+        </FormGroup>
+        <FormGroup
+          row
+          style={{
+            marginLeft: 3,
+            padding: "8px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <Label
+            for="point"
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             팀지정
@@ -233,7 +240,7 @@ const assignment = ({ match }) => {
             >
               <Label
                 for="name"
-                sm={2}
+                sm={1}
                 style={{ fontWeight: "bold", paddingLeft: "5px" }}
               >
                 {comment.name} ({DateChange2(comment.createdAt)})
@@ -282,7 +289,7 @@ const assignment = ({ match }) => {
       <Button size="sm" style={{ marginTop: "20px" }}>
         리포트 생성
       </Button>
-    </>
+    </Box>
   );
 };
 

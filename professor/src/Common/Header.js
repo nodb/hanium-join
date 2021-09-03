@@ -42,7 +42,7 @@ function Header() {
         >
           <DropdownToggle caret color="white" tag="span">
             <MyPage
-              src="https://cdn-icons-png.flaticon.com/512/848/848043.png"
+              src={require('../images/person_default.png').default}
               alt="mypage"
             ></MyPage>
           </DropdownToggle>

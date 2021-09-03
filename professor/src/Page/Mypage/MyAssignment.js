@@ -3,10 +3,71 @@ import { Table } from "reactstrap";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+const Box = styled.div``;
+
+const Page = styled.div`
+  color: #3d3d3d;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 27px;
+`;
+
+const Hr = styled.hr`
+  width: 1032px;
+  height: 0px;
+  border: 4px solid #c4c4c4;
+`;
+
 const IntroText = styled.div`
   padding-left: 30px;
+  color: #ef8f88;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
   font-size: 18px;
-  color: gray;
+`;
+
+const Assignment = styled.div`
+  table {
+    border-color: #ef8f88;
+  }
+
+  thead th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    padding-bottom: 10px;
+    color: #686868;
+    text-align: center;
+  }
+
+  tbody th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    padding-bottom: 10px;
+    color: #ef8f88;
+    padding-top: 11px;
+    text-align: center;
+  }
+
+  td {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    padding-top: 11px;
+    color: #000000;
+    text-align: center;
+  }
 `;
 
 const list = [
@@ -37,41 +98,46 @@ const list = [
 
 const MyAssignment = (props) => {
   return (
-    <>
+    <Box>
+      <Page>과제 제출함</Page>
+      <Hr />
       <IntroText>내용을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
-      <Table size="sm">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>과목</th>
-            <th>내용</th>
-            <th>제출여부</th>
-            <th>등록일</th>
-          </tr>
-        </thead>
-        <tbody>
-          {list &&
-            list.map((item) => {
-              return (
-                <tr>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.name}</td>
-                  <td>
-                    <Link
-                      to="/professor/class/assignment"
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      {item.content}
-                    </Link>
-                  </td>
-                  <td>{item.submit ? "제출" : "미제출"}</td>
-                  <td>{item.createdAt}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </Table>
-    </>
+      <Assignment>
+        <Table size="sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>과목</th>
+              <th>내용</th>
+              <th>제출여부</th>
+              <th>과제 등록일</th>
+              <th>과제 마감일</th>
+            </tr>
+          </thead>
+          <tbody>
+            {list &&
+              list.map((item) => {
+                return (
+                  <tr>
+                    <th scope="row">{item.id}</th>
+                    <td>{item.name}</td>
+                    <td>
+                      <Link
+                        to="/professor/class/assignment"
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        {item.content}
+                      </Link>
+                    </td>
+                    <td>{item.submit ? "제출" : "미제출"}</td>
+                    <td>{item.createdAt}</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+      </Assignment>
+    </Box>
   );
 };
 

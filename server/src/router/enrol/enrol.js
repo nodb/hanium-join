@@ -100,7 +100,7 @@ export const readEnrolCountMd = async (ctx, next) => {
 
   ctx.state.body = {
     ...ctx.state.body,
-    total: rows[0].readStudentCountMd,
+    total: rows[0].count,
   };
 
   await next();
@@ -135,7 +135,7 @@ export const readStudentCountMd = async (ctx, next) => {
 
   ctx.state.body = {
     ...ctx.state.body,
-    total: rows[0].readStudentCountMd,
+    total: rows[0].count,
   };
 
   await next();

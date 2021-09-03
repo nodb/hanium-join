@@ -138,6 +138,7 @@ export const readAssignmentAllMd = async (ctx, next) => {
   }
 
   ctx.state.body = {
+    count: rows.length,
     results: rows,
   };
 
@@ -308,6 +309,7 @@ export const readAssignmentByMemberMd = async (ctx, next) => {
   );
 
   ctx.state.body = {
+    count: rows.length,
     results: rows,
   };
 
@@ -328,6 +330,7 @@ export const readAssignmentByTeamMd = async (ctx, next) => {
   );
 
   ctx.state.body = {
+    count: rows.length,
     results: rows,
   };
 

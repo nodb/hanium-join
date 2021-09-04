@@ -15,6 +15,7 @@ import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
 import styled from "styled-components";
 import AlertBox from "../Register/AlertBox";
+import { BirthDate } from "../../utils/dateChange";
 
 const Box = styled.div`
 `;
@@ -103,6 +104,7 @@ const handleError = (name, value) => {
 const handleChange = (e) => {
   const name = e.target.name;
   const value = e.target.value;
+  console.log(value);
 
   const {errName=undefined, errMessage=undefined } = handleError(name, value);
 
@@ -112,6 +114,7 @@ const handleChange = (e) => {
     errName,
     errMessage
   });
+
 }
 
 const onModifyHandler = async (e) => {
@@ -136,6 +139,7 @@ const onModifyHandler = async (e) => {
 }
 }
 if (!data) return "로딩중";
+console.log(data.birthDate)
 console.log(image);
   return (
     <Box>
@@ -243,10 +247,10 @@ console.log(image);
       <FormGroup row>
       <InputWithLabel
         label="생년월일"
-        name="birth"
+        name="birthDate"
         placeholder="생년월일"
         type="date"
-        value={data.birthDate}
+        value={BirthDate(data.birthDate)}
         onChange={handleChange}
       />
       </FormGroup>

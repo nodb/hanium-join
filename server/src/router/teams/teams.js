@@ -20,16 +20,37 @@ export const readTeamAllMd = async (ctx, next) => {
   const rows = await conn.query(
     // eslint-disable-next-line max-len
     // eslint-disable-next-line no-multi-str
+    "SELECT * FROM tb_team WHERE class_code = ?",
+    [classCode]
+  );
+
+  ctx.state.body = {
+    count: rows.length,
+    results: rows,
+  };
+
+  await next();
+};
+
+export const readTeamMemberAllMd = async (ctx, next) => {
+  const { conn } = ctx.state;
+  const { classCode } = ctx.params;
+  const rows = await conn.query(
+    // eslint-disable-next-line max-len
+    // eslint-disable-next-line no-multi-str
     "SELECT t.id as teamId, t.name as teamName, m.name, m.grade, m.department \
     FROM tb_team t \
     JOIN tb_team_member tm ON t.id = tm.team_id \
     JOIN tb_member m ON tm.member_id = m.id \
-    LEFT JOIN tb_class c ON t.class_code = c.code \
+    JOIN tb_class c ON t.class_code = c.code \
     WHERE c.code = ?",
     [classCode]
   );
 
-  ctx.state.body = rows;
+  ctx.state.body = {
+    count: rows.length,
+    results: rows,
+  };
 
   await next();
 };

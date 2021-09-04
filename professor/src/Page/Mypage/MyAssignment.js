@@ -4,9 +4,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useAssignments } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
-
+import {DateChange} from "../../utils/dateChange";
 
 const Box = styled.div`
+width: 80%;
 `;
 
 const Page = styled.div`
@@ -19,7 +20,7 @@ margin-top: 27px;
 `;
 
 const Hr = styled.hr`
-width: 1032px;
+width: 100%;
 height: 0px;
 border: 4px solid #C4C4C4;
 `
@@ -77,13 +78,13 @@ text-align: center;
 
 const MyAssignment = () => {
 
-  const { assignmentsTotal, listAllMyAssignments } = useAssignments();
+  const { assignmentsTotal, ListTotalAssignments } = useAssignments();
 
   useEffect(()=> {
     const fetch = async () => {
   try{
         const professor = getDataFromStorage();
-        await listAllMyAssignments(professor.id);
+        await ListTotalAssignments(professor.id);
       } catch(err){
         console.log(err);
       }   
@@ -105,7 +106,7 @@ const MyAssignment = () => {
           <tr>
             <th>#</th>
             <th>과목</th>
-            <th>내용</th>
+            <th>과제명</th>
             <th>과제 등록일</th>
             <th>과제 마감일</th>
           </tr>
@@ -116,14 +117,14 @@ const MyAssignment = () => {
 
             </>
           )}
-          {assignmentsTotal.results.map((item) => {
+          {assignmentsTotal.results.map((item,index) => {
               return (
-                <tr>
-                  <th scope="row">{item.id}</th>
-                  <td>과목</td>
-                  <td>{item.name}</td>
-                  <td>{item.startDate}</td>
-                  <td>{item.endDate}</td>
+                <tr key={index}>
+                  <td>{index+1}</td>
+                  <td>{item.className}</td>
+                  <td>{item.assignmentName}</td>
+                  <td>{DateChange(item.startDate)}</td>
+                  <td>{DateChange(item.endDate)}</td>
                 </tr>
               );
             })}

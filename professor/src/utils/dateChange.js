@@ -61,3 +61,18 @@ export const DateChange3 = (date) => {
     (min >= 10 ? min : "0" + min);
   return result;
 };
+
+export const BirthDate = (date) => {
+  const New = new Date(date);
+  const year = New.getFullYear();
+  const month = New.getMonth() + 1;
+  const day = New.getDate();
+  const result = 
+  year +
+    "-" +
+    (month >= 10 ? month : "0" + month) +
+    "-" +
+    (day >= 10 ? day : "0" + day);
+
+    return result;
+}

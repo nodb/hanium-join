@@ -73,6 +73,29 @@ line-height: 23px;
 color: #3D3D3D;
 margin-top: 42px;
 `
+const RelatvieBox = styled.span`
+  margin-top: 303px;
+  width: 200px;
+  right: 135px;
+`;
+
+const Arrow = styled.div`
+  margin-bottom: 25px;
+  margin-left: 35px;
+  width: 130px;
+  height: 35px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  img{
+    text-align: center;
+    margin-left: 50px;
+    width: 25px;
+    height: 25px;
+    margin-top: 4px;
+  }
+  cursor: pointer;
+`
 
 function P07_05() {
 
@@ -95,6 +118,20 @@ function P07_05() {
           <ListText>학생목록</ListText>
           <StudentList />
         </Student>
+        <RelatvieBox>
+        <Arrow style={{ backgroundColor: "white" }}>
+          <img
+            src={require("../../../images/toRight.png").default}
+            alt="rightArrow"
+          ></img>
+        </Arrow>
+        <Arrow style={{ backgroundColor: "white" }}>
+          <img
+            src={require("../../../images/toLeft.png").default}
+            alt="leftArrow"
+          ></img>
+        </Arrow>
+      </RelatvieBox>
         <Team>
           <div >
             <ListText>팀목록</ListText>

@@ -27,7 +27,7 @@ const useAssignments = () => {
 
     listAllByClassCode: actions.listAllByClassCode,
     getAssignment: actions.getAssignment,
-    listAllMyAssignments: actions.listAllMyAssignments,
+    ListTotalAssignments: actions.ListTotalAssignments,
 
     createAssignmentsApi: reducer.createAssignmentsApi,
     updateAssignmentsApi: reducer.updateAssignmentsApi,

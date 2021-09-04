@@ -14,25 +14,12 @@ const Box = styled.div`
 
 `;
 
-const RelatvieBox = styled.div`
-  width: 200px;
-  right: 135px;
-`;
 
 function P07_StudnentList() {
   return (
     <>
       <Box></Box>
-      <RelatvieBox>
-        <button style={{ backgroundColor: "white" }}>
-          <img
-            src={require("../../../images/toRight.png").default}
-            alt="leftArrow"
-            width="30px"
-            height="30px"
-          ></img>
-        </button>
-      </RelatvieBox>
+
     </>
   );
 }

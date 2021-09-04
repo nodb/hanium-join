@@ -118,7 +118,7 @@ export const readMemberIdMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department \
+    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department, birthDate \
     FROM tb_member WHERE id = ?",
     [id]
   );

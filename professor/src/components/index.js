@@ -1,7 +1,9 @@
 import {
-    useMember
+    useMember,
+    useAssignments
  } from "./Use";
 
 export {
     useMember,
+    useAssignments,
 }

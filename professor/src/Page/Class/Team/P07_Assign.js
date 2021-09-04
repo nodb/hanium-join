@@ -17,33 +17,19 @@ const Block = styled.div`
 `;
 
 const ModalBlock = styled.div`
-  width: 400px;
+  width: 297px;
   background-color: #fff;
-  height: 250px;
-  overflow-y: scroll;
+  height: 325px;
   border-radius: 15px;
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.25);
-  }
-  &::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
-  }
 `;
 
 const Header = styled.div`
   width: 100%;
   height: 71px;
   box-sizing: border-box;
-  padding-left: 50px;
+  padding-left: 26px;
   padding-right: 24px;
+  margin-bottom: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,17 +63,63 @@ const Header = styled.div`
 `;
 
 const CodeInput = styled.input`
-  width: 300px;
-  height: 30px;
+margin-left: 26px;
+margin-top: 14px;
+margin-bottom: 21px;
+width: 243px;
+height: 32px;
+::placeholder {
+  font-family: Roboto Condensed;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  
+  color: #7C7979;
+}
 `;
 
-const AddButton = styled.button`
-  width: 50px;
+const Buttons = styled.div`
+margin-left: 190px;
+margin-top: 19px;
+`
+
+const AddButton = styled.span`
   background: none;
   border: none;
   cursor: pointer;
-  color: red;
+  font-family: Roboto Condensed;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+
+  color: #EF8F88;
 `;
+
+const CloseButton = styled.span`
+margin-right: 11px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: Roboto Condensed;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+
+  color: #A8A7A7;
+`;
+
+const Text = styled.div`
+font-family: Roboto Condensed;
+font-style: normal;
+font-weight: normal;
+font-size: 15px;
+line-height: 18px;
+padding-left: 26px;
+color: #000000;
+`
 
 function P07_Assign({ open, close }) {
   return (
@@ -95,16 +127,19 @@ function P07_Assign({ open, close }) {
       {open && (
         <Block State={open}>
           <ModalBlock>
-            <Header>자동 팀 편성</Header>
-            <div style={{ padding: "30px 45px 45px 45px" }}>
-              <CodeInput type="num"></CodeInput>
-            </div>
-            <div style={{ padding: "0 40px 0 40px", display: "flex" }}>
-              <AddButton onClick={close}>취소</AddButton>
-              <AddButton onClick={close} style={{ marginLeft: "220px" }}>
-                확인
+            <Header>자동 편성</Header>
+            <Text>팀 개수</Text>
+            <CodeInput type="input" placeholder="편성할 팀 개수를 입력하여 주세요. ex)5"/>
+            <Text>학생 수</Text>
+            <CodeInput type="input" placeholder="팀 당 학생 수를 입력하여 주세요. ex)4"/>
+            <Buttons>
+              <CloseButton onClick={close}>
+                취소
+              </CloseButton>
+              <AddButton onClick={close}>
+                완료
               </AddButton>
-            </div>
+            </Buttons>
           </ModalBlock>
         </Block>
       )}

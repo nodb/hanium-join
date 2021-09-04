@@ -1,7 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Table } from "reactstrap";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useAssignments } from "../../components";
+import { getDataFromStorage } from "../../utils/storage";
+
 
 const Box = styled.div`
 `;
@@ -72,33 +75,22 @@ text-align: center;
 }
 `
 
-const list = [
-  {
-    id: 1,
-    name: "시스템 프로그래밍",
-    content: "최종 과제 제출",
-    submit: true,
-    createdAt: "2021-06-04",
-  },
+const MyAssignment = () => {
 
-  {
-    id: 2,
-    name: "컴퓨터 네트워크",
-    content: "C 소켓 프로그래밍",
-    submit: true,
-    createdAt: "2021-06-01",
-  },
+  const { assignmentsTotal, listAllByMember } = useAssignments();
 
-  {
-    id: 3,
-    name: "소프트웨어 공학",
-    content: "Sprint 5",
-    submit: false,
-    createdAt: "2021-06-01",
-  },
-];
+  useEffect(()=> {
+    const fetch = async () => {
+  try{
+        const professor = getDataFromStorage();
+        await listAllByMember(professor.id);
+      } catch(err){
+        console.log(err);
+      }   
+  }
+  fetch();
+},[])
 
-const MyAssignment = (props) => {
   return (
     <Box>
       <Page>
@@ -120,22 +112,15 @@ const MyAssignment = (props) => {
           </tr>
         </thead>
         <tbody>
-          {list &&
-            list.map((item) => {
+          {assignmentsTotal.result.map((item) => {
               return (
                 <tr>
                   <th scope="row">{item.id}</th>
+                  <td>과목</td>
                   <td>{item.name}</td>
-                  <td>
-                    <Link
-                      to="/professor/class/assignment"
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      {item.content}
-                    </Link>
-                  </td>
-                  <td>{item.submit ? "제출" : "미제출"}</td>
-                  <td>{item.createdAt}</td>
+                  <td>{item.progress ? "제출" : "미제출"}</td>
+                  <td>{item.startDate}</td>
+                  <td>{item.endDate}</td>
                 </tr>
               );
             })}

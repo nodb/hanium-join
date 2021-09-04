@@ -4,21 +4,25 @@ import { Link } from "react-router-dom";
 
 import StudentList from "./P07_StudentList";
 import StudentTeam from "./P07_StudentTeam";
-import Assign from "./P07_Assign";
 
 const Text = styled.div`
-  font-family: "Nanum Gothic", sans-serif;
-  font-size: 20px;
-  font-weight: 900;
-  width: 80px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+
+  font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 23px;
+
+color: #3D3D3D;
+margin-top: 10px;
 `;
 
 const Select = styled.select`
-  margin-top: 20px;
+margin-top: -16px;
   width: 100px;
   height: 30px;
+  float: right;
+  margin-bottom: 6px;
 `;
 
 const Button = styled.button`
@@ -29,38 +33,71 @@ const Button = styled.button`
   background-color: white;
 `;
 
+const LinkButton = styled.div`
+  width: 100px;
+  height: 32px;
+  border: 2px solid #426589;
+  box-sizing: border-box;
+  border-radius: 50px;
+  color: #426589;
+  font-size: 18px;
+  text-align: center;
+  margin-left: 980px;
+`;
+
+const Box = styled.div`
+
+`
+
+const Head = styled.div`
+
+`
+
+const Cont = styled.div`
+display: flex;
+`
+
+const Student = styled.div`
+`
+
+const Team = styled.div`
+`
+
+const ListText = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 23px;
+
+color: #3D3D3D;
+margin-top: 42px;
+`
+
 function P07_05() {
-  const [Modal, setModalOpen] = useState(false);
-
-  const ModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  const ModalClose = () => {
-    setModalOpen(false);
-  };
 
   return (
-    <>
-      <div style={{ display: "flex" }}>
-        <Text style={{ width: "700px", fontSize: "23px" }}>팀편성</Text>
-        <Button onClick={ModalOpen}>자동 편성</Button>
+    <Box>
+      <Head>
+        <Text>팀편성</Text>
+        <LinkButton>
         <Link
-          to="/class/team"
+          to="/professor/class/team"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <div style={{ marginTop: "25px" }}>팀 화면으로 돌아가기</div>
+          <div>돌아가기</div>
         </Link>
-      </div>
-      <div style={{ display: "flex" }}>
-        <div>
-          <Text>학생목록</Text>
+        </LinkButton>
+      </Head>
+
+      <Cont>
+        <Student>
+          <ListText>학생목록</ListText>
           <StudentList />
-        </div>
-        <div style={{ width: "200px" }}></div>
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Text>팀목록</Text>
+        </Student>
+        <Team>
+          <div >
+            <ListText>팀목록</ListText>
             <Select name="team" id="team">
               <option value="">팀 선택</option>
               <option value="1">TEAM 01</option>
@@ -69,10 +106,9 @@ function P07_05() {
             </Select>
           </div>
           <StudentTeam />
-        </div>
-      </div>
-      <Assign open={Modal} close={ModalClose}></Assign>
-    </>
+        </Team>
+      </Cont>
+    </Box>
   );
 }
 

@@ -13,6 +13,7 @@ const useComments = () => {
     listAllComments: actions.listAllComments,
 
     createCommentApi: reducer.createCommentApi,
+    deleteCommentApi: reducer.deleteCommentApi,
   };
 };
 

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Table } from "reactstrap";
 import { Link, useHistory } from "react-router-dom";
 import { useAssignments } from "../../../components/Use";
 import { DateChange } from "../../../utils/dateChange";
 import styled from "styled-components";
-import { getDataFromStorage, saveDataToStorage } from "../../../utils/storage";
 
 const Box = styled.div`
   width: 80%;
@@ -59,8 +58,6 @@ const assignmentList = () => {
     };
     fetch();
   }, []);
-  console.log(Math.random().toString(36).substr(2, 11).toUpperCase());
-
   const handler = async (id) => {
     try {
       history.push(`/professor/class/assignment/${id}`);
@@ -68,8 +65,6 @@ const assignmentList = () => {
       alert(e);
     }
   };
-
-  const count = 1;
 
   return (
     <Box>
@@ -91,10 +86,10 @@ const assignmentList = () => {
             </tr>
           </thead>
           <tbody>
-            {assignmentsList.results.map((assignment) => {
+            {assignmentsList.results.map((assignment, index) => {
               return (
                 <tr>
-                  <th>{count}</th>
+                  <th>{index + 1}</th>
                   <td onClick={() => handler(assignment.id)}>
                     {assignment.name}
                   </td>

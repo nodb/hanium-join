@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
-import { Link, useHistory } from "react-router-dom";
-import { useAssignments } from "../../../components/Use";
+import { useHistory } from "react-router-dom";
+import { useAssignments, useTeams } from "../../../components/Use";
 import { DateChange3 } from "../../../utils/dateChange";
 import styled from "styled-components";
 
@@ -15,14 +15,35 @@ const AssignmentModify = ({ match }) => {
 
   const { assignmentOne, getAssignment, updateAssignmentsApi } =
     useAssignments();
+  const { teamList, listAllTeams } = useTeams();
 
   const [image, setImage] = useState(null);
+  const [teams, setTeams] = useState([]);
+
   const imageChange = (e) => {
     setImage(e.target.files[0]);
   };
-  const [data, setData] = useState();
 
-  console.log(data);
+  const checkboxChange = (e) => {
+    setTeams({
+      ...teams,
+      [e.target.value]: e.target.checked,
+    });
+  };
+
+  const teamCheck = (id) => {
+    let valid = false;
+    if (!assignmentOne.team) return valid;
+
+    assignmentOne.team.map((item) => {
+      if (item.team_id === id) {
+        valid = true;
+      }
+    });
+    return valid;
+  };
+
+  const [data, setData] = useState();
 
   const history = useHistory();
 
@@ -34,6 +55,28 @@ const AssignmentModify = ({ match }) => {
   };
 
   useEffect(() => {
+    if (assignmentOne.team) {
+      assignmentOne.team.map((item) => {
+        setTeams({
+          ...teams,
+          [item.team_id]: true,
+        });
+      });
+    }
+  }, [assignmentOne]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await listAllTeams("AZSVBFV");
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
+
+  useEffect(() => {
     const fetch = async () => {
       try {
         await getAssignment(assignmentId);
@@ -43,9 +86,12 @@ const AssignmentModify = ({ match }) => {
     };
     fetch();
   }, []);
+
   useEffect(() => {
     setData({
       ...assignmentOne,
+      startDate: DateChange3(assignmentOne.startDate),
+      endDate: DateChange3(assignmentOne.endDate),
     });
   }, [assignmentOne]);
 
@@ -61,10 +107,9 @@ const AssignmentModify = ({ match }) => {
       formData.append("classCode", "AZSVBFV");
       formData.append("teams", []);
       formData.append("image", image);
-      console.log(image);
 
-      await updateAssignmentsApi(assignmentId);
-      history.push(`/professor/class/assignment/${id}`);
+      await updateAssignmentsApi(assignmentId, formData);
+      history.push(`/professor/class/assignment/${assignmentId}`);
     } catch (e) {
       alert(e);
     }
@@ -73,7 +118,6 @@ const AssignmentModify = ({ match }) => {
   if (!data) {
     return "로딩중";
   }
-  console.log(DateChange3(data.startDate));
 
   return (
     <Box>
@@ -97,12 +141,12 @@ const AssignmentModify = ({ match }) => {
         >
           <Label
             for="name"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             과제명
           </Label>
-          <Col sm={10}>
+          <Col sm={4}>
             <Input
               type="name"
               name="name"
@@ -122,12 +166,12 @@ const AssignmentModify = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             배점
           </Label>
-          <Col sm={5}>
+          <Col sm={4}>
             <Input
               type="point"
               name="point"
@@ -147,12 +191,12 @@ const AssignmentModify = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             공개일
           </Label>
-          <Col sm={5}>
+          <Col sm={4}>
             <Input
               type="datetime-local"
               name="startDate"
@@ -172,17 +216,17 @@ const AssignmentModify = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             마감일
           </Label>
-          <Col sm={5}>
+          <Col sm={4}>
             <Input
               type="datetime-local"
               name="endDate"
               id="endDate"
-              value={DateChange3(data.startDate)}
+              value={DateChange3(data.endDate)}
               onChange={handleChange}
             />
           </Col>
@@ -198,23 +242,25 @@ const AssignmentModify = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             팀지정
           </Label>
-          {
-            <Col>
-              <Input
-                type="checkbox"
-                name="point"
-                id="point"
-                value={data.point}
-                onChange={handleChange}
-              />
-              1팀
-            </Col>
-          }
+          {teamList.results.map((team) => (
+            <Label check sm={1}>
+              <Col>
+                <Input
+                  type="checkbox"
+                  checked={teamCheck(team.id)}
+                  value={team.id}
+                  onChange={checkboxChange}
+                  style={{ marginRight: "5px" }}
+                />
+                {team.name}
+              </Col>
+            </Label>
+          ))}
         </FormGroup>
         <FormGroup style={{ marginTop: "30px" }}>
           <Input

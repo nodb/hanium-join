@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Form, FormGroup, Label, Input, Col } from "reactstrap";
-import imgfile from "../../../images/assign_example.PNG";
-import { useAssignments, useComments } from "../../../components/Use";
+import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
+import { useAssignments, useComments, useTeams } from "../../../components/Use";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { getDataFromStorage } from "../../../utils/storage";
 import styled from "styled-components";
@@ -11,15 +10,8 @@ const Box = styled.div`
   width: 80%;
 `;
 
-const Button = styled.div`
-  border: solid;
-  border-width: 1px;
-  border-color: #426589;
-`;
-
 const assignment = ({ match }) => {
   const history = useHistory();
-  const count = 0;
   const assignmentId = match.params.id;
   const professorInfo = getDataFromStorage();
 
@@ -29,7 +21,9 @@ const assignment = ({ match }) => {
 
   const { assignmentOne, getAssignment, deleteAssignmentsApi } =
     useAssignments();
-  const { commentList, listAllComments, createCommentApi } = useComments();
+  const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
+    useComments();
+  const { teamList, listAllTeams } = useTeams();
 
   const handleChange = (e) => {
     setData({
@@ -37,6 +31,17 @@ const assignment = ({ match }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await listAllTeams("AZSVBFV");
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
 
   useEffect(() => {
     const fetch = async () => {
@@ -73,6 +78,18 @@ const assignment = ({ match }) => {
     }
   };
 
+  const teamCheck = (id) => {
+    let valid = false;
+    if (!assignmentOne.team) return valid;
+    assignmentOne.team.map((item) => {
+      console.log(item.team_id);
+      if (item.team_id === id) {
+        valid = true;
+      }
+    });
+    return valid;
+  };
+
   const submitCommentHandler = async () => {
     try {
       const request = {
@@ -103,6 +120,8 @@ const assignment = ({ match }) => {
       alert(e);
     }
   };
+
+  if (!data) return "로딩중";
 
   return (
     <Box>
@@ -201,32 +220,36 @@ const assignment = ({ match }) => {
           }}
         >
           <Label
-            for="point"
+            for="team"
             sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             팀지정
           </Label>
-          {/* {
-            <Col>
+          {teamList.results.map((team) => (
+            <Col sm={1}>
               <Input
                 type="checkbox"
-                name="point"
-                id="point"
-                value={data.point}
-                onChange={handleChange}
+                checked={teamCheck(team.id)}
+                disabled={true}
+                style={{ marginRight: "5px" }}
               />
-              1팀
+              {team.name}
             </Col>
-          } */}
+          ))}
         </FormGroup>
-
-        <img src={imgfile} class="mt-3" />
-        <FormGroup style={{ marginTop: "30px" }}>
+        <FormGroup
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
           <p>{assignmentOne.content}</p>
         </FormGroup>
         <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
-          댓글 {count}개
+          댓글 {commentList.total}개
         </div>
         {commentList.results.map((comment) => {
           return (
@@ -240,7 +263,7 @@ const assignment = ({ match }) => {
             >
               <Label
                 for="name"
-                sm={1}
+                sm={2}
                 style={{ fontWeight: "bold", paddingLeft: "5px" }}
               >
                 {comment.name} ({DateChange2(comment.createdAt)})
@@ -263,10 +286,7 @@ const assignment = ({ match }) => {
         <FormGroup
           row
           style={{
-            marginLeft: 3,
-            padding: "15px 0px",
-            borderBottom: "1px solid #C4C4C4",
-            alignItems: "center",
+            padding: "7px 0px",
           }}
         >
           <Col sm={7}>
@@ -285,10 +305,6 @@ const assignment = ({ match }) => {
           </Col>
         </FormGroup>
       </Form>
-
-      <Button size="sm" style={{ marginTop: "20px" }}>
-        리포트 생성
-      </Button>
     </Box>
   );
 };

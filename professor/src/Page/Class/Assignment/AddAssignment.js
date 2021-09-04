@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
-import { Link, useHistory } from "react-router-dom";
-import { useAssignments } from "../../../components/Use";
+import { useHistory } from "react-router-dom";
+import { useAssignments, useTeams } from "../../../components/Use";
 import styled from "styled-components";
 
 const Box = styled.div`
@@ -13,15 +13,33 @@ const P09_07 = () => {
   const history = useHistory();
 
   const { createAssignmentsApi } = useAssignments();
+  const { teamList, listAllTeams } = useTeams();
 
   const [data, setData] = useState({
     name: "",
     content: "",
   });
 
+  const [teams, setTeams] = useState([]);
+
+  const checkboxChange = (e) => {
+    setTeams({
+      ...teams,
+      [e.target.name]: e.target.checked,
+    });
+  };
+
   const [image, setImage] = useState(null);
 
   const createHandler = async () => {
+    const team = [];
+    const keys = Object.keys(teams);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const value = teams[key];
+      if (value === true) team.push(key);
+    }
+
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("point", data.point);
@@ -30,7 +48,7 @@ const P09_07 = () => {
     formData.append("content", data.content);
     formData.append("progress", 1);
     formData.append("classCode", "AZSVBFV");
-    formData.append("teams", []);
+    formData.append("teams", team);
     formData.append("image", image);
     console.log(image);
     try {
@@ -40,6 +58,17 @@ const P09_07 = () => {
       alert(e);
     }
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await listAllTeams("AZSVBFV");
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
 
   const imageChange = (e) => {
     setImage(e.target.files[0]);
@@ -51,6 +80,9 @@ const P09_07 = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  console.log(teams);
+  console.log(JSON.stringify(teams));
 
   return (
     <Box>
@@ -68,7 +100,7 @@ const P09_07 = () => {
         >
           <Label
             for="name"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             과제명
@@ -93,12 +125,12 @@ const P09_07 = () => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             배점
           </Label>
-          <Col sm={4}>
+          <Col sm={3}>
             <Input
               type="point"
               name="point"
@@ -118,12 +150,12 @@ const P09_07 = () => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             공개일
           </Label>
-          <Col sm={5}>
+          <Col sm={3}>
             <Input
               type="datetime-local"
               name="startDate"
@@ -143,12 +175,12 @@ const P09_07 = () => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             마감일
           </Label>
-          <Col sm={5}>
+          <Col sm={3}>
             <Input
               type="datetime-local"
               name="endDate"
@@ -169,23 +201,22 @@ const P09_07 = () => {
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             팀지정
           </Label>
-          {
-            <Col>
+          {teamList.results.map((team) => (
+            <Col sm={1}>
               <Input
                 type="checkbox"
-                name="point"
-                id="point"
-                value={data.point}
-                onChange={handleChange}
+                name={team.id}
+                onChange={checkboxChange}
+                style={{ marginRight: "5px" }}
               />
-              1팀
+              {team.name}
             </Col>
-          }
+          ))}
         </FormGroup>
         <FormGroup style={{ marginTop: "30px" }}>
           <Input
@@ -200,7 +231,7 @@ const P09_07 = () => {
         <FormGroup style={{ marginTop: "20px" }}>
           <Label
             for="imageFile"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             첨부 파일
@@ -208,7 +239,7 @@ const P09_07 = () => {
           <Input type="file" onChange={imageChange} />
         </FormGroup>
         <FormGroup style={{ marginTop: "10px" }}>
-          <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>
+          <Label for="solutionFile" sm={1} style={{ fontWeight: "bold" }}>
             해답 파일
           </Label>
           <Input type="file" name="solutionFile" id="solutionFile" />

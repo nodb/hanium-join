@@ -99,7 +99,7 @@ const list = [
 const MyAssignment = (props) => {
   return (
     <Box>
-      <Page>과제 제출함</Page>
+      <Page>과제 제출하기싫음</Page>
       <Hr />
       <IntroText>내용을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
       <Assignment>

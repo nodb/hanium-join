@@ -247,7 +247,7 @@ export const updateAssignmentMd = async (ctx, next) => {
     id,
   ]);
 
-  if (!teams) next();
+  if (!teams) return next();
 
   for (let i = 0; i < teams.length; i += 1) {
     payload.push([UUID(), 0, id, teams[i], null, null]);
@@ -279,7 +279,7 @@ export const queryAssignmentMdById = async (ctx, next) => {
   await next();
 };
 
-export const readAssignmentByMemberMd = async (ctx, next) => {
+export const readAssignmentByStudentMd = async (ctx, next) => {
   const { memberId } = ctx.params;
   const { skip, limit } = ctx.state.query;
   const { conn } = ctx.state;
@@ -292,6 +292,28 @@ export const readAssignmentByMemberMd = async (ctx, next) => {
     JOIN tb_assignment a ON a.id = at.assignment_id \
     JOIN tb_class c ON c.code = a.class_code \
     WHERE tm.member_id = ? LIMIT ?, ?",
+    [memberId, skip, limit]
+  );
+
+  ctx.state.body = {
+    count: rows.length,
+    results: rows,
+  };
+
+  await next();
+};
+
+export const readAssignmentByProfessorMd = async (ctx, next) => {
+  const { memberId } = ctx.params;
+  const { skip, limit } = ctx.state.query;
+  const { conn } = ctx.state;
+
+  const rows = await conn.query(
+    "SELECT c.name as className, a.name as assignmentName, a.createdAt, a.endDate \
+      FROM tb_class c \
+      JOIN tb_assignment a ON a.class_code = c.code\
+      JOIN tb_member m ON c.member_id = m.id\
+      WHERE m.id = ?",
     [memberId, skip, limit]
   );
 
@@ -341,10 +363,17 @@ export const readAll = [
   CommonMd.responseMd,
 ];
 
-export const readByMember = [
+export const readByStudent = [
   CommonMd.validataListParamMd,
   CommonMd.createConnectionMd,
-  readAssignmentByMemberMd,
+  readAssignmentByStudentMd,
+  CommonMd.responseMd,
+];
+
+export const readByProfessor = [
+  CommonMd.validataListParamMd,
+  CommonMd.createConnectionMd,
+  readAssignmentByProfessorMd,
   CommonMd.responseMd,
 ];
 
@@ -355,8 +384,8 @@ export const readByTeam = [
 ];
 
 export const readId = [
-  CommonMd.validateIdParamMd,
   CommonMd.createConnectionMd,
+  CommonMd.validateIdParamMd,
   readAssignmentByIdMd,
   CommonMd.responseMd,
 ];

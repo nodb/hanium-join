@@ -40,13 +40,16 @@ const StudentBox = styled.div`
 `;
 
 const Box = styled.div`
-  background-color: #d8d8d8;
   width: 400px;
-  height: 500px;
+  height: 626px;
   overflow: scroll;
   flex-wrap: wrap;
   padding: 30px 50px 30px;
   position: relative;
+  background: #FFFFFF;
+border: 2px solid #6F91B5;
+box-sizing: border-box;
+margin-top: 20px;
 `;
 
 const RelatvieBox = styled.div`
@@ -90,16 +93,6 @@ function P07_StudnentList() {
           })}
         </Form>
       </Box>
-      <RelatvieBox>
-        <button style={{ backgroundColor: "white" }}>
-          <img
-            src={`../BGImg/rightArrow.png`}
-            alt="rightArrow"
-            width="50px"
-            height="30px"
-          ></img>
-        </button>
-      </RelatvieBox>
     </>
   );
 }

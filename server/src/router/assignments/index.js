@@ -11,7 +11,9 @@ router.post("/", ...assignments.create);
 router.get("/", ...assignments.readAll);
 
 // memberId별 조회
-router.get("/byMember/:id", ...assignments.readByMember);
+router.get("/byStudent/:memberId", ...assignments.readByStudent);
+
+router.get("/byProfessor/:memberId", ...assignments.readByProfessor);
 
 // assignmentId&teamId 조회
 // router.get("/", ...assignments.readByClass);

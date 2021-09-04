@@ -1,7 +1,7 @@
 const storage = sessionStorage;
 
 const saveDataToStorage = (data) => {
-  storage.setItem(JSON.stringify(data));
+  storage.setItem("USER", JSON.stringify(data));
 };
 
 const getDataFromStorage = (name = "USER") => {

@@ -1,17 +1,14 @@
 import { createAction, handleActions } from "redux-actions";
 import { pender } from "redux-pender";
 import { Map, List, fromJS } from "immutable";
-import { CommentsApi } from "../../remote";
+import { TeamsApi } from "../../remote";
 
-export const LISTALL_COMMENTS = "comments/LISTALL";
+export const LISTALL_TEAMS = "teams/LISTALL";
 
-export const listAllComments = createAction(
-  LISTALL_COMMENTS,
-  CommentsApi.listAll
-);
+export const listAllTeams = createAction(LISTALL_TEAMS, TeamsApi.listAllTeams);
 
-export const createCommentApi = CommentsApi.create;
-export const deleteCommentApi = CommentsApi.remove;
+export const createTeamApi = TeamsApi.create;
+export const deleteTeamApi = TeamsApi.remove;
 
 const initialState = Map({
   list: Map({
@@ -23,7 +20,7 @@ const initialState = Map({
 export default handleActions(
   {
     ...pender({
-      type: LISTALL_COMMENTS,
+      type: LISTALL_TEAMS,
       onSuccess: (state, action) => {
         return state.set("list", fromJS(action.payload.data));
       },

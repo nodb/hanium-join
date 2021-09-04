@@ -79,6 +79,7 @@ const P05_04 = ({ match }) => {
   return (
     <div>
       <Text>수강생 목록</Text>
+      <span>총 수강생 : {studentList.count}명</span>
       {studentList.count === 0 && (
         <Box color="#426589">
           <Img src="https://cdn-icons-png.flaticon.com/512/1387/1387940.png"></Img>
@@ -98,6 +99,7 @@ const P05_04 = ({ match }) => {
         </Box2>
       )}
       <Text>수강신청 목록</Text>
+      <span>총 신청 : {enrolList.count}건</span>
       {enrolList.count === 0 && (
         <Box color="#EF8F88">
           <p>새로운 수강 신청이 없습니다.</p>

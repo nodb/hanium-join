@@ -4,10 +4,8 @@ import styled from "styled-components";
 const PlusIcon = styled.div`
   width: 50px;
   height: 50px;
-  position: relative;
-  top: 180px;
-  left: 1370px;
   cursor: pointer;
+  margin-left: 1300px;
 `;
 
 function P04_Plus({ open }) {

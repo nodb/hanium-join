@@ -5,7 +5,7 @@ import { AssignmentsApi } from "../../remote";
 
 export const LISTALL_ASSIGNMENTS = "assignments/LISTALL";
 export const GET_ASSIGNMENTS = "assignments/GET";
-export const TOTAL_ASSIGNMENTS = "assignments/LISTALLBYMEMBER";
+export const LISTTOTAL_ASSIGNMENTS = "assignments/LISTALLASSIGNMENTS";
 
 export const listAllByClassCode = createAction(
   LISTALL_ASSIGNMENTS,
@@ -17,10 +17,10 @@ export const getAssignment = createAction(
   AssignmentsApi.assignmentById
 );
 
-export const listAllByMember = createAction(
-  TOTAL_ASSIGNMENTS,
-  AssignmentsApi.listAllByMember
-)
+export const ListTotalAssignments = createAction(
+  LISTALL_ASSIGNMENTS,
+  AssignmentsApi.listAllAssignments
+);
 
 
 export const updateAssignmentsApi = AssignmentsApi.put;
@@ -41,13 +41,9 @@ const initialState = Map({
     content: "",
     startDate: "",
   }),
-  assignments: Map({
-    id: "",
-    name: "",
-    progress: "",
-    startDate: "",
-    endDate: "",
-    // 클래스명 어케 받아오지
+  my_assignments: Map({
+    count: 0,
+    results: List([]),
     })
 });
 
@@ -66,9 +62,9 @@ export default handleActions(
       },
     }),
     ...pender({
-      type: TOTAL_ASSIGNMENTS,
+      type: LISTALL_ASSIGNMENTS,
       onSuccess: (state, action) => {
-        return state.set("assignments", fromJS(action.payload.data));
+        return state.set("my_assignments", fromJS(action.payload.data));
       }
     })
   },

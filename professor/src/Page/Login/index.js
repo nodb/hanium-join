@@ -49,7 +49,7 @@ const Login = () => {
         saveDataToStorage(response.data);
       }
 
-      history.push("/professor/class");
+      history.push("/professor/main");
     } catch (e) {
       alert(e);
     }

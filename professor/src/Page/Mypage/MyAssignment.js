@@ -77,13 +77,13 @@ text-align: center;
 
 const MyAssignment = () => {
 
-  const { assignmentsTotal, listAllByMember } = useAssignments();
+  const { assignmentsTotal, listAllMyAssignments } = useAssignments();
 
   useEffect(()=> {
     const fetch = async () => {
   try{
         const professor = getDataFromStorage();
-        await listAllByMember(professor.id);
+        await listAllMyAssignments(professor.id);
       } catch(err){
         console.log(err);
       }   
@@ -106,19 +106,22 @@ const MyAssignment = () => {
             <th>#</th>
             <th>과목</th>
             <th>내용</th>
-            <th>제출여부</th>
             <th>과제 등록일</th>
             <th>과제 마감일</th>
           </tr>
         </thead>
         <tbody>
-          {assignmentsTotal.result.map((item) => {
+          {assignmentsTotal.count === 0 && (
+            <>
+
+            </>
+          )}
+          {assignmentsTotal.results.map((item) => {
               return (
                 <tr>
                   <th scope="row">{item.id}</th>
                   <td>과목</td>
                   <td>{item.name}</td>
-                  <td>{item.progress ? "제출" : "미제출"}</td>
                   <td>{item.startDate}</td>
                   <td>{item.endDate}</td>
                 </tr>

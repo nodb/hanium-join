@@ -1,110 +1,19 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import StudentBox from "./P06_Student";
 import Assign from "./P07_Assign";
+import { useHistory } from "react-router-dom";
 
-const List = [
-  {
-    _id: 1,
-    team: [
-      {
-        id: 1,
-        name: "조재영",
-        grade: 2,
-        department: "컴퓨터공학과",
-      },
-      {
-        id: 2,
-        name: "마경미",
-        grade: 3,
-        department: "전자IT미디어공학과",
-      },
-      {
-        id: 3,
-        name: "오예진",
-        grade: 3,
-        department: "전기정보공학과",
-      },
-      {
-        id: 4,
-        name: "엄유상",
-        grade: 4,
-        department: "인공지능학과",
-      },
-      {
-        id: 5,
-        name: "엄유상",
-        grade: 4,
-        department: "인공지능학과",
-      },
-    ],
-  },
-  {
-    _id: 2,
-    team: [
-      {
-        id: 1,
-        name: "조재영",
-        grade: 2,
-        department: "컴퓨터공학과",
-      },
-      {
-        id: 2,
-        name: "마경미",
-        grade: 3,
-        department: "전자IT미디어공학과",
-      },
-      {
-        id: 3,
-        name: "오예진",
-        grade: 3,
-        department: "전기정보공학과",
-      },
-      {
-        id: 4,
-        name: "엄유상",
-        grade: 4,
-        department: "인공지능학과",
-      },
-    ],
-  },
-  {
-    _id: 3,
-    team: [
-      {
-        id: 1,
-        name: "조재영",
-        grade: 2,
-        department: "컴퓨터공학과",
-      },
-      {
-        id: 2,
-        name: "마경미",
-        grade: 3,
-        department: "전자IT미디어공학과",
-      },
-      {
-        id: 3,
-        name: "오예진",
-        grade: 3,
-        department: "전기정보공학과",
-      },
-      {
-        id: 4,
-        name: "엄유상",
-        grade: 4,
-        department: "인공지능학과",
-      },
-    ],
-  },
-];
+import { useEnrolment, useTeams } from "../../../components/Use";
+import {getDataFromStorage} from "../../../utils/storage";
 
 const WrapBox = styled.div`
   height: 785px;
   overflow: scroll;
   padding: 20px;
+  width: 80%;
 `;
 
 const Box = styled.div`
@@ -205,7 +114,11 @@ text-align: center;
 color: #000000;
 `
 
+const team = getDataFromStorage();
+
 function P05_04() {
+
+  const history = useHistory();
 
   const [Modal, setModalOpen] = useState(false);
 
@@ -217,37 +130,85 @@ function P05_04() {
     setModalOpen(false);
   };
 
+  const {studentList, studentListAll} = useEnrolment();
+  const {teamList, listAllTeams, deleteTeamApi } = useTeams();
+
+
+  const deleteHandler = async(id) => {
+    try{
+      await deleteTeamApi(id);
+      alert("수정되었습니다.");
+      history.push("/professor/class/team");
+      await listAllTeams("AZSVBFV");
+    } catch(e) {
+      alert(e);
+    } 
+  }
+
+  useEffect(()=> {
+    const fetch = async () =>{
+      try{
+        const classId = getDataFromStorage();
+        await studentListAll("AZSVBFV");
+      }
+      catch(e){
+        alert(e);
+      }
+    }
+    fetch();
+  },[])
+
+  useEffect(()=> {
+    const fetch = async () =>{
+      try{
+        const classId = getDataFromStorage();
+        await listAllTeams("AZSVBFV");
+      }
+      catch(e){
+        alert(e);
+      }
+    }
+    fetch();
+  },[])
 
   return (
-    // <>
-    // <NoBox>
-    //   <NoImg>
-    //   <img src={require('../../../images/no_student.png').default} alt="학생없음이미지" />
-    //   </NoImg>
-    //   <NoText>
-    //   아직 수업에 학생이 없습니다. <br/>
-    //   <Link
-    //     to="/professor/class/enrol"
-    //     style={{ textDecoration: "none", color: "blue" }}
-    //   >
-    //   수강생 관리
-    //   </Link>에서 학생을 추가해보세요.
-    //   </NoText>
-    // </NoBox>
-    // </>
+    <>
     <WrapBox>
+      {studentList.total === 0 &&
+        (
+        <>
+        <NoBox>
+          <NoImg>
+          <img src={require('../../../images/no_student.png').default} alt="학생없음이미지" />
+          </NoImg>
+          <NoText>
+          아직 수업에 학생이 없습니다. <br/>
+          <Link
+            to="/professor/class/enrol"
+            style={{ textDecoration: "none", color: "blue" }}
+          >
+          수강생 관리
+          </Link> 에서 학생을 추가해보세요.
+          </NoText>
+        </NoBox>
+        </>
+        )
+      }
+      {studentList.total !== 0 &&
+      (
+        <>
       <TitleBox>
           <LinkButton onClick={ModalOpen}>자동 편성</LinkButton>
       </TitleBox>
-      {List.map((item) => {
+      {teamList.results.map((item) => {
         return (
           <>
-            <Text>Team{item._id}</Text>
-            <DeleteButton>삭제</DeleteButton>
+            <Text>Team{item.id}</Text>
+            <DeleteButton onClick={() => {deleteHandler(item.id)}}>삭제</DeleteButton>
             <Box>
-              {item.team.map((data) => {
+              {/* {studentList.results.map((data) => {
                 return <StudentBox student={data}></StudentBox>;
-              })}
+              })} */}
             </Box>
           </>
         );
@@ -258,7 +219,12 @@ function P05_04() {
         </Link>
       </CreateBox>
       <Assign open={Modal} close={ModalClose}></Assign>
+        </>
+      )
+      }
+      
     </WrapBox>
+    </>
   );
 }
 

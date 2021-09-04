@@ -18,7 +18,7 @@ export const getAssignment = createAction(
 );
 
 export const ListTotalAssignments = createAction(
-  LISTALL_ASSIGNMENTS,
+  LISTTOTAL_ASSIGNMENTS,
   AssignmentsApi.listAllAssignments
 );
 
@@ -62,7 +62,7 @@ export default handleActions(
       },
     }),
     ...pender({
-      type: LISTALL_ASSIGNMENTS,
+      type: LISTTOTAL_ASSIGNMENTS,
       onSuccess: (state, action) => {
         return state.set("my_assignments", fromJS(action.payload.data));
       }

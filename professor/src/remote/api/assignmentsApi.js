@@ -14,4 +14,4 @@ export const put = (id, form) =>
 export const remove = (id) => httpClient.delete(`${urls.assignments}/${id}`);
 
 // 마이페이지 모든 과제들 get
-export const listAllAssignments = (id, qs="") =>  httpClient.get(`${urls.assignments}/${id}?${qs}`);
+export const listAllAssignments = (id, qs="") =>  httpClient.get(`${urls.assignments}/byProfessor/${id}?${qs}`);

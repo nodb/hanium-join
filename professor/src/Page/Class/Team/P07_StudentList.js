@@ -93,16 +93,6 @@ function P07_StudnentList() {
           })}
         </Form>
       </Box>
-      {/* <RelatvieBox>
-        <button style={{ backgroundColor: "white" }}>
-          <img
-            src={`../BGImg/rightArrow.png`}
-            alt="rightArrow"
-            width="50px"
-            height="30px"
-          ></img>
-        </button>
-      </RelatvieBox> */}
     </>
   );
 }

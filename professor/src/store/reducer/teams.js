@@ -8,6 +8,7 @@ export const LISTALL_TEAMS = "teams/LISTALL";
 export const listAllTeams = createAction(LISTALL_TEAMS, TeamsApi.listAllTeams);
 
 export const createTeamApi = TeamsApi.create;
+export const deleteTeamApi = TeamsApi.remove;
 
 const initialState = Map({
   list: Map({

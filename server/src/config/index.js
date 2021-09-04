@@ -4,11 +4,7 @@ const config = {
   DB_PASSWORD: "join1234!@#$",
   DB_DATABASE: "mydb",
   DB_PORT: 13306,
-<<<<<<< HEAD
-  DB_CONNECTION_LIMIT: 10,
-=======
   DB_CONNECTION_LIMIT: 30,
->>>>>>> master
   JWT_SECRET: "HEURM_JSON_WEB_TOKEN_KEY_!@#$",
 };
 

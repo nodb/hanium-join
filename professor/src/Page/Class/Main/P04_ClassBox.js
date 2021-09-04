@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { getDataFromStorage } from "../../../utils/storage";
-import { Link } from "react-router-dom";
+import { getDataFromStorage, saveDataToStorage } from "../../../utils/storage";
+import { useHistory } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const ClassBox = styled.div`
@@ -56,19 +56,19 @@ const Img = styled.img`
 `;
 
 const P04_ClassBox = ({ item }) => {
-  const professorInfo = getDataFromStorage();
-  console.log(item);
+  const history = useHistory();
+  const professorInfo = getDataFromStorage("USER");
+
+  const ClickHandler = async () => {
+    saveDataToStorage("code", item.code);
+    history.push(`/professor/class/enrol/${item.code}`);
+  };
   return (
     <ClassBox>
-      <Link
-        to="/professor/class/enrol"
-        style={{ textDecoration: "none", color: "inherit" }}
-      >
-        <ImgBox>
-          <ClassName>{item.name}</ClassName>
-          <ProfessorName>{professorInfo.name}</ProfessorName>
-        </ImgBox>
-      </Link>
+      <ImgBox onClick={ClickHandler}>
+        <ClassName>{item.name}</ClassName>
+        <ProfessorName>{professorInfo.name}</ProfessorName>
+      </ImgBox>
       <TextBox>
         수업코드 : {item.code}
         <CopyToClipboard text={item.code}>

@@ -29,9 +29,9 @@ const Class = () => {
       <Switch>
         <Contents>
           <SideBar />
-          <Route path="/professor/class/enrol" exact component={P05} />
-          <Route path="/professor/class/team" exact component={P06} />
-          <Route path="/professor/class/assign" exact component={P07} />
+          <Route path="/professor/class/enrol/:code" exact component={P05} />
+          <Route path="/professor/class/team/:code" exact component={P06} />
+          <Route path="/professor/class/assign/:code" exact component={P07} />
           <Route
             path="/professor/class/assignment"
             exact

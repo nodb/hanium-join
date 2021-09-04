@@ -10,7 +10,7 @@ const assignment = ({ match }) => {
   const history = useHistory();
   const count = 0;
   const assignmentId = match.params.id;
-  const professorInfo = getDataFromStorage();
+  const professorInfo = getDataFromStorage("USER");
 
   const [data, setData] = useState({
     contents: "",
@@ -39,6 +39,7 @@ const assignment = ({ match }) => {
   }, []);
 
   useEffect(() => {
+    console.log(match.params);
     const fetch = async () => {
       try {
         await listAllComments(assignmentId);

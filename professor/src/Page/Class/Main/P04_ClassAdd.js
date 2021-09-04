@@ -19,9 +19,9 @@ const Block = styled.div`
 `;
 
 const ModalBlock = styled.div`
-  width: 350px;
+  width: 300px;
   background-color: #fff;
-  height: 450px;
+  height: 250px;
   border-radius: 15px;
   &::-webkit-scrollbar {
     width: 10px;
@@ -41,7 +41,7 @@ const ModalBlock = styled.div`
 
 const Header = styled.div`
   width: 100%;
-  height: 50px;
+  height: 80px;
   box-sizing: border-box;
   padding-left: 25px;
   display: flex;
@@ -49,7 +49,6 @@ const Header = styled.div`
   font-family: Kanit;
   font-size: 18px;
   font-weight: bold;
-  border-bottom: 1px solid #dee2e6;
   .button {
     position: relative;
     width: 25px;
@@ -73,23 +72,35 @@ const Header = styled.div`
   }
 `;
 
+const Content = styled.div`
+  width: 100%;
+  padding: 10px 0px 0px 25px;
+`;
+
 const CodeInput = styled.input`
+  margin-top: 10px;
   width: 250px;
   height: 30px;
 `;
 
 const AddButton = styled.button`
-  width: 200px;
+  width: 90px;
   font-size: 15px;
   background: none;
   border: none;
   color: red;
 `;
 
-const P04_ClassAdd = ({ open, next, add, close }) => {
+const Box = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
+`;
+
+const P04_ClassAdd = ({ open, close }) => {
   const [name, setName] = useState("");
-  const { createClassesApi } = useClasses();
-  const professorInfo = getDataFromStorage();
+  const { createClassesApi, listAllClasses } = useClasses();
+  const professorInfo = getDataFromStorage("USER");
 
   const handleChange = (e) => {
     setName(e.target.value);
@@ -98,16 +109,17 @@ const P04_ClassAdd = ({ open, next, add, close }) => {
   const createClass = async (e) => {
     const body = {
       name: name,
-      code: "AZXCSP",
       memberId: professorInfo.id,
     };
 
     try {
       await createClassesApi(body);
-      console.log(name);
+      await listAllClasses(professorInfo.id);
     } catch (e) {
       alert(e);
     }
+
+    close();
   };
 
   return (
@@ -116,30 +128,21 @@ const P04_ClassAdd = ({ open, next, add, close }) => {
         <Block State={open}>
           <ModalBlock>
             <Header>수업 등록</Header>
-            {!next && (
-              <>
-                <div>등록할 수업명을 입력하여 주세요.</div>
-                <CodeInput
-                  label="수업명"
-                  type="text"
-                  name="className"
-                  placeholder="(수업명)"
-                  value={name}
-                  onChange={handleChange}
-                ></CodeInput>
-                <AddButton onClick={close}>취소</AddButton>
-                <AddButton onClick={add}>추가</AddButton>
-              </>
-            )}
-            {next && (
-              <>
-                <div>수업명</div>
-                <div>수업 코드는 다음과 같습니다.</div>
-                <div>이 수업 코드는 ~에서도 확인하실 수 있습니다.</div>
-                <AddButton onClick={close}>이전</AddButton>
-                <AddButton onClick={createClass}>확인</AddButton>
-              </>
-            )}
+            <Content>
+              <div>수업명을 입력하여 주세요.</div>
+              <CodeInput
+                label="수업명"
+                type="text"
+                name="className"
+                placeholder="(수업명)"
+                value={name}
+                onChange={handleChange}
+              ></CodeInput>
+            </Content>
+            <Box>
+              <AddButton onClick={close}>취소</AddButton>
+              <AddButton onClick={createClass}>추가</AddButton>
+            </Box>
           </ModalBlock>
         </Block>
       )}

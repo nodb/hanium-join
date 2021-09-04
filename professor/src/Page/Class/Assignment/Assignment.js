@@ -39,6 +39,7 @@ const assignment = ({ match }) => {
   }, []);
 
   useEffect(() => {
+    console.log(match.params);
     const fetch = async () => {
       try {
         await listAllComments(assignmentId);

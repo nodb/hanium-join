@@ -77,12 +77,12 @@ export const readEnrolListMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 0",
+    "SELECT m.id,m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 0",
     [classCode]
   );
 
   ctx.state.body = {
-    rows,
+    results: rows,
   };
 
   await next();
@@ -100,7 +100,7 @@ export const readEnrolCountMd = async (ctx, next) => {
 
   ctx.state.body = {
     ...ctx.state.body,
-    total: rows[0].readStudentCountMd,
+    count: rows[0].count,
   };
 
   await next();
@@ -112,7 +112,7 @@ export const readStudentListMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 1",
+    "SELECT m.id,m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 1",
     [classCode]
   );
 
@@ -135,7 +135,7 @@ export const readStudentCountMd = async (ctx, next) => {
 
   ctx.state.body = {
     ...ctx.state.body,
-    total: rows[0].readStudentCountMd,
+    count: rows[0].count,
   };
 
   await next();
@@ -164,7 +164,7 @@ export const validateRejectMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=0",
+    "SELECT * FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=0",
     [memberId, classCode]
   );
 
@@ -181,7 +181,7 @@ export const rejectEnrolMd = async (ctx, next) => {
   const { conn } = ctx.state;
   await conn.query(
     "DELETE FROM tb_enrol WHERE member_id=? AND class_code=? AND isAccept=0",
-    [parseInt(memberId, 10), classCode]
+    [memberId, classCode]
   );
 
   await next();
@@ -193,7 +193,7 @@ export const validateRemoveMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=1",
+    "SELECT * FROM tb_enrol WHERE member_id=? and class_code=? and isAccept=1",
     [memberId, classCode]
   );
 

@@ -22,60 +22,48 @@ const BoxClass = styled.div`
   width: 100%;
   height: 510px;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const Circle = styled.div`
-  position: relative;
-  top: 125px;
-  left: 545px;
   width: 350px;
   height: 350px;
   background: #c4c4c4;
-  border-radius: 300px; ;
+  border-radius: 300px;
+  margin: 100px 0px 0px 500px;
 `;
 
 const ClassImg = styled.img`
-  position: relative;
-  top: 75px;
-  left: 75px;
   width: 200px;
   height: 200px;
+  margin: 75px 0px 0px 75px;
 `;
 
 const LineImg = styled.img`
-  position: relative;
-  top: 420px;
-  left: 880px;
   width: 130px;
   height: 130px;
+  margin: 0px 0px 0px 300px;
 `;
 
 const NoText = styled.div`
-  position: relative;
-  top: 370px;
-  left: 600px;
+  width: 300px;
   height: 50px;
   font-family: Monoton;
   font-size: 20px;
   line-height: 31px;
   color: #7c7979;
+  margin: 330px 0px 0px 180px;
 `;
 
 const P04 = () => {
   const [Modal, setModalOpen] = useState(false);
-  const [next, setNext] = useState(false);
 
   const ModalOpen = () => {
     setModalOpen(true);
   };
 
-  const NextModal = () => {
-    setNext(true);
-  };
-
   const ModalClose = () => {
     setModalOpen(false);
-    setNext(false);
   };
 
   const { classesList, listAllClasses } = useClasses();
@@ -98,11 +86,15 @@ const P04 = () => {
       <BoxClass>
         {classesList.count === 0 && (
           <>
-            <Circle>
-              <ClassImg src={Class}></ClassImg>
-            </Circle>
-            <LineImg src={Line} />
-            <NoText>첫 번째 수업을 만들어 보세요.</NoText>
+            <div>
+              <Circle>
+                <ClassImg src={Class}></ClassImg>
+              </Circle>
+            </div>
+            <div>
+              <NoText>첫 번째 수업을 만들어 보세요.</NoText>
+              <LineImg src={Line} />
+            </div>
           </>
         )}
         {classesList.results.map((item) => {
@@ -110,12 +102,7 @@ const P04 = () => {
         })}
       </BoxClass>
       <Plus open={ModalOpen} />
-      <ClassAdd
-        open={Modal}
-        next={next}
-        add={NextModal}
-        close={ModalClose}
-      ></ClassAdd>
+      <ClassAdd open={Modal} close={ModalClose}></ClassAdd>
     </Box>
   );
 };

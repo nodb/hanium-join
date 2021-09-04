@@ -35,11 +35,10 @@ export const readClassStudentMd = async (ctx, next) => {
 };
 
 export const getDataFromBodyMd = async (ctx, next) => {
-  const { name, code, memberId } = ctx.request.body;
+  const { name, memberId } = ctx.request.body;
 
   ctx.state.reqBody = {
     name,
-    code,
     memberId,
   };
 
@@ -47,17 +46,34 @@ export const getDataFromBodyMd = async (ctx, next) => {
 };
 
 export const validateDataMd = async (ctx, next) => {
-  const { name, code } = ctx.state.reqBody;
+  const { name } = ctx.state.reqBody;
 
-  if (!name || !code) {
+  if (!name) {
     throw Boom.badRequest("field is not");
   }
 
   await next();
 };
 
+export const createCodeMd = async (ctx, next) => {
+  let code = Math.random().toString(36).substr(2, 8);
+  const { conn } = ctx.state;
+
+  let rows = await conn.query("SELECT code FROM tb_class WHERE code=?", [code]);
+
+  while (rows.length > 0) {
+    code = Math.random().toString(36).substr(2, 8);
+    console.log(code);
+    rows = await conn.query("SELECT code FROM tb_class WHERE code=?", [code]);
+  }
+
+  ctx.state.code = code;
+  await next();
+};
+
 export const saveClassMd = async (ctx, next) => {
-  const { name, code, memberId } = ctx.state.reqBody;
+  const { name, memberId } = ctx.state.reqBody;
+  const { code } = ctx.state;
   const { conn } = ctx.state;
 
   await conn.query(
@@ -69,7 +85,7 @@ export const saveClassMd = async (ctx, next) => {
 };
 
 export const queryClassMdByCode = async (ctx, next) => {
-  const { code } = ctx.state.reqBody;
+  const { code } = ctx.state;
   const { conn } = ctx.state;
   const rows = await conn.query(
     "SELECT name, code, member_id FROM tb_class WHERE code = ?",
@@ -99,6 +115,7 @@ export const create = [
   CommonMd.createConnectionMd,
   getDataFromBodyMd,
   validateDataMd,
+  createCodeMd,
   saveClassMd,
   queryClassMdByCode,
   CommonMd.responseMd,

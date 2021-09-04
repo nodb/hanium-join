@@ -1,10 +1,10 @@
 const urls = {
   member: "/api/v1/members",
-  classes: "/api/v1/classes/professor",
+  classes: "/api/v1/classes",
   assignments: "/api/v1/assignments",
   comments: "/api/v1/comments",
-  enrol: "/api/v1/enrol",
   teams: "/api/v1/teams",
+  enrolment: "/api/v1/enrol",
 };
 
 export default urls;

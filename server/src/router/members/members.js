@@ -198,10 +198,10 @@ export const jwtGenerateMd = async (ctx, next) => {
     ctx.throw(500, e);
   }
 
-  ctx.cookies.set("access_token", token, {
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24,
-  });
+  ctx.state.body = {
+    ...ctx.state.body,
+    access_token: token,
+  };
 
   await next();
 };
@@ -218,19 +218,39 @@ export const updateStudentMd = async (ctx, next) => {
 
   const imageName = profileImg ? profileImg.name : null;
 
-  const sql =
-    // eslint-disable-next-line max-len
-    "UPDATE tb_member SET name = ?, password = password(?), grade = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
-  await conn.query(sql, [
-    name,
-    password,
-    grade,
-    department,
-    studentID,
-    imageName,
-    mobile,
-    id,
-  ]);
+  const row = await conn.query(
+    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
+    [id]
+  );
+
+  name = name === undefined ? row[0].name : name;
+  grade = grade === undefined ? row[0].grade : grade;
+  department = department === undefined ? row[0].department : department;
+  studentID = studentID === undefined ? row[0].studentID : studentID;
+  mobile = mobile === undefined ? row[0].mobile : mobile;
+
+  if (password === undefined) {
+    password = row[0].password;
+    await conn.query(
+      "UPDATE tb_member SET name = ?, password = ?, grade = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
+      [name, password, grade, department, studentID, imageName, mobile, id]
+    );
+  } else {
+    const sql =
+      // eslint-disable-next-line max-len
+      "UPDATE tb_member SET name = ?, password = password(?), grade = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
+
+    await conn.query(sql, [
+      name,
+      password,
+      grade,
+      department,
+      studentID,
+      imageName,
+      mobile,
+      id,
+    ]);
+  }
 
   await next();
 };
@@ -246,18 +266,36 @@ export const updateProfessorMd = async (ctx, next) => {
 
   const imageName = profileImg ? profileImg.name : null;
 
-  const sql =
-    // eslint-disable-next-line max-len
-    "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
-  await conn.query(sql, [
-    name,
-    password,
-    department,
-    professorID,
-    imageName,
-    mobile,
-    id,
-  ]);
+  const row = await conn.query(
+    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
+    [id]
+  );
+
+  name = name === undefined ? row[0].name : name;
+  department = department === undefined ? row[0].department : department;
+  professorID = professorID === undefined ? row[0].professorID : professorID;
+  mobile = mobile === undefined ? row[0].mobile : mobile;
+
+  if (password === undefined) {
+    await conn.query(
+      "UPDATE tb_member SET name = ?, password = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
+      [name, password, department, professorID, imageName, mobile, id]
+    );
+  } else {
+    const sql =
+      // eslint-disable-next-line max-len
+      "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
+
+    await conn.query(sql, [
+      name,
+      password,
+      department,
+      professorID,
+      imageName,
+      mobile,
+      id,
+    ]);
+  }
 
   await next();
 };

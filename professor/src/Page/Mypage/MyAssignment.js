@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { Table } from "reactstrap";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -11,12 +11,12 @@ width: 80%;
 `;
 
 const Page = styled.div`
-color: #3D3D3D;
-font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 20px;
-margin-top: 27px;
+  color: #3d3d3d;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 27px;
 `;
 
 const Hr = styled.hr`
@@ -27,79 +27,75 @@ border: 4px solid #C4C4C4;
 
 const IntroText = styled.div`
   padding-left: 30px;
-  color: #EF8F88;
+  color: #ef8f88;
 
-  font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 18px;
-`;
-
-const Assignment = styled.div`
-
-table{
-  border-color: #EF8F88;
-}
-
-thead th{
-  font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 17px;
-line-height: 20px;
-padding-bottom: 10px;
-color: #686868;
-text-align: center;
-}
-
-tbody th{
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  font-size: 17px;
-  line-height: 20px;
-  padding-bottom: 10px;
-  color: #EF8F88;
-  padding-top:11px;
-  text-align: center;
-}
+  font-size: 18px;
+`;
 
-td{
-  font-family: Roboto;
-font-style: normal;
-font-weight: 500;
-font-size: 17px;
-line-height: 20px;
-padding-top:11px;
-color: #000000;
-text-align: center;
-}
-`
+const Assignment = styled.div`
+  table {
+    border-color: #ef8f88;
+  }
+
+  thead th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    padding-bottom: 10px;
+    color: #686868;
+    text-align: center;
+  }
+
+  tbody th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    padding-bottom: 10px;
+    color: #ef8f88;
+    padding-top: 11px;
+    text-align: center;
+  }
+
+  td {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    padding-top: 11px;
+    color: #000000;
+    text-align: center;
+  }
+`;
 
 const MyAssignment = () => {
 
   const { assignmentsTotal, ListTotalAssignments } = useAssignments();
 
-  useEffect(()=> {
+  useEffect(() => {
     const fetch = async () => {
-  try{
+      try {
         const professor = getDataFromStorage();
         await ListTotalAssignments(professor.id);
       } catch(err){
         console.log(err);
-      }   
-  }
-  fetch();
-},[])
+      }
+    };
+    fetch();
+  }, []);
 
   return (
     <Box>
-      <Page>
-        과제 제출함
-      </Page>
+      <Page>과제 제출하기싫음</Page>
       <Hr />
       <IntroText>내용을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
-      
       <Assignment>
       <Table size="sm">
         <thead>
@@ -128,8 +124,8 @@ const MyAssignment = () => {
                 </tr>
               );
             })}
-        </tbody>
-      </Table>
+          </tbody>
+        </Table>
       </Assignment>
     </Box>
   );

@@ -21,11 +21,6 @@ export const DateChange = (date) => {
     " " +
     min +
     "분 ";
-  /*
-      " " +
-      sec +
-      "초 ";
-      */
   return result;
 };
 
@@ -37,7 +32,16 @@ export const DateChange2 = (date) => {
   const hour = New.getHours();
   const min = New.getMinutes();
   const sec = New.getSeconds();
-  const result = year + "/" + month + "/" + day + "/" + hour + ":" + min + "";
+  const result =
+    year +
+    "/" +
+    (month >= 10 ? month : "0" + month) +
+    "/" +
+    (day >= 10 ? day : "0" + day) +
+    "/ " +
+    (hour >= 10 ? hour : "0" + hour) +
+    ":" +
+    (min >= 10 ? min : "0" + min);
   return result;
 };
 

@@ -6,7 +6,7 @@ import StudentBox from "./P06_Student";
 import Assign from "./P07_Assign";
 import { useHistory } from "react-router-dom";
 
-import { useEnrol, useTeams } from "../../../components/Use";
+import { useEnrolment, useTeams } from "../../../components/Use";
 import {getDataFromStorage} from "../../../utils/storage";
 
 const WrapBox = styled.div`
@@ -130,7 +130,7 @@ function P05_04() {
     setModalOpen(false);
   };
 
-  const {studentList, getStudents} = useEnrol();
+  const {studentList, studentListAll} = useEnrolment();
   const {teamList, listAllTeams, deleteTeamApi } = useTeams();
 
 
@@ -149,7 +149,7 @@ function P05_04() {
     const fetch = async () =>{
       try{
         const classId = getDataFromStorage();
-        await getStudents("AZSVBFV");
+        await studentListAll("AZSVBFV");
       }
       catch(e){
         alert(e);

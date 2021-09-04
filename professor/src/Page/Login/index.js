@@ -46,7 +46,7 @@ const Login = () => {
       const response = await loginApi(request);
 
       if (response.data) {
-        saveDataToStorage(response.data);
+        saveDataToStorage( response.data);
       }
 
       history.push("/professor/main");

@@ -11,6 +11,7 @@ export const listAllComments = createAction(
 );
 
 export const createCommentApi = CommentsApi.create;
+export const deleteCommentApi = CommentsApi.remove;
 
 const initialState = Map({
   list: Map({

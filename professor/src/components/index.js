@@ -1,3 +1,3 @@
-import { useMember, useClasses, useAssignments, useTeams, useEnrol } from "./Use";
+import { useMember, useClasses, useAssignments, useEnrolment, useTeams } from "./Use";
 
-export { useMember, useClasses, useAssignments, useTeams, useEnrol };
+export { useMember, useClasses, useAssignments, useEnrolment, useTeams };

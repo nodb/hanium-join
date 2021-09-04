@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
-import imgfile from "../../../images/assign_example.PNG";
-import { useAssignments, useComments } from "../../../components/Use";
+import { useAssignments, useComments, useTeams } from "../../../components/Use";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { getDataFromStorage } from "../../../utils/storage";
+import styled from "styled-components";
+
+const Box = styled.div`
+  width: 80%;
+`;
 
 const assignment = ({ match }) => {
   const history = useHistory();
-  const count = 0;
   const assignmentId = match.params.id;
   const professorInfo = getDataFromStorage();
 
@@ -18,7 +21,9 @@ const assignment = ({ match }) => {
 
   const { assignmentOne, getAssignment, deleteAssignmentsApi } =
     useAssignments();
-  const { commentList, listAllComments, createCommentApi } = useComments();
+  const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
+    useComments();
+  const { teamList, listAllTeams } = useTeams();
 
   const handleChange = (e) => {
     setData({
@@ -26,6 +31,17 @@ const assignment = ({ match }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await listAllTeams("AZSVBFV");
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
 
   useEffect(() => {
     const fetch = async () => {
@@ -39,6 +55,7 @@ const assignment = ({ match }) => {
   }, []);
 
   useEffect(() => {
+    console.log(match.params);
     const fetch = async () => {
       try {
         await listAllComments(assignmentId);
@@ -60,6 +77,18 @@ const assignment = ({ match }) => {
     } catch (e) {
       alert(e);
     }
+  };
+
+  const teamCheck = (id) => {
+    let valid = false;
+    if (!assignmentOne.team) return valid;
+    assignmentOne.team.map((item) => {
+      console.log(item.team_id);
+      if (item.team_id === id) {
+        valid = true;
+      }
+    });
+    return valid;
   };
 
   const submitCommentHandler = async () => {
@@ -93,8 +122,10 @@ const assignment = ({ match }) => {
     }
   };
 
+  if (!data) return "로딩중";
+
   return (
-    <>
+    <Box>
       <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           onClick={modifyHandler}
@@ -112,80 +143,103 @@ const assignment = ({ match }) => {
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "8px 0px",
             borderBottom: "1px solid #C4C4C4",
+            verticalAlign: "middle",
           }}
         >
           <Label
             for="name"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             과제명
           </Label>
-          <Col sm={10}>
-            <p>{assignmentOne.name}</p>
-          </Col>
+          <Col sm={10}>{assignmentOne.name}</Col>
         </FormGroup>
         <FormGroup
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "8px 0px",
             borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
           }}
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             배점
           </Label>
-          <Col sm={4}>
-            <p>{assignmentOne.point}</p>
-          </Col>
+          <Col sm={4}>{assignmentOne.point}</Col>
         </FormGroup>
         <FormGroup
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "8px 0px",
             borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
           }}
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             공개일
           </Label>
-          <Col sm={5}>
-            <p>{DateChange(assignmentOne.startDate)}</p>
-          </Col>
+          <Col sm={5}>{DateChange(assignmentOne.startDate)}</Col>
         </FormGroup>
         <FormGroup
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "8px 0px",
             borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
           }}
         >
           <Label
             for="point"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             마감일
           </Label>
-          <Col sm={5}>
-            <p>{DateChange(assignmentOne.endDate)}</p>
-          </Col>
+          <Col sm={5}>{DateChange(assignmentOne.endDate)}</Col>
         </FormGroup>
         <FormGroup
           row
+          style={{
+            marginLeft: 3,
+            padding: "8px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <Label
+            for="team"
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: 0 }}
+          >
+            팀지정
+          </Label>
+          {teamList.results.map((team) => (
+            <Col sm={1}>
+              <Input
+                type="checkbox"
+                checked={teamCheck(team.id)}
+                disabled={true}
+                style={{ marginRight: "5px" }}
+              />
+              {team.name}
+            </Col>
+          ))}
+        </FormGroup>
+        <FormGroup
           style={{
             marginLeft: 3,
             padding: "15px 0px",
@@ -193,33 +247,10 @@ const assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Label
-            for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: 0 }}
-          >
-            팀지정
-          </Label>
-          {/* {
-            <Col>
-              <Input
-                type="checkbox"
-                name="point"
-                id="point"
-                value={data.point}
-                onChange={handleChange}
-              />
-              1팀
-            </Col>
-          } */}
-        </FormGroup>
-
-        <img src={imgfile} class="mt-3" />
-        <FormGroup style={{ marginTop: "30px" }}>
           <p>{assignmentOne.content}</p>
         </FormGroup>
         <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
-          댓글 {count}개
+          댓글 {commentList.total}개
         </div>
         {commentList.results.map((comment) => {
           return (
@@ -256,10 +287,7 @@ const assignment = ({ match }) => {
         <FormGroup
           row
           style={{
-            marginLeft: 3,
-            padding: "15px 0px",
-            borderBottom: "1px solid #C4C4C4",
-            alignItems: "center",
+            padding: "7px 0px",
           }}
         >
           <Col sm={7}>
@@ -278,11 +306,7 @@ const assignment = ({ match }) => {
           </Col>
         </FormGroup>
       </Form>
-
-      <Button size="sm" style={{ marginTop: "20px" }}>
-        리포트 생성
-      </Button>
-    </>
+    </Box>
   );
 };
 

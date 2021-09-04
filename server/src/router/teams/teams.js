@@ -79,6 +79,7 @@ export const queryTeamByIdMd = async (ctx, next) => {
   );
 
   ctx.state.body = {
+    count: rows.length,
     result: rows,
   };
 

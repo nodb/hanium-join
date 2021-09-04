@@ -37,7 +37,22 @@ const Name = styled.div`
   margin-bottom: 11px;
 `;
 
-const P05_StudentList = ({ student }) => {
+const P05_StudentList = ({ code, student }) => {
+  const { studentListAll, removeStudentApi } = useEnrolment();
+
+  const RemoveHandler = () => {
+    const fetch = async () => {
+      try {
+        await removeStudentApi(`memberId=${student.id}&classCode=${code}`);
+        await studentListAll(code);
+      } catch (e) {
+        alert(e);
+      }
+    };
+
+    fetch();
+  };
+
   return (
     <StudentBox>
       <div>
@@ -47,8 +62,7 @@ const P05_StudentList = ({ student }) => {
         </div>
       </div>
       <ButtonBox>
-        <Delete onClick={AcceptHandler} src={check} />
-        <Delete onClick={RefuseHandler} src={refuse} />
+        <Delete onClick={RemoveHandler} src={refuse} />
       </ButtonBox>
     </StudentBox>
   );

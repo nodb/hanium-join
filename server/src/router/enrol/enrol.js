@@ -112,7 +112,7 @@ export const readStudentListMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 1",
+    "SELECT m.id,m.name,m.studentID,m.grade FROM tb_enrol e JOIN tb_member m ON e.member_id = m.id WHERE class_code=? and isAccept = 1",
     [classCode]
   );
 

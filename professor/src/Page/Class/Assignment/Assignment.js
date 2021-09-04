@@ -10,7 +10,7 @@ const assignment = ({ match }) => {
   const history = useHistory();
   const count = 0;
   const assignmentId = match.params.id;
-  const professorInfo = getDataFromStorage("USER");
+  const professorInfo = getDataFromStorage();
 
   const [data, setData] = useState({
     contents: "",

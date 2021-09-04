@@ -100,7 +100,7 @@ const Box = styled.div`
 const P04_ClassAdd = ({ open, close }) => {
   const [name, setName] = useState("");
   const { createClassesApi, listAllClasses } = useClasses();
-  const professorInfo = getDataFromStorage("USER");
+  const professorInfo = getDataFromStorage();
 
   const handleChange = (e) => {
     setName(e.target.value);

@@ -22,6 +22,7 @@ const BoxClass = styled.div`
   width: 100%;
   height: 510px;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const Circle = styled.div`
@@ -70,7 +71,7 @@ const P04 = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const professorInfo = getDataFromStorage("USER");
+        const professorInfo = getDataFromStorage();
         await listAllClasses(professorInfo.id);
       } catch (e) {
         alert(e);

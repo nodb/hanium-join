@@ -39,7 +39,7 @@ function MyModify(props) {
   //   history.push("/professor/mypage/myinfo");
   // };
 
-  const professor = getDataFromStorage("USER");
+  const professor = getDataFromStorage();
 
   const [data, setData] = useState();
 

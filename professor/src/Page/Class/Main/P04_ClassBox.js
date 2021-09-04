@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { getDataFromStorage, saveDataToStorage } from "../../../utils/storage";
+import { getDataFromStorage } from "../../../utils/storage";
 import { useHistory } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const ClassBox = styled.div`
-  width: 250px;
+  width: 280px;
   height: 250px;
-  margin-right: 50px;
+  margin: 0px 25px 40px 25px;
   cursor: pointer;
 `;
 
@@ -57,10 +57,9 @@ const Img = styled.img`
 
 const P04_ClassBox = ({ item }) => {
   const history = useHistory();
-  const professorInfo = getDataFromStorage("USER");
+  const professorInfo = getDataFromStorage();
 
   const ClickHandler = async () => {
-    saveDataToStorage("code", item.code);
     history.push(`/professor/class/enrol/${item.code}`);
   };
   return (

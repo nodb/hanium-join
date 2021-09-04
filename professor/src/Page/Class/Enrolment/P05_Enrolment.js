@@ -4,7 +4,6 @@ import styled from "styled-components";
 import check from "../../../images/check.png";
 import refuse from "../../../images/x.png";
 
-import { getDataFromStorage } from "../../../utils/storage";
 import { useEnrolment } from "../../../components/Use";
 
 const StudentBox = styled.div`
@@ -37,17 +36,33 @@ const Delete = styled.img`
   margin-bottom: 10px;
 `;
 
-const P05_Enrolment = ({ student }) => {
-  const { removeEnrolApi } = useEnrolment();
-  const Code = getDataFromStorage("code");
+const P05_Enrolment = ({ code, student }) => {
+  const { enrolListAll, studentListAll, updateEnrolApi, removeEnrolApi } =
+    useEnrolment();
 
-  const AcceptHandler = () => {};
+  const AcceptHandler = () => {
+    const body = {
+      memberId: student.id,
+      classCode: code,
+    };
+    const fetch = async () => {
+      try {
+        await updateEnrolApi(body);
+        await studentListAll(code);
+        await enrolListAll(code);
+      } catch (e) {
+        alert(e);
+      }
+    };
+
+    fetch();
+  };
 
   const RefuseHandler = () => {
     const fetch = async () => {
       try {
-        console.log(student);
-        await removeEnrolApi(`memberId=${student.id}&classCode=${Code}`);
+        await removeEnrolApi(`memberId=${student.id}&classCode=${code}`);
+        await enrolListAll(code);
       } catch (e) {
         alert(e);
       }

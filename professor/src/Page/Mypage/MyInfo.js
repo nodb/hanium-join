@@ -117,7 +117,7 @@ function MyInfo() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const professor = getDataFromStorage("USER");
+        const professor = getDataFromStorage();
         await getInfo(professor.id);
       } catch (err) {
         console.log(err);

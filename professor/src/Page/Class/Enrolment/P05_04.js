@@ -4,7 +4,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import StudentList from "./P05_StudentList";
 import Enrolment from "./P05_Enrolment";
-import { getDataFromStorage } from "../../../utils/storage";
 import { useEnrolment } from "../../../components/Use";
 
 const Box = styled.div`
@@ -53,11 +52,11 @@ const CopyButton = styled.button`
   height: 30px;
 `;
 
-const P05_04 = () => {
+const P05_04 = ({ match }) => {
   const { enrolList, enrolListAll, studentList, studentListAll } =
     useEnrolment();
 
-  const code = getDataFromStorage("code");
+  const code = match.params.code;
 
   useEffect(() => {
     const fetch = async () => {
@@ -94,7 +93,7 @@ const P05_04 = () => {
       {studentList.count > 0 && (
         <Box2 color="#426589">
           {studentList.results.map((item) => {
-            return <StudentList student={item}></StudentList>;
+            return <StudentList code={code} student={item}></StudentList>;
           })}
         </Box2>
       )}
@@ -107,7 +106,7 @@ const P05_04 = () => {
       {enrolList.count > 0 && (
         <Box2 color="#EF8F88">
           {enrolList.results.map((item) => {
-            return <Enrolment student={item}></Enrolment>;
+            return <Enrolment code={code} student={item}></Enrolment>;
           })}
         </Box2>
       )}

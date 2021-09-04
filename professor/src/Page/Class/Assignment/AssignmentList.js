@@ -1,66 +1,108 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Table } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useAssignments } from "../../../components/Use";
+import { DateChange } from "../../../utils/dateChange";
+import styled from "styled-components";
 
-const list = [
-  {
-    id: 1,
-    assignmentName: "안녕하세요",
-    progress: "진행 중",
-    points: 10,
-    deadline: "내일",
-  },
-  {
-    id: 2,
-    assignmentName: "안녕하세요",
-    progress: "진행 중",
-    points: 10,
-    deadline: "오늘",
-  },
-];
+const Box = styled.div`
+  width: 80%;
+`;
+
+const Assignment = styled.div`
+  thead th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: #426589;
+  }
+
+  tbody th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    text-align: center;
+  }
+
+  td {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    padding-top: 15px;
+    color: #000000;
+    text-align: center;
+  }
+`;
 
 const assignmentList = () => {
+  const history = useHistory();
+  const { assignmentsList, listAllByClassCode } = useAssignments();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await listAllByClassCode();
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
+  const handler = async (id) => {
+    try {
+      history.push(`/professor/class/assignment/${id}`);
+    } catch (e) {
+      alert(e);
+    }
+  };
+
   return (
-    <>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-        <h4>등록된 과제 확인</h4>
+    <Box>
+      <div className="d-flex justify-content-between pt-3 pb-2 mb-3">
+        <p>등록된 과제 확인</p>
         <Link to="/professor/class/addAssignment">
-          <Button class="ms-auto" size="sm">
-            과제 추가
-          </Button>
+          <Button size="sm">추가</Button>
         </Link>
       </div>
-      <Table size="sm">
-        <thead style={{ textAlign: "center" }}>
-          <tr>
-            <th>번호</th>
-            <th>과제명</th>
-            <th>진행</th>
-            <th>배점</th>
-            <th>마감일</th>
-          </tr>
-        </thead>
-        <tbody style={{ textAlign: "center" }}>
-          {list &&
-            list.map((assignment) => (
-              <tr>
-                <th scope="row">{assignment.id}</th>
-                <td>
-                  <Link
-                    to="/professor/class/assignment"
-                    style={{ textDecoration: "none", color: "black" }}
-                  >
-                    {assignment.assignmentName}
-                  </Link>
-                </td>
-                <td>{assignment.progress}</td>
-                <td>{assignment.points}</td>
-                <td>{assignment.deadline}</td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-    </>
+      <Assignment>
+        <Table size="sm">
+          <thead>
+            <tr style={{ color: "white" }}>
+              <th>번호</th>
+              <th>과제명</th>
+              <th>진행</th>
+              <th>배점</th>
+              <th>마감일</th>
+            </tr>
+          </thead>
+          <tbody>
+            {assignmentsList.results.map((assignment, index) => {
+              return (
+                <tr>
+                  <th>{index + 1}</th>
+                  <td onClick={() => handler(assignment.id)}>
+                    {assignment.name}
+                  </td>
+                  <td>{assignment.progress === 1 ? "진행 중" : "마감"}</td>
+                  <td>{assignment.point}</td>
+                  <td>{DateChange(assignment.endDate)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </Assignment>
+    </Box>
   );
 };
 

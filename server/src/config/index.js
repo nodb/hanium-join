@@ -1,7 +1,7 @@
 const config = {
-  DB_HOST: "3.137.138.204",
+  DB_HOST: "localhost",
   DB_USER: "root",
-  DB_PASSWORD: "join1234!@#$",
+  DB_PASSWORD: "whwodud123",
   DB_DATABASE: "mydb",
   DB_PORT: 13306,
   DB_CONNECTION_LIMIT: 30,

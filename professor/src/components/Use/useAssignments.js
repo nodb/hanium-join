@@ -14,14 +14,20 @@ const useAssignments = () => {
     state.assignments.get("assignment")
   );
 
+  const assignmentsTotal = useShallowEqualSelectorToJS((state)=> 
+    state.assignments.get("my_assignments")
+  );
+
   const actions = useActions(reducer);
 
   return {
     assignmentsList,
     assignmentOne,
+    assignmentsTotal,
 
     listAllByClassCode: actions.listAllByClassCode,
     getAssignment: actions.getAssignment,
+    listAllMyAssignments: actions.listAllMyAssignments,
 
     createAssignmentsApi: reducer.createAssignmentsApi,
     updateAssignmentsApi: reducer.updateAssignmentsApi,

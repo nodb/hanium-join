@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useClasses } from "../../components/Use";
+import { getDataFromStorage } from "../../utils/storage";
 
 const Box = styled.div`
 `;
@@ -70,6 +72,22 @@ const classes = [
 ];
 
 function MyClass() {
+
+  const { classesList, listAllClasses } = useClasses();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const professorInfo = getDataFromStorage();
+        await listAllClasses(professorInfo.id);
+      } catch (e) {
+        alert(e);
+      }
+    };
+
+    fetch();
+  }, []);
+
   return (
     <Box>
     <Page>
@@ -77,7 +95,21 @@ function MyClass() {
     </Page>
     <Hr />
       <IntroText>강의를 클릭하면 해당 페이지로 이동합니다.</IntroText> <br />
-      {classes &&
+      {classesList.results.map((item) => {
+        return (
+          <ClassText>
+            <Link
+        to="/professor/class/enrol"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+                <img src={require("../../images/Pencil.png").default} alt="수업"/>
+                {item.name} ({item.code})
+                <hr />
+                </Link>
+          </ClassText>
+        )
+      })}
+      {/* {classes &&
         classes.map((item) => {
           return (
             <Link
@@ -91,7 +123,7 @@ function MyClass() {
               </ClassText>
             </Link>
           );
-        })}
+        })} */}
     </Box>
   );
 }

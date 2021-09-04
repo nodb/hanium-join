@@ -2,14 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const StudentBox = styled.div`
-  width: 230px;
-  height: 80px;
-  margin-right: 50px;
+  width: 208px;
+  height: 61px;
   padding: 15px;
-  border: 0.5px solid #d8d8d8;
+  border: 0.5px solid #EF8F88;
   font-family: "Nanum Gothic Coding", monospace;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 13px;
   background-color: white;
 `;
 

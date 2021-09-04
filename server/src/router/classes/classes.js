@@ -56,13 +56,14 @@ export const validateDataMd = async (ctx, next) => {
 };
 
 export const createCodeMd = async (ctx, next) => {
-  let code = Math.random().toString(36).substr(2, 10);
+  let code = Math.random().toString(36).substr(2, 8);
   const { conn } = ctx.state;
 
   let rows = await conn.query("SELECT code FROM tb_class WHERE code=?", [code]);
 
   while (rows.length > 0) {
-    code = Math.random().toString(36).substr(2, 10);
+    code = Math.random().toString(36).substr(2, 8);
+    console.log(code);
     rows = await conn.query("SELECT code FROM tb_class WHERE code=?", [code]);
   }
 

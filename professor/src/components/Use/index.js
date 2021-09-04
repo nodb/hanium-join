@@ -4,4 +4,13 @@ import useAssignments from "./useAssignments";
 import useComments from "./useComments";
 import useTeams from "./useTeams";
 
-export { useMember, useClasses, useAssignments, useTeams, useComments };
+import useEnrolment from "./useEnrolment";
+
+export {
+  useMember,
+  useClasses,
+  useAssignments,
+  useTeams,
+  useComments,
+  useEnrolment,
+};

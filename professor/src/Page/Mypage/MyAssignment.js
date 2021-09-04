@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "reactstrap";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useAssignments } from "../../components";
+import { getDataFromStorage } from "../../utils/storage";
 
 const Box = styled.div``;
 
@@ -70,33 +72,21 @@ const Assignment = styled.div`
   }
 `;
 
-const list = [
-  {
-    id: 1,
-    name: "시스템 프로그래밍",
-    content: "최종 과제 제출",
-    submit: true,
-    createdAt: "2021-06-04",
-  },
+const MyAssignment = () => {
+  const { assignmentsTotal, listAllMyAssignments } = useAssignments();
 
-  {
-    id: 2,
-    name: "컴퓨터 네트워크",
-    content: "C 소켓 프로그래밍",
-    submit: true,
-    createdAt: "2021-06-01",
-  },
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const professor = getDataFromStorage();
+        await listAllMyAssignments(professor.id);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetch();
+  }, []);
 
-  {
-    id: 3,
-    name: "소프트웨어 공학",
-    content: "Sprint 5",
-    submit: false,
-    createdAt: "2021-06-01",
-  },
-];
-
-const MyAssignment = (props) => {
   return (
     <Box>
       <Page>과제 제출하기싫음</Page>
@@ -109,31 +99,23 @@ const MyAssignment = (props) => {
               <th>#</th>
               <th>과목</th>
               <th>내용</th>
-              <th>제출여부</th>
               <th>과제 등록일</th>
               <th>과제 마감일</th>
             </tr>
           </thead>
           <tbody>
-            {list &&
-              list.map((item) => {
-                return (
-                  <tr>
-                    <th scope="row">{item.id}</th>
-                    <td>{item.name}</td>
-                    <td>
-                      <Link
-                        to="/professor/class/assignment"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        {item.content}
-                      </Link>
-                    </td>
-                    <td>{item.submit ? "제출" : "미제출"}</td>
-                    <td>{item.createdAt}</td>
-                  </tr>
-                );
-              })}
+            {assignmentsTotal.count === 0 && <></>}
+            {assignmentsTotal.results.map((item) => {
+              return (
+                <tr>
+                  <th scope="row">{item.id}</th>
+                  <td>과목</td>
+                  <td>{item.name}</td>
+                  <td>{item.startDate}</td>
+                  <td>{item.endDate}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </Assignment>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useAssignments, useTeams } from "../../../components/Use";
 import { DateChange3 } from "../../../utils/dateChange";
 import styled from "styled-components";
@@ -13,34 +13,45 @@ const Box = styled.div`
 const AssignmentModify = ({ match }) => {
   const assignmentId = match.params.id;
 
+  const { code } = useParams();
+
   const { assignmentOne, getAssignment, updateAssignmentsApi } =
     useAssignments();
   const { teamList, listAllTeams } = useTeams();
 
   const [image, setImage] = useState(null);
-  const [teams, setTeams] = useState([]);
+  const [teams, setTeams] = useState(assignmentOne.team ? assignmentOne.team : []);
 
   const imageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
   const checkboxChange = (e) => {
-    setTeams({
-      ...teams,
-      [e.target.value]: e.target.checked,
-    });
+    const { name, checked } = e.target;
+
+    if (checked) {
+      setTeams([
+        ...teams,
+        {
+          team_id: name,
+        }
+      ])
+    } else {
+      const newTeams = teams.filter(data => data.team_id !== name );
+      setTeams(newTeams);
+    }
+
+    // setTeams({
+    //   ...teams,
+    //   [e.target.value]: e.target.checked,
+    // });
   };
 
   const teamCheck = (id) => {
-    let valid = false;
-    if (!assignmentOne.team) return valid;
+    let checked = [];
+    checked = teams.filter(data => data.team_id === id);
 
-    assignmentOne.team.map((item) => {
-      if (item.team_id === id) {
-        valid = true;
-      }
-    });
-    return valid;
+    return checked.length === 1;
   };
 
   const [data, setData] = useState();
@@ -93,6 +104,7 @@ const AssignmentModify = ({ match }) => {
       startDate: DateChange3(assignmentOne.startDate),
       endDate: DateChange3(assignmentOne.endDate),
     });
+    setTeams(assignmentOne.team)
   }, [assignmentOne]);
 
   const modifyHandler = async () => {
@@ -109,7 +121,7 @@ const AssignmentModify = ({ match }) => {
       formData.append("image", image);
 
       await updateAssignmentsApi(assignmentId, formData);
-      history.push(`/professor/class/assignment/${assignmentId}`);
+      history.push(`/professor/class/${code}/assignment/${assignmentId}`);
     } catch (e) {
       alert(e);
     }
@@ -253,7 +265,7 @@ const AssignmentModify = ({ match }) => {
                 <Input
                   type="checkbox"
                   checked={teamCheck(team.id)}
-                  value={team.id}
+                  name={team.id}
                   onChange={checkboxChange}
                   style={{ marginRight: "5px" }}
                 />

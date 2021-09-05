@@ -215,6 +215,9 @@ export const updateStudentMd = async (ctx, next) => {
 
   const profileImg =
     ctx.request.files === undefined ? null : ctx.request.files.profileImg;
+    
+  console.log(ctx.request.files);
+
 
   const imageName = profileImg ? profileImg.name : null;
 

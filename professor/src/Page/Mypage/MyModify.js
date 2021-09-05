@@ -240,28 +240,6 @@ const handleChange = (e) => {
           </Col>
         </FormGroup>
         <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="생년월일"
-            name="birth"
-            placeholder="생년월일"
-            type="date"
-            value={data.birthDate}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="전화번호"
-            name="mobile"
-            placeholder="전화번호"
-            type="text"
-            value={data.mobile}
-            onChange={handleChange}
-          />
-      </FormGroup>
-      <br />
       <FormGroup row>
       <InputWithLabel
         label="생년월일"

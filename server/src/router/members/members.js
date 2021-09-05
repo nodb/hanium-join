@@ -411,7 +411,6 @@ export const remove = [
   CommonMd.responseMd,
 ];
 
-
 export const studentLogin = [
   CommonMd.createConnectionMd,
   readStudentLoginMd,

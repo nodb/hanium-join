@@ -1,6 +1,8 @@
 import Boom from "@hapi/boom";
 import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
+import fs from "fs";
+import path from "path";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const {
@@ -53,6 +55,13 @@ export const saveAssignmentMd = async (ctx, next) => {
   console.log(ctx.request.files);
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
+
+  
+  console.log(ctx.request.files);
+
+  var appDir = path.dirname(image.path);
+
+  await fs.renameSync(image.path, `${appDir}/${image.name}`);
 
   const { conn } = ctx.state;
 

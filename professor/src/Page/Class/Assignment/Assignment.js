@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
 import { useAssignments, useComments, useTeams } from "../../../components/Use";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
@@ -12,6 +12,7 @@ const Box = styled.div`
 
 const assignment = ({ match }) => {
   const history = useHistory();
+  const { code } = useParams();
   const assignmentId = match.params.id;
   const professorInfo = getDataFromStorage();
 
@@ -67,12 +68,12 @@ const assignment = ({ match }) => {
   }, []);
 
   const modifyHandler = () => {
-    history.push(`/professor/class/assignment/${assignmentId}/modify`);
+    history.push(`/professor/class/${code}/assignment/${assignmentId}/modify`);
   };
 
   const deleteHandler = async () => {
     try {
-      history.push(`/professor/class/assignmentList`);
+      history.push(`/professor/class/${code}/assignmentList`);
       await deleteAssignmentsApi(assignmentId);
     } catch (e) {
       alert(e);

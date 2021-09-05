@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import StudentList from "./P05_StudentList";
 import Enrolment from "./P05_Enrolment";
 import { useEnrolment } from "../../../components/Use";
+import { CTLoading, useLoading } from "../../../components";
+
 
 const Box = styled.div`
   width: 1100px;
@@ -52,51 +54,48 @@ const CopyButton = styled.button`
   height: 30px;
 `;
 
+
 const P05_04 = ({ match }) => {
-  const { enrolList, enrolListAll, studentList, studentListAll } =
+  const { enrolList, enrolListAll, studentList, studentListAll, removeStudentApi } =
     useEnrolment();
+
+  const { loading, setLoading } = useLoading(true);
 
   const code = match.params.code;
 
+  const fetch = async () => {
+    try {
+      await enrolListAll(code);
+      await studentListAll(code);
+    } catch (e) {
+      alert(e);
+    } finally {
+      await setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        await enrolListAll(code);
-      } catch (e) {
-        alert(e);
-      }
-
-      try {
-        await studentListAll(code);
-      } catch (e) {
-        alert(e);
-      }
-    };
-
     fetch();
   }, []);
 
+  const removeStudentHandler = async (student) => {
+    try { 
+      const { id } = student;
+      await setLoading(true);
+      await removeStudentApi(`memberId=${id}&classCode=${code}`);
+      fetch();
+    } catch(e) {
+      alert(e);
+    }
+  };
+
   return (
+    loading ? (
+     <CTLoading />
+    ) : (
     <div>
-      <Text>수강생 목록</Text>
-      {studentList.count === 0 && (
-        <Box color="#426589">
-          <Img src="https://cdn-icons-png.flaticon.com/512/1387/1387940.png"></Img>
-          <div>
-            <p>수업에 학생들을 초대하세요.</p>
-            <CopyToClipboard text={code}>
-              <CopyButton>코드 복사하기</CopyButton>
-            </CopyToClipboard>
-          </div>
-        </Box>
-      )}
-      {studentList.count > 0 && (
-        <Box2 color="#426589">
-          {studentList.results.map((item) => {
-            return <StudentList code={code} student={item}></StudentList>;
-          })}
-        </Box2>
-      )}
+      <StudentList code={code} studentList={studentList} removeHandler={removeStudentHandler} />
+
       <Text>수강신청 목록</Text>
       {enrolList.count === 0 && (
         <Box color="#EF8F88">
@@ -111,6 +110,7 @@ const P05_04 = ({ match }) => {
         </Box2>
       )}
     </div>
+    )
   );
 };
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import StudentBox from "./P06_Student";
 import Assign from "./P07_Assign";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { useEnrolment, useTeams } from "../../../components/Use";
 import {getDataFromStorage} from "../../../utils/storage";
@@ -118,6 +118,9 @@ const team = getDataFromStorage();
 
 function P05_04() {
 
+
+  const {code } = useParams();
+
   const history = useHistory();
 
   const [Modal, setModalOpen] = useState(false);
@@ -174,7 +177,7 @@ function P05_04() {
   return (
     <>
     <WrapBox>
-      {studentList.total === 0 &&
+      {studentList.count === 0 &&
         (
         <>
         <NoBox>
@@ -184,7 +187,7 @@ function P05_04() {
           <NoText>
           아직 수업에 학생이 없습니다. <br/>
           <Link
-            to="/professor/class/enrol"
+            to="/professor/class/${code}/enrol"
             style={{ textDecoration: "none", color: "blue" }}
           >
           수강생 관리
@@ -194,7 +197,7 @@ function P05_04() {
         </>
         )
       }
-      {studentList.total !== 0 &&
+      {studentList.count !== 0 &&
       (
         <>
       <TitleBox>

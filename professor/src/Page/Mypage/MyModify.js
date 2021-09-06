@@ -17,6 +17,7 @@ import styled from "styled-components";
 import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
+
 const Box = styled.div``;
 
 const Page = styled.div`
@@ -36,9 +37,6 @@ const Hr = styled.hr`
 
 function MyModify(props) {
   const history = useHistory();
-  // const changeMyInfo = () => {
-  //   history.push("/professor/mypage/myinfo");
-  // };
 
   const professor = getDataFromStorage();
 
@@ -58,7 +56,7 @@ function MyModify(props) {
       pw: memberInfo.password,
       pwC: memberInfo.password,
       mobile: memberInfo.mobile,
-      professorID: memberInfo.professorID,
+      professorID: memberInfo.studentID,
       department: memberInfo.department,
       birthDate: memberInfo.birthDate,
       type: "P",
@@ -267,7 +265,7 @@ const handleChange = (e) => {
           프로필 사진
         </Label>
         <Col sm={10}>
-          <Input type="file" name="profileImg" onChange={imageChange} value={image}/>
+          <Input type="file" name="profileImg" onChange={imageChange}/>
         </Col>
       </FormGroup>
       <br />

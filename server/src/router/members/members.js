@@ -2,6 +2,8 @@ import Boom from "@hapi/boom";
 import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
 import { generateToken } from "../../middlewares/jwtMd";
+import fs from "fs";
+import path from "path";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile, birthDate } = ctx.request.body;
@@ -267,41 +269,29 @@ export const updateProfessorMd = async (ctx, next) => {
   const profileImg =
     ctx.request.files === undefined ? null : ctx.request.files.profileImg;
 
-  const imageName = profileImg ? profileImg.name : null;
+  console.log(ctx.request.files);
 
-  const row = await conn.query(
-    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
-    [id]
-  );
+  var appDir = path.dirname(profileImg.path);
 
-  name = name === undefined ? row[0].name : name;
-  department = department === undefined ? row[0].department : department;
-  professorID = professorID === undefined ? row[0].professorID : professorID;
-  mobile = mobile === undefined ? row[0].mobile : mobile;
+  await fs.renameSync(profileImg.path, `${appDir}/${profileImg.name}`);
 
-  if (password === undefined) {
-    await conn.query(
-      "UPDATE tb_member SET name = ?, password = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
-      [name, password, department, professorID, imageName, mobile, id]
-    );
-  } else {
-    const sql =
-      // eslint-disable-next-line max-len
-      "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
 
-    await conn.query(sql, [
-      name,
-      password,
-      department,
-      professorID,
-      imageName,
-      mobile,
-      id,
-    ]);
-  }
+  const sql =
+    // eslint-disable-next-line max-len
+    "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
+  await conn.query(sql, [
+    name,
+    password,
+    department,
+    professorID,
+    profileImg.name,
+    mobile,
+    id,
+  ]);
 
   await next();
 };
+
 export const readMemberAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { conn } = ctx.state;

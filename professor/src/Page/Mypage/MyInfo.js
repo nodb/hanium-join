@@ -119,13 +119,15 @@ function MyInfo() {
       try {
         const professor = getDataFromStorage();
         await getInfo(professor.id);
+        console.log(professor)
       } catch (err) {
         console.log(err);
       }
     };
     fetch();
   }, []);
-
+  
+  
   return (
     <Box>
       <Page>내 프로필</Page>
@@ -133,9 +135,10 @@ function MyInfo() {
       <InfoBox>
         <Myimg>
           <img
-            src={require("../../images/person_default.png").default}
+            // src={require("../../images/person_default.png").default}
+            src={memberInfo.profileImg}
             alt="이미지"
-          />
+            />
         </Myimg>
         <Info>
           <Name> {memberInfo.name} </Name>{" "}

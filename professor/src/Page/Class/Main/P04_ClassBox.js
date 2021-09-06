@@ -60,7 +60,7 @@ const P04_ClassBox = ({ item }) => {
   const professorInfo = getDataFromStorage();
 
   const ClickHandler = async () => {
-    history.push(`/professor/class/enrol/${item.code}`);
+    history.push(`/professor/class/${item.code}/enrol`);
   };
   return (
     <ClassBox>

@@ -9,7 +9,7 @@ export const generateToken = (payload) => {
       payload,
       jwtSecret,
       {
-        expiresIn: "2h",
+        expiresIn: "5m",
       },
       (error, token) => {
         if (error) reject(error);
@@ -29,9 +29,9 @@ function decodeToken(token) {
 }
 
 const jwtMd = async (ctx, next) => {
-  const token = ctx.cookies.get("access_token");
+  const access_token = ctx.headers.Authorization;
 
-  if (!token) return next();
+  if (!access_token) return next();
 
   try {
     const decoded = await decodeToken(token);
@@ -40,10 +40,10 @@ const jwtMd = async (ctx, next) => {
       // 하루가 지나면 갱신해준다.
       const { id, name } = decoded;
       const freshToken = await generateToken({ id, name });
-      ctx.cookies.set("access_token", freshToken, {
-        maxAge: 1000 * 60 * 60 * 2,
-        httpOnly: true,
-      });
+      ctx.state.body = {
+        ...ctx.state.body,
+        access_token: freshToken,
+      };
     }
     ctx.state.user = decoded;
   } catch (err) {

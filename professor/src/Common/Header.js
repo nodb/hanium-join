@@ -7,7 +7,8 @@ import {
   DropdownMenu,
 } from "reactstrap";
 import Logo from "./Logo";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { removeDataFromStorage } from "../utils/storage";
 
 const HeaderBar = styled.div`
   width: 100%;
@@ -31,6 +32,13 @@ function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevSate) => !prevSate);
 
+  const history = useHistory();
+
+  const logoutHandler = () => {
+    removeDataFromStorage();
+    history.push(`/login`);
+  };
+
   return (
     <HeaderBar>
       <Box>
@@ -42,7 +50,7 @@ function Header() {
         >
           <DropdownToggle caret color="white" tag="span">
             <MyPage
-              src={require('../images/person_default.png').default}
+              src={require("../images/person_default.png").default}
               alt="mypage"
             ></MyPage>
           </DropdownToggle>
@@ -53,12 +61,7 @@ function Header() {
             >
               <DropdownItem>마이페이지</DropdownItem>
             </Link>
-            <Link
-              to="/login"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <DropdownItem>로그아웃</DropdownItem>
-            </Link>
+            <DropdownItem onClick={logoutHandler}>로그아웃</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </Box>

@@ -18,9 +18,6 @@ router.post("/student/login", ...members.studentLogin);
 // 토큰 확인
 router.get("/check", ...members.check);
 
-// 로그아웃
-router.get("/logout", ...members.logout);
-
 // 상세 조회
 router.get("/:id", ...members.readId);
 
@@ -33,9 +30,7 @@ router.put("/professor/:id", ...members.updateProfessor);
 // 학생 정보 수정
 router.put("/student/:id", ...members.updateStudent);
 
-
 router.put("/professor/:id", ...members.updateProfessor);
-
 
 // 삭제
 router.delete("/:id", ...members.remove);

@@ -1,6 +1,6 @@
 const config = {
-  // DB_HOST: "3.137.138.204",
-  DB_HOST: "join_db",
+  DB_HOST: "3.137.138.204",
+  // DB_HOST: "join_db",
   DB_USER: "root",
   DB_PASSWORD: "join1234",
   DB_DATABASE: "mydb",

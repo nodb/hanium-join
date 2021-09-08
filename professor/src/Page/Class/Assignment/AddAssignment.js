@@ -48,7 +48,7 @@ const P09_07 = () => {
     formData.append("endDate", data.endDate);
     formData.append("content", data.content);
     formData.append("progress", 1);
-    formData.append("classCode", "AZSVBFV");
+    formData.append("classCode", code);
     formData.append("teams", team);
     formData.append("image", image);
     console.log(image);

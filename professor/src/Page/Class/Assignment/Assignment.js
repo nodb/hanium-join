@@ -36,7 +36,7 @@ const assignment = ({ match }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await listAllTeams("AZSVBFV");
+        await listAllTeams(code);
       } catch (e) {
         alert(e);
       }

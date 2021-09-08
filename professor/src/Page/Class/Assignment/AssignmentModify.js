@@ -20,7 +20,9 @@ const AssignmentModify = ({ match }) => {
   const { teamList, listAllTeams } = useTeams();
 
   const [image, setImage] = useState(null);
-  const [teams, setTeams] = useState(assignmentOne.team ? assignmentOne.team : []);
+  const [teams, setTeams] = useState(
+    assignmentOne.team ? assignmentOne.team : []
+  );
 
   const imageChange = (e) => {
     setImage(e.target.files[0]);
@@ -34,22 +36,17 @@ const AssignmentModify = ({ match }) => {
         ...teams,
         {
           team_id: name,
-        }
-      ])
+        },
+      ]);
     } else {
-      const newTeams = teams.filter(data => data.team_id !== name );
+      const newTeams = teams.filter((data) => data.team_id !== name);
       setTeams(newTeams);
     }
-
-    // setTeams({
-    //   ...teams,
-    //   [e.target.value]: e.target.checked,
-    // });
   };
 
   const teamCheck = (id) => {
     let checked = [];
-    checked = teams.filter(data => data.team_id === id);
+    checked = teams.filter((data) => data.team_id === id);
 
     return checked.length === 1;
   };
@@ -104,7 +101,7 @@ const AssignmentModify = ({ match }) => {
       startDate: DateChange3(assignmentOne.startDate),
       endDate: DateChange3(assignmentOne.endDate),
     });
-    setTeams(assignmentOne.team)
+    setTeams(assignmentOne.team);
   }, [assignmentOne]);
 
   const modifyHandler = async () => {

@@ -343,15 +343,6 @@ export const checkMd = async (ctx, next) => {
   await next();
 };
 
-export const logoutMd = async (ctx, next) => {
-  ctx.cookies.set("access_token", null, {
-    maxAge: 0,
-    httpOnly: true,
-  });
-
-  await next();
-};
-
 // eslint-disable-next-line max-len
 export const create = [
   CommonMd.createConnectionMd,
@@ -424,12 +415,6 @@ export const professorLogin = [
   CommonMd.createConnectionMd,
   readProfessorLoginMd,
   jwtGenerateMd,
-  CommonMd.responseMd,
-];
-
-export const logout = [
-  CommonMd.createConnectionMd,
-  logoutMd,
   CommonMd.responseMd,
 ];
 

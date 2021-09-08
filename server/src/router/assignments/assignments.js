@@ -52,12 +52,8 @@ export const saveAssignmentMd = async (ctx, next) => {
     teams,
   } = ctx.request.body;
 
-  console.log(ctx.request.files);
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
-
-  
-  console.log(ctx.request.files);
 
   var appDir = path.dirname(image.path);
 

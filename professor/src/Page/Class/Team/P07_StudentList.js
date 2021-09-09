@@ -1,37 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-
-const Student = [
-  {
-    id: 1,
-    name: "조재영",
-    grade: 2,
-    team: 0,
-    active: false,
-  },
-  {
-    id: 2,
-    name: "마경미",
-    grade: 3,
-    team: 0,
-    active: false,
-  },
-  {
-    id: 3,
-    name: "오예진",
-    grade: 3,
-    team: 0,
-    active: false,
-  },
-  {
-    id: 4,
-    name: "엄유상",
-    grade: 4,
-    team: 0,
-    active: false,
-  },
-];
+import { useEnrolment } from "../../../components/Use";
+import { CTLoading, useLoading } from "../../../components";
+import { useHistory, useParams } from "react-router-dom";
 
 const StudentBox = styled.div`
   width: 180px;
@@ -59,23 +31,36 @@ const RelatvieBox = styled.div`
   bottom: 350px;
 `;
 
-function P07_StudnentList() {
-  const [team, setTeam] = useState(Student);
+const P07_StudnentList = () => {
+  
+  const history = useHistory();
+  const { code } = useParams();
+    
+  const {studentList, studentListAll} = useEnrolment();
+  const { loading, setLoading } = useLoading(true);
+  
+  const fetch = async() => {
+    try{
+      await studentListAll(code);
+    }catch(e){
+      alert(e);
+    }finally{
+      await setLoading(false);
+    }
+  }
 
-  const onToggle = (id) => {
-    console.log(id);
-    setTeam(
-      team.map((data) =>
-        data.id === id ? { ...data, active: !data.active } : data
-      )
-    );
-  };
+  useEffect(()=> {
+    fetch();
+  },[])
 
   return (
+    loading ? (
+      <CTLoading />
+    ) : (
     <>
       <Box>
         <Form>
-          {team.map((data) => {
+          {studentList.results.map((data) => {
             return (
               <StudentBox>
                 <FormGroup check inline key={data.id}>
@@ -93,7 +78,7 @@ function P07_StudnentList() {
           })}
         </Form>
       </Box>
-    </>
+    </>)
   );
 }
 

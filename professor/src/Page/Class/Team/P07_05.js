@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import StudentList from "./P07_StudentList";
 import StudentTeam from "./P07_StudentTeam";
@@ -14,7 +14,7 @@ font-size: 20px;
 line-height: 23px;
 
 color: #3D3D3D;
-margin-top: 10px;
+margin-top: 30px;
 `;
 
 const Select = styled.select`
@@ -55,6 +55,7 @@ const Head = styled.div`
 
 const Cont = styled.div`
 display: flex;
+margin-top: -10px;
 `
 
 const Student = styled.div`
@@ -98,14 +99,14 @@ const Arrow = styled.div`
 `
 
 function P07_05() {
-
+  const {code } = useParams();
   return (
     <Box>
       <Head>
         <Text>팀편성</Text>
         <LinkButton>
         <Link
-          to="/professor/class/team"
+          to={`/professor/class/${code}/team`}
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <div>돌아가기</div>

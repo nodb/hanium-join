@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 import StudentBox from "./P06_Student";
 import Assign from "./P07_Assign";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, Link} from "react-router-dom";
 
+import { CTLoading, useLoading } from "../../../components";
 import { useEnrolment, useTeams } from "../../../components/Use";
 import {getDataFromStorage} from "../../../utils/storage";
 
@@ -114,28 +114,25 @@ text-align: center;
 color: #000000;
 `
 
-const team = getDataFromStorage();
+const P05_04 = ({ match }) => {
 
-function P05_04() {
-
-
-  const {code } = useParams();
+  const code = match.params.code;
 
   const history = useHistory();
 
-  const [Modal, setModalOpen] = useState(false);
 
+  const { loading, setLoading } = useLoading(true);
+
+  const [Modal, setModalOpen] = useState(false);
   const ModalOpen = () => {
     setModalOpen(true);
   };
-
   const ModalClose = () => {
     setModalOpen(false);
   };
 
   const {studentList, studentListAll} = useEnrolment();
   const {teamList, listAllTeams, deleteTeamApi } = useTeams();
-
 
   const deleteHandler = async(id) => {
     try{
@@ -148,33 +145,26 @@ function P05_04() {
     } 
   }
 
-  useEffect(()=> {
-    const fetch = async () =>{
-      try{
-        const classId = getDataFromStorage();
-        await studentListAll("AZSVBFV");
-      }
-      catch(e){
-        alert(e);
-      }
-    }
-    fetch();
-  },[])
+
+  const fetch = async() => {
+    try{
+      await studentListAll(code);
+      await listAllTeams(code);
+    } catch (e) {
+      alert(e);
+    } finally {
+      await setLoading(false);
+    };
+  }
 
   useEffect(()=> {
-    const fetch = async () =>{
-      try{
-        const classId = getDataFromStorage();
-        await listAllTeams("AZSVBFV");
-      }
-      catch(e){
-        alert(e);
-      }
-    }
     fetch();
   },[])
 
   return (
+    loading ? (
+      <CTLoading />
+    ) : (
     <>
     <WrapBox>
       {studentList.count === 0 &&
@@ -187,7 +177,7 @@ function P05_04() {
           <NoText>
           아직 수업에 학생이 없습니다. <br/>
           <Link
-            to="/professor/class/${code}/enrol"
+            to={`/professor/class/${code}/enrol`}
             style={{ textDecoration: "none", color: "blue" }}
           >
           수강생 관리
@@ -197,7 +187,7 @@ function P05_04() {
         </>
         )
       }
-      {studentList.count !== 0 &&
+      {studentList.count > 0 &&
       (
         <>
       <TitleBox>
@@ -217,7 +207,7 @@ function P05_04() {
         );
       })}
       <CreateBox>
-        <Link to="/professor/class/assign">
+        <Link to={`/professor/class/${code}/assign`}>
           <img src={require('../../../images/plus_team.png').default} alt="팀 추가" />
         </Link>
       </CreateBox>
@@ -228,6 +218,7 @@ function P05_04() {
       
     </WrapBox>
     </>
+    )
   );
 }
 

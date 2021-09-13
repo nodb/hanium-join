@@ -69,7 +69,6 @@ const AssignmentModify = ({ match }) => {
     if (assignmentOne.team) {
       assignmentOne.team.map((item) => {
         setTeams({
-          ...teams,
           [item.team_id]: true,
         });
       });

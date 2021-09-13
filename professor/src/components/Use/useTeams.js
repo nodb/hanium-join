@@ -5,6 +5,7 @@ const useTeams = () => {
   const teamList = useShallowEqualSelectorToJS((state) =>
     state.teams.get("list")
   );
+
   const actions = useActions(reducer);
 
   return {
@@ -12,6 +13,7 @@ const useTeams = () => {
 
     listAllTeams: actions.listAllTeams,
     deleteTeamApi: reducer.deleteTeamApi,
+    createTeamApi: reducer.createTeamApi,
   };
 };
 

@@ -156,7 +156,7 @@ const P05_04 = ({ match }) => {
       await setLoading(false);
     };
   }
-
+  
   useEffect(()=> {
     fetch();
   },[])
@@ -196,12 +196,10 @@ const P05_04 = ({ match }) => {
       {teamList.results.map((item) => {
         return (
           <>
-            <Text>Team{item.id}</Text>
+            <Text>Team{item.name}</Text>
             <DeleteButton onClick={() => {deleteHandler(item.id)}}>삭제</DeleteButton>
             <Box>
-              {/* {studentList.results.map((data) => {
-                return <StudentBox student={data}></StudentBox>;
-              })} */}
+              <StudentBox students={item.team}></StudentBox>;
             </Box>
           </>
         );

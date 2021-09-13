@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useEnrolment } from "../../../components/Use";
+import { useEnrolment, useTeams } from "../../../components/Use";
 import { CTLoading, useLoading } from "../../../components";
 import { useHistory, useParams } from "react-router-dom";
+import RightArrow from "./RightArrow";
 
 const StudentBox = styled.div`
   width: 180px;
@@ -32,13 +33,43 @@ const RelatvieBox = styled.div`
 `;
 
 const P07_StudnentList = () => {
-  
-  const history = useHistory();
+
   const { code } = useParams();
-    
-  const {studentList, studentListAll} = useEnrolment();
-  const { loading, setLoading } = useLoading(true);
   
+  const {studentList, studentListAll} = useEnrolment();
+  const {createTeamApi} = useTeams();
+  const { loading, setLoading } = useLoading(true);
+
+  const [students, setStudents] = useState([]);
+
+  const checkStudent = (e) => {
+    setStudents({
+      ...students,
+      [e.target.name]: e.target.checked,
+    })
+  }
+
+  const createTeamHandler = async () => {
+    const student = [];
+    const keys = Object.keys(students);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      const value = students[key];
+      if (value === true) team.push(key);
+    }
+
+    const formData = new formData();
+    formData.append("id", student.id);
+    formData.append("name", student.name);
+    formData.append("classCode",{code});
+    try{
+      await createTeamApi(formData);
+      history.push(`/professor/class/${code}/assign`);
+    } catch (e) {
+      alert(e)
+    }
+  }
+
   const fetch = async() => {
     try{
       await studentListAll(code);
@@ -51,7 +82,8 @@ const P07_StudnentList = () => {
 
   useEffect(()=> {
     fetch();
-  },[])
+    }
+,[]);
 
   return (
     loading ? (
@@ -67,8 +99,8 @@ const P07_StudnentList = () => {
                   <Label check>
                     <Input
                       type="checkbox"
-                      id={data.id}
-                      onClick={() => onToggle(data.id)}
+                      name={data.id}
+                      // onChange={checkStudent()}
                     />
                     {data.name}({data.grade}학년)
                   </Label>
@@ -78,6 +110,7 @@ const P07_StudnentList = () => {
           })}
         </Form>
       </Box>
+      <RightArrow onClick={createTeamHandler}/>
     </>)
   );
 }

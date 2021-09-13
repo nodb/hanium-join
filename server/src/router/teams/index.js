@@ -4,7 +4,7 @@ import * as teams from "./teams";
 const router = new Router();
 
 // 팀 생성
-router.post("/", ...teams.create);
+router.post("/:classCode", ...teams.create);
 
 // 팀 전체 조회
 router.get("/:classCode", ...teams.readAll);

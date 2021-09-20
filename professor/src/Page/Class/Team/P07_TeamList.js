@@ -27,15 +27,12 @@ const StudentBox = styled.div`
 
 
 function P07_TeamList({ students }) {
-
-  console.log(students);
-  if (!students) return "loading";
   
   return (
     <>
       <Box>
       <Form>
-        {students.team.map((student) => {
+        {students && students.team.map((student) => {
              return(
                 <StudentBox>   
                 <FormGroup>
@@ -44,7 +41,7 @@ function P07_TeamList({ students }) {
                         type="checkbox"
                         name={student.id}
                         // onChange={checkStudent}
-                      />
+                      /> &nbsp;
                       {student.name}({student.grade}학년)
                   </Label>
                 </FormGroup>

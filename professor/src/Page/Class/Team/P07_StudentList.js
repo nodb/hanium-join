@@ -5,6 +5,7 @@ import { useEnrolment, useTeams } from "../../../components/Use";
 import { CTLoading, useLoading } from "../../../components";
 import { useHistory, useParams } from "react-router-dom";
 import RightArrow from "./RightArrow";
+import { insertStudents } from "../../../remote/api/teamsApi";
 
 const StudentBox = styled.div`
   width: 180px;
@@ -32,61 +33,88 @@ const RelatvieBox = styled.div`
   bottom: 350px;
 `;
 
-const P07_StudnentList = () => {
+function P07_StudnentList({students}){
 
   const { code } = useParams();
   
   const {studentList, studentListAll} = useEnrolment();
-  const {createTeamApi} = useTeams();
+  const { teamList, listAllTeams, createTeamApi, insertStudentsApi} = useTeams();
   const { loading, setLoading } = useLoading(true);
 
-  const [students, setStudents] = useState([]);
+  const [stud, setStud] = useState([]);
 
-  const checkStudent = (e) => {
-    setStudents({
-      ...students,
-      [e.target.name]: e.target.checked,
-    })
+  const checkboxChange = (e) => {
+    const {name, checked} = e.target;
+
+    if(checked) {
+      setStud([
+        ...stud,
+        {
+          stud_id: name,
+        }
+      ])
+    } else {
+      const newStud = stud.filter(data => data.stud_id !== name);
+      setStud(newStud);
+    }
   }
 
-  const createTeamHandler = async () => {
-    const student = [];
-    const keys = Object.keys(students);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const value = students[key];
-      if (value === true) team.push(key);
-    }
+  
+  const studentCheck = (id) => {
+    let checked = [];
+    checked = stud.filter(data => data.stud_id === id);
 
-    const formData = new formData();
-    formData.append("id", student.id);
-    formData.append("name", student.name);
-    formData.append("classCode",{code});
-    try{
-      await createTeamApi(formData);
+    return checked.length === 1;
+  }
+
+  const history = useHistory();
+
+  const insertHandler= async ({students}) => {
+    try {
+      
+      const formData = new FormData();
+      formData.append("team_id", students.id);
+      formData.append("member_id", []);
+      await insertStudentsApi(formData);
       history.push(`/professor/class/${code}/assign`);
-    } catch (e) {
-      alert(e)
-    }
-  }
-
-  const fetch = async() => {
-    try{
-      await studentListAll(code);
-    }catch(e){
+    } catch(e){
       alert(e);
-    }finally{
-      await setLoading(false);
     }
   }
-
-  useEffect(()=> {
-    fetch();
+    
+    const fetch = async() => {
+      try{
+        await studentListAll(code);
+      }catch(e){
+        alert(e);
+      }finally{
+        await setLoading(false);
+      }
     }
-,[]);
 
-  return (
-    loading ? (
+    useEffect(()=> {
+      fetch();
+      if(students.team){
+      studentList.results.map((stud)=> {
+        students.team.map((teamstud)=>{
+          if(stud.id === teamstud.id)
+            {
+              setStud({
+                [stud.stud_id]: true,
+              })
+            }
+        })
+      })
+    }
+    }
+    ,[studentList]);
+
+    useEffect(()=>{
+      setStud(students.team)
+    },[{students}])
+
+      return (
+      loading ? (
       <CTLoading />
     ) : (
     <>
@@ -95,12 +123,13 @@ const P07_StudnentList = () => {
           {studentList.results.map((data) => {
             return (
               <StudentBox>
-                <FormGroup check inline key={data.id}>
-                  <Label check>
+                <FormGroup>
+                  <Label check>    
                     <Input
                       type="checkbox"
+                      checked={studentCheck(data.id)}
                       name={data.id}
-                      // onChange={checkStudent()}
+                      onChange={checkboxChange}
                     />
                     {data.name}({data.grade}학년)
                   </Label>
@@ -110,7 +139,7 @@ const P07_StudnentList = () => {
           })}
         </Form>
       </Box>
-      <RightArrow onClick={createTeamHandler}/>
+      <RightArrow onClick={insertHandler}/>
     </>)
   );
 }

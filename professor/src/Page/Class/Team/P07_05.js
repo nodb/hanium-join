@@ -86,14 +86,8 @@ function P07_05() {
 
   const [students, setStudents] = useState(teamList.results[0]);
 
-  const [name, setName] = useState('');
-
-
-
   const teamClick = (e) => {
     setStudents(teamList.results[Number(e.target.value)-1]);
-    setName(e.target.value);
-    console.log(students);
   }
 
   useEffect(()=> {
@@ -118,7 +112,7 @@ function P07_05() {
       <Cont>
         <Student>
           <ListText>학생목록</ListText>
-          <StudentList />
+          <StudentList students={students}/>
         </Student>
         <RelatvieBox>
         <RightArrow />
@@ -127,7 +121,7 @@ function P07_05() {
         <Team>
           <div >
             <ListText>팀목록</ListText>
-            <Select onChange={teamClick}  name="team" id="team" value={name}>
+            <Select onChange={teamClick}  name="team" id="team" >
               {teamList.results.map((data) => {
                 return ( 
                 <option 
@@ -138,7 +132,7 @@ function P07_05() {
                 )})}
             </Select> 
           </div>
-                <TeamList students={students}/>
+        <TeamList students={students}/>
 
         </Team>
       </Cont>

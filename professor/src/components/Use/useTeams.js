@@ -1,3 +1,4 @@
+import { fromJS } from "immutable";
 import * as reducer from "../../store/reducer/teams";
 import { useActions, useShallowEqualSelectorToJS } from "./components";
 
@@ -12,9 +13,10 @@ const useTeams = () => {
     teamList,
 
     listAllTeams: actions.listAllTeams,
+
+    insertStudentsApi: reducer.insertStudentsApi,
     deleteTeamApi: reducer.deleteTeamApi,
     createTeamApi: reducer.createTeamApi,
   };
 };
-
 export default useTeams;

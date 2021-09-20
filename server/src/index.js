@@ -6,7 +6,8 @@ import path from "path";
 import Config from "./config";
 import Router from "./router";
 import { errorHandleMd, jwtMd } from "./middlewares";
-import jwt from "jsonwebtoken";
+import socketMd from "./router/chats/socket";
+import http from "http";
 
 const pool = mariadb.createPool({
   host: Config.DB_HOST,
@@ -21,8 +22,6 @@ const pool = mariadb.createPool({
 const main = async () => {
   try {
     const app = new Koa();
-
-    app.use(cors());
 
     app.use(
       KoaBody({
@@ -39,8 +38,11 @@ const main = async () => {
 
     app.use(errorHandleMd);
     app.use(jwtMd);
+
+    const server = app.listen(3000);
+    app.context.server = server;
+    app.use(socketMd);
     app.use(Router.routes()).use(Router.allowedMethods());
-    app.listen(3000);
 
     console.log("Join web server started [port:3000]");
   } catch (e) {

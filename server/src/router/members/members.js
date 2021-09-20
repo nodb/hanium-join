@@ -280,8 +280,8 @@ export const updateProfessorMd = async (ctx, next) => {
 
   if (password === undefined) {
     await conn.query(
-      "UPDATE tb_member SET name = ?, password = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
-      [name, password, department, professorID, imageName, mobile, id]
+      "UPDATE tb_member SET name = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
+      [name, department, professorID, imageName, mobile, id]
     );
   } else {
     const sql =

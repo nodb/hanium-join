@@ -55,9 +55,10 @@ export const saveAssignmentMd = async (ctx, next) => {
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
 
-  var appDir = path.dirname(image.path);
-
-  await fs.renameSync(image.path, `${appDir}/${image.name}`);
+  if (image != null) {
+    var appDir = path.dirname(image.path);
+    await fs.renameSync(image.path, `${appDir}/${image.name}`);
+  }
 
   const { conn } = ctx.state;
 

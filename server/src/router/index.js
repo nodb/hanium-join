@@ -9,6 +9,7 @@ import terms from "./terms";
 import reports from "./reports";
 import comments from "./comments";
 // import discuss from "./discuss";
+import chats from "./chats";
 
 const router = new Router({
   prefix: "/api/v1",
@@ -24,5 +25,6 @@ router.use("/terms", terms.routes());
 router.use("/reports", reports.routes());
 // router.use("/discuss", discuss.routes());
 router.use("/comments", comments.routes());
+router.use("/chats", chats.routes());
 
 export default router;

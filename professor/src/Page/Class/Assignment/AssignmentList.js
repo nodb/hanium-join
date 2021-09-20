@@ -2,11 +2,32 @@ import React, { useEffect, useState } from "react";
 import { Button, Table } from "reactstrap";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { useAssignments } from "../../../components/Use";
-import { DateChange } from "../../../utils/dateChange";
+import { endDateChange, DateChange } from "../../../utils/dateChange";
 import styled from "styled-components";
 
 const Box = styled.div`
   width: 80%;
+  p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+  button {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    text-align: center;
+    background-color: #ffffff;
+    border-color: #426589;
+    color: #426589;
+    width: 75px;
+    height: 30px;
+  }
 `;
 
 const Assignment = styled.div`
@@ -24,7 +45,7 @@ const Assignment = styled.div`
   tbody th {
     font-family: Roboto;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 550;
     font-size: 17px;
     line-height: 20px;
     padding-bottom: 15px;
@@ -52,7 +73,7 @@ const assignmentList = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await listAllByClassCode();
+        await listAllByClassCode(code);
       } catch (e) {
         alert(e);
       }
@@ -70,9 +91,9 @@ const assignmentList = () => {
   return (
     <Box>
       <div className="d-flex justify-content-between pt-3 pb-2 mb-3">
-        <p>등록된 과제 확인</p>
+        <p style={{ fontWeight: "bold" }}>등록된 과제 확인</p>
         <Link to={`/professor/class/${code}/addAssignment`}>
-          <Button size="sm">추가</Button>
+          <button size="sm">추가</button>
         </Link>
       </div>
       <Assignment>
@@ -91,12 +112,12 @@ const assignmentList = () => {
               return (
                 <tr>
                   <th>{index + 1}</th>
-                  <td onClick={() => handler(assignment.id)}>
+                  <th onClick={() => handler(assignment.id)}>
                     {assignment.name}
-                  </td>
-                  <td>{assignment.progress === 1 ? "진행 중" : "마감"}</td>
-                  <td>{assignment.point}</td>
-                  <td>{DateChange(assignment.endDate)}</td>
+                  </th>
+                  <th>{assignment.progress === 1 ? "진행 중" : "마감"}</th>
+                  <th>{assignment.point}</th>
+                  <th>{endDateChange(assignment.endDate)}</th>
                 </tr>
               );
             })}

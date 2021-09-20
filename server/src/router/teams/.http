@@ -1,8 +1,10 @@
 @BASE_URL=http://localhost:3000/api/v1
 
-GET {{BASE_URL}}/teams/AZSVBFV
+GET {{BASE_URL}}/teams/6axz4e8z
 
 GET {{BASE_URL}}/teams/2
+
+
 
 POST {{BASE_URL}}/teams/students
 Content-Type: application/json

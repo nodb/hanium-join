@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Input, FormGroup, Col, Button, Form } from "reactstrap";
+import io from "socket.io-client";
 import styled from "styled-components";
 
-const Button = styled.button`
+const Btn = styled.button`
   width: 50px;
   height: 50px;
   background: black;
 `;
+
+const Box = styled.div``;
 
 const ModalBox = styled.div`
   z-index: 99;
@@ -41,10 +45,25 @@ const ModalBox = styled.div`
   }
 `;
 
+let socket;
+
 function Modal() {
   const [open, setOpen] = useState(false);
 
   const onToggle = () => setOpen(!open);
+
+  useEffect(() => {
+    socket = io(`ws://localhost:3000/1`, {
+      secure: true,
+    });
+    // if (user) {
+    //   socket.emit("join", { roomId, user }, (error) => {
+    //     if (error) {
+    //       alert(error);
+    //     }
+    //   });
+    // }
+  }, []);
 
   return (
     <>
@@ -53,9 +72,14 @@ function Modal() {
           <button onClick={onToggle} open={open}>
             X
           </button>
+          <div>안녕하세요</div>
+          <Box style={{ display: "flex" }}>
+            <Input type="" style={{ width: "330px", marginLeft: "5px" }} />
+            <Button>확인</Button>
+          </Box>
         </ModalBox>
       )}
-      <Button onClick={onToggle} open={open} />
+      <Btn onClick={onToggle} open={open} />
     </>
   );
 }

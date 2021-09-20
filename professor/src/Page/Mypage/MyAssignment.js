@@ -89,7 +89,7 @@ const list = [
 
   {
     id: 3,
-    name: "소프트웨어 공학재수강",
+    name: "소프트웨어 공학",
     content: "Sprint 5",
     submit: false,
     createdAt: "2021-06-01",
@@ -99,7 +99,7 @@ const list = [
 const MyAssignment = (props) => {
   return (
     <Box>
-      <Page>과제 제출하기싫음</Page>
+      <Page>과제 제출하기</Page>
       <Hr />
       <IntroText>내용을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
       <Assignment>

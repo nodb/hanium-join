@@ -11,6 +11,8 @@ import AssignmentList from "./Page/Class/Assignment/AssignmentList";
 import AddAssignment from "./Page/Class/Assignment/AddAssignment";
 import AssignmentModify from "./Page/Class/Assignment/AssignmentModify";
 
+import Report from "./Page/Class/Report";
+
 import SideBar from "./Common/SideBar";
 import Assignment from "./Page/Class/Assignment/Assignment";
 import Header from "./Common/Header";
@@ -35,6 +37,11 @@ const ClassParent = () => {
         <Route path="/professor/class/:code/enrol" exact component={P05} />
         <Route path="/professor/class/:code/team" exact component={P06} />
         <Route path="/professor/class/:code/assign" exact component={P07} />
+        <Route
+          path="/professor/class/:code/report"
+          exact
+          component={Report}
+        />
         <Route
           path="/professor/class/:code/assignment/:id"
           exact
@@ -65,6 +72,7 @@ const ClassParent = () => {
           exact
           component={P13}
         />
+        
       </Switch>
     </>
   );

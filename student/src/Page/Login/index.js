@@ -33,8 +33,8 @@ const  Login = () => {
     setData({
       ...data,
       [e.target.name] : e.target.value,
-    })
-  } 
+    });
+  };
 
     const submitHandler = async () => {
       try {
@@ -49,7 +49,7 @@ const  Login = () => {
           saveDataToStorage(response.data)
         }
 
-        history.push("/professor/class");
+        history.push("/student/class");
       } catch(e) {
         alert("로그인 실패");
       }

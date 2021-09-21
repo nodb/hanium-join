@@ -6,29 +6,40 @@ export const getDataFromBodyMd = async (ctx, next) => {
   ctx.state.reqBody = {
     contents,
   };
-
   await next();
 };
 
 export const updateAssignmentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
-  const { id } = ctx.params;
+  const { assignmentId } = ctx.params;
+  const { memberId } = ctx.params;
+  console.log(memberId);
+  console.log(assignmentId);
   const { contents } = ctx.state.reqBody;
   const file = ctx.request.files === undefined ? null : ctx.request.files.file;
 
   const fileName = file ? file.name : null;
-
+  const rows = await conn.query(
+    "SELECT at.id "
+    + "FROM tb_assignment_team at "
+    + "JOIN tb_team t ON t.id = at.team_id "
+    + "JOIN tb_team_member tm ON tm.team_id = t.id "
+    + "WHERE tm.member_id = ? AND at.assignment_id = ?",
+    [memberId, assignmentId]
+  );
+  const id = rows[0].id;
   await conn.query(
-    "UPDATE tb_assignment_team SET contents = ?, file = ? WHERE id = ?",
+    "UPDATE tb_assignment_team SET contents = ?, file = ? "
+    + "WHERE id = ?",
     [contents, fileName, id]
   );
-
+  ctx.state.id = id;
   await next();
 };
 
 export const queryAssignmentTeamMd = async (ctx, next) => {
-  const { id } = ctx.params;
+  const { id } = ctx.state;
   const { conn } = ctx.state;
 
   const rows = await conn.query(

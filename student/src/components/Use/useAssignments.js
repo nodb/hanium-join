@@ -26,6 +26,7 @@ const useAssignments = () => {
     createAssignmentsApi: reducer.createAssignmentsApi,
     updateAssignmentsApi: reducer.updateAssignmentsApi,
     deleteAssignmentsApi: reducer.deleteAssignmentsApi,
+    submitAssignmentsApi: reducer.submitAssignmentsApi,
   };
 };
 

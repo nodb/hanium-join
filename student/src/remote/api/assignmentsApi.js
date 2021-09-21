@@ -12,3 +12,9 @@ export const assignmentById = (id) =>
 export const put = (id, form) =>
   httpClient.put(`${urls.assignments}/${id}`, form);
 export const remove = (id) => httpClient.delete(`${urls.assignments}/${id}`);
+export const submit = (id, memberId, form) => httpClient.post(`${urls.assignments}/submit/${id}/${memberId}`, form,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data; ",
+      }
+    });

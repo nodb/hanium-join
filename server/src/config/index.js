@@ -13,7 +13,7 @@ const config = {
     serviceSecret: "mfuhfBxNL283yGOy2oYjV1PmadPGOEBg3QEvbiJ4",
     accessKey: "LsrQNLT0ZklKJqmpYv1W",
     number: "01045918177",
-  }
+  },
 };
 
 export default config;

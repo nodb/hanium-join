@@ -5,6 +5,7 @@ import { AssignmentsApi } from "../../remote";
 
 export const LISTALL_ASSIGNMENTS = "assignments/LISTALL";
 export const GET_ASSIGNMENTS = "assignments/GET";
+export const LISTTOTAL_ASSIGNMENTS = "assignments/LISTALLASSIGNMENTS";
 
 export const listAllByClassCode = createAction(
   LISTALL_ASSIGNMENTS,
@@ -14,6 +15,11 @@ export const listAllByClassCode = createAction(
 export const getAssignment = createAction(
   GET_ASSIGNMENTS,
   AssignmentsApi.assignmentById
+);
+
+export const ListTotalAssignments = createAction(
+  LISTTOTAL_ASSIGNMENTS,
+  AssignmentsApi.listAllAssignments
 );
 
 export const updateAssignmentsApi = AssignmentsApi.put;
@@ -34,6 +40,10 @@ const initialState = Map({
     content: "",
     startDate: "",
   }),
+  my_assignments: Map({
+    count: 0,
+    results: List([]),
+    })
 });
 
 export default handleActions(
@@ -50,6 +60,12 @@ export default handleActions(
         return state.set("assignment", fromJS(action.payload.data));
       },
     }),
+    ...pender({
+      type: LISTTOTAL_ASSIGNMENTS,
+      onSuccess: (state, action) => {
+        return state.set("my_assignments", fromJS(action.payload.data));
+      }
+    })
   },
   initialState
 );

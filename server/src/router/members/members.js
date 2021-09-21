@@ -217,9 +217,8 @@ export const updateStudentMd = async (ctx, next) => {
 
   const profileImg =
     ctx.request.files === undefined ? null : ctx.request.files.profileImg;
-    
-  console.log(ctx.request.files);
 
+  console.log(ctx.request.files);
 
   const imageName = profileImg ? profileImg.name : null;
 
@@ -403,7 +402,6 @@ export const remove = [
   removeMemberMd,
   CommonMd.responseMd,
 ];
-
 
 export const studentLogin = [
   CommonMd.createConnectionMd,

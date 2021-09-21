@@ -7,6 +7,7 @@ import assignments from "./assignments";
 import verification from "./verification";
 import terms from "./terms";
 import reports from "./reports";
+import comments from "./comments";
 // import discuss from "./discuss";
 
 const router = new Router({
@@ -22,5 +23,6 @@ router.use("/verify", verification.routes());
 router.use("/terms", terms.routes());
 router.use("/reports", reports.routes());
 // router.use("/discuss", discuss.routes());
+router.use("/comments", comments.routes());
 
 export default router;

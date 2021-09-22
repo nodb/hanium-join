@@ -80,6 +80,7 @@ const assignmentList = () => {
     };
     fetch();
   }, []);
+  
   const handler = async (id) => {
     try {
       history.push(`/professor/class/${code}/assignment/${id}`);

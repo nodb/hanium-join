@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Input, FormGroup, Col, Button, Form } from "reactstrap";
 import io from "socket.io-client";
 import styled from "styled-components";
+import { useChats } from "../../../components/Use";
+import { getDataFromStorage } from "../../../utils/storage";
 
 const Btn = styled.button`
   width: 50px;
@@ -47,24 +49,54 @@ const ModalBox = styled.div`
 
 let socket;
 
-function Modal() {
+const Modal = () => {
+  const [state, setState] = useState({ name:'',message:''});
+  const [chat, setChat] = useState([]);
   const [open, setOpen] = useState(false);
+  const studentInfo = getDataFromStorage();
+
+  const { createChatApi } = useChats();
 
   const onToggle = () => setOpen(!open);
 
   useEffect(() => {
-    socket = io(`ws://localhost:3000/1`, {
-      secure: true,
+    socket = io(`http://localhost:3000/room-1`, {
+      secure: true
     });
-    // if (user) {
-    //   socket.emit("join", { roomId, user }, (error) => {
-    //     if (error) {
-    //       alert(error);
-    //     }
-    //   });
-    // }
-  }, []);
+    
+  },[])
 
+  useEffect(() => {
+    socket.on("message", (content) => {
+      console.log(content);
+    });
+  },[])
+
+  const onTextChange = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const sendMessage = async () => {
+    try {
+      const body = {
+        assignmentTeamId: 1,
+        memberId: studentInfo.id,
+        contents: state.message
+      }
+      await createChatApi(body);
+
+      setState({
+        ...state,
+        "message" : "",
+      })
+
+    } catch (e) {
+      alert(e);
+    }
+  }
   return (
     <>
       {open && (
@@ -74,8 +106,8 @@ function Modal() {
           </button>
           <div>안녕하세요</div>
           <Box style={{ display: "flex" }}>
-            <Input type="" style={{ width: "330px", marginLeft: "5px" }} />
-            <Button>확인</Button>
+            <Input name="message" value={state.message} onChange={onTextChange} style={{ width: "330px", marginLeft: "5px" }} />
+            <Button onClick={sendMessage}>확인</Button>
           </Box>
         </ModalBox>
       )}

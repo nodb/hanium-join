@@ -10,6 +10,9 @@ router.post("/", ...assignments.create);
 // 전체 과제 조회
 router.get("/", ...assignments.readAll);
 
+//classCode 별 과제 조회
+router.get("/byClassCode/:classCode", ...assignments.readByClassCode);
+
 // memberId별 조회
 router.get("/byStudent/:memberId", ...assignments.readByStudent);
 

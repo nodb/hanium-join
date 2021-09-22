@@ -199,6 +199,23 @@ export const readAssignmentByIdMd = async (ctx, next) => {
   await next();
 };
 
+export const readAssginmentByClassCodeMd = async (ctx, next) => {
+  const { classCode } = ctx.params;
+  const { conn } = ctx.state;
+  const rows = await conn.query(
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE class_code = ? ORDER BY createdAt ASC",
+    [classCode]
+  );
+
+  ctx.state.body = {
+    results: rows,
+    count : rows.length
+  }
+
+  await next();
+
+}
+
 export const removeAssignmentMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
@@ -368,6 +385,12 @@ export const readAll = [
   readAssignmentAllCountMd,
   CommonMd.responseMd,
 ];
+
+export const readByClassCode = [
+  CommonMd.createConnectionMd,
+  readAssginmentByClassCodeMd,
+  CommonMd.responseMd
+]
 
 export const readByStudent = [
   CommonMd.validataListParamMd,

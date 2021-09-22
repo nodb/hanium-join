@@ -23,6 +23,7 @@ const main = async () => {
   try {
     const app = new Koa();
 
+    app.use(cors());
     app.use(
       KoaBody({
         multipart: true,

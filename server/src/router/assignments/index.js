@@ -39,4 +39,6 @@ router.post("/submit/:id", ...assignmentTeam.submit);
 // 제출 확인
 router.get("/team/:id", ...assignmentTeam.read);
 
+router.get("/assignmentTeam/:assignmentId/:teamId", ...assignmentTeam.query);
+
 export default router;

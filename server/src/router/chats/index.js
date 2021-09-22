@@ -5,4 +5,6 @@ const router = new Router();
 
 router.post("/", ...chats.create);
 
+router.get("/:assignmentTeamId", ...chats.readChatLog);
+
 export default router;

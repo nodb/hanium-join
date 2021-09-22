@@ -135,7 +135,7 @@ export const readStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, classCode } = ctx.query;
   const rows = await conn.query(
-    "select m.name, m.grade, m.department \
+    "select m.name, m.grade, m.department, a.teamId \
     FROM (SELECT t.id as teamId FROM tb_team_member tm \
     JOIN tb_member m ON m.id = tm.member_id \
     JOIN tb_team t ON t.id = tm.team_id WHERE t.class_code = ? AND m.id = ?) a \

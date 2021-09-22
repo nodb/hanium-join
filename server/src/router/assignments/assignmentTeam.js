@@ -59,6 +59,21 @@ export const readAssignmentTeamMd = async (ctx, next) => {
   await next();
 };
 
+export const queryAssignmentTeamByteamIdMd = async (ctx, next) => {
+  const {assignmentId, teamId} = ctx.params;
+  const {conn} = ctx.state;
+  const rows = await conn.query(
+    "SELECT * FROM tb_assignment_team WHERE assignment_id = ? AND team_id = ?",
+    [assignmentId, teamId]
+  )
+
+  ctx.state.body = {
+    ...rows[0],
+  }
+
+  await next();
+}
+
 export const submit = [
   CommonMd.createConnectionMd,
   getDataFromBodyMd,
@@ -72,3 +87,9 @@ export const read = [
   readAssignmentTeamMd,
   CommonMd.responseMd,
 ];
+
+export const query = [
+  CommonMd.createConnectionMd,
+  queryAssignmentTeamByteamIdMd,
+  CommonMd.responseMd,
+]

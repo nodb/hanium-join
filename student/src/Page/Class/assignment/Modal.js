@@ -11,13 +11,18 @@ const Btn = styled.button`
   background: black;
 `;
 
-const Box = styled.div``;
+const Box = styled.div`
+  width: 400px;
+  height: 600px;
+  margin-top: 50px;
+  background-color: white;
+`;
 
 const ModalBox = styled.div`
   z-index: 99;
   width: 400px;
   height: 700px;
-  background-color: grey;
+  background-color: #89c0b7;
   animation: modal-bg-show 0.3s;
   position: fixed;
   left: 50%;
@@ -49,71 +54,72 @@ const ModalBox = styled.div`
 
 let socket;
 
-const Modal = () => {
-  const [state, setState] = useState({ name:'',message:''});
+const Modal = (match) => {
+  const [state, setState] = useState({ name: "", message: "" });
   const [chat, setChat] = useState([]);
   const [open, setOpen] = useState(false);
   const studentInfo = getDataFromStorage();
 
-  const { createChatApi } = useChats();
+  const { createChatApi, chatList, listAllChats } = useChats();
 
   const onToggle = () => setOpen(!open);
+  useEffect(() => {
+    socket = io.connect(`http://localhost:3000/${match.assignmentTeamId}`, {
+      path: "/socket.io",
+      rejectUnauthorized: false,
+    });
+  }, []);
 
   useEffect(() => {
-    socket = io(`http://localhost:3000/room-1`, {
-      secure: true
-    });
-    
-  },[])
+    const fetch = async () => {
+      await listAllChats(match.assignmentTeamId);
+      console.log(chatList);
+    };
+    fetch();
+  }, []);
 
   useEffect(() => {
     socket.on("message", (content) => {
       console.log(content);
     });
-  },[])
+  }, []);
 
   const onTextChange = (e) => {
     setState({
       ...state,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const sendMessage = async () => {
     try {
       const body = {
         assignmentTeamId: 1,
         memberId: studentInfo.id,
-        contents: state.message
-      }
+        contents: state.message,
+      };
+
       await createChatApi(body);
 
       setState({
         ...state,
-        "message" : "",
-      })
-
+        message: "",
+      });
     } catch (e) {
       alert(e);
     }
-  }
+  };
+
   return (
     <>
       {open && (
         <ModalBox>
-          <button onClick={onToggle} open={open}>
-            X
-          </button>
-          <div>안녕하세요</div>
-          <Box style={{ display: "flex" }}>
-            <Input name="message" value={state.message} onChange={onTextChange} style={{ width: "330px", marginLeft: "5px" }} />
-            <Button onClick={sendMessage}>확인</Button>
-          </Box>
+          <Box></Box>
         </ModalBox>
       )}
       <Btn onClick={onToggle} open={open} />
     </>
   );
-}
+};
 
 export default Modal;

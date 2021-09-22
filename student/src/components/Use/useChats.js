@@ -2,13 +2,17 @@ import * as reducer from "../../store/reducer/chats";
 import { useActions, useShallowEqualSelectorToJS } from "./components";
 
 const useChats = () => {
-    
-    const actions = useActions(reducer);
-  
-  return {
+  const chatList = useShallowEqualSelectorToJS((state) =>
+    state.chats.get("list")
+  );
 
-    createChatApi : reducer.createChatApi
-    
+  const actions = useActions(reducer);
+
+  return {
+    chatList,
+
+    listAllChats: actions.listAllChats,
+    createChatApi: reducer.createChatApi,
   };
 };
 

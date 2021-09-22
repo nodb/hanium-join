@@ -5,10 +5,7 @@ import { ChatsApi } from "../../remote";
 
 export const LISTALL_CHATS = "chats/LISTALL";
 
-export const listAllChats = createAction(
-    LISTALL_CHATS,
-  ChatsApi.listAll
-);
+export const listAllChats = createAction(LISTALL_CHATS, ChatsApi.listChat);
 
 export const createChatApi = ChatsApi.create;
 

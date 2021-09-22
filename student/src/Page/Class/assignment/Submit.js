@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Button } from "reactstrap";
 import Dropzone from "react-dropzone";
 import { Link, useHistory } from "react-router-dom";

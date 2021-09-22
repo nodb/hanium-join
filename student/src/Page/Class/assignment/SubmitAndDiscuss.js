@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from "reactstrap";
 import classnames from "classnames";
 import Submit from "./Submit";
 import Discuss from "./Discuss";
 import Modal from "./Modal";
+import { useAssignments } from "../../../components/Use";
 
 const SubmitAndDiscuss = () => {
   const [activeTab, setActiveTab] = useState("1");
 
+  const { assignmentTeamOne, getAssignmentTeam }= useAssignments();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await getAssignmentTeam(1, 1);
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
+  
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
@@ -16,7 +30,7 @@ const SubmitAndDiscuss = () => {
     <>
       <div className="d-flex pt-3 pb-2 mb-3">
         <h4 style={{ marginRight: "460px" }}>과제제출</h4>
-        <Modal>팀원 커뮤니티</Modal>
+        <Modal assignmentTeamId={assignmentTeamOne.id}>팀원 커뮤니티</Modal>
       </div>
       <Nav tabs style={{ width: "600px" }}>
         <NavItem>

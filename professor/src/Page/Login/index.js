@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useMember } from "../../components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
-import { saveDataToStorage } from "../../utils/storage"
+import { saveDataToStorage } from "../../utils/storage";
 
 const Box = styled.div`
   display: block;
@@ -21,7 +21,7 @@ const Title = styled.div`
   margin-bottom: 50px;
 `;
 
-const  Login = () => {
+const Login = () => {
   const history = useHistory();
   const { loginApi } = useMember();
   const [data, setData] = useState({
@@ -32,27 +32,27 @@ const  Login = () => {
   const handleChange = (e) => {
     setData({
       ...data,
-      [e.target.name] : e.target.value,
-    })
-  } 
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    const submitHandler = async () => {
-      try {
-        const request = {
-          email: data.email,
-          password: data.password,
-        }
+  const submitHandler = async () => {
+    try {
+      const request = {
+        email: data.email,
+        password: data.password,
+      };
 
-        const response = await loginApi(request);
+      const response = await loginApi(request);
 
-        if (response.data) {
-          saveDataToStorage(response.data)
-        }
-
-        history.push("/professor/class");
-      } catch(e) {
-        alert(e);
+      if (response.data) {
+        saveDataToStorage(response.data);
       }
+
+      history.push("/professor/main");
+    } catch (e) {
+      alert(e);
+    }
   };
 
   return (
@@ -90,6 +90,6 @@ const  Login = () => {
       </Link>
     </Box>
   );
-}
+};
 
 export default withRouter(Login);

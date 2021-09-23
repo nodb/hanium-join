@@ -4,11 +4,16 @@ import * as CommonMd from "../middlewares";
 
 export const saveTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
-  const { name, classCode } = ctx.request.body;
+  const { classCode } = ctx.params;
+
+  const row = await conn.query(
+    "SELECT COUNT(*) as count FROM tb_team WHERE class_code = ?",
+    [classCode]
+  );
 
   await conn.query(
     "INSERT INTO tb_team (id, name, class_code) VALUES (?, ?, ?)",
-    [UUID(), name, classCode]
+    [UUID(), row[0].count + 1, classCode]
   );
 
   await next();
@@ -17,12 +22,25 @@ export const saveTeamMd = async (ctx, next) => {
 export const readTeamAllMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { classCode } = ctx.params;
-  const rows = await conn.query(
-    // eslint-disable-next-line max-len
-    // eslint-disable-next-line no-multi-str
-    "SELECT * FROM tb_team WHERE class_code = ?",
+
+  const rows = await conn.query("SELECT * FROM tb_team WHERE class_code = ?", [
+    classCode,
+  ]);
+
+  const members = await conn.query(
+    "SELECT t.id as team_id, m.name, m.grade, m.department \
+    FROM tb_team t JOIN tb_team_member tm ON tm.team_id = t.id \
+    JOIN tb_member m ON m.id = tm.member_id \
+    WHERE t.class_code = ?",
     [classCode]
   );
+
+  for (let i = 0; i < rows.length; i += 1) {
+    const t = members.filter((item) => {
+      if (rows[i].id === item.team_id) return true;
+    });
+    rows[i].team = t;
+  }
 
   ctx.state.body = {
     count: rows.length,
@@ -117,7 +135,7 @@ export const readStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, classCode } = ctx.query;
   const rows = await conn.query(
-    "select m.name, m.grade, m.department \
+    "select m.name, m.grade, m.department, a.teamId \
     FROM (SELECT t.id as teamId FROM tb_team_member tm \
     JOIN tb_member m ON m.id = tm.member_id \
     JOIN tb_team t ON t.id = tm.team_id WHERE t.class_code = ? AND m.id = ?) a \
@@ -130,22 +148,6 @@ export const readStudentTeamMd = async (ctx, next) => {
     results: rows,
     count: rows.length,
   };
-
-  await next();
-};
-
-export const duplicatedNameMd = async (ctx, next) => {
-  const { conn } = ctx.state;
-  const { name, classCode } = ctx.request.body;
-
-  const rows = await conn.query(
-    "SELECT * FROM tb_team WHERE name = ? AND class_code =?",
-    [name, classCode]
-  );
-
-  if (rows.length > 0) {
-    throw Boom.badRequest("duplicated team name");
-  }
 
   await next();
 };
@@ -165,7 +167,6 @@ export const deleteStudentTeamMd = async (ctx, next) => {
 
 export const create = [
   CommonMd.createConnectionMd,
-  duplicatedNameMd,
   saveTeamMd,
   queryTeamMd,
   CommonMd.responseMd,

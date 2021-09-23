@@ -3,6 +3,7 @@ import useClasses from "./useClasses";
 import useAssignments from "./useAssignments";
 import useComments from "./useComments";
 import useTeams from "./useTeams";
+import useChats from "./useChats";
 import useEnrolment from "./useEnrolment";
 
 export {
@@ -12,4 +13,5 @@ export {
   useComments,
   useTeams,
   useEnrolment,
+  useChats,
 };

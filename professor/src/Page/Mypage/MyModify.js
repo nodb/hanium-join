@@ -105,24 +105,23 @@ function MyModify(props) {
     };
   };
 
-const handleChange = (e) => {
-  const name = e.target.name;
-  const value = e.target.value;
-  console.log(value);
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    console.log(value);
 
     const { errName = undefined, errMessage = undefined } = handleError(
       name,
       value
     );
 
-  setData({
-    ...data,
-    [name] : value,
-    errName,
-    errMessage
-  });
-
-}
+    setData({
+      ...data,
+      [name]: value,
+      errName,
+      errMessage,
+    });
+  };
 
   const onModifyHandler = async (e) => {
     if (!data.errName && !data.errMessage) {
@@ -260,50 +259,53 @@ const handleChange = (e) => {
             value={data.mobile}
             onChange={handleChange}
           />
-      </FormGroup>
-      <br />
-      <FormGroup row>
-      <InputWithLabel
-        label="생년월일"
-        name="birthDate"
-        placeholder="생년월일"
-        type="date"
-        value={BirthDate(data.birthDate)}
-        onChange={handleChange}
-      />
-      </FormGroup>
-      <br />
-      <FormGroup row>
-      <InputWithLabel
-        label="전화번호"
-        name="mobile"
-        placeholder="전화번호"
-        type="text"
-        value={data.mobile}
-        onChange={handleChange}
-      />
-      </FormGroup>
-      <br />
-      <FormGroup row>
-        <Label sm={2}>
-          프로필 사진
-        </Label>
-        <Col sm={10}>
-          <Input type="file" name="profileImg" onChange={imageChange} value={image}/>
-        </Col>
-      </FormGroup>
-      <br />
-      <FormText color="muted">
-        뒤로가면 작성한 내용이 반영되지 않습니다.
-      </FormText>
-      <br />
-      <br />
-      <FormGroup check row>
-        <Col sm={{ size: 10, offset: 2 }}>
-          <Button onClick={onModifyHandler}>Submit</Button>
-        </Col>
-      </FormGroup>
-    </Form>
+        </FormGroup>
+        <br />
+        <FormGroup row>
+          <InputWithLabel
+            label="생년월일"
+            name="birthDate"
+            placeholder="생년월일"
+            type="date"
+            value={BirthDate(data.birthDate)}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <br />
+        <FormGroup row>
+          <InputWithLabel
+            label="전화번호"
+            name="mobile"
+            placeholder="전화번호"
+            type="text"
+            value={data.mobile}
+            onChange={handleChange}
+          />
+        </FormGroup>
+        <br />
+        <FormGroup row>
+          <Label sm={2}>프로필 사진</Label>
+          <Col sm={10}>
+            <Input
+              type="file"
+              name="profileImg"
+              onChange={imageChange}
+              value={image}
+            />
+          </Col>
+        </FormGroup>
+        <br />
+        <FormText color="muted">
+          뒤로가면 작성한 내용이 반영되지 않습니다.
+        </FormText>
+        <br />
+        <br />
+        <FormGroup check row>
+          <Col sm={{ size: 10, offset: 2 }}>
+            <Button onClick={onModifyHandler}>Submit</Button>
+          </Col>
+        </FormGroup>
+      </Form>
     </Box>
   );
 }

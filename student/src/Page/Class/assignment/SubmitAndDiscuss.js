@@ -5,6 +5,11 @@ import Submit from "./Submit";
 import Discuss from "./Discuss";
 import Modal from "./Modal";
 import { useAssignments } from "../../../components/Use";
+import styled from "styled-components";
+
+const Box = styled.div`
+  width: 80%;
+`;
 
 const SubmitAndDiscuss = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -28,7 +33,7 @@ const SubmitAndDiscuss = () => {
   };
 
   return (
-    <>
+    <Box>
       <div className="d-flex pt-3 pb-2 mb-3">
         <h4 style={{ marginRight: "460px" }}>과제제출</h4>
         <Modal assignmentTeamId={assignmentTeamOne.id}>팀원 커뮤니티</Modal>
@@ -63,7 +68,7 @@ const SubmitAndDiscuss = () => {
           <Discuss />
         </TabPane>
       </TabContent>
-    </>
+    </Box>
   );
 };
 

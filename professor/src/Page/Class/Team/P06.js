@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import StudentBox from "./P06_Student";
 import Assign from "./P07_Assign";
-import { useHistory, Link} from "react-router-dom";
+import { useHistory, Link, useParams} from "react-router-dom";
 
 import { CTLoading, useLoading } from "../../../components";
 import { useEnrolment, useTeams } from "../../../components/Use";
@@ -114,9 +114,9 @@ text-align: center;
 color: #000000;
 `
 
-const P05_04 = ({ match }) => {
+const P05_04 = () => {
 
-  const code = match.params.code;
+  const { code } = useParams();
 
   const history = useHistory();
 
@@ -138,8 +138,10 @@ const P05_04 = ({ match }) => {
     try{
       await deleteTeamApi(id);
       alert("수정되었습니다.");
-      history.push("/professor/class/team");
-      await listAllTeams("AZSVBFV");
+      <Link
+        to={`/professor/class/${code}/enrol`}>
+      </Link>
+      await listAllTeams(code);
     } catch(e) {
       alert(e);
     } 

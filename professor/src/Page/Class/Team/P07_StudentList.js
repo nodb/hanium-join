@@ -38,10 +38,12 @@ function P07_StudnentList({students}){
   const { code } = useParams();
   
   const {studentList, studentListAll} = useEnrolment();
-  const { teamList, listAllTeams, createTeamApi, insertStudentsApi} = useTeams();
+  const { insertStudentsApi } = useTeams();
   const { loading, setLoading } = useLoading(true);
 
-  const [stud, setStud] = useState([]);
+  const [stud, setStud] = useState(
+    []
+  );
 
   const checkboxChange = (e) => {
     const {name, checked} = e.target;
@@ -51,37 +53,40 @@ function P07_StudnentList({students}){
         ...stud,
         {
           stud_id: name,
-        }
-      ])
+          team_id: students.id,
+        },
+      ]);
     } else {
-      const newStud = stud.filter(data => data.stud_id !== name);
+      const newStud = stud.filter((data) => data.stud_id !== name);
       setStud(newStud);
     }
   }
-
+  console.log(stud);
   
   const studentCheck = (id) => {
     let checked = [];
-    checked = stud.filter(data => data.stud_id === id);
+    checked = stud.filter((data) => data.stud_id === id);
 
     return checked.length === 1;
   }
 
   const history = useHistory();
 
-  const insertHandler= async ({students}) => {
+  const insertHandler= async (e) => {
+    const body = {
+      memberId: stud.stud_id,
+      teamId: stud.team_id,
+    };  
+
     try {
-      
-      const formData = new FormData();
-      formData.append("team_id", students.id);
-      formData.append("member_id", []);
-      await insertStudentsApi(formData);
+      await insertStudentsApi(body);
       history.push(`/professor/class/${code}/assign`);
+      console.log("클릭!");
     } catch(e){
       alert(e);
     }
   }
-    
+   
     const fetch = async() => {
       try{
         await studentListAll(code);
@@ -92,26 +97,9 @@ function P07_StudnentList({students}){
       }
     }
 
-    useEffect(()=> {
-      fetch();
-      if(students.team){
-      studentList.results.map((stud)=> {
-        students.team.map((teamstud)=>{
-          if(stud.id === teamstud.id)
-            {
-              setStud({
-                [stud.stud_id]: true,
-              })
-            }
-        })
-      })
-    }
-    }
-    ,[studentList]);
-
     useEffect(()=>{
-      setStud(students.team)
-    },[{students}])
+      fetch();
+    },[]);
 
       return (
       loading ? (
@@ -130,6 +118,7 @@ function P07_StudnentList({students}){
                       checked={studentCheck(data.id)}
                       name={data.id}
                       onChange={checkboxChange}
+                      style={{ marginRight: "5px" }}
                     />
                     {data.name}({data.grade}학년)
                   </Label>

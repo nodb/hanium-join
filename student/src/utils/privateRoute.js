@@ -4,8 +4,8 @@ import { getDataFromStorage } from "./storage";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const isLogin = () => {
-    const professorInfo = getDataFromStorage();
-    if (professorInfo === null) {
+    const studentInfo = getDataFromStorage();
+    if (studentInfo === null) {
       alert("로그인 필요한 페이지입니다.");
       return false;
     }

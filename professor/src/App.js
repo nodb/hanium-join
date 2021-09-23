@@ -2,12 +2,12 @@ import React from "react";
 import MyPage from "./MyPage";
 import Main from "./Main";
 import Class from "./Class";
+import Register from "./Register";
 import Login from "./Page/Login";
 import FindIdPw from "./Page/FindIdPw";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 import PrivateRoute from "./utils/privateRoute";
-import Register from "./Register";
 
 const App = () => {
   return (

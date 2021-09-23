@@ -4,6 +4,7 @@ const urls = {
   assignments: "/api/v1/assignments",
   comments: "/api/v1/comments",
   teams: "/api/v1/teams",
+  enrolment: "/api/v1/enrol",
 };
 
 export default urls;

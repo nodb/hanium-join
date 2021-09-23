@@ -86,7 +86,7 @@ export const Assignment = ({ match }) => {
   };
 
   const submitHandler = () => {
-    history.push(`/student/class/main/assignment/${assignmentId}/submit`);
+    history.push(`/student/class/1/main/assignment/${assignmentId}/submit`);
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Table } from "reactstrap";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAssignments } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
 import {DateChange} from "../../utils/dateChange";
@@ -77,6 +77,8 @@ const Assignment = styled.div`
 
 const MyAssignment = () => {
 
+  const { code } = useParams();
+
   const { assignmentsTotal, ListTotalAssignments } = useAssignments();
 
   useEffect(() => {
@@ -93,16 +95,16 @@ const MyAssignment = () => {
 
   return (
     <Box>
-      <Page>과제 제출함</Page>
+      <Page>등록한 과제</Page>
       <Hr />
-      <IntroText>내용을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
+      <IntroText>과제명을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
       <Assignment>
       <Table size="sm">
         <thead>
           <tr>
             <th>#</th>
             <th>과목</th>
-            <th>과제명</th>
+            <th>과제명</th> 
             <th>과제 등록일</th>
             <th>과제 마감일</th>
           </tr>
@@ -118,7 +120,12 @@ const MyAssignment = () => {
                 <tr key={index}>
                   <td>{index+1}</td>
                   <td>{item.className}</td>
-                  <td>{item.assignmentName}</td>
+                  <Link
+                    to={`/professor/class/${item.code}/assignment/${index+1}`}
+                    style={{ textDecoration: "inherit", color: "inherit" }}
+                    >
+                    <td>{item.assignmentName}</td>
+                  </Link>
                   <td>{DateChange(item.startDate)}</td>
                   <td>{DateChange(item.endDate)}</td>
                 </tr>

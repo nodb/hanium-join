@@ -6,12 +6,11 @@ import { DateChange } from "../../../utils/dateChange";
 
 const AssignmentBox = styled.div`
   display: flex;
-  border: 0.5px solid #d8d8d8;
-  width: 1070px;
+  width: 1100px;
   height: 80px;
   margin-bottom: 30px;
-  background-color: #d8d8d8;
-  padding: 25px 15px 25px 15px;
+  background-color: #e5e5e5;
+  padding: 25px 30px 25px 30px;
   justify-content: space-between;
   cursor: pointer;
 `;
@@ -20,6 +19,12 @@ const AssignmentName = styled.div`
   font-family: "Nanum Gothic", sans-serif;
   font-size: 18px;
   font-weight: 400;
+`;
+
+const RightBox = styled.div`
+  display: flex;
+  width: 300px;
+  justify-content: space-between;
 `;
 
 const S05_Assignment = ({ assignment }) => {
@@ -37,7 +42,10 @@ const S05_Assignment = ({ assignment }) => {
       }}
     >
       <AssignmentName>{assignment.name}</AssignmentName>
-      <div>{DateChange(assignment.endDate)}</div>
+      <RightBox>
+        <div>{DateChange(assignment.endDate)}</div>
+        <div>제출</div>
+      </RightBox>
     </AssignmentBox>
   );
 };

@@ -7,7 +7,6 @@ import Enrolment from "./P05_Enrolment";
 import { useEnrolment } from "../../../components/Use";
 import { CTLoading, useLoading } from "../../../components";
 
-
 const Box = styled.div`
   width: 1100px;
   height: 300px;
@@ -54,10 +53,14 @@ const CopyButton = styled.button`
   height: 30px;
 `;
 
-
 const P05_04 = ({ match }) => {
-  const { enrolList, enrolListAll, studentList, studentListAll, removeStudentApi } =
-    useEnrolment();
+  const {
+    enrolList,
+    enrolListAll,
+    studentList,
+    studentListAll,
+    removeStudentApi,
+  } = useEnrolment();
 
   const { loading, setLoading } = useLoading(true);
 
@@ -79,24 +82,28 @@ const P05_04 = ({ match }) => {
   }, []);
 
   const removeStudentHandler = async (student) => {
-    try { 
+    try {
       const { id } = student;
       await setLoading(true);
       await removeStudentApi(`memberId=${id}&classCode=${code}`);
       fetch();
-    } catch(e) {
+    } catch (e) {
       alert(e);
     }
   };
 
-  return (
-    loading ? (
-     <CTLoading />
-    ) : (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <div>
-      <StudentList code={code} studentList={studentList} removeHandler={removeStudentHandler} />
+      <StudentList
+        code={code}
+        studentList={studentList}
+        removeHandler={removeStudentHandler}
+      />
 
       <Text>수강신청 목록</Text>
+      <span>총 신청 : {enrolList.count}건</span>
       {enrolList.count === 0 && (
         <Box color="#EF8F88">
           <p>새로운 수강 신청이 없습니다.</p>
@@ -110,7 +117,6 @@ const P05_04 = ({ match }) => {
         </Box2>
       )}
     </div>
-    )
   );
 };
 

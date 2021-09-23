@@ -8,7 +8,7 @@ const PlusIcon = styled.div`
   margin-left: 1300px;
 `;
 
-function P04_Plus({ open }) {
+const P04_Plus = ({ open }) => {
   return (
     <PlusIcon onClick={open}>
       <img
@@ -19,6 +19,6 @@ function P04_Plus({ open }) {
       ></img>
     </PlusIcon>
   );
-}
+};
 
 export default P04_Plus;

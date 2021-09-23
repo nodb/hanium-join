@@ -49,47 +49,11 @@ const Login = () => {
         saveDataToStorage(response.data);
       }
 
-      history.push("/student/class");
+      history.push("/student/main");
     } catch (e) {
       alert(e);
     }
   };
-
-  // const [id, setId] = useState("");
-  // const [pw, setPw] = useState("");
-
-  // const { listAllMember, memberList } = useMember();
-
-  // const idChangeHandler = (e) => {
-  //   setId(e.currentTarget.value);
-  // };
-
-  // const pwChangeHandler = (e) => {
-  //   setPw(e.currentTarget.value);
-  // };
-
-  // const history = useHistory();
-
-  // const submitHandler = () => {
-  //   history.push("/professor/class");
-  // };
-
-  // useEffect(() => {
-  //   const fetch = async  () => {
-  //     try {
-
-  //       await listAllMember();
-
-  //     } catch(err) {
-  //       console.log(err);
-  //     }
-  //   }
-
-  //   fetch();
-
-  // }, [])
-
-  // console.log(memberList)
 
   return (
     <Box>
@@ -124,14 +88,6 @@ const Login = () => {
       >
         <span>회원가입</span>
       </Link>
-      {/* 
-      {memberList.results.map(row => {
-        return (
-          <p>
-            {row.id} - {row.name}
-          </p>
-        )
-      })} */}
     </Box>
   );
 };

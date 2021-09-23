@@ -9,23 +9,24 @@ import { useAssignments } from "../../../components/Use";
 const SubmitAndDiscuss = () => {
   const [activeTab, setActiveTab] = useState("1");
 
-  const { assignmentTeamOne, getAssignmentTeam }= useAssignments();
+  const { assignmentTeamOne, getAssignmentTeam } = useAssignments();
 
   useEffect(() => {
     const fetch = async () => {
       try {
         await getAssignmentTeam(1, 1);
+        console.log(assignmentTeamOne);
       } catch (e) {
         alert(e);
       }
     };
     fetch();
   }, []);
-  
+
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-  
+
   return (
     <>
       <div className="d-flex pt-3 pb-2 mb-3">

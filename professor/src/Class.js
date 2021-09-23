@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useLocation, useParams } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import P05 from "./Page/Class/Enrolment/P05_04";
 import P06 from "./Page/Class/Team/P06";
@@ -24,10 +24,6 @@ const Contents = styled.div`
 `;
 
 const ClassParent = () => {
-  // const {code } = useParams();
-
-  // console.log(code)
-
   return (
     <>
       <SideBar />

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { DateChange } from "../../../utils/dateChange";
 
@@ -21,10 +22,12 @@ const AssignmentName = styled.div`
   font-weight: 400;
 `;
 
-function S05_Assignment({ assignment }) {
+const S05_Assignment = ({ assignment }) => {
+  const { code } = useParams();
+
   const history = useHistory();
   const clickHandler = (assignmentId) => {
-    history.push(`/student/class/main/assignment/${assignmentId}`);
+    history.push(`/student/class/${code}/main/assignment/${assignmentId}`);
   };
 
   return (
@@ -37,6 +40,6 @@ function S05_Assignment({ assignment }) {
       <div>{DateChange(assignment.endDate)}</div>
     </AssignmentBox>
   );
-}
+};
 
 export default S05_Assignment;

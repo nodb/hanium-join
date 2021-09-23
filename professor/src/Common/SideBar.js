@@ -67,8 +67,6 @@ const SideBar = ({ list }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { code } = useParams();
 
-  console.log(code);
-
   const defaultList = [
     {
       title: "수강생 관리",

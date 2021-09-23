@@ -1,9 +1,26 @@
-import React,{useEffect} from "react";
+import React,{useEffect, useState} from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import {useTeams, useEnrolment} from "../../../components/Use";
+import { useTeams } from "../../../components/Use";
 import { useHistory, useParams } from "react-router-dom";
-import { useLoading } from "../../../components";
+
+const Arrow = styled.button`
+  margin-bottom: 25px;
+  margin-left: 35px;
+  width: 130px;
+  height: 35px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  img{
+    text-align: center;
+    margin-left: 50px;
+    width: 25px;
+    height: 25px;
+    margin-top: 4px;
+  }
+  cursor: pointer;
+`
 
 const Box = styled.div`
   background: #FFFFFF;
@@ -27,7 +44,53 @@ const StudentBox = styled.div`
 
 
 function P07_TeamList({ students }) {
+
+  const { code } = useParams();
+
+  const { deleteStudentsApi } = useTeams();
+
+  const [stud, setStud] = useState(
+    []
+  );
+
+  const checkboxChange = (e) => {
+    const {name, checked} = e.target;
+
+    if(checked) {
+      setStud([
+        ...stud,
+        {
+          teamId: students.id,
+          memberId: name,
+        },
+      ]);
+    } else {
+      const newStud = stud.filter((data) => data.memberId !== name);
+      setStud(newStud);
+    }
+  }
+
+
+  console.log(stud);
   
+  const studentCheck = (id) => {
+    let checked = [];
+    checked = stud.filter((data) => data.memberId === id);
+
+    return checked.length === 1;
+  }
+
+  const history = useHistory();
+  
+  const deleteHandler= async (e) => {
+    try {
+      await deleteStudentsApi(`memberId=${stud.memberId}&teamId=${stud.teamId}`);
+      history.push(`/professor/class/${code}/assign`);
+      console.log("클릭!");
+    } catch(e){
+      alert(e);
+    }
+  }
   return (
     <>
       <Box>
@@ -39,8 +102,9 @@ function P07_TeamList({ students }) {
                   <Label check>
                   <Input
                         type="checkbox"
-                        name={student.id}
-                        // onChange={checkStudent}
+                        checked={studentCheck(student.name)}
+                        name={student.name}
+                        onChange={checkboxChange}
                       /> &nbsp;
                       {student.name}({student.grade}학년)
                   </Label>
@@ -50,10 +114,16 @@ function P07_TeamList({ students }) {
            })}  
         </Form>
       </Box>
+      <Arrow style={{ backgroundColor: "white" }} onClick={deleteHandler}> 
+        <img
+          src={require("../../../images/toLeft.png").default}
+          alt="leftArrow"
+        ></img>
+      </Arrow>
 
     </>
     
-  );
+    )
 }
 
 export default P07_TeamList;

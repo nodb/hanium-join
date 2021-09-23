@@ -116,7 +116,7 @@ export const deleteTeamMd = async (ctx, next) => {
 export const insertStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const payload = ctx.request.body;
-
+  console.log(payload);
   const tuples = payload.map((obj) => [obj.teamId, obj.memberId]);
   console.log(tuples);
   await conn.batch(

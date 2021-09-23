@@ -7,7 +7,8 @@ export const LISTALL_TEAMS = "teams/LISTALL";
 
 export const listAllTeams = createAction(LISTALL_TEAMS, TeamsApi.listAllTeams);
 
-export const insertStudentsApi = TeamsApi.insertStudents;
+export const insertStudentsApi = TeamsApi.insertStudentTeam;
+export const deleteStudentsApi = TeamsApi.deleteStudentTeam;
 export const createTeamApi = TeamsApi.create;
 export const deleteTeamApi = TeamsApi.remove;
 

@@ -15,6 +15,7 @@ const useTeams = () => {
     listAllTeams: actions.listAllTeams,
 
     insertStudentsApi: reducer.insertStudentsApi,
+    deleteStudentsApi: reducer.deleteStudentsApi,
     deleteTeamApi: reducer.deleteTeamApi,
     createTeamApi: reducer.createTeamApi,
   };

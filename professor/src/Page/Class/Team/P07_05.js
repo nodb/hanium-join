@@ -5,8 +5,6 @@ import { useTeams } from "../../../components/Use";
 
 import StudentList from "./P07_StudentList";
 import TeamList from "./P07_TeamList";
-import RightArrow from "./RightArrow";
-import LeftArrow from "./LeftArrow";
 
 const Text = styled.div`
 
@@ -115,8 +113,6 @@ function P07_05() {
           <StudentList students={students}/>
         </Student>
         <RelatvieBox>
-        <RightArrow />
-        <LeftArrow />
       </RelatvieBox>
         <Team>
           <div >

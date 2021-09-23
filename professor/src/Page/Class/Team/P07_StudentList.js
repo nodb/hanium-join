@@ -4,8 +4,24 @@ import { Form, FormGroup, Label, Input } from "reactstrap";
 import { useEnrolment, useTeams } from "../../../components/Use";
 import { CTLoading, useLoading } from "../../../components";
 import { useHistory, useParams } from "react-router-dom";
-import RightArrow from "./RightArrow";
-import { insertStudents } from "../../../remote/api/teamsApi";
+
+const Arrow = styled.button`
+  margin-bottom: 25px;
+  margin-left: 35px;
+  width: 130px;
+  height: 35px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  img{
+    text-align: center;
+    margin-left: 50px;
+    width: 25px;
+    height: 25px;
+    margin-top: 4px;
+  }
+  cursor: pointer;
+`
 
 const StudentBox = styled.div`
   width: 180px;
@@ -52,34 +68,32 @@ function P07_StudnentList({students}){
       setStud([
         ...stud,
         {
-          stud_id: name,
-          team_id: students.id,
+          teamId: students.id,
+          memberId: name,
         },
       ]);
     } else {
-      const newStud = stud.filter((data) => data.stud_id !== name);
+      const newStud = stud.filter((data) => data.memberId !== name);
       setStud(newStud);
     }
   }
+
+
   console.log(stud);
   
   const studentCheck = (id) => {
     let checked = [];
-    checked = stud.filter((data) => data.stud_id === id);
-
+    checked = stud.filter((data) => data.memberId === id );
     return checked.length === 1;
   }
 
   const history = useHistory();
 
   const insertHandler= async (e) => {
-    const body = {
-      memberId: stud.stud_id,
-      teamId: stud.team_id,
-    };  
+    const body = stud;
 
     try {
-      await insertStudentsApi(body);
+      await insertStudentsApi(code, body);
       history.push(`/professor/class/${code}/assign`);
       console.log("클릭!");
     } catch(e){
@@ -128,7 +142,12 @@ function P07_StudnentList({students}){
           })}
         </Form>
       </Box>
-      <RightArrow onClick={insertHandler}/>
+      <Arrow style={{ backgroundColor: "white" }} onClick={insertHandler}>
+        <img
+          src={require("../../../images/toRight.png").default}
+          alt="rightArrow"
+        ></img>
+      </Arrow>
     </>)
   );
 }

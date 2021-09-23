@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Form, FormGroup, Label, Col, Input, Button } from "reactstrap";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
@@ -15,6 +15,7 @@ export const Assignment = ({ match }) => {
   const history = useHistory();
   const assignmentId = match.params.id;
   const { assignmentOne, getAssignment } = useAssignments();
+  const { code } = useParams();
 
   const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
     useComments();
@@ -86,7 +87,9 @@ export const Assignment = ({ match }) => {
   };
 
   const submitHandler = () => {
-    history.push(`/student/class/1/main/assignment/${assignmentId}/submit`);
+    history.push(
+      `/student/class/${code}/main/assignment/${assignmentId}/submit`
+    );
   };
 
   return (

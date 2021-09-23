@@ -31,53 +31,52 @@ const Top = styled.div`
 
   div {
     margin-left: 170px;
-    margin-top : 10px; 
+    margin-top: 10px;
   }
   button {
-    font-weight:bold;
-    background-color : transparent;
-    color : #000000;
-    border : 0;
+    font-weight: bold;
+    background-color: transparent;
+    color: #000000;
+    border: 0;
     border-radius: 10px;
     height: 35px;
     width: 60px;
-    margin-right : 10px;
+    margin-right: 10px;
     font-size: 30px;
   }
-`
+`;
 
 const Bottom = styled.div`
   width: 400px;
   height: 50px;
   display: flex;
   justify-content: space-between;
-  
+
   button {
-    font-weight:bold;
-    background-color : white;
+    font-weight: bold;
+    background-color: white;
     color: #89c0b7;
-    border : 0;
+    border: 0;
     border-radius: 10px;
     height: 35px;
     width: 60px;
-    margin-top : 5px;
-    margin-right : 15px;
+    margin-top: 5px;
+    margin-right: 15px;
     font-size: 15px;
   }
 
   input {
     border: 0;
-    width : 300px;
-    height : 30px;
-    background-color : #89c0b7;
-    margin-left : 20px;
-    margin-top : 5px;
-    outline:2px solid #89c0b7;
+    width: 300px;
+    height: 30px;
+    background-color: #89c0b7;
+    margin-left: 20px;
+    margin-top: 5px;
+    outline: 2px solid #89c0b7;
   }
-`
+`;
 
-const UserBox = styled.div`
-`
+const UserBox = styled.div``;
 
 const LeftBox = styled.div`
   font-family: Roboto;
@@ -85,21 +84,21 @@ const LeftBox = styled.div`
 
   height: fit-content;
 
-  background-color: #EBE7E7;
+  background-color: #ebe7e7;
   font-weight: bold;
-  
+
   width: fit-content;
   padding: 0.84rem;
   max-width: 70%;
   margin-left: 2.5rem;
   margin-top: 15px;
   border-radius: 10px;
-`
+`;
 
 const RightBox = styled.div`
   font-family: Roboto;
   height: fit-content;
-  width : fit-content;
+  width: fit-content;
 
   max-width: 70%;
   text-align: right;
@@ -110,7 +109,7 @@ const RightBox = styled.div`
   padding: 0.84rem;
   margin: 15px 2.5rem 0 auto;
   border-radius: 10px;
-`
+`;
 
 const ModalBox = styled.div`
   z-index: 99;
@@ -140,8 +139,7 @@ const ModalBox = styled.div`
       opacity: 1;
     }
   }
-`
-
+`;
 
 let socket;
 
@@ -170,15 +168,17 @@ const Modal = (match) => {
   }, []);
 
   useEffect(() => {
-    socket.on("message", (content) => {
-      if(content) {
-        console.log(content);
-        concatChat(content);
+    const fetch = async (message) => {
+      await concatChat(message);
+    };
+
+    socket.on("message", (message) => {
+      if (message) {
+        console.log(message);
+        fetch(message);
       }
     });
   }, []);
-
-  console.log(match.assignmentTeamId);
 
   const onTextChange = (e) => {
     setState({
@@ -216,23 +216,27 @@ const Modal = (match) => {
           </Top>
           <Box>
             {chatList.results.map((chat) => {
-              if(chat.id === studentInfo.id) {
+              if (chat.id === studentInfo.id) {
                 return (
-                    <>
-                      <RightBox>{chat.contents}</RightBox>
-                    </>
-                )
+                  <>
+                    <RightBox>{chat.contents}</RightBox>
+                  </>
+                );
               } else {
                 return (
-                    <>
-                      <LeftBox>{chat.contents}</LeftBox>
-                    </>
-                )
+                  <>
+                    <LeftBox>{chat.contents}</LeftBox>
+                  </>
+                );
               }
             })}
           </Box>
           <Bottom>
-            <input name="message" value={state.message} onChange={onTextChange}/>
+            <input
+              name="message"
+              value={state.message}
+              onChange={onTextChange}
+            />
             <button onClick={sendMessage}>전송</button>
           </Bottom>
         </ModalBox>

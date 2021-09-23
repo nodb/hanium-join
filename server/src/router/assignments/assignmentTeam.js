@@ -67,8 +67,6 @@ export const queryAssignmentTeamByteamIdMd = async (ctx, next) => {
     [assignmentId, teamId]
   );
 
-  console.log("통신");
-
   ctx.state.body = {
     ...rows[0],
   };

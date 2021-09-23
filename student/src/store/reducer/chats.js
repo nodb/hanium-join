@@ -24,24 +24,24 @@ export default handleActions(
     ...pender({
       type: LISTALL_CHATS,
       onSuccess: (state, action) => {
-        console.log(action.payload.data);
         return state.set("list", fromJS(action.payload.data));
       },
     }),
     ...pender({
       type: CONCAT_CHATS,
-      onSuccess: (state, action, {payload : message}) => {
+      onSuccess: (state, action, { payload: message }) => {
         const { count, results } = action.payload.data;
-        action.payload.data = {
-          count : count+1,
-          results:[
-            ...results,
-            message
-          ]
+        console.log(count);
+        console.log(results);
+
+        console.log(state);
+        return {
+          ...state,
+          count: count + 1,
+          results: [...results, message],
         };
-        return action.payload.data;
-      }
-    })
+      },
+    }),
   },
   initialState
 );

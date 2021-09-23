@@ -12,6 +12,8 @@ const useChats = () => {
     chatList,
 
     listAllChats: actions.listAllChats,
+    concatChat: actions.concatChat,
+    
     createChatApi: reducer.createChatApi,
   };
 };

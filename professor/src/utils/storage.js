@@ -10,4 +10,8 @@ const getDataFromStorage = (name = "USER") => {
   return JSON.parse(response);
 };
 
-export { saveDataToStorage, getDataFromStorage };
+const removeDataFromStorage = (name = "USER") => {
+  storage.removeItem(name);
+};
+
+export { saveDataToStorage, getDataFromStorage, removeDataFromStorage };

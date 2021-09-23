@@ -55,13 +55,14 @@ const Img = styled.img`
   margin-left: 3px;
 `;
 
-const P04_ClassBox = ({ item }) => {
+const S04_ClassBox = ({ item }) => {
   const history = useHistory();
   const professorInfo = getDataFromStorage();
 
   const ClickHandler = async () => {
-    history.push(`/professor/class/${item.code}/enrol`);
+    history.push(`/student/class/${item.code}/main`);
   };
+
   return (
     <ClassBox>
       <ImgBox onClick={ClickHandler}>
@@ -78,4 +79,4 @@ const P04_ClassBox = ({ item }) => {
   );
 };
 
-export default P04_ClassBox;
+export default S04_ClassBox;

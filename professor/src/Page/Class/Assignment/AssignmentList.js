@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "reactstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { useAssignments } from "../../../components/Use";
 import { DateChange } from "../../../utils/dateChange";
 import styled from "styled-components";
@@ -46,6 +46,7 @@ const Assignment = styled.div`
 
 const assignmentList = () => {
   const history = useHistory();
+  const { code } = useParams();
   const { assignmentsList, listAllByClassCode } = useAssignments();
 
   useEffect(() => {
@@ -60,7 +61,7 @@ const assignmentList = () => {
   }, []);
   const handler = async (id) => {
     try {
-      history.push(`/professor/class/assignment/${id}`);
+      history.push(`/professor/class/${code}/assignment/${id}`);
     } catch (e) {
       alert(e);
     }
@@ -70,7 +71,7 @@ const assignmentList = () => {
     <Box>
       <div className="d-flex justify-content-between pt-3 pb-2 mb-3">
         <p>등록된 과제 확인</p>
-        <Link to="/professor/class/addAssignment">
+        <Link to={`/professor/class/${code}/addAssignment`}>
           <Button size="sm">추가</Button>
         </Link>
       </div>

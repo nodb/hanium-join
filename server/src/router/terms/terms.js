@@ -6,14 +6,10 @@ const readFileAsync = promisify(readFile);
 
 export const getTermsMd = async (ctx, next) => {
   const data = await readFileAsync(join(__dirname, "terms.txt"), "utf-8");
-  console.log(data);
   ctx.state.body = {
-    result: data
+    result: data,
   };
   await next();
 };
 
-export const terms = [
-  getTermsMd,
-  CommonMd.responseMd,
-];
+export const terms = [getTermsMd, CommonMd.responseMd];

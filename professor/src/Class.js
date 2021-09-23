@@ -22,46 +22,57 @@ const Contents = styled.div`
   display: flex;
   margin-top: 28px;
 `;
+
+const ClassParent = () => {
+  return (
+    <>
+      <SideBar />
+      <Switch>
+        <Route path="/professor/class/:code/enrol" exact component={P05} />
+        <Route path="/professor/class/:code/team" exact component={P06} />
+        <Route path="/professor/class/:code/assign" exact component={P07} />
+        <Route
+          path="/professor/class/:code/assignment/:id"
+          exact
+          component={Assignment}
+        />
+        <Route
+          path="/professor/class/:code/assignment/:id/modify"
+          exact
+          component={AssignmentModify}
+        />
+        <Route
+          path="/professor/class/:code/assignmentList"
+          exact
+          component={AssignmentList}
+        />
+        <Route
+          path="/professor/class/:code/addAssignment"
+          exact
+          component={AddAssignment}
+        />
+        <Route
+          path="/professor/class/:code/assignment/teamView"
+          exact
+          component={P12}
+        />
+        <Route
+          path="/professor/class/:code/assignment/assignView"
+          exact
+          component={P13}
+        />
+      </Switch>
+    </>
+  );
+};
+
 const Class = () => {
   return (
     <>
       <Header />
       <Switch>
         <Contents>
-          <SideBar />
-          <Route path="/professor/class/enrol/:code" exact component={P05} />
-          <Route path="/professor/class/team/:code" exact component={P06} />
-          <Route path="/professor/class/assign/:code" exact component={P07} />
-          <Route
-            path="/professor/class/assignment/:id"
-            exact
-            component={Assignment}
-          />
-          <Route
-            path="/professor/class/assignment/:id/modify"
-            exact
-            component={AssignmentModify}
-          />
-          <Route
-            path="/professor/class/assignmentList"
-            exact
-            component={AssignmentList}
-          />
-          <Route
-            path="/professor/class/addAssignment"
-            exact
-            component={AddAssignment}
-          />
-          <Route
-            path="/professor/class/assignment/teamView"
-            exact
-            component={P12}
-          />
-          <Route
-            path="/professor/class/assignment/assignView"
-            exact
-            component={P13}
-          />
+          <Route path="/professor/class/:code" component={ClassParent} />
         </Contents>
       </Switch>
       <Footer />

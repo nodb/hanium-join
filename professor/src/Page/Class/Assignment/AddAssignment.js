@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useAssignments, useTeams } from "../../../components/Use";
 import styled from "styled-components";
 
@@ -11,6 +11,7 @@ const Box = styled.div`
 
 const P09_07 = () => {
   const history = useHistory();
+  const { code } = useParams();
 
   const { createAssignmentsApi } = useAssignments();
   const { teamList, listAllTeams } = useTeams();
@@ -47,13 +48,13 @@ const P09_07 = () => {
     formData.append("endDate", data.endDate);
     formData.append("content", data.content);
     formData.append("progress", 1);
-    formData.append("classCode", "AZSVBFV");
+    formData.append("classCode", code);
     formData.append("teams", team);
     formData.append("image", image);
     console.log(image);
     try {
       await createAssignmentsApi(formData);
-      history.push("/professor/class/assignmentList");
+      history.push(`/professor/class/${code}/assignmentList`);
     } catch (e) {
       alert(e);
     }

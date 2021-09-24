@@ -6,12 +6,15 @@ import { EnrolmentApi } from "../../remote";
 export const LISTALL_ENROL = "enrolment/ENROLLIST";
 export const LISTALL_STUDENTS = "enrolment/STUDENTLIST";
 
-export const enrolListAll = createAction(LISTALL_ENROL, EnrolmentApi.enrolList);
+export const enrolListAll = createAction(
+  LISTALL_ENROL, 
+  EnrolmentApi.enrolList);
 
 export const studentListAll = createAction(
   LISTALL_STUDENTS,
   EnrolmentApi.studentList
 );
+
 
 export const updateEnrolApi = EnrolmentApi.put;
 export const removeEnrolApi = EnrolmentApi.removeEnrol;
@@ -26,6 +29,11 @@ const initialState = Map({
     count: 0,
     results: List([]),
   }),
+  student: Map({
+    id: "",
+    name: "",
+
+  })
 });
 
 export default handleActions(

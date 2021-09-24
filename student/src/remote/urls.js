@@ -6,6 +6,7 @@ const urls = {
   teams: "/api/v1/teams",
   chats: "/api/v1/chats",
   enrolment: "/api/v1/enrol",
+  discuss: "/api/v1/discuss",
 };
 
 export default urls;

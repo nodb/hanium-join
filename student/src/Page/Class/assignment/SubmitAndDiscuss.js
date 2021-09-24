@@ -1,26 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from "reactstrap";
+import { useParams } from "react-router-dom";
+import { useAssignments } from "../../../components/Use";
+import styled from "styled-components";
+
 import classnames from "classnames";
 import Submit from "./Submit";
 import Discuss from "./Discuss";
 import Modal from "./Modal";
-import { useAssignments } from "../../../components/Use";
-import styled from "styled-components";
+
+const AssignmentTitle = styled.div`
+  width: 152px;
+  height: 23px;
+
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+
+  color: #3d3d3d;
+`;
+
+const TitleBox = styled.div`
+  width: 1100px;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const Box = styled.div`
   width: 80%;
 `;
 
-const SubmitAndDiscuss = () => {
-  const [activeTab, setActiveTab] = useState("1");
+const Title = styled.div`
+  width: 70px;
+  text-align: center;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 23px;
+  color: #3d3d3d;
+`;
 
-  const { assignmentTeamOne, getAssignmentTeam } = useAssignments();
+const SubmitAndDiscuss = () => {
+  const [activeTab, setActiveTab] = useState(true);
+
+  const { id } = useParams();
+  const { assignmentOne, getAssignment, assignmentTeamOne, getAssignmentTeam } =
+    useAssignments();
 
   useEffect(() => {
     const fetch = async () => {
       try {
         await getAssignmentTeam(1, 1);
-        console.log(assignmentTeamOne);
+        await getAssignment(id);
       } catch (e) {
         alert(e);
       }
@@ -35,36 +67,48 @@ const SubmitAndDiscuss = () => {
   return (
     <Box>
       <div className="d-flex pt-3 pb-2 mb-3">
-        <h4 style={{ marginRight: "460px" }}>과제제출</h4>
-        <Modal assignmentTeamId={assignmentTeamOne.id}>팀원 커뮤니티</Modal>
+        <TitleBox>
+          <AssignmentTitle>{assignmentOne.name}</AssignmentTitle>
+          <Modal assignmentTeamId={assignmentTeamOne.id}>팀 커뮤니티 창</Modal>
+        </TitleBox>
       </div>
-      <Nav tabs style={{ width: "600px" }}>
+      <Nav tabs style={{ width: "1100px" }}>
         <NavItem>
           <NavLink
-            className={classnames({ active: activeTab === "1" })}
+            style={
+              activeTab
+                ? { border: "none", borderBottom: "5px solid #EF8F88" }
+                : { border: "none" }
+            }
+            className={classnames({ active: activeTab === true })}
             onClick={() => {
-              toggle("1");
+              toggle(true);
             }}
           >
-            과제 제출
+            <Title>과제제출</Title>
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink
-            className={classnames({ active: activeTab === "2" })}
+            style={
+              activeTab
+                ? { border: "none" }
+                : { border: "none", borderBottom: "5px solid #EF8F88" }
+            }
+            className={classnames({ active: activeTab === false })}
             onClick={() => {
-              toggle("2");
+              toggle(false);
             }}
           >
-            토론하기
+            <Title>토론하기</Title>
           </NavLink>
         </NavItem>
       </Nav>
       <TabContent activeTab={activeTab}>
-        <TabPane tabId="1">
+        <TabPane tabId={true}>
           <Submit />
         </TabPane>
-        <TabPane tabId="2">
+        <TabPane tabId={false}>
           <Discuss />
         </TabPane>
       </TabContent>

@@ -1,7 +1,9 @@
-import Boom, { badData } from "@hapi/boom";
+import Boom from "@hapi/boom";
 import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
 import { generateToken, decodeToken } from "../../middlewares/jwtMd";
+import fs from "fs";
+import path from "path";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile, birthDate } = ctx.request.body;
@@ -301,6 +303,7 @@ export const updateProfessorMd = async (ctx, next) => {
 
   await next();
 };
+
 export const readMemberAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { conn } = ctx.state;

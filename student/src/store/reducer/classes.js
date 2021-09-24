@@ -33,12 +33,6 @@ export default handleActions(
         const data = action.payload.data;
 
         return state.set("list", fromJS(action.payload.data));
-        // return state.setIn(["list", "count"], action.payload.data.count)
-        // .setIn(["list", "result"], fromJS(action.payload.data.result));
-        // return {
-        //     ...state,
-        //     count: action.payload.data.count,
-        // }
       },
     }),
     ...pender({
@@ -47,7 +41,6 @@ export default handleActions(
         const data = action.payload.data;
 
         return state.set("class", fromJS(data));
-        // return state.setIn(["class", "code"], data.code)
       },
     }),
   },

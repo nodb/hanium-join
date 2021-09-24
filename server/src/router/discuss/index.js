@@ -6,7 +6,8 @@ const router = new Router();
 // 토론 댓글 생성
 router.post("/", ...discuss.create);
 
-// 팀 전체 조회
-router.get("/:classCode", ...discuss.readAll);
+router.get("/:teamId/:assignmentId", ...discuss.readAll);
+
+router.delete("/:id", ...discuss.remove);
 
 export default router;

@@ -3,12 +3,33 @@ import styled from "styled-components";
 import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Form, FormGroup, Label, Col, Input, Button } from "reactstrap";
-import { DateChange, DateChange2 } from "../../../utils/dateChange";
+import { DateChange2, CommentDateChange } from "../../../utils/dateChange";
 import { useAssignments, useComments } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
+import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
 
 const Box = styled.div`
   width: 80%;
+  padding-left: 50px;
+  button {
+    color: white;
+    background-color: #6f91b5;
+    font-weight: bold;
+  }
+`;
+
+const GoSubmit = styled.div`
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 190px;
+
+  p {
+    font-family: Roboto;
+    font-weight: bold;
+    vertical-align: middle;
+    color: #6f91b5;
+  }
 `;
 
 export const Assignment = ({ match }) => {
@@ -106,7 +127,7 @@ export const Assignment = ({ match }) => {
           <Label
             for="name"
             sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            style={{ fontWeight: "bold", paddingLeft: "5px", fontSize: "20px" }}
           >
             과제
           </Label>
@@ -122,12 +143,14 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="name"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: "5px", color: "#7C7979" }}
           >
             과제명
           </Label>
-          <Col sm={10}>{assignmentOne.name}</Col>
+          <Col sm={10} style={{ fontWeight: "bold" }}>
+            {assignmentOne.name}
+          </Col>
         </FormGroup>
         <FormGroup
           row
@@ -140,12 +163,12 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: "5px", color: "#7C7979" }}
           >
             공개일
           </Label>
-          <Col sm={5}>{DateChange(assignmentOne.startDate)}</Col>
+          <Col sm={5}>{DateChange2(assignmentOne.startDate)}</Col>
         </FormGroup>
         <FormGroup
           row
@@ -158,12 +181,12 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: "5px", color: "#7C7979" }}
           >
             마감일
           </Label>
-          <Col sm={5}>{DateChange(assignmentOne.endDate)}</Col>
+          <Col sm={5}>{DateChange2(assignmentOne.endDate)}</Col>
         </FormGroup>
         <FormGroup
           row
@@ -176,8 +199,12 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{
+              fontWeight: "bold",
+              paddingLeft: "10px",
+              color: "#7C7979",
+            }}
           >
             배점
           </Label>
@@ -187,8 +214,9 @@ export const Assignment = ({ match }) => {
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "30px 10px",
             borderBottom: "3px solid #C4C4C4",
+            fontSize: "16px",
           }}
         >
           {assignmentOne.content}
@@ -199,14 +227,19 @@ export const Assignment = ({ match }) => {
           row
           style={{
             marginLeft: 3,
-            padding: "7px 0px",
+            padding: "4px 0px",
             borderBottom: "1px solid #C4C4C4",
           }}
         >
           <Label
             for="name"
             sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            style={{
+              fontWeight: "bold",
+              paddingLeft: "5px",
+              color: "#EF8F88",
+              fontSize: "20px",
+            }}
           >
             댓글
           </Label>
@@ -218,17 +251,24 @@ export const Assignment = ({ match }) => {
               style={{
                 marginLeft: 3,
                 padding: "7px 0px",
-                borderBottom: "1px solid #C4C4C4",
               }}
             >
               <Label
                 for="name"
                 sm={2}
-                style={{ fontWeight: "bold", paddingLeft: "5px" }}
+                style={{
+                  fontWeight: "bold",
+                  paddingLeft: "5px",
+                  fontSize: "15px",
+                }}
               >
-                {comment.name} ({DateChange2(comment.createdAt)})
+                {comment.name} ({CommentDateChange(comment.createdAt)})
               </Label>
-              <Label for="contents" sm={6} style={{ paddingLeft: "5px" }}>
+              <Label
+                for="contents"
+                sm={6}
+                style={{ paddingLeft: "5px", fontSize: "15px" }}
+              >
                 {comment.contents}
               </Label>
               {comment.memberId === studentInfo.id && (
@@ -265,15 +305,19 @@ export const Assignment = ({ match }) => {
             />
           </Col>
           <Col>
-            <Button size="sm" onClick={submitCommentHandler}>
+            <button
+              class="btn btn-secondary btn-sm"
+              onClick={submitCommentHandler}
+            >
               확인
-            </Button>
+            </button>
           </Col>
         </FormGroup>
       </Form>
-      <div class="form-inline pb-4 mt-3">
-        <p onClick={submitHandler}>과제 제출하러 가기</p>
-      </div>
+      <GoSubmit onClick={submitHandler}>
+        <img src={GoSubmitAssignment} />
+        <p>과제 제출하러 가기</p>
+      </GoSubmit>
       <tr>
         <Link to="/student/class/main">
           <button

@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Input, FormGroup, Col, Button, Form } from "reactstrap";
+import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 import styled from "styled-components";
 import { useChats } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
+import { concatChat } from "../../../store/reducer/chats";
+import Draggable from "react-draggable";
+import Chat from "../../../images/chat.png";
 
 const Btn = styled.button`
-  width: 50px;
-  height: 50px;
-  background: black;
+  background: none;
+  border: none;
+  width: 130px;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+  color: #89c0b7;
+`;
+
+const ChatImg = styled.img`
+  width: 40px;
 `;
 
 const Box = styled.div`
@@ -123,7 +134,7 @@ const ModalBox = styled.div`
   border-radius: 30px;
   @keyframes modal-show {
     from {
-      opacity: '0',
+      opacity: "0";
       margin-top: -50px;
     }
     to {
@@ -144,14 +155,18 @@ const ModalBox = styled.div`
 let socket;
 
 const Modal = (match) => {
-  const [state, setState] = useState({ name: "", message: "" });
-  const [chat, setChat] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState({ x: 50, y: 50 });
+  const [data, setData] = useState({ name: "", message: "", open: false });
+
   const studentInfo = getDataFromStorage();
+  const dispatch = useDispatch();
+  const { createChatApi, chatList, listAllChats } = useChats();
 
-  const { createChatApi, chatList, listAllChats, concatChat } = useChats();
-
-  const onToggle = () => setOpen(!open);
+  const onToggle = () =>
+    setData({
+      ...data,
+      open: !data.open,
+    });
   useEffect(() => {
     socket = io.connect(`http://localhost:3000/${match.assignmentTeamId}`, {
       path: "/socket.io",
@@ -168,37 +183,41 @@ const Modal = (match) => {
   }, []);
 
   useEffect(() => {
-    const fetch = async (message) => {
-      await concatChat(message);
-    };
-
     socket.on("message", (message) => {
       if (message) {
-        console.log(message);
-        fetch(message);
+        dispatch(concatChat(message[0]));
       }
     });
   }, []);
 
+  const trackPos = (data) => {
+    setPosition({ x: data.x, y: data.y });
+  };
+
   const onTextChange = (e) => {
-    setState({
-      ...state,
+    setData({
+      ...data,
       [e.target.name]: e.target.value,
     });
   };
 
   const sendMessage = async () => {
     try {
+      const msg = data.message.replace(/\s/gi, "");
+      console.log(msg);
+      if (msg === "") {
+        throw "";
+      }
       const body = {
         assignmentTeamId: match.assignmentTeamId,
         memberId: studentInfo.id,
-        contents: state.message,
+        contents: data.message,
       };
 
       await createChatApi(body);
 
-      setState({
-        ...state,
+      setData({
+        ...data,
         message: "",
       });
     } catch (e) {
@@ -208,42 +227,49 @@ const Modal = (match) => {
 
   return (
     <>
-      {open && (
-        <ModalBox>
-          <Top>
-            <div>수업 명1</div>
-            <button onClick={onToggle} open={open}>
-              X
-            </button>
-          </Top>
-          <Box>
-            {chatList.results.map((chat) => {
-              if (chat.id === studentInfo.id) {
-                return (
-                  <>
-                    <RightBox>{chat.contents}</RightBox>
-                  </>
-                );
-              } else {
-                return (
-                  <>
-                    <LeftBox>{chat.contents}</LeftBox>
-                  </>
-                );
-              }
-            })}
-          </Box>
-          <Bottom>
-            <input
-              name="message"
-              value={state.message}
-              onChange={onTextChange}
-            />
-            <button onClick={sendMessage}>전송</button>
-          </Bottom>
-        </ModalBox>
+      {data.open && (
+        <Draggable onDrag={(data) => trackPos(data)}>
+          <ModalBox>
+            <Top>
+              <div>수업 명1</div>
+              <button onClick={onToggle} open={data.open}>
+                X
+              </button>
+            </Top>
+            <Box>
+              {chatList.results.map((chat) => {
+                if (chat.id === studentInfo.id) {
+                  return (
+                    <>
+                      <RightBox>{chat.contents}</RightBox>
+                    </>
+                  );
+                } else {
+                  return (
+                    <>
+                      <LeftBox>{chat.contents}</LeftBox>
+                    </>
+                  );
+                }
+              })}
+            </Box>
+            <Bottom>
+              <input
+                name="message"
+                value={data.message}
+                onChange={onTextChange}
+              />
+              <button onClick={sendMessage}>전송</button>
+            </Bottom>
+          </ModalBox>
+        </Draggable>
       )}
-      <Btn onClick={onToggle} open={open} />
+      <div>
+        <ChatImg src={Chat} alt="chat" />
+        <Btn onClick={onToggle} open={data}>
+          팀 커뮤니티 창
+        </Btn>
+      </div>
     </>
   );
 };

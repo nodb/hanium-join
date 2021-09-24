@@ -1,60 +1,149 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Collapse } from "reactstrap";
+import styled from "styled-components";
 
-const defaultList = [
-  {
-    title: "▶ 수업 명1",
-    url: "/student/class/main",
-  },
-  {
-    title: "▶ 수업 명2",
-    url: "/student/class/main",
-  },
-  {
-    title: "▶ 수업 명3",
-    url: "/student/class/main",
-  },
-];
+const Nav = styled.div`
+  background-color: #e5e5e5;
+  color: black;
+  text-decoration: none;
+  width: 229px;
+  height: 785px;
+  margin: 0px 38px 28px 53px;
+`;
 
-const Navbar = ({ list }) => {
+const Page = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  color: #6f91b5;
+  margin-top: 27px;
+  margin-bottom: 15px;
+  text-align: center;
+`;
+
+const BarHr = styled.hr`
+  border: 2px solid #c4c4c4;
+  margin: 0 auto;
+  height: 0px;
+  width: 198px;
+`;
+
+const Menus = styled.div`
+  margin-top: 18px;
+  text-align: center;
+  list-style: none;
+  a:link {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:visited {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:hover {
+    font-family: Roboto;
+    color: #000;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  li {
+    margin: 18px 0px;
+  }
+`;
+
+const SideBar = ({ list }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { code } = useParams();
+
+  const defaultList = [
+    {
+      title: "수강생 관리",
+      url: `/professor/class/${code}/enrol`,
+    },
+    {
+      title: "구성 팀 확인",
+      url: `/professor/class/${code}/team`,
+    },
+    {
+      title: "과제 관리",
+      url: `/professor/class/${code}/assignmentList`,
+    },
+    {
+      title: "리포트 확인",
+      url: `/professor/class/${code}/report`,
+    },
+  ];
+
   return (
-    <nav
-      id="sidebarMenu"
-      className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-    >
-      <div className="position-sticky pt-3">
-        <ul className="nav flex-column">
-          {!list
-            ? defaultList.map((item) => (
-                <li className="nav-item">
+    <Nav>
+      <Page>수업명</Page>
+      <BarHr />
+      <Menus>
+        {defaultList.map((item) => (
+          <li>
+            {item.title !== "과제 관리" && (
+              <Link
+                to={item.url}
+                style={{ textDecoration: "none", color: "black" }}
+                className="nav-link active"
+                aria-current="page"
+              >
+                <span data-feather="home" />
+                {item.title}
+              </Link>
+            )}
+            {item.title === "과제 관리" && (
+              <Link
+                to={`/professor/class/${code}/assignmentList`}
+                style={{ textDecoration: "none", color: "black" }}
+                className="nav-link active"
+                aria-current="page"
+              >
+                <span data-feather="assignment-management" />
+                <div
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                  }}
+                >
+                  {isOpen ? "▼" : "▶"} 과제 관리
+                </div>
+                <Collapse isOpen={isOpen}>
                   <Link
+                    to={`/professor/class/${code}/assignment/teamView`}
+                    style={{ textDecoration: "none", color: "black" }}
                     className="nav-link active"
                     aria-current="page"
-                    to={item.url}
-                    style={{ fontSize: "12px", color: "black" }}
                   >
-                    <span data-feather="home" />
-                    {item.title}
+                    ▶ 팀별 보기
                   </Link>
-                </li>
-              ))
-            : list.map((item) => (
-                <li className="nav-item">
-                  <a
+                  <Link
+                    to={`/professor/class/${code}/assignment/assignView`}
+                    style={{ textDecoration: "none", color: "black" }}
                     className="nav-link active"
                     aria-current="page"
-                    href={item.url}
-                    style={{ fontSize: "12px" }}
                   >
-                    <span data-feather="home" />
-                    {item.title}
-                  </a>
-                </li>
-              ))}
-        </ul>
-      </div>
-    </nav>
+                    ▶ 과제 별 보기
+                  </Link>
+                </Collapse>
+              </Link>
+            )}
+          </li>
+        ))}
+      </Menus>
+    </Nav>
   );
 };
 
-export default Navbar;
+export default SideBar;

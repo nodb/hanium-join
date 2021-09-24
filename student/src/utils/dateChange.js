@@ -66,6 +66,18 @@ export const DateChange3 = (date) => {
   return result;
 };
 
+export const DateChange4 = (date) => {
+  const New = new Date(date);
+  const Year = New.getFullYear();
+  const month = New.getMonth() + 1;
+  const day = New.getDate();
+  const hour = New.getHours();
+  const min = New.getMinutes();
+  const result =
+    Year + "/" + month + "/" + day + "    " + hour + ":" + min + "";
+  return result;
+};
+
 export const BirthDate = (date) => {
   const New = new Date(date);
   const year = New.getFullYear();

@@ -21,25 +21,21 @@ const initialState = Map({
 
 export default handleActions(
   {
+    [CONCAT_CHATS]: (state, { payload: message }) => {
+      let results = state.getIn(["list", "results"]);
+      let count = state.getIn(["list", "count"]);
+      console.log(results);
+      console.log(count);
+      count += 1;
+      results = [...results, message];
+      return state
+        .setIn(["list", "count"], count)
+        .setIn(["list", "results"], fromJS(results));
+    },
     ...pender({
       type: LISTALL_CHATS,
       onSuccess: (state, action) => {
         return state.set("list", fromJS(action.payload.data));
-      },
-    }),
-    ...pender({
-      type: CONCAT_CHATS,
-      onSuccess: (state, action, { payload: message }) => {
-        const { count, results } = action.payload.data;
-        console.log(count);
-        console.log(results);
-
-        console.log(state);
-        return {
-          ...state,
-          count: count + 1,
-          results: [...results, message],
-        };
       },
     }),
   },

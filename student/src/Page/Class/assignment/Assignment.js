@@ -9,8 +9,7 @@ import { getDataFromStorage } from "../../../utils/storage";
 import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
 
 const Box = styled.div`
-  width: 80%;
-  padding-left: 50px;
+  width: 1100px;
   button {
     color: white;
     background-color: #6f91b5;
@@ -299,7 +298,7 @@ export const Assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Col sm={7}>
+          <Col sm={8}>
             <Input
               type="conmment"
               name="contents"

@@ -31,7 +31,7 @@ export const readDiscussMd = async (ctx, next) => {
 
   const rows = await conn.query(
     // eslint-disable-next-line max-len
-    "SELECT m.name, d.content, d.createdAt \
+    "SELECT d.id,m.name, d.content, d.createdAt \
     FROM (select id from tb_assignment_team where team_id = ? AND assignment_id = ?) at \
     JOIN tb_discuss d ON d.assignment_team_id = at.id \
     JOIN tb_member m ON m.id = d.member_id",
@@ -41,7 +41,7 @@ export const readDiscussMd = async (ctx, next) => {
   ctx.state.body = {
     count: rows.length,
     results: rows,
-  }
+  };
 
   await next();
 };
@@ -61,5 +61,5 @@ export const remove = [
 export const readAll = [
   CommonMd.createConnectionMd,
   readDiscussMd,
-  CommonMd.responseMd
-]
+  CommonMd.responseMd,
+];

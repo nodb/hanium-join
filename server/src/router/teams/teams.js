@@ -28,7 +28,7 @@ export const readTeamAllMd = async (ctx, next) => {
   ]);
 
   const members = await conn.query(
-    "SELECT t.id as team_id, m.name, m.grade, m.department \
+    "SELECT t.id as team_id, m.id as member_id, m.name, m.grade, m.department \
     FROM tb_team t JOIN tb_team_member tm ON tm.team_id = t.id \
     JOIN tb_member m ON m.id = tm.member_id \
     WHERE t.class_code = ?",
@@ -157,9 +157,12 @@ export const deleteStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, teamId } = ctx.query;
 
+  const array = memberId.split(',');
+
+  console.log(array, teamId);
   await conn.query(
     "DELETE FROM tb_team_member WHERE member_id IN (?) AND team_id = ?",
-    [memberId, teamId]
+    [array, teamId]
   );
 
   await next();

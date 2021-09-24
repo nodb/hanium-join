@@ -1,10 +1,11 @@
 import React, {useEffect} from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useClasses } from "../../components/Use";
 import { getDataFromStorage } from "../../utils/storage";
 
 const Box = styled.div`
+  width: 80%;
 `;
 
 const Page = styled.div`
@@ -17,7 +18,7 @@ margin-top: 27px;
 `;
 
 const Hr = styled.hr`
-width: 1032px;
+width: 100%;
 height: 0px;
 border: 4px solid #C4C4C4;
 `
@@ -53,26 +54,8 @@ margin-bottom: 20px;
 }
 `;
 
-const classes = [
-  {
-    id: 1,
-    name: "시스템 프로그래밍",
-    code: "000001",
-  },
-  {
-    id: 2,
-    name: "컴퓨터 네트워크",
-    code: "000002",
-  },
-  {
-    id: 3,
-    name: "소프트웨어 공학",
-    code: "000003",
-  },
-];
-
 function MyClass() {
-
+  const { code } = useParams();
   const { classesList, listAllClasses } = useClasses();
 
   useEffect(() => {
@@ -99,7 +82,7 @@ function MyClass() {
         return (
           <ClassText>
             <Link
-        to="/professor/class/enrol"
+        to={`/professor/class/${item.code}/enrol`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
                 <img src={require("../../images/Pencil.png").default} alt="수업"/>
@@ -109,21 +92,6 @@ function MyClass() {
           </ClassText>
         )
       })}
-      {/* {classes &&
-        classes.map((item) => {
-          return (
-            <Link
-              to="/professor/class/enrol"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <ClassText>
-                <img src={require("../../images/Pencil.png").default} alt="수업"/>
-                {item.name}, 수업코드 : {item.code}
-                <hr />
-              </ClassText>
-            </Link>
-          );
-        })} */}
     </Box>
   );
 }

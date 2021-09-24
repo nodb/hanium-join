@@ -1,37 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
+import { useEnrolment, useTeams } from "../../../components/Use";
+import { CTLoading, useLoading } from "../../../components";
+import { useHistory, useParams } from "react-router-dom";
 
-const Student = [
-  {
-    id: 1,
-    name: "조재영",
-    grade: 2,
-    team: 0,
-    active: false,
-  },
-  {
-    id: 2,
-    name: "마경미",
-    grade: 3,
-    team: 0,
-    active: false,
-  },
-  {
-    id: 3,
-    name: "오예진",
-    grade: 3,
-    team: 0,
-    active: false,
-  },
-  {
-    id: 4,
-    name: "엄유상",
-    grade: 4,
-    team: 0,
-    active: false,
-  },
-];
+const Arrow = styled.button`
+  margin-bottom: 25px;
+  margin-left: 35px;
+  width: 130px;
+  height: 35px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  img{
+    text-align: center;
+    margin-left: 50px;
+    width: 25px;
+    height: 25px;
+    margin-top: 4px;
+  }
+  cursor: pointer;
+`
 
 const StudentBox = styled.div`
   width: 180px;
@@ -59,31 +49,90 @@ const RelatvieBox = styled.div`
   bottom: 350px;
 `;
 
-function P07_StudnentList() {
-  const [team, setTeam] = useState(Student);
+function P07_StudnentList({students}){
 
-  const onToggle = (id) => {
-    console.log(id);
-    setTeam(
-      team.map((data) =>
-        data.id === id ? { ...data, active: !data.active } : data
-      )
-    );
-  };
+  const { code } = useParams();
+  
+  const {studentList, studentListAll} = useEnrolment();
+  const { insertStudentsApi } = useTeams();
+  const { loading, setLoading } = useLoading(true);
 
-  return (
+  const [stud, setStud] = useState(
+    []
+  );
+
+  const checkboxChange = (e) => {
+    const {name, checked} = e.target;
+
+    if(checked) {
+      setStud([
+        ...stud,
+        {
+          teamId: students.id,
+          memberId: name,
+        },
+      ]);
+    } else {
+      const newStud = stud.filter((data) => data.memberId !== name);
+      setStud(newStud);
+    }
+  }
+
+
+  console.log(stud);
+  
+  const studentCheck = (id) => {
+    let checked = [];
+    checked = stud.filter((data) => data.memberId === id );
+    return checked.length === 1;
+  }
+
+  const history = useHistory();
+
+  const insertHandler= async (e) => {
+    const body = stud;
+
+    try {
+      await insertStudentsApi(code, body);
+      await studentListAll(code);
+      console.log("클릭!");
+    } catch(e){
+      alert(e);
+    }
+  }
+   
+    const fetch = async() => {
+      try{
+        await studentListAll(code);
+      }catch(e){
+        alert(e);
+      }finally{
+        await setLoading(false);
+      }
+    }
+
+    useEffect(()=>{
+      fetch();
+    },[]);
+
+      return (
+      loading ? (
+      <CTLoading />
+    ) : (
     <>
       <Box>
         <Form>
-          {team.map((data) => {
+          {studentList.results.map((data) => {
             return (
               <StudentBox>
-                <FormGroup check inline key={data.id}>
-                  <Label check>
+                <FormGroup>
+                  <Label check>    
                     <Input
                       type="checkbox"
-                      id={data.id}
-                      onClick={() => onToggle(data.id)}
+                      checked={studentCheck(data.id)}
+                      name={data.id}
+                      onChange={checkboxChange}
+                      style={{ marginRight: "5px" }}
                     />
                     {data.name}({data.grade}학년)
                   </Label>
@@ -93,7 +142,13 @@ function P07_StudnentList() {
           })}
         </Form>
       </Box>
-    </>
+      <Arrow style={{ backgroundColor: "white" }} onClick={insertHandler}>
+        <img
+          src={require("../../../images/toRight.png").default}
+          alt="rightArrow"
+        ></img>
+      </Arrow>
+    </>)
   );
 }
 

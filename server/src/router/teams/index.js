@@ -16,7 +16,7 @@ router.get("/", ...teams.readStudentTeam);
 router.delete("/students", ...teams.deleteStudentTeam);
 
 // 팀에 학생 추가
-router.post("/students", ...teams.insertStudentTeam);
+router.post("/students/:classCode", ...teams.insertStudentTeam);
 
 // 팀 삭제
 router.delete("/:teamId", ...teams.removeTeam);

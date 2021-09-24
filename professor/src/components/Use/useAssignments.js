@@ -14,7 +14,7 @@ const useAssignments = () => {
     state.assignments.get("assignment")
   );
 
-  const assignmentsTotal = useShallowEqualSelectorToJS((state)=> 
+  const assignmentsTotal = useShallowEqualSelectorToJS((state) =>
     state.assignments.get("my_assignments")
   );
 

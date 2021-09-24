@@ -8,6 +8,19 @@ import styled from "styled-components";
 
 const Box = styled.div`
   width: 80%;
+  button {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    text-align: center;
+    background-color: #ffffff;
+    border-color: #426589;
+    color: #426589;
+    width: 75px;
+    height: 30px;
+  }
+
 `;
 
 const assignment = ({ match }) => {
@@ -128,16 +141,16 @@ const assignment = ({ match }) => {
   return (
     <Box>
       <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button
+        <button
           onClick={modifyHandler}
           size="sm"
           style={{ marginRight: "20px" }}
         >
           수정
-        </Button>
-        <Button onClick={deleteHandler} size="sm">
+        </button>
+        <button onClick={deleteHandler} size="sm">
           삭제
-        </Button>
+        </button>
       </div>
       <Form>
         <FormGroup
@@ -146,7 +159,7 @@ const assignment = ({ match }) => {
             marginLeft: 3,
             padding: "8px 0px",
             borderBottom: "1px solid #C4C4C4",
-            verticalAlign: "middle",
+            alignItems: "center",
           }}
         >
           <Label
@@ -301,9 +314,9 @@ const assignment = ({ match }) => {
             />
           </Col>
           <Col>
-            <Button size="sm" onClick={submitCommentHandler}>
+            <button size="sm" onClick={submitCommentHandler}>
               확인
-            </Button>
+            </button>
           </Col>
         </FormGroup>
       </Form>

@@ -12,3 +12,5 @@ export const assignmentById = (id) =>
 export const put = (id, form) =>
   httpClient.put(`${urls.assignments}/${id}`, form);
 export const remove = (id) => httpClient.delete(`${urls.assignments}/${id}`);
+export const assignmentTeamByTeamId = (assignmentId, teamId) => 
+  httpClient.get(`${urls.assignments}/assignmentTeam/${assignmentId}/${teamId}`);

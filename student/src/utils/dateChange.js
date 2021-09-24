@@ -44,3 +44,20 @@ export const DateChange2 = (date) => {
       */
   return result;
 };
+
+export const DateChange3 = (date) => {
+  const New = new Date(date);
+  const Year = New.getFullYear();
+  const month = New.getMonth() + 1;
+  const day = New.getDate();
+  const hour = New.getHours();
+  const min = New.getMinutes();
+  const result =
+    Year + "/" + month + "/" + day + "    " + hour + ":" + min + "";
+  /*
+      " " +
+      sec +
+      "초 ";
+      */
+  return result;
+};

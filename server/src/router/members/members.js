@@ -280,8 +280,8 @@ export const updateProfessorMd = async (ctx, next) => {
 
   if (password === undefined) {
     await conn.query(
-      "UPDATE tb_member SET name = ?, password = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
-      [name, password, department, professorID, imageName, mobile, id]
+      "UPDATE tb_member SET name = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
+      [name, department, professorID, imageName, mobile, id]
     );
   } else {
     const sql =
@@ -339,15 +339,6 @@ export const checkMd = async (ctx, next) => {
   }
 
   ctx.state.body = user;
-
-  await next();
-};
-
-export const logoutMd = async (ctx, next) => {
-  ctx.cookies.set("access_token", null, {
-    maxAge: 0,
-    httpOnly: true,
-  });
 
   await next();
 };
@@ -424,12 +415,6 @@ export const professorLogin = [
   CommonMd.createConnectionMd,
   readProfessorLoginMd,
   jwtGenerateMd,
-  CommonMd.responseMd,
-];
-
-export const logout = [
-  CommonMd.createConnectionMd,
-  logoutMd,
   CommonMd.responseMd,
 ];
 

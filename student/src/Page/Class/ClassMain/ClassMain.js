@@ -57,7 +57,7 @@ const S05_05_06 = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      await teamMemberList(`classCode=AZSVBFV&memberId=${studentInfo.id}`);
+      await teamMemberList(`classCode=1&memberId=${studentInfo.id}`);
     };
     fetch();
   }, []);

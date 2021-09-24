@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Form, FormGroup, Label, Col, Input, Button } from "reactstrap";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { useAssignments, useComments } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
+
+const Box = styled.div`
+  width: 80%;
+`;
 
 export const Assignment = ({ match }) => {
   const history = useHistory();
@@ -81,11 +86,11 @@ export const Assignment = ({ match }) => {
   };
 
   const submitHandler = () => {
-    history.push(`/student/class/main/assignment/${assignmentId}/submit`);
+    history.push(`/student/class/1/main/assignment/${assignmentId}/submit`);
   };
 
   return (
-    <>
+    <Box>
       <Form>
         <FormGroup
           row
@@ -277,7 +282,7 @@ export const Assignment = ({ match }) => {
           </button>
         </Link>
       </tr>
-    </>
+    </Box>
   );
 };
 

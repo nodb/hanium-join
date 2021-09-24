@@ -7,6 +7,18 @@ import styled from "styled-components";
 
 const Box = styled.div`
   width: 80%;
+  button {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    text-align: center;
+    background-color: #ffffff;
+    border-color: #426589;
+    color: #426589;
+    width: 75px;
+    height: 30px;
+  }
 `;
 
 const P09_07 = () => {
@@ -88,9 +100,9 @@ const P09_07 = () => {
   return (
     <Box>
       <Form>
-        <Button size="sm" style={{ marginTop: "20px" }} onClick={createHandler}>
+        <button size="sm" style={{ marginTop: "20px" }} onClick={createHandler}>
           완료
-        </Button>
+        </button>
         <FormGroup
           row
           style={{

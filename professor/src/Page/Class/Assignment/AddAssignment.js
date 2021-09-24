@@ -7,6 +7,9 @@ import styled from "styled-components";
 
 const Box = styled.div`
   width: 80%;
+  height: 785px;
+  overflow-y: auto;
+  overflow-x: hidden;
   button {
     font-family: Roboto;
     font-style: normal;
@@ -16,10 +19,20 @@ const Box = styled.div`
     background-color: #ffffff;
     border-color: #426589;
     color: #426589;
-    width: 75px;
+    width: 60px;
     height: 30px;
+    margin-top: 20px;
   }
 `;
+
+const Text = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: 400;
+  color: #EF8F88;
+  margin-top : 10px;
+  margin-left : 160px;
+`
 
 const P09_07 = () => {
   const history = useHistory();
@@ -100,7 +113,7 @@ const P09_07 = () => {
   return (
     <Box>
       <Form>
-        <button size="sm" style={{ marginTop: "20px" }} onClick={createHandler}>
+        <button onClick={createHandler}>
           완료
         </button>
         <FormGroup
@@ -244,19 +257,27 @@ const P09_07 = () => {
         <FormGroup style={{ marginTop: "20px" }}>
           <Label
             for="imageFile"
-            sm={1}
+            sm={2}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             첨부 파일
           </Label>
-          <Input type="file" onChange={imageChange} />
+          <Input
+            type="file"
+            name="imagefile"
+            id="imageFile"
+            onChange={imageChange}
+          />
         </FormGroup>
         <FormGroup style={{ marginTop: "10px" }}>
-          <Label for="solutionFile" sm={1} style={{ fontWeight: "bold" }}>
+          <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>
             해답 파일
           </Label>
           <Input type="file" name="solutionFile" id="solutionFile" />
         </FormGroup>
+        <Text>
+          * 해답 파일은 학생들에게 공개되지 않으며 자동 채점을 위한 비교 파일입니다.
+        </Text>
       </Form>
     </Box>
   );

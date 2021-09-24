@@ -17,7 +17,7 @@ const Box = styled.div`
     background-color: #ffffff;
     border-color: #426589;
     color: #426589;
-    width: 75px;
+    width: 60px;
     height: 30px;
   }
 
@@ -256,12 +256,32 @@ const assignment = ({ match }) => {
         <FormGroup
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "15px 0px 150px 0px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
         >
           <p>{assignmentOne.content}</p>
+        </FormGroup>
+        <FormGroup
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ fontWeight: "bold", paddingLeft: 0 }}>첨부 파일</div>
+        </FormGroup>
+        <FormGroup
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ fontWeight: "bold", paddingLeft: 0 }}>해답 파일</div>
         </FormGroup>
         <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
           댓글 {commentList.total}개

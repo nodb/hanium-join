@@ -27,16 +27,22 @@ export const removeDiscussMd = async (ctx, next) => {
 
 export const readDiscussMd = async (ctx, next) => {
   const { conn } = ctx.state;
-  const { teamId, assignmentId } = ctx.query;
+  const { teamId, assignmentId } = ctx.params;
 
-  await conn.query(
+  const rows = await conn.query(
     // eslint-disable-next-line max-len
     "SELECT m.name, d.content, d.createdAt \
-    FROM (select assignmentTeamId from tb_assignment_team where team_id = ? AND assignment_id = ?) at \
-    JOIN tb_discuss d ON d.assignment_team_id = at.assignmentTeamId \
+    FROM (select id from tb_assignment_team where team_id = ? AND assignment_id = ?) at \
+    JOIN tb_discuss d ON d.assignment_team_id = at.id \
     JOIN tb_member m ON m.id = d.member_id",
     [teamId, assignmentId]
   );
+
+  ctx.state.body = {
+    count: rows.length,
+    results: rows,
+  }
+
   await next();
 };
 
@@ -51,3 +57,9 @@ export const remove = [
   removeDiscussMd,
   CommonMd.responseMd,
 ];
+
+export const readAll = [
+  CommonMd.createConnectionMd,
+  readDiscussMd,
+  CommonMd.responseMd
+]

@@ -28,12 +28,13 @@ const initialState = Map({
     info: Map({
         name: "",
         email: "",
-        professorID: "",
+        studentID: "",
         moblie: "",
         department: "",
         password: "",
         grade: "",
         birthDate: "",
+        profileImg: "",
     })
 });
 

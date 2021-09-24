@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { DateChange3 } from "../../../utils/dateChange";
+import { DateChange4 } from "../../../utils/dateChange";
 import { useDiscuss } from "../../../components/Use";
 
 const Box = styled.div`
@@ -54,7 +54,7 @@ const DiscussBox = ({ data, id }) => {
     <Box>
       <div>
         <Name>
-          {data.name}&nbsp;&nbsp;({DateChange3(data.createdAt)})
+          {data.name}&nbsp;&nbsp;({DateChange4(data.createdAt)})
         </Name>
         <Contents>{data.content}</Contents>
       </div>

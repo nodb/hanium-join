@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import Dropzone from "react-dropzone";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { getDataFromStorage } from "../../../utils/storage";
+import { useAssignments } from "../../../components/Use";
 
 import filePlus from "../../../images/add.png";
 
@@ -51,7 +53,7 @@ const ButtonBox = styled.div`
   padding-top: 30px;
 `;
 
-const Btn = styled.button`
+const Btn2 = styled.button`
   width: 80px;
   height: 30px;
   border: none;
@@ -60,23 +62,122 @@ const Btn = styled.button`
   margin-right: 10px;
 `;
 
-const Submit = () => {
-  const history = useHistory();
+const FileItem = styled.div`
+  position: relative;
+  width: 600px;
+  height: 26px;
+`;
 
-  const submitAssignment = () => {
-    history.push("/student/class/main/assignment");
+const Btn = styled.button`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 26px;
+  width: 26px;
+  text-align: middle;
+  vertical-align: center;
+`;
+const Submit = ({ match }) => {
+  const history = useHistory();
+  const { id } = useParams();
+  const { submitAssignmentsApi } = useAssignments();
+  const [data, setData] = useState({
+    contents: "",
+    file: "",
+  });
+  const [imgBase64, setImgBase64] = useState([]); // 파일 base64
+  const [imgFile, setImgFile] = useState(null); //파일
+
+  const submitHandler = async () => {
+    try {
+      const studentInfo = getDataFromStorage();
+      const memberId = studentInfo.id;
+      const fd = new FormData();
+      console.log("err");
+      if (imgFile) {
+        Object.values(imgFile).forEach((file) => fd.append("file", file));
+      }
+      console.log("err");
+      fd.append("contents", data.contents);
+      const response = await submitAssignmentsApi(id, memberId, fd);
+
+      if (response.data) {
+        history.push("/student/class/");
+      }
+    } catch (e) {
+      // alert("과제 제출 실패");
+      alert(e);
+    }
+  };
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleChangeFile = (e) => {
+    // console.log(e.target.files)
+    setImgFile(e.target.files);
+    //fd.append("file", e.target.files)
+    setImgBase64([]);
+    for (let i = 0; i < e.target.files.length; i++) {
+      if (e.target.files[i]) {
+        let reader = new FileReader();
+        reader.readAsDataURL(e.target.files[i]); // 1. 파일을 읽어 버퍼에 저장합니다.
+        // 파일 상태 업데이트
+        reader.onloadend = () => {
+          // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+          const base64 = reader.result;
+          if (base64) {
+            //  images.push(base64.toString())
+            const base64Sub = {
+              name: e.target.files[i].name,
+              file: base64.toString(),
+            };
+
+            setImgBase64((imgBase64) => [...imgBase64, base64Sub]);
+            //  setImgBase64(newObj);
+            // 파일 base64 상태 업데이트
+            //  console.log(images)
+          }
+        };
+      }
+    }
+    console.log(imgBase64);
+  };
+
+  const deleteHandler = (e) => {
+    const arr = imgBase64.filter((element) => element.name !== e.target.name);
+    setImgBase64(arr);
   };
 
   return (
     <Row>
       <Col sm="12">
         <Title>내용 작성</Title>
-        <ContentBox rows="10"></ContentBox>
+        <ContentBox
+          rows="10"
+          name="contents"
+          value={data.contents}
+          onChange={handleChange}
+        ></ContentBox>
+
+        {imgBase64.map((item) => {
+          return (
+            <FileItem>
+              <span style={{ fontSize: "14px" }}>{item.name}</span>
+              <Btn name={item.name} onClick={deleteHandler}>
+                x
+              </Btn>
+            </FileItem>
+          );
+        })}
         <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
           {({ getRootProps, getInputProps }) => (
             <section>
               <div {...getRootProps()}>
-                <input {...getInputProps()} />
+                <input {...getInputProps()} onChange={handleChangeFile} />
                 <Title>파일 첨부</Title>
                 <DropBox>
                   <Img src={filePlus} alt="file" />
@@ -91,11 +192,11 @@ const Submit = () => {
         </Dropzone>
         <ButtonBox>
           <Link to="/student/class/main/assignment">
-            <Btn color="#EF8F88">취소</Btn>
+            <Btn2 color="#EF8F88">취소</Btn2>
           </Link>
-          <Btn color="#6F91B5" onClick={submitAssignment}>
+          <Btn2 color="#6F91B5" onClick={submitHandler}>
             제출
-          </Btn>
+          </Btn2>
         </ButtonBox>
       </Col>
     </Row>

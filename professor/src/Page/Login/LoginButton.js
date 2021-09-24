@@ -7,7 +7,7 @@ const Wrapper = styled.button`
   padding-bottom: 0.5rem;
   background: white;
   border: gray 1px solid;
-  width: 520px;
+  width: 500px;
   text-align: center;
   font-size: 1.25rem;
   font-weight: 500;

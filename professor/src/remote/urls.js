@@ -5,6 +5,7 @@ const urls = {
   comments: "/api/v1/comments",
   teams: "/api/v1/teams",
   enrolment: "/api/v1/enrol",
+  report: "/api/v1/report",
 };
 
 export default urls;

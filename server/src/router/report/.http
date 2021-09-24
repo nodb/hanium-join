@@ -1,0 +1,3 @@
+@BASE_URL=http://localhost:3000/api/v1
+
+GET {{BASE_URL}}/report/7eea5684-ae8b-43de-b99b-17549a3c3167

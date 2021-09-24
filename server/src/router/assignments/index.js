@@ -34,7 +34,7 @@ router.put("/:id", ...assignments.update);
 router.delete("/:id", ...assignments.remove);
 
 // 제출
-router.post("/submit/:id", ...assignmentTeam.submit);
+router.post("/submit/:assignmentId/:memberId", ...assignmentTeam.submit);
 
 // 제출 확인
 router.get("/team/:id", ...assignmentTeam.read);

@@ -1,4 +1,4 @@
-import { useMember, useClasses, useAssignments, useEnrolment, useTeams } from "./Use";
+import { useMember, useClasses, useAssignments, useEnrolment, useTeams, useReport } from "./Use";
 
 import {
   CTLoading,
@@ -10,6 +10,6 @@ export {
   CTLoading,
   useLoading,
     
-  useMember, useClasses, useAssignments, useEnrolment, useTeams 
+  useMember, useClasses, useAssignments, useEnrolment, useTeams, useReport,
 
 };

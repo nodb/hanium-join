@@ -212,7 +212,9 @@ const Modal = (match) => {
         <ModalBox>
           <Top>
             <div>수업 명1</div>
-            <button>X</button>
+            <button onClick={onToggle} open={open}>
+              X
+            </button>
           </Top>
           <Box>
             {chatList.results.map((chat) => {

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
 import StudentBox from "./Student";
 import AssignmentBox from "./Assignment";
@@ -23,6 +24,7 @@ const Text = styled.div`
 function S05_05_06() {
   const { assignmentsList, listAllByClassCode } = useAssignments();
   const { teamList, teamMemberList } = useTeams();
+  const { code } = useParams();
 
   const studentInfo = getDataFromStorage();
 
@@ -35,7 +37,7 @@ function S05_05_06() {
 
   useEffect(() => {
     const fetch = async () => {
-      await teamMemberList(`classCode=1&memberId=${studentInfo.id}`);
+      await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
     };
     fetch();
   }, []);

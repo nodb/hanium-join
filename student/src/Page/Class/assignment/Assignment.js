@@ -22,12 +22,12 @@ const GoSubmit = styled.div`
   display: flex;
   margin-top: 30px;
   margin-bottom: 30px;
-  width: 190px;
+  width: fit-content;
+  vertical-align: middle;
 
   p {
     font-family: Roboto;
     font-weight: bold;
-    vertical-align: middle;
     color: #6f91b5;
   }
 `;
@@ -111,6 +111,10 @@ export const Assignment = ({ match }) => {
     history.push(
       `/student/class/${code}/main/assignment/${assignmentId}/submit`
     );
+  };
+
+  const listHandler = () => {
+    history.push(`/student/class/${code}/main`);
   };
 
   return (
@@ -249,7 +253,7 @@ export const Assignment = ({ match }) => {
             <FormGroup
               row
               style={{
-                marginLeft: 3,
+                marginLeft: 5,
                 padding: "7px 0px",
               }}
             >
@@ -316,18 +320,17 @@ export const Assignment = ({ match }) => {
       </Form>
       <GoSubmit onClick={submitHandler}>
         <img src={GoSubmitAssignment} />
-        <p>과제 제출하러 가기</p>
+        <p style={{ marginLeft: "5px" }}>과제 제출하러 가기</p>
       </GoSubmit>
       <tr>
-        <Link to="/student/class/main">
-          <button
-            href="#"
-            class="btn btn-secondary btn-sm"
-            style={{ fontSize: "12px" }}
-          >
-            목록
-          </button>
-        </Link>
+        <button
+          href="#"
+          class="btn btn-secondary btn-sm"
+          style={{ fontSize: "12px" }}
+          onClick={listHandler}
+        >
+          목록
+        </button>
       </tr>
     </Box>
   );

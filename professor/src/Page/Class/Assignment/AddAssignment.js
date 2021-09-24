@@ -26,13 +26,13 @@ const Box = styled.div`
 `;
 
 const Text = styled.div`
-font-family: Roboto;
-font-style: normal;
-font-weight: 400;
-  color: #EF8F88;
-  margin-top : 10px;
-  margin-left : 160px;
-`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  color: #ef8f88;
+  margin-top: 10px;
+  margin-left: 160px;
+`;
 
 const P09_07 = () => {
   const history = useHistory();
@@ -107,15 +107,12 @@ const P09_07 = () => {
     });
   };
 
-  console.log(teams);
-  console.log(JSON.stringify(teams));
-
   return (
     <Box>
       <Form>
-        <button onClick={createHandler}>
-          완료
-        </button>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button onClick={createHandler}>완료</button>
+        </div>
         <FormGroup
           row
           style={{
@@ -276,7 +273,8 @@ const P09_07 = () => {
           <Input type="file" name="solutionFile" id="solutionFile" />
         </FormGroup>
         <Text>
-          * 해답 파일은 학생들에게 공개되지 않으며 자동 채점을 위한 비교 파일입니다.
+          * 해답 파일은 학생들에게 공개되지 않으며 자동 채점을 위한 비교
+          파일입니다.
         </Text>
       </Form>
     </Box>

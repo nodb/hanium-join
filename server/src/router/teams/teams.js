@@ -28,7 +28,7 @@ export const readTeamAllMd = async (ctx, next) => {
   ]);
 
   const members = await conn.query(
-    "SELECT t.id as team_id, m.name, m.grade, m.department \
+    "SELECT t.id as team_id, m.id as member_id, m.name, m.grade, m.department \
     FROM tb_team t JOIN tb_team_member tm ON tm.team_id = t.id \
     JOIN tb_member m ON m.id = tm.member_id \
     WHERE t.class_code = ?",
@@ -116,7 +116,7 @@ export const deleteTeamMd = async (ctx, next) => {
 export const insertStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const payload = ctx.request.body;
-  console.log(payload);
+
   const tuples = payload.map((obj) => [obj.teamId, obj.memberId]);
   console.log(tuples);
   await conn.batch(
@@ -135,7 +135,7 @@ export const readStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, classCode } = ctx.query;
   const rows = await conn.query(
-    "select m.name, m.grade, m.department \
+    "select m.name, m.grade, m.department, a.teamId \
     FROM (SELECT t.id as teamId FROM tb_team_member tm \
     JOIN tb_member m ON m.id = tm.member_id \
     JOIN tb_team t ON t.id = tm.team_id WHERE t.class_code = ? AND m.id = ?) a \
@@ -157,11 +157,12 @@ export const deleteStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, teamId } = ctx.query;
 
-  console.log(memberId, teamId);
+  const array = memberId.split(',');
 
+  console.log(array, teamId);
   await conn.query(
     "DELETE FROM tb_team_member WHERE member_id IN (?) AND team_id = ?",
-    [memberId, teamId]
+    [array, teamId]
   );
 
   await next();

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import InputWithLabel from "../Register/InputWithLabel";
 import {
   Col,
@@ -18,7 +18,9 @@ import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
 
-const Box = styled.div``;
+const Box = styled.div`
+  width: 80%;
+`;
 
 const Page = styled.div`
   color: #3d3d3d;
@@ -30,13 +32,15 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 1032px;
+  width: 100%;
   height: 0px;
   border: 4px solid #c4c4c4;
 `;
 
 function MyModify(props) {
   const history = useHistory();
+
+  const { code } = useParams();
 
   const professor = getDataFromStorage();
 
@@ -137,9 +141,9 @@ const handleChange = (e) => {
       try {
         await infoModifyApi(professor.id, formData);
         alert("수정되었습니다.");
-        history.push("/professor/mypage/myinfo");
+        history.push(`/professor/mypage/${code}/myinfo`);
       } catch (e) {
-        alert("항목을 다 채워주세요.");
+        alert(e);
       }
     }
   };
@@ -261,7 +265,7 @@ const handleChange = (e) => {
       </FormGroup>
       <br />
       <FormGroup row>
-        <Label sm={2}>
+        <Label sm={2} for="imageFile">
           프로필 사진
         </Label>
         <Col sm={10}>

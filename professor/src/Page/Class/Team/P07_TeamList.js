@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useTeams } from "../../../components/Use";
+import { useEnrolment, useTeams } from "../../../components/Use";
 import { useHistory, useParams } from "react-router-dom";
 
 const Arrow = styled.button`
@@ -47,6 +47,7 @@ function P07_TeamList({ students }) {
 
   const { code } = useParams();
 
+  const {studentListAll} = useEnrolment();
   const { deleteStudentsApi } = useTeams();
 
   const [stud, setStud] = useState(
@@ -83,14 +84,19 @@ function P07_TeamList({ students }) {
   const history = useHistory();
   
   const deleteHandler= async (e) => {
+    let members = [];
+    stud.map((data)=>{
+      members.push(data.memberId); 
+    })
     try {
-      await deleteStudentsApi(`memberId=${stud[0].memberId}&teamId=${students.id}`);
-      console.log();
-      history.push(`/professor/class/${code}/assign`);
+      await deleteStudentsApi(`memberId=${members}&teamId=${students.id}`);
+      console.log(members);
+      await studentListAll(code);
     } catch(e){
       alert(e);
     }
   }
+
   return (
     <>
       <Box>
@@ -102,8 +108,8 @@ function P07_TeamList({ students }) {
                   <Label check>
                   <Input
                         type="checkbox"
-                        checked={studentCheck(student.name)}
-                        name={student.name}
+                        checked={studentCheck(student.member_id)}
+                        name={student.member_id}
                         onChange={checkboxChange}
                       /> &nbsp;
                       {student.name}({student.grade}학년)

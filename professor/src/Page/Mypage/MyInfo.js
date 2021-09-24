@@ -4,7 +4,8 @@ import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
 import { Link } from "react-router-dom";
 
-const Box = styled.div``;
+const Box = styled.div`
+  width: 80%`;
 
 const Page = styled.div`
   color: #3d3d3d;
@@ -16,7 +17,7 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 1032px;
+  width: 100%;
   height: 0px;
   border: 4px solid #c4c4c4;
 `;
@@ -134,11 +135,16 @@ function MyInfo() {
       <Hr />
       <InfoBox>
         <Myimg>
+          { memberInfo.profileImg && (
           <img
             // src={require("../../images/person_default.png").default}
             src={memberInfo.profileImg}
             alt="이미지"
-            />
+            /> )}
+          <img
+            src={require("../../images/person_default.png").default}
+            alt="이미지"
+          />
         </Myimg>
         <Info>
           <Name> {memberInfo.name} </Name>{" "}

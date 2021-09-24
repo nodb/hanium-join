@@ -5,6 +5,7 @@ import { useClasses } from "../../components/Use";
 import { getDataFromStorage } from "../../utils/storage";
 
 const Box = styled.div`
+  width: 80%;
 `;
 
 const Page = styled.div`
@@ -17,7 +18,7 @@ margin-top: 27px;
 `;
 
 const Hr = styled.hr`
-width: 1032px;
+width: 100%;
 height: 0px;
 border: 4px solid #C4C4C4;
 `

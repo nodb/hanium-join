@@ -274,7 +274,7 @@ export const updateProfessorMd = async (ctx, next) => {
 
   await fs.renameSync(profileImg.path, `${appDir}/${profileImg.name}`);
 
-
+  const imageName = profileImg ? profileImg.name : null;
   const sql =
     // eslint-disable-next-line max-len
     "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
@@ -283,7 +283,7 @@ export const updateProfessorMd = async (ctx, next) => {
     password,
     department,
     professorID,
-    profileImg.name,
+    imageName,
     mobile,
     id,
   ]);

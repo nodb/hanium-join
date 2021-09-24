@@ -94,7 +94,7 @@ function P07_StudnentList({students}){
 
     try {
       await insertStudentsApi(code, body);
-      history.push(`/professor/class/${code}/assign`);
+      await studentListAll(code);
       console.log("클릭!");
     } catch(e){
       alert(e);

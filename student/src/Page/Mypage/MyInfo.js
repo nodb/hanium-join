@@ -133,12 +133,17 @@ function MyInfo() {
       <Page>내 프로필</Page>
       <Hr />
       <InfoBox>
-        <Myimg>
+      <Myimg>
+          { memberInfo.profileImg && (
+          <img
+            // src={require("../../images/person_default.png").default}
+            src={memberInfo.profileImg}
+            alt="이미지"
+            /> )}
           <img
             src={require("../../images/person_default.png").default}
-            // src={memberInfo.profileImg}
-            // alt="이미지"
-            />
+            alt="이미지"
+          />
         </Myimg>
         <Info>
           <Name> {memberInfo.name} </Name>{" "}

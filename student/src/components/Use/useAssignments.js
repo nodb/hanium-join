@@ -14,6 +14,9 @@ const useAssignments = () => {
     state.assignments.get("assignment")
   );
 
+  const assignmentsTotal = useShallowEqualSelectorToJS((state)=> 
+  state.assignments.get("my_assignments")
+  );  
   const assignmentTeamOne = useShallowEqualSelectorToJS((state) =>
     state.assignments.get("assignmentTeam")
   );
@@ -23,8 +26,10 @@ const useAssignments = () => {
   return {
     assignmentsList,
     assignmentOne,
+    assignmentsTotal,
     assignmentTeamOne,
 
+    ListTotalAssignments: actions.ListTotalAssignments,
     listAllByClassCode: actions.listAllByClassCode,
     getAssignment: actions.getAssignment,
     getAssignmentTeam: actions.getAssignmentTeam,
@@ -32,6 +37,7 @@ const useAssignments = () => {
     createAssignmentsApi: reducer.createAssignmentsApi,
     updateAssignmentsApi: reducer.updateAssignmentsApi,
     deleteAssignmentsApi: reducer.deleteAssignmentsApi,
+    submitAssignmentsApi: reducer.submitAssignmentsApi,
   };
 };
 

@@ -12,12 +12,18 @@ const StudentBox = styled.div`
   background-color: white;
 `;
 
-function S05_Student({ student }) {
+function S05_Student({ students }) {
   return (
-    <StudentBox>
-      {student.name}({student.grade}학년)<br></br>
+    <>
+    {students.map((student) => {
+      return( 
+        <StudentBox>
+        {student.name}({student.grade}학년)<br></br>
       {student.department}
-    </StudentBox>
+      </StudentBox>
+      
+      )})}
+      </>
   );
 }
 

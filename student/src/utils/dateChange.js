@@ -1,13 +1,13 @@
 export const DateChange = (date) => {
   const New = new Date(date);
-  const Year = New.getFullYear();
+  const year = New.getFullYear();
   const month = New.getMonth() + 1;
   const day = New.getDate();
   const hour = New.getHours();
   const min = New.getMinutes();
   const sec = New.getSeconds();
   const result =
-    Year +
+    year +
     "년" +
     " " +
     month +
@@ -21,26 +21,62 @@ export const DateChange = (date) => {
     " " +
     min +
     "분 ";
-  /*
-      " " +
-      sec +
-      "초 ";
-      */
   return result;
 };
+
 export const DateChange2 = (date) => {
   const New = new Date(date);
-  const Year = New.getFullYear();
+  const year = New.getFullYear();
   const month = New.getMonth() + 1;
   const day = New.getDate();
   const hour = New.getHours();
   const min = New.getMinutes();
   const sec = New.getSeconds();
-  const result = Year + "/" + month + "/" + day + "/" + hour + ":" + min + "";
-  /*
-      " " +
-      sec +
-      "초 ";
-      */
+  const result =
+    year +
+    "/" +
+    (month >= 10 ? month : "0" + month) +
+    "/" +
+    (day >= 10 ? day : "0" + day) +
+    "/ " +
+    (hour >= 10 ? hour : "0" + hour) +
+    ":" +
+    (min >= 10 ? min : "0" + min);
   return result;
 };
+
+export const DateChange3 = (date) => {
+  const New = new Date(date);
+  const year = New.getFullYear();
+  const month = New.getMonth() + 1;
+  const day = New.getDate();
+  const hour = New.getHours();
+  const min = New.getMinutes();
+  const sec = New.getSeconds();
+  const result =
+    year +
+    "-" +
+    (month >= 10 ? month : "0" + month) +
+    "-" +
+    (day >= 10 ? day : "0" + day) +
+    "T" +
+    (hour >= 10 ? hour : "0" + hour) +
+    ":" +
+    (min >= 10 ? min : "0" + min);
+  return result;
+};
+
+export const BirthDate = (date) => {
+  const New = new Date(date);
+  const year = New.getFullYear();
+  const month = New.getMonth() + 1;
+  const day = New.getDate();
+  const result = 
+  year +
+    "-" +
+    (month >= 10 ? month : "0" + month) +
+    "-" +
+    (day >= 10 ? day : "0" + day);
+
+    return result;
+}

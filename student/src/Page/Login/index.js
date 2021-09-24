@@ -49,7 +49,7 @@ const  Login = () => {
           saveDataToStorage(response.data)
         }
 
-        history.push("/student/class");
+        history.push("/student/main");
       } catch(e) {
         alert("로그인 실패");
       }

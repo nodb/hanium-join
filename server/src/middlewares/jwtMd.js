@@ -19,7 +19,7 @@ export const generateToken = (payload) => {
   });
 };
 
-function decodeToken(token) {
+export const decodeToken = (token) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, jwtSecret, (error, decoded) => {
       if (error) reject(error);
@@ -29,7 +29,7 @@ function decodeToken(token) {
 }
 
 const jwtMd = async (ctx, next) => {
-  const access_token = ctx.headers.Authorization;
+  const access_token = ctx.headers.authorization;
 
   if (!access_token) return next();
 

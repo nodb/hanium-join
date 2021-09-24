@@ -16,6 +16,7 @@ const useMember = () => {
         signupApi: reducer.signupApi,
         loginApi: reducer.loginApi,
         infoModifyApi: reducer.infoModifyApi,
+        changePwApi: reducer.changePwApi,
     }
 
 }

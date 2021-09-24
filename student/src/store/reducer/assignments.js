@@ -25,7 +25,7 @@ export const getAssignmentTeam = createAction(
 export const updateAssignmentsApi = AssignmentsApi.put;
 export const deleteAssignmentsApi = AssignmentsApi.remove;
 export const createAssignmentsApi = AssignmentsApi.create;
-
+export const submitAssignmentsApi = AssignmentsApi.submit;
 const initialState = Map({
   list: Map({
     count: 0,

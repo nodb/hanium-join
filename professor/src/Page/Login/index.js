@@ -51,44 +51,47 @@ const Login = () => {
 
       history.push("/professor/main");
     } catch (e) {
-      alert(e);
+      alert("로그인 실패");
     }
   };
 
   return (
-    <Box>
-      <Title>로그인</Title>
-      <InputWithLabel
-        label="이메일"
-        name="email"
-        type="email"
-        placeholder="이메일"
-        value={data.email}
-        onChange={handleChange}
-      />
-      <InputWithLabel
-        label="비밀번호"
-        name="password"
-        placeholder="비밀번호"
-        type="password"
-        value={data.password}
-        onChange={handleChange}
-      />
-      <LoginButton onClick={submitHandler}>로그인</LoginButton>
-      <Link
-        to="/findIdPassword"
-        style={{ textDecoration: "none", color: "black" }}
-      >
-        <span>아이디 비밀번호 찾기</span>
-      </Link>
-      <br></br>
-      <Link
-        to="/register/box"
-        style={{ textDecoration: "none", color: "black" }}
-      >
-        <span>회원가입</span>
-      </Link>
-    </Box>
+    <>
+      <Box>
+
+        <Title>로그인</Title>
+        <InputWithLabel
+          label="이메일"
+          name="email"
+          type="email"
+          placeholder="이메일"
+          value={data.email}
+          onChange={handleChange}
+        />
+        <InputWithLabel
+          label="비밀번호"
+          name="password"
+          placeholder="비밀번호"
+          type="password"
+          value={data.password}
+          onChange={handleChange}
+        />
+        <LoginButton onClick={submitHandler}>로그인</LoginButton>
+        <Link
+          to="/findIdPassword"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <span>아이디 비밀번호 찾기</span>
+        </Link>
+        <br></br>
+        <Link
+          to="/register/box"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <span>회원가입</span>
+        </Link>
+      </Box>
+    </>
   );
 };
 

@@ -84,9 +84,9 @@ function P07_TeamList({ students }) {
   
   const deleteHandler= async (e) => {
     try {
-      await deleteStudentsApi(`memberId=${stud.memberId}&teamId=${stud.teamId}`);
+      await deleteStudentsApi(`memberId=${stud[0].memberId}&teamId=${students.id}`);
+      console.log();
       history.push(`/professor/class/${code}/assign`);
-      console.log("클릭!");
     } catch(e){
       alert(e);
     }

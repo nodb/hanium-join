@@ -157,6 +157,8 @@ export const deleteStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, teamId } = ctx.query;
 
+  console.log(memberId, teamId);
+
   await conn.query(
     "DELETE FROM tb_team_member WHERE member_id IN (?) AND team_id = ?",
     [memberId, teamId]

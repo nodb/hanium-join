@@ -37,7 +37,11 @@ const Submit = ({ match }) => {
       const studentInfo = getDataFromStorage();
       const memberId = studentInfo.id;
       const fd = new FormData();
-      Object.values(imgFile).forEach((file)=>fd.append("file",file));
+      console.log("err");
+      if(imgFile){
+        Object.values(imgFile).forEach((file)=>fd.append("file",file));
+      }
+      console.log("err");
       fd.append("contents",data.contents);
       const response = await submitAssignmentsApi(id, memberId, fd);
 

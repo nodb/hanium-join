@@ -7,6 +7,10 @@ import AssignmentBox from "./Assignment";
 import { useAssignments, useTeams } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 
+const Box = styled.div`
+  width: 80%;
+`;
+
 const Text = styled.div`
   font-family: "Nanum Gothic", sans-serif;
   font-size: 20px;
@@ -31,13 +35,13 @@ function S05_05_06() {
 
   useEffect(() => {
     const fetch = async () => {
-      await teamMemberList(`classCode=AZSVBFV&memberId=${studentInfo.id}`);
+      await teamMemberList(`classCode=1&memberId=${studentInfo.id}`);
     };
     fetch();
   }, []);
 
   return (
-    <>
+    <Box>
       <Text>팀원</Text>
       <div style={{ display: "inline-flex" }}>
         {teamList.results.map((item) => {
@@ -48,7 +52,7 @@ function S05_05_06() {
       {assignmentsList.results.map((item) => (
         <AssignmentBox key={item.id} assignment={item} />
       ))}
-    </>
+    </Box>
   );
 }
 

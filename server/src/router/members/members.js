@@ -268,25 +268,38 @@ export const updateProfessorMd = async (ctx, next) => {
   const profileImg =
     ctx.request.files === undefined ? null : ctx.request.files.profileImg;
 
-  console.log(ctx.request.files);
-
-  var appDir = path.dirname(profileImg.path);
-
-  await fs.renameSync(profileImg.path, `${appDir}/${profileImg.name}`);
-
   const imageName = profileImg ? profileImg.name : null;
-  const sql =
-    // eslint-disable-next-line max-len
-    "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
-  await conn.query(sql, [
-    name,
-    password,
-    department,
-    professorID,
-    imageName,
-    mobile,
-    id,
-  ]);
+
+  const row = await conn.query(
+    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
+    [id]
+  );
+
+  name = name === undefined ? row[0].name : name;
+  department = department === undefined ? row[0].department : department;
+  professorID = professorID === undefined ? row[0].professorID : professorID;
+  mobile = mobile === undefined ? row[0].mobile : mobile;
+
+  if (password === undefined) {
+    await conn.query(
+      "UPDATE tb_member SET name = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
+      [name, department, professorID, imageName, mobile, id]
+    );
+  } else {
+    const sql =
+      // eslint-disable-next-line max-len
+      "UPDATE tb_member SET name = ?, password = password(?), department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?";
+
+    await conn.query(sql, [
+      name,
+      password,
+      department,
+      professorID,
+      imageName,
+      mobile,
+      id,
+    ]);
+  }
 
   await next();
 };
@@ -329,15 +342,6 @@ export const checkMd = async (ctx, next) => {
   }
 
   ctx.state.body = user;
-
-  await next();
-};
-
-export const logoutMd = async (ctx, next) => {
-  ctx.cookies.set("access_token", null, {
-    maxAge: 0,
-    httpOnly: true,
-  });
 
   await next();
 };
@@ -414,12 +418,6 @@ export const professorLogin = [
   CommonMd.createConnectionMd,
   readProfessorLoginMd,
   jwtGenerateMd,
-  CommonMd.responseMd,
-];
-
-export const logout = [
-  CommonMd.createConnectionMd,
-  logoutMd,
   CommonMd.responseMd,
 ];
 

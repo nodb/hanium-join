@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useEnrolment } from "../../../components/Use";
+import { getDataFromStorage } from "../../../utils/storage";
 
 const Block = styled.div`
   display: flex;
@@ -15,11 +17,11 @@ const Block = styled.div`
   z-index: 99;
   background: rgb(25, 25, 25, 0.64);
 `;
+
 const ModalBlock = styled.div`
-  width: 400px;
+  width: 300px;
   background-color: #fff;
   height: 250px;
-  overflow-y: scroll;
   border-radius: 15px;
   &::-webkit-scrollbar {
     width: 10px;
@@ -35,31 +37,18 @@ const ModalBlock = styled.div`
     width: 0;
     height: 0;
   }
-  @media screen and (max-width: 767px) {
-    width: 336px;
-  }
 `;
+
 const Header = styled.div`
   width: 100%;
-  height: 71px;
+  height: 80px;
   box-sizing: border-box;
-  padding-left: 50px;
-  padding-right: 24px;
+  padding-left: 25px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   font-family: Kanit;
   font-size: 18px;
   font-weight: bold;
-  line-height: 1.48;
-  color: #101010;
-  border-bottom: 1px solid #dee2e6;
-  @media screen and (max-width: 767px) {
-    height: 64px;
-    font-size: 18px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
   .button {
     position: relative;
     width: 25px;
@@ -83,33 +72,76 @@ const Header = styled.div`
   }
 `;
 
+const Content = styled.div`
+  width: 100%;
+  padding: 10px 0px 0px 25px;
+`;
+
 const CodeInput = styled.input`
-  width: 300px;
+  margin-top: 10px;
+  width: 250px;
   height: 30px;
 `;
 
 const AddButton = styled.button`
-  width: 50px;
+  width: 90px;
+  font-size: 15px;
   background: none;
   border: none;
-  cursor: pointer;
   color: red;
 `;
 
+const Box = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
+`;
+
 function S04_ClassAdd({ open, close }) {
+  const [code, setCode] = useState("");
+  const { createEnrolApi } = useEnrolment();
+  const studentInfo = getDataFromStorage();
+
+  const handleChange = (e) => {
+    setCode(e.target.value);
+  };
+
+  const createEnrol = async (e) => {
+    const body = {
+      classCode: code,
+      memberId: studentInfo.id,
+    };
+
+    try {
+      await createEnrolApi(body);
+    } catch (e) {
+      alert(e);
+    }
+
+    close();
+  };
+
   return (
     <>
       {open && (
         <Block State={open}>
           <ModalBlock>
-            <Header>수업 코드</Header>
-            <div style={{ padding: "45px" }}>
-              <CodeInput type="text"></CodeInput>
-            </div>
-            <div style={{ padding: "0 40px 0 40px", display: "flex" }}>
+            <Header>수업 추가</Header>
+            <Content>
+              <div>수업 코드를 입력하여 주세요.</div>
+              <CodeInput
+                label="수업코드"
+                type="text"
+                name="classCode"
+                placeholder="(수업 코드)"
+                value={code}
+                onChange={handleChange}
+              ></CodeInput>
+            </Content>
+            <Box>
               <AddButton onClick={close}>취소</AddButton>
-              <AddButton style={{ marginLeft: "220px" }}>추가</AddButton>
-            </div>
+              <AddButton onClick={createEnrol}>추가</AddButton>
+            </Box>
           </ModalBlock>
         </Block>
       )}

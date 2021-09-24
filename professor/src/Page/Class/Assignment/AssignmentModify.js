@@ -8,6 +8,18 @@ import styled from "styled-components";
 
 const Box = styled.div`
   width: 80%;
+  button {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 17px;
+    text-align: center;
+    background-color: #ffffff;
+    border-color: #426589;
+    color: #426589;
+    width: 75px;
+    height: 30px;
+  }
 `;
 
 const AssignmentModify = ({ match }) => {
@@ -75,7 +87,7 @@ const AssignmentModify = ({ match }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await listAllTeams("AZSVBFV");
+        await listAllTeams(code);
       } catch (e) {
         alert(e);
       }
@@ -112,7 +124,7 @@ const AssignmentModify = ({ match }) => {
       formData.append("endDate", data.endDate);
       formData.append("content", data.content);
       formData.append("progress", 1);
-      formData.append("classCode", "AZSVBFV");
+      formData.append("classCode", code);
       formData.append("teams", []);
       formData.append("image", image);
 
@@ -131,13 +143,13 @@ const AssignmentModify = ({ match }) => {
     <Box>
       <Form>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
+          <button
             size="sm"
             style={{ marginTop: "20px" }}
             onClick={modifyHandler}
           >
             완료
-          </Button>
+          </button>
         </div>
         <FormGroup
           row

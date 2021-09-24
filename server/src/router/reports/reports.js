@@ -8,19 +8,19 @@ export const readReportAllMd = async (ctx, next) => {
   const { dbPool } = ctx;
   const conn = await dbPool.getConnection();
   let sql =
-    "select r.id as report_id, t.id as team_id, t.name, r.file "
-    + "FROM tb_report r "
-    + "JOIN tb_assignment_team at ON r.assignment_team_id = at.id "
-    + "JOIN tb_team t ON at.team_id = t.id "
-    + "JOIN tb_class c ON t.class_code = c.code "
-    + "JOIN tb_member m ON c.member_id = m.id "
-    + "WHERE m.id = ? LIMIT ?, ?";
+    "select r.id as report_id, t.id as team_id, t.name, r.file " +
+    "FROM tb_report r " +
+    "JOIN tb_assignment_team at ON r.assignment_team_id = at.id " +
+    "JOIN tb_team t ON at.team_id = t.id " +
+    "JOIN tb_class c ON t.class_code = c.code " +
+    "JOIN tb_member m ON c.member_id = m.id " +
+    "WHERE m.id = ? LIMIT ?, ?";
   const rows = await conn.query(sql, [memberId, skip, limit]);
   sql =
-  "select t.id AS team_id, m.name, m.department "
-  + "FROM tb_member m "
-  + "JOIN tb_team_member tm ON m.id = tm.member_id "
-  + "JOIN tb_team t ON tm.team_id = t.id";
+    "select t.id AS team_id, m.name, m.department " +
+    "FROM tb_member m " +
+    "JOIN tb_team_member tm ON m.id = tm.member_id " +
+    "JOIN tb_team t ON tm.team_id = t.id";
 
   const members = await conn.query(sql);
   // for (let i = 0; i<rows.length; i+=1) {
@@ -28,8 +28,10 @@ export const readReportAllMd = async (ctx, next) => {
   //   rows[i].team = t;
   // }
   console.log(members);
-  for (let i=0; i<rows.length; i+=1) {
-    const t = members.filter((item)=> {if(rows[i].team_id===item.team_id) return true;});
+  for (let i = 0; i < rows.length; i += 1) {
+    const t = members.filter((item) => {
+      if (rows[i].team_id === item.team_id) return true;
+    });
     rows[i].team = t;
   }
 
@@ -48,13 +50,13 @@ export const readReportAllCountMd = async (ctx, next) => {
   const conn = ctx.state.conn;
 
   const sql =
-    "select COUNT(*) AS count "
-    + "FROM tb_report r "
-    + "JOIN tb_assignment_team at ON r.assignment_team_id = at.id "
-    + "JOIN tb_team t ON at.team_id = t.id "
-    + "JOIN tb_class c ON t.class_code = c.code "
-    + "JOIN tb_member m ON c.member_id = m.id "
-    + "WHERE m.id = ? LIMIT ?, ?";
+    "select COUNT(*) AS count " +
+    "FROM tb_report r " +
+    "JOIN tb_assignment_team at ON r.assignment_team_id = at.id " +
+    "JOIN tb_team t ON at.team_id = t.id " +
+    "JOIN tb_class c ON t.class_code = c.code " +
+    "JOIN tb_member m ON c.member_id = m.id " +
+    "WHERE m.id = ? LIMIT ?, ?";
   const rows = await conn.query(sql, [memberId, skip, limit]);
 
   ctx.state.body = {

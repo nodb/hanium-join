@@ -30,6 +30,7 @@ router.put("/professor/:id", ...members.updateProfessor);
 // 학생 정보 수정
 router.put("/student/:id", ...members.updateStudent);
 
+
 router.put("/professor/:id", ...members.updateProfessor);
 
 // 삭제

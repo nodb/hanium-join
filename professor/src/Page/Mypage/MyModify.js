@@ -107,24 +107,23 @@ function MyModify(props) {
     };
   };
 
-const handleChange = (e) => {
-  const name = e.target.name;
-  const value = e.target.value;
-  console.log(value);
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    console.log(value);
 
     const { errName = undefined, errMessage = undefined } = handleError(
       name,
       value
     );
 
-  setData({
-    ...data,
-    [name] : value,
-    errName,
-    errMessage
-  });
-
-}
+    setData({
+      ...data,
+      [name]: value,
+      errName,
+      errMessage,
+    });
+  };
 
   const onModifyHandler = async (e) => {
     if (!data.errName && !data.errMessage) {

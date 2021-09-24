@@ -10,6 +10,9 @@ router.post("/", ...assignments.create);
 // 전체 과제 조회
 router.get("/", ...assignments.readAll);
 
+//classCode 별 과제 조회
+router.get("/byClassCode/:classCode", ...assignments.readByClassCode);
+
 // memberId별 조회
 router.get("/byStudent/:memberId", ...assignments.readByStudent);
 
@@ -31,9 +34,11 @@ router.put("/:id", ...assignments.update);
 router.delete("/:id", ...assignments.remove);
 
 // 제출
-router.post("/submit/:id", ...assignmentTeam.submit);
+router.post("/submit/:assignmentId/:memberId", ...assignmentTeam.submit);
 
 // 제출 확인
 router.get("/team/:id", ...assignmentTeam.read);
+
+router.get("/assignmentTeam/:assignmentId/:teamId", ...assignmentTeam.query);
 
 export default router;

@@ -5,6 +5,8 @@ import classesReducer from "./classes";
 import assignmentsReducer from "./assignments";
 import commentsReducer from "./comments";
 import teamsReducer from "./teams";
+import chatsReducer from "./chats";
+import enrolmentReducer from "./enrolment";
 
 export default combineReducers({
   pender: penderReducer,
@@ -13,4 +15,6 @@ export default combineReducers({
   assignments: assignmentsReducer,
   comments: commentsReducer,
   teams: teamsReducer,
+  chats: chatsReducer,
+  enrol: enrolmentReducer,
 });

@@ -15,3 +15,11 @@ export const remove = (id) => httpClient.delete(`${urls.assignments}/${id}`);
 
 // 마이페이지 모든 과제들 get
 export const listAllAssignments = (id, qs="") =>  httpClient.get(`${urls.assignments}/byStudent/${id}?${qs}`);
+export const assignmentTeamByTeamId = (assignmentId, teamId) => 
+  httpClient.get(`${urls.assignments}/assignmentTeam/${assignmentId}/${teamId}`);
+export const submit = (id, memberId, form) => httpClient.post(`${urls.assignments}/submit/${id}/${memberId}`, form,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data; ",
+      }
+    });

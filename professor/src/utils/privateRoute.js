@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { getDataFromStorage } from "./storage";

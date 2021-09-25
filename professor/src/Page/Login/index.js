@@ -43,16 +43,6 @@ const Box = styled.div`
 
 filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
 `;
-
-const Title = styled.div`
-  text-align: center;
-  width: 500px;
-  display: block;
-  font-size: 30px;
-  margin-bottom: 50px;
-  margin: 0 auto;
-`;
-
 const Find = styled.div`
   margin-top: 22px;
   margin-bottom: 22px;

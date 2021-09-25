@@ -5,27 +5,49 @@ import { useHistory } from "react-router-dom";
 import InputWithLabel from "./InputWithLabel";
 import FindButton from "./FindButton";
 import Modal from "./Modal";
+import Header from "../../Common/Header";
+import Footer from "../../Common/Footer";
 import { saveDataToStorage } from "../../utils/storage";
 
 const Label = styled.div`
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  margin-bottom: 0.75rem;
+font-family: Roboto;
+font-style: normal;
+font-weight: 500;
+font-size: 25px;
+line-height: 29px;
+margin-left: 144px;
+margin-top: 60px;
+color: #686868;
+margin-bottom: 20px;
 `;
 const Box = styled.div`
   display: block;
-  width: 500px;
+  width: 730px;
   margin: 0 auto;
-  margin-top: 50px;
   margin-bottom: 100px;
+  background-color: white;
+  border: 1px solid #EF8F88;
+  height: 502px;
+
+filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
 `;
-const Title = styled.div`
+const TextBox = styled.div`
+  width: 730px;
+  height: 117px;
+  background-color: #EF8F88;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 47px;
   text-align: center;
-  width: 500px;
-  display: block;
-  font-size: 30px;
-  margin-bottom: 50px;
-`;
+  margin: 0 auto;
+  padding-top: 39px;
+  margin-top: 85px;
+
+  color: #FFFFFF;
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+`
 
 const SendBox = styled.button`
   padding: 6px 12px;
@@ -184,22 +206,26 @@ const FindIdPw = () => {
   }, [data.mobile]);
 
   return (
+    <>
+    <Header />
+      <TextBox>이메일/비밀번호 찾기</TextBox>
     <Box>
-      <Title>이메일/비밀번호 찾기</Title>
       <Label>이메일 찾기</Label>
       <FindButton onClick={openFindEmail}>이메일 찾기</FindButton>
       <br></br>
       <Label>비밀번호 찾기</Label>
       <InputWithLabel
-        label="이메일"
         name="email"
-        placeholder="이메일"
+        placeholder="이메일(아이디)를 입력하세요"
         type="text"
         value={data.email}
         onChange={changeHandler}
       />
       <FindButton onClick={openFindPw}>비밀번호 찾기</FindButton>
 
+
+
+    </Box>
       <Modal open={ data.findEmail } close={ closeFindEmail } submit={ smsSubmitHandler } header="이메일 찾기">
         {data.emailRes ? <EmailText>이메일은 { data.emailRes }입니다</EmailText> : null }
         <Label>이름</Label>
@@ -239,7 +265,9 @@ const FindIdPw = () => {
           onChange={changeHandler}
         />
       </Modal>
-    </Box>
+
+      <Footer />
+    </>
   );
 }
 

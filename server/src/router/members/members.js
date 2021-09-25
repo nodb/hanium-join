@@ -120,7 +120,7 @@ export const readMemberIdMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department, birthDate \
+    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department, birthDate, profileImg \
     FROM tb_member WHERE id = ?",
     [id]
   );
@@ -223,7 +223,7 @@ export const updateStudentMd = async (ctx, next) => {
   const imageName = profileImg ? profileImg.name : null;
 
   const row = await conn.query(
-    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
+    "SELECT name, grade, department, studentID, profileImg, mobile FROM tb_member WHERE id = ?",
     [id]
   );
 
@@ -263,7 +263,8 @@ export const updateProfessorMd = async (ctx, next) => {
   const { id } = ctx.params;
   const { conn } = ctx.state;
 
-  const { name, password, department, professorID, mobile } = ctx.request.body;
+
+  let { name, password, department, professorID, mobile } = ctx.request.body;
 
   const profileImg =
     ctx.request.files === undefined ? null : ctx.request.files.profileImg;
@@ -271,7 +272,7 @@ export const updateProfessorMd = async (ctx, next) => {
   const imageName = profileImg ? profileImg.name : null;
 
   const row = await conn.query(
-    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
+    "SELECT name, grade, department, studentID, profileImg, mobile FROM tb_member WHERE id = ?",
     [id]
   );
 

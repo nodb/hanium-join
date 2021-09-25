@@ -42,12 +42,6 @@ box-sizing: border-box;
 margin-top: 20px;
 `;
 
-const RelatvieBox = styled.div`
-  width: 200px;
-  position: relative;
-  left: 465px;
-  bottom: 350px;
-`;
 
 function P07_StudnentList({students}){
 
@@ -87,8 +81,6 @@ function P07_StudnentList({students}){
     return checked.length === 1;
   }
 
-  const history = useHistory();
-
   const insertHandler= async (e) => {
     const body = stud;
 
@@ -96,6 +88,7 @@ function P07_StudnentList({students}){
       await insertStudentsApi(code, body);
       await studentListAll(code);
       console.log("클릭!");
+      fetch();
     } catch(e){
       alert(e);
     }

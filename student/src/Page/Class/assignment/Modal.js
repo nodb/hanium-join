@@ -5,10 +5,20 @@ import styled from "styled-components";
 import { useChats } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 
+import Chat from "../../../images/chat.png";
+
 const Btn = styled.button`
-  width: 50px;
-  height: 50px;
-  background: black;
+  background: none;
+  border: none;
+  width: 130px;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+  color: #89c0b7;
+`;
+
+const ChatImg = styled.img`
+  width: 40px;
 `;
 
 const Box = styled.div`
@@ -31,53 +41,52 @@ const Top = styled.div`
 
   div {
     margin-left: 170px;
-    margin-top : 10px; 
+    margin-top: 10px;
   }
   button {
-    font-weight:bold;
-    background-color : transparent;
-    color : #000000;
-    border : 0;
+    font-weight: bold;
+    background-color: transparent;
+    color: #000000;
+    border: 0;
     border-radius: 10px;
     height: 35px;
     width: 60px;
-    margin-right : 10px;
+    margin-right: 10px;
     font-size: 30px;
   }
-`
+`;
 
 const Bottom = styled.div`
   width: 400px;
   height: 50px;
   display: flex;
   justify-content: space-between;
-  
+
   button {
-    font-weight:bold;
-    background-color : white;
+    font-weight: bold;
+    background-color: white;
     color: #89c0b7;
-    border : 0;
+    border: 0;
     border-radius: 10px;
     height: 35px;
     width: 60px;
-    margin-top : 5px;
-    margin-right : 15px;
+    margin-top: 5px;
+    margin-right: 15px;
     font-size: 15px;
   }
 
   input {
     border: 0;
-    width : 300px;
-    height : 30px;
-    background-color : #89c0b7;
-    margin-left : 20px;
-    margin-top : 5px;
-    outline:2px solid #89c0b7;
+    width: 300px;
+    height: 30px;
+    background-color: #89c0b7;
+    margin-left: 20px;
+    margin-top: 5px;
+    outline: 2px solid #89c0b7;
   }
-`
+`;
 
-const UserBox = styled.div`
-`
+const UserBox = styled.div``;
 
 const LeftBox = styled.div`
   font-family: Roboto;
@@ -85,21 +94,21 @@ const LeftBox = styled.div`
 
   height: fit-content;
 
-  background-color: #EBE7E7;
+  background-color: #ebe7e7;
   font-weight: bold;
-  
+
   width: fit-content;
   padding: 0.84rem;
   max-width: 70%;
   margin-left: 2.5rem;
   margin-top: 15px;
   border-radius: 10px;
-`
+`;
 
 const RightBox = styled.div`
   font-family: Roboto;
   height: fit-content;
-  width : fit-content;
+  width: fit-content;
 
   max-width: 70%;
   text-align: right;
@@ -110,7 +119,7 @@ const RightBox = styled.div`
   padding: 0.84rem;
   margin: 15px 2.5rem 0 auto;
   border-radius: 10px;
-`
+`;
 
 const ModalBox = styled.div`
   z-index: 99;
@@ -124,7 +133,7 @@ const ModalBox = styled.div`
   border-radius: 30px;
   @keyframes modal-show {
     from {
-      opacity: '0',
+      opacity: "0";
       margin-top: -50px;
     }
     to {
@@ -140,8 +149,7 @@ const ModalBox = styled.div`
       opacity: 1;
     }
   }
-`
-
+`;
 
 let socket;
 
@@ -171,7 +179,7 @@ const Modal = (match) => {
 
   useEffect(() => {
     socket.on("message", (content) => {
-      if(content) {
+      if (content) {
         console.log(content);
         concatChat(content);
       }
@@ -216,28 +224,37 @@ const Modal = (match) => {
           </Top>
           <Box>
             {chatList.results.map((chat) => {
-              if(chat.id === studentInfo.id) {
+              if (chat.id === studentInfo.id) {
                 return (
-                    <>
-                      <RightBox>{chat.contents}</RightBox>
-                    </>
-                )
+                  <>
+                    <RightBox>{chat.contents}</RightBox>
+                  </>
+                );
               } else {
                 return (
-                    <>
-                      <LeftBox>{chat.contents}</LeftBox>
-                    </>
-                )
+                  <>
+                    <LeftBox>{chat.contents}</LeftBox>
+                  </>
+                );
               }
             })}
           </Box>
           <Bottom>
-            <input name="message" value={state.message} onChange={onTextChange}/>
+            <input
+              name="message"
+              value={state.message}
+              onChange={onTextChange}
+            />
             <button onClick={sendMessage}>전송</button>
           </Bottom>
         </ModalBox>
       )}
-      <Btn onClick={onToggle} open={open} />
+      <div>
+        <ChatImg src={Chat} alt="chat" />
+        <Btn onClick={onToggle} open={open}>
+          팀 커뮤니티 창
+        </Btn>
+      </div>
     </>
   );
 };

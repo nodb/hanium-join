@@ -1,11 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import InputWithLabel from "./InputWithLabel";
 import FindButton from "./FindButton";
 import Modal from "./Modal";
 import Header from "../../Common/Header";
 import Footer from "../../Common/Footer";
+import { saveDataToStorage } from "../../utils/storage";
 
 const Label = styled.div`
 font-family: Roboto;
@@ -69,6 +71,7 @@ const EmailText = styled.div`
 `;
 
 const FindIdPw = () => {
+  const history = useHistory();
   const [data, setData] = useState({
     findEmail: false,
     findPw: false,
@@ -103,13 +106,19 @@ const FindIdPw = () => {
     });
   };
 
+  const closeFindPw = () => {
+    setData({
+      ...data,
+      findPw: false,
+    })
+  }
   const sendSmsHandler = async () => {
     console.log("문자전송");
     const body = {
       name: data.name,
       mobile: data.mobile,
     };
-    const res = await axios.post("/api/v1//verify/sms", body);
+    const res = await axios.post("/api/v1/verify/sms", body);
 
     if (res.data.success) {
       setData({
@@ -119,7 +128,31 @@ const FindIdPw = () => {
     }
   };
 
-  const submitHandler = async () => {
+  const openFindPw = async () => {
+    const regExp 
+      = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if(!regExp.test(data.email)){
+      alert("잘못된 이메일 형식입니다.");
+      return;
+    }
+    const body = { email: data.email };
+    try {
+      const response = await axios.post("/api/v1/verify/email", body);
+      if(response.data.success){
+        setData({
+          ...data,
+          findPw: true,
+        })
+      } else {
+        alert("이메일 전송 실패");
+      }
+    } catch (e) {
+      console.log(e);
+      alert("이메일 전송 실패");
+    }
+  }
+
+  const smsSubmitHandler = async () => {
     const body = {
       name: data.name,
       mobile: data.mobile,
@@ -139,6 +172,23 @@ const FindIdPw = () => {
       alert("정보가 없습니다.");
     }
   };
+
+  const emailSubmitHandler = async () => {
+    const body = {
+      email: data.email,
+      verifyCode: data.verifyCode,
+    };
+    try {
+      const response = await axios.post("/api/v1/verify/email/verify", body);
+      if(response.data){
+        saveDataToStorage(response.data);
+      }
+      console.log("인증성공");
+      history.push("/professor/changePw");
+    } catch (e) {
+      alert("인증번호가 틀렸습니다.");
+    }
+  }
 
   useEffect(() => {
     if (data.mobile.length === 10) {
@@ -171,12 +221,12 @@ const FindIdPw = () => {
         value={data.email}
         onChange={changeHandler}
       />
-      <FindButton>비밀번호 찾기</FindButton>
+      <FindButton onClick={openFindPw}>비밀번호 찾기</FindButton>
 
 
 
     </Box>
-      <Modal open={ data.findEmail } close={ closeFindEmail } submit={ submitHandler } header="이메일 찾기">
+      <Modal open={ data.findEmail } close={ closeFindEmail } submit={ smsSubmitHandler } header="이메일 찾기">
         {data.emailRes ? <EmailText>이메일은 { data.emailRes }입니다</EmailText> : null }
         <Label>이름</Label>
         <InputWithLabel
@@ -204,7 +254,19 @@ const FindIdPw = () => {
           onChange={changeHandler}
         />
       </Modal>
-    <Footer />
+
+      <Modal open={ data.findPw } close={ closeFindPw } submit={ emailSubmitHandler } header="비밀번호 변경">
+        <Label>인증번호</Label>
+        <InputWithLabel
+          name="verifyCode"
+          placeholder="인증번호"
+          type="text"
+          value={data.verifyCode}
+          onChange={changeHandler}
+        />
+      </Modal>
+
+      <Footer />
     </>
   );
 }

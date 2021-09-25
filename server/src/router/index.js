@@ -8,7 +8,7 @@ import verification from "./verification";
 import terms from "./terms";
 import report from "./report";
 import comments from "./comments";
-// import discuss from "./discuss";
+import discuss from "./discuss";
 import chats from "./chats";
 
 const router = new Router({
@@ -22,8 +22,8 @@ router.use("/enrol", enrol.routes());
 router.use("/assignments", assignments.routes());
 router.use("/verify", verification.routes());
 router.use("/terms", terms.routes());
+router.use("/discuss", discuss.routes());
 router.use("/report", report.routes());
-// router.use("/discuss", discuss.routes());
 router.use("/comments", comments.routes());
 router.use("/chats", chats.routes());
 

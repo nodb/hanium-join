@@ -48,7 +48,7 @@ function P07_TeamList({ students }) {
   const { code } = useParams();
 
   const {studentListAll} = useEnrolment();
-  const { deleteStudentsApi } = useTeams();
+  const {teamList, listAllTeams, deleteTeamApi, deleteStudentsApi } = useTeams();
 
   const [stud, setStud] = useState(
     []
@@ -71,17 +71,12 @@ function P07_TeamList({ students }) {
     }
   }
 
-
-  console.log(stud);
-  
   const studentCheck = (id) => {
     let checked = [];
     checked = stud.filter((data) => data.memberId === id);
 
     return checked.length === 1;
   }
-
-  const history = useHistory();
   
   const deleteHandler= async (e) => {
     let members = [];
@@ -90,6 +85,7 @@ function P07_TeamList({ students }) {
     })
     try {
       await deleteStudentsApi(`memberId=${members}&teamId=${students.id}`);
+      await listAllTeams(code);
       console.log(members);
       await studentListAll(code);
     } catch(e){

@@ -18,7 +18,7 @@ const WrapBox = styled.div`
 
 const Box = styled.div`
   border: 1px solid #000000;
-  width: 1100px;
+  width: 90%;
   height: 250px;
   overflow: scroll;
   margin-top: 10px;
@@ -29,17 +29,13 @@ const Box = styled.div`
   justify-content: space-between;
 `;
 
-const Buttons = styled.div`
-
-`
-
 const DeleteButton = styled.div`
 font-family: Roboto;
 font-style: normal;
 font-weight: normal;
-font-size: 15px;
+font-size: 19px;
 line-height: 18px;
-text-align: right;
+margin-left: 87%;
 margin-top: -30px;
 color: #7C7979;
 `
@@ -49,7 +45,7 @@ background: #FFFFFF;
 border: 1px dashed #000000;
 box-sizing: border-box;
 
-width: 1100px;
+width: 90%;
 height: 250px;
 margin-top: 92px;
 text-align: center;
@@ -70,7 +66,7 @@ const Text = styled.div`
 `;
 
 const TitleBox = styled.div`
-  width: 1100px;
+  width: 100%;
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -85,7 +81,12 @@ const LinkButton = styled.div`
   color: #426589;
   font-size: 18px;
   text-align: center;
-  margin-left: 980px;
+  margin-left: 80%;
+  cursor: pointer;
+  :hover{
+    background-color: #426589;
+    color: white;
+  }
 `;
 
 const NoBox = styled.div`
@@ -201,7 +202,7 @@ const P05_04 = () => {
             <Text>Team{item.name}</Text>
             <DeleteButton onClick={() => {deleteHandler(item.id)}}>삭제</DeleteButton>
             <Box>
-              <StudentBox students={item.team}></StudentBox>;
+              <StudentBox students={item.team}></StudentBox>
             </Box>
           </>
         );

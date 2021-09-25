@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import P05 from "./Page/Class/Enrolment/P05_04";
 import P06 from "./Page/Class/Team/P06";
-import P07 from "./Page/Class/Team/P07_05";
+import P07 from "./Page/Class/Team/SetTeam";
 import P12 from "./Page/Class/Assignment/P12";
 import P13 from "./Page/Class/Assignment/P13";
 
@@ -33,11 +33,7 @@ const ClassParent = () => {
         <Route path="/professor/class/:code/enrol" exact component={P05} />
         <Route path="/professor/class/:code/team" exact component={P06} />
         <Route path="/professor/class/:code/assign" exact component={P07} />
-        <Route
-          path="/professor/class/:code/report"
-          exact
-          component={Report}
-        />
+        <Route path="/professor/class/:code/report" exact component={Report} />
         <Route
           path="/professor/class/:code/assignment/:id"
           exact
@@ -68,7 +64,6 @@ const ClassParent = () => {
           exact
           component={P13}
         />
-        
       </Switch>
     </>
   );

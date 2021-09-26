@@ -1,25 +1,46 @@
 import React, { useState, useEffect, useCallback } from "react";
 import InputWithLabel from "./InputWithLabel";
 import RegisterButton from "./RegisterButton";
+import BackButton from "./BackButton";
 import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { useHistory } from "react-router-dom";
 import { typeParameter } from "@babel/types";
 import { useMember } from "../../components";
+import Header from "../../Common/Header";
+import Footer from "../../Common/Footer";
+
 
 const Box = styled.div`
-  display: block;
-  width: 500px;
+display: block;
+padding-left: 65px;
+  width: 1041px;
+  height: 590px;
+  margin-top: 30px;
+  margin-bottom: 200px;
+  padding: 0 auto;
+  padding-top: 80px;
   margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 100px;
+  background-color: white;
+  border: 4px solid #89C0B7;
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
 `;
-const Title = styled.div`
+const TextBox = styled.div`
+width: 1041px;
+height: 116.19px;
+  background: #89C0B7;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 47px;
   text-align: center;
-  width: 500px;
-  display: block;
-  font-size: 30px;
-  margin-bottom: 50px;
+  margin: 0 auto;
+  padding-top: 39px;
+  margin-top: 85px;
+
+  color: #FFFFFF;
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
 `;
 
 function Register(props) {
@@ -114,9 +135,11 @@ function Register(props) {
   }
 
   return (
+    <>
+    <Header />
+      <TextBox>회원가입</TextBox>
     <Box>
-
-      <Title>회원가입</Title>
+      
       <InputWithLabel
         label="이름"
         type="text"
@@ -176,7 +199,10 @@ function Register(props) {
         onChange={handleChange}
       />
       <RegisterButton onClick={onSubmitHandler}>회원가입</RegisterButton>
+      <BackButton>뒤로가기</BackButton>
     </Box>
+    <Footer />
+    </>
   );
 }
 

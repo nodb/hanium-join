@@ -120,12 +120,14 @@ const MyAssignment = () => {
                 <tr key={index}>
                   <td>{index+1}</td>
                   <td>{item.className}</td>
+                  <td>
                   <Link
                     to={`/professor/class/${item.code}/assignment/${index+1}`}
                     style={{ textDecoration: "inherit", color: "inherit" }}
                     >
-                    <td>{item.assignmentName}</td>
+                    {item.assignmentName}
                   </Link>
+                  </td>
                   <td>{DateChange(item.startDate)}</td>
                   <td>{DateChange(item.endDate)}</td>
                 </tr>

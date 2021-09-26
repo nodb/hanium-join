@@ -140,7 +140,7 @@ function MyModify(props) {
       try {
         await infoModifyApi(professor.id, formData);
         alert("수정되었습니다.");
-        history.push(`/professor/mypage/${code}/myinfo`);
+        history.push(`/professor/mypage/myinfo`);
       } catch (e) {
         alert(e);
       }

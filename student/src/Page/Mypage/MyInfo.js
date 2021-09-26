@@ -134,12 +134,11 @@ function MyInfo() {
       <Hr />
       <InfoBox>
       <Myimg>
-          { memberInfo.profileImg && (
+          {/* { memberInfo.profileImg && (
           <img
-            // src={require("../../images/person_default.png").default}
             src={memberInfo.profileImg}
             alt="이미지"
-            /> )}
+            /> )} */}
           <img
             src={require("../../images/person_default.png").default}
             alt="이미지"

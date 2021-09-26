@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 const Wrapper = styled.button`
 display: block;
 text-align: center;
 margin: 0 auto;
   padding-top: 9px;
-  padding-bottom: 6px;  
-  margin-top: 30px;
+  padding-bottom: 6px;
   border: #89C0B7 2px solid;
   width: 250px;
 height: 38px;
@@ -21,17 +21,19 @@ line-height: 23px;
   user-select: none;
   transition: 0.2s all;
   margin-bottom: 1rem;
-    background: #FFFFFF;
+  background: #FFFFFF;
     color: #89C0B7;
-
   :hover{
+color: #FFFFFF;
     background: #89C0B7;
-    color: #FFFFFF;
   }
 `;
 
 const RegisterButton = ({ children, ...rest }) => (
-  <Wrapper {...rest}>{children}</Wrapper>
+    <Link
+    to="/register/terms"
+    style={{ textDecoration: "none", color: "black" }}
+  ><Wrapper {...rest}>{children}</Wrapper></Link>
 );
 
 export default RegisterButton;

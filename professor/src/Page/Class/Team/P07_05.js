@@ -160,16 +160,23 @@ function P07_05() {
 
   const fetch = async() => {
     try{
+      await studentListAll(code);
       await listAllTeams(code);
+
     } catch (e) {
       alert(e);
     } 
   }
 
   const [students, setStudents] = useState(teamList.results[0]);
+  const [currentTeam, setcurrentTeams] = useState(0);
   const [stud, setStud] = useState(
     []
   );
+
+  useEffect(() => {
+    setStudents(teamList.results[currentTeam])
+  }, [teamList.results])
 
   const stud_checkboxChange = (e) => {
     const {name, checked} = e.target;
@@ -206,7 +213,9 @@ function P07_05() {
   }
 
   const teamClick = (e) => {
-    setStudents(teamList.results[Number(e.target.value)-1]);
+    const target = e.target.value;
+    setStudents(teamList.results[Number(target)-1]);
+    setcurrentTeams(target-1);
   }
 
     
@@ -278,10 +287,8 @@ function P07_05() {
           <ListText>학생목록</ListText>
           <SBox>
         <Form>
-          {studentList.results.map((data) =>     
-              {students.team.map((student)=> { 
-                {(data.id !== student.member_id) ? (
-                      <StudentBox>
+          {studentList.count >0  && studentList.results.map((data) =>     
+              {  return(   <StudentBox>
                         <FormGroup>
                           <Label check>    
                             <Input
@@ -295,8 +302,9 @@ function P07_05() {
                           </Label>
                         </FormGroup>
                       </StudentBox>
-                ) : (<></>) }
-          })})}
+              )
+                 }
+          )}
         </Form>
       </SBox>
       <AddArrow style={{ backgroundColor: "white" }} onClick={insertHandler}>

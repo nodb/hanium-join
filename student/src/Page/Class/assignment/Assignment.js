@@ -1,20 +1,41 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Form, FormGroup, Label, Col, Input, Button } from "reactstrap";
-import { DateChange, DateChange2 } from "../../../utils/dateChange";
+import { DateChange2, CommentDateChange } from "../../../utils/dateChange";
 import { useAssignments, useComments } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
+import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
 
 const Box = styled.div`
-  width: 80%;
+  width: 1100px;
+  button {
+    color: white;
+    background-color: #6f91b5;
+    font-weight: bold;
+  }
+`;
+
+const GoSubmit = styled.div`
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: fit-content;
+  vertical-align: middle;
+
+  p {
+    font-family: Roboto;
+    font-weight: bold;
+    color: #6f91b5;
+  }
 `;
 
 export const Assignment = ({ match }) => {
   const history = useHistory();
   const assignmentId = match.params.id;
   const { assignmentOne, getAssignment } = useAssignments();
+  const { code } = useParams();
 
   const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
     useComments();
@@ -86,7 +107,13 @@ export const Assignment = ({ match }) => {
   };
 
   const submitHandler = () => {
-    history.push(`/student/class/1/main/assignment/${assignmentId}/submit`);
+    history.push(
+      `/student/class/${code}/main/assignment/${assignmentId}/submit`
+    );
+  };
+
+  const listHandler = () => {
+    history.push(`/student/class/${code}/main`);
   };
 
   return (
@@ -103,7 +130,7 @@ export const Assignment = ({ match }) => {
           <Label
             for="name"
             sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            style={{ fontWeight: "bold", paddingLeft: "5px", fontSize: "20px" }}
           >
             과제
           </Label>
@@ -119,12 +146,14 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="name"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: "5px", color: "#7C7979" }}
           >
             과제명
           </Label>
-          <Col sm={10}>{assignmentOne.name}</Col>
+          <Col sm={10} style={{ fontWeight: "bold" }}>
+            {assignmentOne.name}
+          </Col>
         </FormGroup>
         <FormGroup
           row
@@ -137,12 +166,12 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: "5px", color: "#7C7979" }}
           >
             공개일
           </Label>
-          <Col sm={5}>{DateChange(assignmentOne.startDate)}</Col>
+          <Col sm={5}>{DateChange2(assignmentOne.startDate)}</Col>
         </FormGroup>
         <FormGroup
           row
@@ -155,12 +184,12 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{ fontWeight: "bold", paddingLeft: "5px", color: "#7C7979" }}
           >
             마감일
           </Label>
-          <Col sm={5}>{DateChange(assignmentOne.endDate)}</Col>
+          <Col sm={5}>{DateChange2(assignmentOne.endDate)}</Col>
         </FormGroup>
         <FormGroup
           row
@@ -173,8 +202,12 @@ export const Assignment = ({ match }) => {
         >
           <Label
             for="point"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            sm={1}
+            style={{
+              fontWeight: "bold",
+              paddingLeft: "10px",
+              color: "#7C7979",
+            }}
           >
             배점
           </Label>
@@ -184,8 +217,9 @@ export const Assignment = ({ match }) => {
           row
           style={{
             marginLeft: 3,
-            padding: "15px 0px",
+            padding: "30px 10px",
             borderBottom: "3px solid #C4C4C4",
+            fontSize: "16px",
           }}
         >
           {assignmentOne.content}
@@ -196,14 +230,19 @@ export const Assignment = ({ match }) => {
           row
           style={{
             marginLeft: 3,
-            padding: "7px 0px",
+            padding: "4px 0px",
             borderBottom: "1px solid #C4C4C4",
           }}
         >
           <Label
             for="name"
             sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px" }}
+            style={{
+              fontWeight: "bold",
+              paddingLeft: "5px",
+              color: "#EF8F88",
+              fontSize: "20px",
+            }}
           >
             댓글
           </Label>
@@ -213,19 +252,26 @@ export const Assignment = ({ match }) => {
             <FormGroup
               row
               style={{
-                marginLeft: 3,
+                marginLeft: 5,
                 padding: "7px 0px",
-                borderBottom: "1px solid #C4C4C4",
               }}
             >
               <Label
                 for="name"
                 sm={2}
-                style={{ fontWeight: "bold", paddingLeft: "5px" }}
+                style={{
+                  fontWeight: "bold",
+                  paddingLeft: "5px",
+                  fontSize: "15px",
+                }}
               >
-                {comment.name} ({DateChange2(comment.createdAt)})
+                {comment.name} ({CommentDateChange(comment.createdAt)})
               </Label>
-              <Label for="contents" sm={6} style={{ paddingLeft: "5px" }}>
+              <Label
+                for="contents"
+                sm={6}
+                style={{ paddingLeft: "5px", fontSize: "15px" }}
+              >
                 {comment.contents}
               </Label>
               {comment.memberId === studentInfo.id && (
@@ -252,7 +298,7 @@ export const Assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Col sm={7}>
+          <Col sm={8}>
             <Input
               type="conmment"
               name="contents"
@@ -262,25 +308,28 @@ export const Assignment = ({ match }) => {
             />
           </Col>
           <Col>
-            <Button size="sm" onClick={submitCommentHandler}>
+            <button
+              class="btn btn-secondary btn-sm"
+              onClick={submitCommentHandler}
+            >
               확인
-            </Button>
+            </button>
           </Col>
         </FormGroup>
       </Form>
-      <div class="form-inline pb-4 mt-3">
-        <p onClick={submitHandler}>과제 제출하러 가기</p>
-      </div>
+      <GoSubmit onClick={submitHandler}>
+        <img src={GoSubmitAssignment} />
+        <p style={{ marginLeft: "5px" }}>과제 제출하러 가기</p>
+      </GoSubmit>
       <tr>
-        <Link to="/student/class/main">
-          <button
-            href="#"
-            class="btn btn-secondary btn-sm"
-            style={{ fontSize: "12px" }}
-          >
-            목록
-          </button>
-        </Link>
+        <button
+          href="#"
+          class="btn btn-secondary btn-sm"
+          style={{ fontSize: "12px" }}
+          onClick={listHandler}
+        >
+          목록
+        </button>
       </tr>
     </Box>
   );

@@ -121,7 +121,7 @@ function Register(props) {
         password: data.pw,
         mobile: data.mobile,
         birthDate: data.birth,
-        type:"P",
+        type:"S",
       };
 
       try {

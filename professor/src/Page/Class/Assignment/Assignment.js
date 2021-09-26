@@ -5,6 +5,7 @@ import { useAssignments, useComments, useTeams } from "../../../components/Use";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { getDataFromStorage } from "../../../utils/storage";
 import styled from "styled-components";
+import { CTLoading, useLoading } from "../../../components";
 
 const Box = styled.div`
   width: 80%;
@@ -29,6 +30,8 @@ const assignment = ({ match }) => {
   const assignmentId = match.params.id;
   const professorInfo = getDataFromStorage();
 
+  const { loading, setLoading } = useLoading(true);
+
   const [data, setData] = useState({
     contents: "",
   });
@@ -52,6 +55,8 @@ const assignment = ({ match }) => {
         await listAllTeams(code);
       } catch (e) {
         alert(e);
+      } finally {
+        await setLoading(false);
       }
     };
     fetch();
@@ -63,7 +68,9 @@ const assignment = ({ match }) => {
         await getAssignment(assignmentId);
       } catch (e) {
         alert(e);
-      }
+      } finally {
+        await setLoading(false);
+    }
     };
     fetch();
   }, []);
@@ -120,7 +127,9 @@ const assignment = ({ match }) => {
       });
     } catch (e) {
       alert(e);
-    }
+    } finally {
+      await setLoading(false);
+  }
   };
 
   const deleteCommentHandler = async (commentId) => {
@@ -133,12 +142,18 @@ const assignment = ({ match }) => {
       });
     } catch (e) {
       alert(e);
-    }
+    } finally {
+      await setLoading(false);
+     }
   };
 
   if (!data) return "로딩중";
 
   return (
+
+    loading ? (
+      <CTLoading />
+     ) : (
     <Box>
       <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
@@ -341,6 +356,7 @@ const assignment = ({ match }) => {
         </FormGroup>
       </Form>
     </Box>
+  )
   );
 };
 

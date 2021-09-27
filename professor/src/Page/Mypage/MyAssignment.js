@@ -122,7 +122,7 @@ const MyAssignment = () => {
                   <td>{item.className}</td>
                   <td>
                   <Link
-                    to={`/professor/class/${item.code}/assignment/${index+1}`}
+                    to={`/professor/class/${item.classCode}/assignment/${item.id}`}
                     style={{ textDecoration: "inherit", color: "inherit" }}
                     >
                     {item.assignmentName}

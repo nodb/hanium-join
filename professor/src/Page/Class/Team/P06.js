@@ -20,13 +20,13 @@ const Box = styled.div`
   border: 1px solid #000000;
   width: 90%;
   height: 250px;
-  overflow: scroll;
+  overflow-y: scroll;
   margin-top: 10px;
   margin-bottom: 30px;
   padding: 30px 30px 30px 30px;
-  flex-wrap: nowrap;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: left;
 `;
 
 const DeleteButton = styled.div`

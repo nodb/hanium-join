@@ -170,9 +170,7 @@ function P07_05() {
 
   const [students, setStudents] = useState(teamList.results[0]);
   const [currentTeam, setcurrentTeams] = useState(0);
-  const [stud, setStud] = useState(
-    []
-  );
+  const [stud, setStud] = useState([]);
 
   useEffect(() => {
     setStudents(teamList.results[currentTeam])
@@ -219,9 +217,9 @@ function P07_05() {
   }
 
     
-  const stud_studentCheck = (id) => {
+  const stud_studentCheck = (id, data) => {
     let checked = [];
-    checked = stud.filter((data) => data.memberId === id );
+    checked = stud.filter((data) => data.memberId === id)
     return checked.length === 1;
   }
 
@@ -242,7 +240,7 @@ function P07_05() {
       console.log("클릭!");
       fetch();
     } catch(e){
-      alert(e);
+      alert("이미 팀이 지정된 학생이 있습니다.");
     }
   }
 
@@ -255,7 +253,6 @@ function P07_05() {
     try {
       await deleteStudentsApi(`memberId=${members}&teamId=${students.id}`);
       await listAllTeams(code);
-      console.log(members);
       await studentListAll(code);
     } catch(e){
       alert(e);
@@ -287,13 +284,15 @@ function P07_05() {
           <ListText>학생목록</ListText>
           <SBox>
         <Form>
-          {studentList.count >0  && studentList.results.map((data) =>     
-              {  return(   <StudentBox>
+          {studentList.count > 0 && studentList.results.map((data) =>     
+              { 
+                return(
+                    <StudentBox>
                         <FormGroup>
                           <Label check>    
                             <Input
                               type="checkbox"
-                              checked={stud_studentCheck(data.id)}
+                              checked={stud_studentCheck(data.id, data)}
                               name={data.id}
                               onChange={stud_checkboxChange}
                               style={{ marginRight: "5px" }}
@@ -302,8 +301,8 @@ function P07_05() {
                           </Label>
                         </FormGroup>
                       </StudentBox>
-              )
-                 }
+                      )
+              }
           )}
         </Form>
       </SBox>

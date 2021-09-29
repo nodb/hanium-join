@@ -11,6 +11,8 @@ export const teamMemberList = createAction(
   TeamsApi.teamMemberList
 );
 
+
+
 export const getTeams = createAction(GET_TEAMS, TeamsApi.get);
 
 const initialState = Map({
@@ -34,7 +36,7 @@ export default handleActions(
     ...pender({
       type: GET_TEAMS,
       onSuccess: (state, action) => {
-        return state.set("list", fromJS(action.payload.data));
+        return state.set("team", fromJS(action.payload.data));
       },
     }),
   },

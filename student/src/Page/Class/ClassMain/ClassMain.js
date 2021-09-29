@@ -52,7 +52,7 @@ const S05_05_06 = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      await listAllByClassCode();
+      await listAllByClassCode(code);
     };
     fetch();
   }, []);

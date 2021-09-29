@@ -31,11 +31,10 @@ const GoSubmit = styled.div`
   }
 `;
 
-export const Assignment = ({ match }) => {
+export const Assignment = () => {
   const history = useHistory();
-  const assignmentId = match.params.id;
   const { assignmentOne, getAssignment } = useAssignments();
-  const { code } = useParams();
+  const { code, id } = useParams();
 
   const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
     useComments();
@@ -49,34 +48,24 @@ export const Assignment = ({ match }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await getAssignment(assignmentId);
+        await getAssignment(id);
+        await listAllComments(id);
       } catch (e) {
         alert(e);
       }
     };
     fetch();
   }, []);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await listAllComments(assignmentId);
-      } catch (e) {
-        alert(e);
-      }
-    };
-    fetch();
-  }, []);
-
+  
   const submitCommentHandler = async () => {
     try {
       const request = {
         memberId: studentInfo.id,
-        assignmentId: assignmentId,
+        assignmentId: id,
         contents: data.contents,
       };
       await createCommentApi(request);
-      await listAllComments(assignmentId);
+      await listAllComments(id);
       setData({
         ...data,
         contents: "",
@@ -89,7 +78,7 @@ export const Assignment = ({ match }) => {
   const deleteCommentHandler = async (commentId) => {
     try {
       await deleteCommentApi(commentId);
-      await listAllComments(assignmentId);
+      await listAllComments(id);
       setData({
         ...data,
         contents: "",
@@ -108,7 +97,7 @@ export const Assignment = ({ match }) => {
 
   const submitHandler = () => {
     history.push(
-      `/student/class/${code}/main/assignment/${assignmentId}/submit`
+      `/student/class/${code}/main/assignment/${id}/submit`
     );
   };
 

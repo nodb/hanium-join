@@ -177,7 +177,6 @@ const Modal = (match) => {
   useEffect(() => {
     const fetch = async () => {
       await listAllChats(match.assignmentTeamId);
-      console.log(chatList);
     };
     fetch();
   }, []);
@@ -204,7 +203,6 @@ const Modal = (match) => {
   const sendMessage = async () => {
     try {
       const msg = data.message.replace(/\s/gi, "");
-      console.log(msg);
       if (msg === "") {
         throw "";
       }

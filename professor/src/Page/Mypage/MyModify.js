@@ -3,12 +3,8 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import InputWithLabel from "./InputWithLabel";
 import ImageInputWithLabel from "./ImageInputWithLabel";
 import {
-  Col,
-  Button,
   Form,
   FormGroup,
-  Label,
-  Input,
   FormText,
 } from "reactstrap";
 
@@ -65,10 +61,8 @@ const BackButton = styled.button`
   border: #EF8F88;
 `
 
-function MyModify(props) {
+function MyModify() {
   const history = useHistory();
-
-  const { code } = useParams();
 
   const professor = getDataFromStorage();
 
@@ -166,14 +160,14 @@ function MyModify(props) {
       formData.append("profileImg", image);
 
       try {
-        await infoModifyApi(professor.id, formData);
         alert("수정되었습니다.");
-        history.push(`/professor/mypage/myinfo`);
+        await infoModifyApi(professor.id, formData);
       } catch (e) {
         alert(e);
       }
     }
   };
+
   if (!data) return "로딩중";
   console.log(image);
   return (
@@ -263,25 +257,27 @@ function MyModify(props) {
       <br />
       <ImageInputWithLabel
         label="프로필 사진"
-        type="file" name="profileImg" onChange={imageChange}/>
+        type="file" 
+        name="profileImg" 
+        onChange={imageChange}/>
       <br />
       <FormText color="muted">
         뒤로가면 작성한 내용이 반영되지 않습니다.<br />
         "저장하기" 버튼을 눌러주세요.
       </FormText>
+
       <br />
+
         <Link
           to="/professor/mypage/myinfo"
           style={{ textDecoration: "none", color: "black" }}
         >
           <BackButton>뒤로가기</BackButton>
-        </Link>
-        
-          <SubmitButton onClick={onModifyHandler}>
-            <Link 
-          to="/professor/mypage/myinfo"
-          style={{ textDecoration: "none", color: "white" }}
-        >제출하기 </Link></SubmitButton>
+        </Link> 
+
+        <SubmitButton onClick={onModifyHandler}>
+          제출하기 
+        </SubmitButton>
          
     </Form>
     </InputBox>

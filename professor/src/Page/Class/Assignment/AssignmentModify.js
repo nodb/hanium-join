@@ -26,13 +26,13 @@ const Box = styled.div`
 `;
 
 const Text = styled.div`
-font-family: Roboto;
-font-style: normal;
-font-weight: 400;
-  color: #EF8F88;
-  margin-top : 10px;
-  margin-left : 160px;
-`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  color: #ef8f88;
+  margin-top: 10px;
+  margin-left: 160px;
+`;
 
 const AssignmentModify = ({ match }) => {
   const assignmentId = match.params.id;
@@ -137,7 +137,7 @@ const AssignmentModify = ({ match }) => {
       formData.append("content", data.content);
       formData.append("progress", 1);
       formData.append("classCode", code);
-      formData.append("teams", []);
+      formData.append("teams", teams);
       formData.append("image", image);
 
       await updateAssignmentsApi(assignmentId, formData);
@@ -307,7 +307,7 @@ const AssignmentModify = ({ match }) => {
         <FormGroup style={{ marginTop: "20px" }}>
           <Label
             for="imageFile"
-            sm={2}
+            sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             첨부 파일
@@ -320,15 +320,15 @@ const AssignmentModify = ({ match }) => {
           />
         </FormGroup>
         <FormGroup style={{ marginTop: "10px" }}>
-          <Label for="solutionFile" sm={2} style={{ fontWeight: "bold" }}>
+          <Label for="solutionFile" sm={1} style={{ fontWeight: "bold" }}>
             해답 파일
           </Label>
           <Input type="file" name="solutionFile" id="solutionFile" />
         </FormGroup>
         <Text>
-          * 해답 파일은 학생들에게 공개되지 않으며 자동 채점을 위한 비교 파일입니다.
+          * 해답 파일은 학생들에게 공개되지 않으며 자동 채점을 위한 비교
+          파일입니다.
         </Text>
-        
       </Form>
     </Box>
   );

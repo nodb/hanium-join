@@ -88,7 +88,7 @@ const P09_07 = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await listAllTeams("AZSVBFV");
+        await listAllTeams(code);
       } catch (e) {
         alert(e);
       }

@@ -9,7 +9,7 @@ import Submit from "./Submit";
 import Discuss from "./Discuss";
 import Modal from "./Modal";
 import { getDataFromStorage } from "../../../utils/storage";
-
+import { CTLoading, useLoading } from "../../../components";
 const AssignmentTitle = styled.div`
   width: 152px;
   height: 23px;
@@ -45,39 +45,36 @@ const Title = styled.div`
 const SubmitAndDiscuss = () => {
   const [activeTab, setActiveTab] = useState(true);
 
+  const { loading, setLoading } = useLoading(true);
   const { id, code } = useParams();
   const { assignmentOne, getAssignment, assignmentTeamOne, getAssignmentTeam } =
     useAssignments();
   const { teamList, teamMemberList } = useTeams();
   const studentInfo = getDataFromStorage();
+  const fetch = async () => {
+    try {
+      await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
+      console.log(teamList.teamId);
+      await getAssignment(id);
+    } catch (e) {
+      alert(e);
+    } finally {
+      await getAssignmentTeam(id, teamList.teamId);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
-        await getAssignmentTeam(id, teamList.results[0].teamId);
-        await getAssignment(id);
-      } catch (e) {
-        alert(e);
-      }
-    };
     fetch();
   }, []);
-
-  useEffect(()=> {
-    const fetch = async () => {
-      try {
-      } catch (e) {
-        alert(e);
-      }
-    };
-    fetch();
-  },[])
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <div className="d-flex pt-3 pb-2 mb-3">
         <TitleBox>

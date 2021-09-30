@@ -144,9 +144,15 @@ export const readStudentTeamMd = async (ctx, next) => {
     [classCode, memberId]
   );
 
+  let teamId;
+  for (let i = 0; i < rows.length; i++) {
+    teamId = rows[i].teamId;
+  }
+
   ctx.state.body = {
     results: rows,
     count: rows.length,
+    teamId: teamId,
   };
 
   await next();
@@ -157,7 +163,7 @@ export const deleteStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, teamId } = ctx.query;
 
-  const array = memberId.split(',');
+  const array = memberId.split(",");
 
   console.log(array, teamId);
   await conn.query(

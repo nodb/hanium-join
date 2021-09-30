@@ -7,6 +7,7 @@ import { DateChange2, CommentDateChange } from "../../../utils/dateChange";
 import { useAssignments, useComments } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
+import { CTLoading, useLoading } from "../../../components";
 
 const Box = styled.div`
   width: 1100px;
@@ -39,6 +40,8 @@ export const Assignment = () => {
   const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
     useComments();
 
+  const { loading, setLoading } = useLoading(true);
+
   const studentInfo = getDataFromStorage();
 
   const [data, setData] = useState({
@@ -52,11 +55,13 @@ export const Assignment = () => {
         await listAllComments(id);
       } catch (e) {
         alert(e);
+      } finally {
+        setLoading(false);
       }
     };
     fetch();
   }, []);
-  
+
   const submitCommentHandler = async () => {
     try {
       const request = {
@@ -96,16 +101,16 @@ export const Assignment = () => {
   };
 
   const submitHandler = () => {
-    history.push(
-      `/student/class/${code}/main/assignment/${id}/submit`
-    );
+    history.push(`/student/class/${code}/main/assignment/${id}/submit`);
   };
 
   const listHandler = () => {
     history.push(`/student/class/${code}/main`);
   };
 
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <Form>
         <FormGroup

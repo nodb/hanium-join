@@ -209,12 +209,11 @@ export const readAssginmentByClassCodeMd = async (ctx, next) => {
 
   ctx.state.body = {
     results: rows,
-    count : rows.length
-  }
+    count: rows.length,
+  };
 
   await next();
-
-}
+};
 
 export const removeAssignmentMd = async (ctx, next) => {
   const { conn } = ctx.state;
@@ -246,7 +245,7 @@ export const updateAssignmentMd = async (ctx, next) => {
     classCode,
     teams,
   } = ctx.request.body;
-
+  const array = teams.slice(1, -1).split(/,\s?/);
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
 
@@ -270,12 +269,12 @@ export const updateAssignmentMd = async (ctx, next) => {
     id,
   ]);
 
-  if (!teams) return next();
+  if (!array) return next();
 
-  for (let i = 0; i < teams.length; i += 1) {
-    payload.push([UUID(), 0, id, teams[i], null, null]);
+  for (let i = 0; i < array.length; i += 1) {
+    payload.push([UUID(), 0, id, array[i], null, null]);
   }
-  if (teams.length) {
+  if (array.length) {
     await conn.batch(
       // eslint-disable-next-line max-len
       "INSERT INTO tb_assignment_team(id, isCheck, assignment_id, team_id, contents, file) VALUES (?, ?, ?, ?, ?, ?)",
@@ -353,7 +352,7 @@ export const readAssignmentByTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "select a.name, a.content, at.isCheck, a.startDate, a.endDate " +
+    "select a.id, a.name, a.content, at.isCheck, a.startDate, a.endDate " +
       "from tb_team t " +
       "JOIN tb_assignment_team at ON at.team_id = t.id " +
       "JOIN tb_assignment a ON at.assignment_id = a.id " +
@@ -389,8 +388,8 @@ export const readAll = [
 export const readByClassCode = [
   CommonMd.createConnectionMd,
   readAssginmentByClassCodeMd,
-  CommonMd.responseMd
-]
+  CommonMd.responseMd,
+];
 
 export const readByStudent = [
   CommonMd.validataListParamMd,

@@ -52,6 +52,7 @@ export const saveAssignmentMd = async (ctx, next) => {
     teams,
   } = ctx.request.body;
 
+  const array = teams.split(/,\s?/);
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
 
@@ -81,10 +82,10 @@ export const saveAssignmentMd = async (ctx, next) => {
     ]
   );
 
-  for (let i = 0; i < teams.length; i += 1) {
-    payload.push([UUID(), 0, assignmentId, teams[i], null, null]);
+  for (let i = 0; i < array.length; i += 1) {
+    payload.push([UUID(), 0, assignmentId, array[i], null, null]);
   }
-  if (teams.length) {
+  if (array.length) {
     await conn.batch(
       // eslint-disable-next-line max-len
       "INSERT INTO tb_assignment_team(id, isCheck, assignment_id, team_id, contents, file) VALUES (?, ?, ?, ?, ?, ?)",
@@ -245,7 +246,8 @@ export const updateAssignmentMd = async (ctx, next) => {
     classCode,
     teams,
   } = ctx.request.body;
-  const array = teams.slice(1, -1).split(/,\s?/);
+
+  const array = teams.split(/,\s?/);
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
 

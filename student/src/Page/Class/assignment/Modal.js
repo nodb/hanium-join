@@ -33,7 +33,7 @@ const Modal = (match) => {
 
   return (
     <>
-      {data.open && <ModalChatRoom match={match} />}
+      {data.open && <ModalChatRoom match={match} setOpen={setData} />}
       <div>
         <ChatImg src={Chat} alt="chat" />
         <Btn onClick={onToggle} open={data}>

@@ -44,9 +44,9 @@ const Title = styled.div`
 
 const SubmitAndDiscuss = () => {
   const [activeTab, setActiveTab] = useState(true);
-
   const { loading, setLoading } = useLoading(true);
   const { id, code } = useParams();
+
   const { assignmentOne, getAssignment, assignmentTeamOne, getAssignmentTeam } =
     useAssignments();
   const { teamList, teamMemberList } = useTeams();
@@ -54,12 +54,9 @@ const SubmitAndDiscuss = () => {
   const fetch = async () => {
     try {
       await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
-      console.log(teamList.teamId);
-      await getAssignment(id);
     } catch (e) {
       alert(e);
     } finally {
-      await getAssignmentTeam(id, teamList.teamId);
       setLoading(false);
     }
   };
@@ -67,6 +64,11 @@ const SubmitAndDiscuss = () => {
   useEffect(() => {
     fetch();
   }, []);
+
+  useEffect(() => {
+    getAssignmentTeam(id, teamList.teamId);
+    getAssignment(id);
+  }, [teamList]);
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);

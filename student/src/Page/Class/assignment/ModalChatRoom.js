@@ -118,6 +118,7 @@ const ModalBox = styled.div`
   left: 50%;
   top: 15%;
   border-radius: 30px;
+  box-shadow: 6px 6px 10px -3px rgba(0, 0, 0, 0.25);
   @keyframes modal-show {
     from {
       opacity: "0";
@@ -139,19 +140,13 @@ const ModalBox = styled.div`
 `;
 
 let socket;
-const ModalChatRoom = ({ match }) => {
+const ModalChatRoom = ({ match, setOpen }) => {
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [data, setData] = useState({ name: "", message: "", open: false });
 
   const studentInfo = getDataFromStorage();
   const dispatch = useDispatch();
   const scrollRef = useRef();
-
-  const onToggle = () =>
-    setData({
-      ...data,
-      open: !data.open,
-    });
 
   const { createChatApi, chatList, listAllChats } = useChats();
 
@@ -174,7 +169,9 @@ const ModalChatRoom = ({ match }) => {
         dispatch(concatChat(message[0]));
       }
     });
-    return socket.disconnect();
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const scrollToBottom = () => {
@@ -220,7 +217,11 @@ const ModalChatRoom = ({ match }) => {
       <ModalBox>
         <Top>
           <div>수업 명1</div>
-          <button onClick={onToggle} open={data.open}>
+          <button
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
             X
           </button>
         </Top>

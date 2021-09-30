@@ -79,7 +79,7 @@ const P09_07 = () => {
     console.log(image);
     try {
       await createAssignmentsApi(formData);
-      history.push(`/professor/class/${code}/assignmentList`);
+      history.goBack();
     } catch (e) {
       alert(e);
     }

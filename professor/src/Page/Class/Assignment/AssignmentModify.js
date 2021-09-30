@@ -34,10 +34,8 @@ const Text = styled.div`
   margin-left: 160px;
 `;
 
-const AssignmentModify = ({ match }) => {
-  const assignmentId = match.params.id;
-
-  const { code } = useParams();
+const AssignmentModify = () => {
+  const { code, id } = useParams();
 
   const { assignmentOne, getAssignment, updateAssignmentsApi } =
     useAssignments();
@@ -99,18 +97,8 @@ const AssignmentModify = ({ match }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
+        await getAssignment(id);
         await listAllTeams(code);
-      } catch (e) {
-        alert(e);
-      }
-    };
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await getAssignment(assignmentId);
       } catch (e) {
         alert(e);
       }
@@ -127,7 +115,15 @@ const AssignmentModify = ({ match }) => {
     setTeams(assignmentOne.team);
   }, [assignmentOne]);
 
+  console.log(teams);
+
   const modifyHandler = async () => {
+    let team = [];
+    for (let i = 0; i < teams.length; i++) {
+      let temp = team.concat(teams[i].team_id);
+      team = temp;
+    }
+    console.log(team);
     try {
       const formData = new FormData();
       formData.append("name", data.name);
@@ -137,11 +133,11 @@ const AssignmentModify = ({ match }) => {
       formData.append("content", data.content);
       formData.append("progress", 1);
       formData.append("classCode", code);
-      formData.append("teams", teams);
+      formData.append("teams", team);
       formData.append("image", image);
 
-      await updateAssignmentsApi(assignmentId, formData);
-      history.push(`/professor/class/${code}/assignment/${assignmentId}`);
+      await updateAssignmentsApi(id, formData);
+      history.goBack();
     } catch (e) {
       alert(e);
     }

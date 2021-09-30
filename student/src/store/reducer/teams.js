@@ -11,14 +11,13 @@ export const teamMemberList = createAction(
   TeamsApi.teamMemberList
 );
 
-
-
 export const getTeams = createAction(GET_TEAMS, TeamsApi.get);
 
 const initialState = Map({
   list: Map({
     count: 0,
     results: List([]),
+    teamId: null,
   }),
   team: Map({
     id: "",

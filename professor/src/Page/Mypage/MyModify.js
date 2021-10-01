@@ -162,6 +162,7 @@ function MyModify() {
       try {
         alert("수정되었습니다.");
         await infoModifyApi(professor.id, formData);
+        history.push("/professor/mypage/myinfo");
       } catch (e) {
         alert(e);
       }

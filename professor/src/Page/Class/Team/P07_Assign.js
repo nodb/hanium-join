@@ -1,5 +1,7 @@
-import React from "react";
+import React,{useState} from "react";
 import styled from "styled-components";
+import { Link, useParams} from "react-router-dom";
+import { useTeams } from "../../../components/Use";
 
 const Block = styled.div`
   display: flex;
@@ -122,6 +124,44 @@ color: #000000;
 `
 
 function P07_Assign({ open, close }) {
+
+  const { code } = useParams();
+
+  const { createRandomTeamsApi, listAllTeams } = useTeams();
+
+  const [team, setTeams] = useState('');
+  const [student, setStudents] = useState('');
+
+  const handleTeamChange = (e) => {
+    setTeams(e.target.value);
+    console.log(e.target.value);
+  }
+
+  const handleStudentChange = (e) => {
+    setStudents(e.target.value);
+    console.log(e.target.value);
+  }
+
+  const SubmitButton = async (e) => {
+    const body = {
+      teamNum : team,
+      studentNum: student,
+    };
+
+    try{
+      await createRandomTeamsApi(code, body);
+      <Link
+        to={`/professor/class/${code}/team`}>
+      </Link>
+      await listAllTeams(code);
+      alert("팀배정이 완료되었습니다.");
+    }catch(e){
+      alert(e);
+    }
+
+    close();
+  }
+
   return (
     <>
       {open && (
@@ -129,14 +169,14 @@ function P07_Assign({ open, close }) {
           <ModalBlock>
             <Header>자동 편성</Header>
             <Text>팀 개수</Text>
-            <CodeInput type="input" placeholder="편성할 팀 개수를 입력하여 주세요. ex)5"/>
+            <CodeInput type="text" value={team} onChange={handleTeamChange} placeholder="편성할 팀 개수를 입력하여 주세요. ex)5"/>
             <Text>학생 수</Text>
-            <CodeInput type="input" placeholder="팀 당 학생 수를 입력하여 주세요. ex)4"/>
+            <CodeInput type="text" value={student} onChange={handleStudentChange} placeholder="팀 당 학생 수를 입력하여 주세요. ex)4"/>
             <Buttons>
               <CloseButton onClick={close}>
                 취소
               </CloseButton>
-              <AddButton onClick={close}>
+              <AddButton onClick={()=>{SubmitButton()}}>
                 완료
               </AddButton>
             </Buttons>

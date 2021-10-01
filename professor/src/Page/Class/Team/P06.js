@@ -148,7 +148,7 @@ const P05_04 = () => {
   const deleteHandler = async(id) => {
     try{
       await deleteTeamApi(id);
-      alert("수정되었습니다.");
+      alert("삭제되었습니다.");
       <Link
         to={`/professor/class/${code}/enrol`}>
       </Link>
@@ -162,7 +162,6 @@ const P05_04 = () => {
   const createHandler = async(e) => {
     try{
       await createTeamApi(code);
-      alert("수정되었습니다.");
       <Link
         to={`/professor/class/${code}/enrol`}>
       </Link>

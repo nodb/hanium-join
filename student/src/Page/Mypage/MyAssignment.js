@@ -134,7 +134,7 @@ const MyAssignment = () => {
               return (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{item.class_code}</td>
+                  <td>{item.className}</td>
                   <td>
                   <Link
                     to={`/student/class/${item.class_code}/main/assignment/${index+1}`}
@@ -142,10 +142,10 @@ const MyAssignment = () => {
                     {item.name}
                   </Link>
                   </td>
-                  {item.isCheck === 1 && (
+                  {item.progress === 1 && (
                     <td>제출</td>
                   )}
-                  {item.isCheck === 0 && (
+                  {item.progress === 0 && (
                     <td>미제출</td>
                   )}
                   <td>{DateChange(item.startDate)}</td>

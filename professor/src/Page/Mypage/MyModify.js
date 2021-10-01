@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import InputWithLabel from "../Register/InputWithLabel";
+import { useHistory, useParams, Link } from "react-router-dom";
+import InputWithLabel from "./InputWithLabel";
+import ImageInputWithLabel from "./ImageInputWithLabel";
 import {
-  Col,
-  Button,
   Form,
   FormGroup,
-  Label,
-  Input,
   FormText,
 } from "reactstrap";
 
@@ -17,7 +14,10 @@ import styled from "styled-components";
 import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
-
+const InputBox = styled.span`
+  overflow: scroll;
+  height: 730px;
+`
 const Box = styled.div`
   width: 80%;
 `;
@@ -35,12 +35,34 @@ const Hr = styled.hr`
   width: 100%;
   height: 0px;
   border: 4px solid #c4c4c4;
+  margin-bottom: 38px;
 `;
 
-function MyModify(props) {
-  const history = useHistory();
+const SubmitButton = styled.button`
+  width: 100px;
+  height: 28.36px;
+  left: 370px;
+  top: 830px;
 
-  const { code } = useParams();
+  background:  #6F91B5;
+  color: white;
+  border: #6F91B5;
+`
+const BackButton = styled.button`
+  width: 100px;
+  height: 28.36px;
+  left: 370px;
+  top: 830px;
+  margin-right: 10px;
+  margin-left: 220px;
+
+  background:  #EF8F88;
+  color: white;
+  border: #EF8F88;
+`
+
+function MyModify() {
+  const history = useHistory();
 
   const professor = getDataFromStorage();
 
@@ -138,14 +160,15 @@ function MyModify(props) {
       formData.append("profileImg", image);
 
       try {
-        await infoModifyApi(professor.id, formData);
         alert("수정되었습니다.");
-        history.push(`/professor/mypage/myinfo`);
+        await infoModifyApi(professor.id, formData);
+        history.push("/professor/mypage/myinfo");
       } catch (e) {
         alert(e);
       }
     }
   };
+
   if (!data) return "로딩중";
   console.log(image);
   return (
@@ -156,14 +179,10 @@ function MyModify(props) {
       {data.errName && data.errMessage && (
         <AlertBox available={false}>{data.errMessage}</AlertBox>
       )}
-
+    <InputBox>
       <Form>
-        <FormGroup row>
-          <Label for="" sm={2}>
-            이메일
-          </Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="이메일"
               type="email"
               name="email"
               id="exampleEmail"
@@ -171,40 +190,26 @@ function MyModify(props) {
               onChange={handleChange}
               value={data.email}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label for="" sm={2}>
-            비밀번호
-          </Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="비밀번호"
               type="password"
               name="pw"
               value={data.pw}
               onChange={handleChange}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>비밀번호 확인</Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="비밀번호 확인"
               type="password"
               name="pwC"
               id="examplePassword"
               onChange={handleChange}
               value={data.pwC}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>이름</Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="이름"
               type="name"
               name="name"
               id="exampleName"
@@ -212,34 +217,24 @@ function MyModify(props) {
               onChange={handleChange}
               value={data.name}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>학과</Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="학과"
               type="department"
               name="department"
               placeholder="학과를 입력하세요"
               onChange={handleChange}
               value={data.department}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>학번</Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="학번"
               type="professorID"
               name="professorID"
               placeholder="학번을 입력하세요"
               onChange={handleChange}
               value={data.professorID}
             />
-          </Col>
-        </FormGroup>
         <br />
       <FormGroup row>
       <InputWithLabel
@@ -252,7 +247,6 @@ function MyModify(props) {
       />
       </FormGroup>
       <br />
-      <FormGroup row>
       <InputWithLabel
         label="전화번호"
         name="mobile"
@@ -261,28 +255,33 @@ function MyModify(props) {
         value={data.mobile}
         onChange={handleChange}
       />
-      </FormGroup>
       <br />
-      <FormGroup row>
-        <Label sm={2} for="imageFile">
-          프로필 사진
-        </Label>
-        <Col sm={10}>
-          <Input type="file" name="profileImg" onChange={imageChange}/>
-        </Col>
-      </FormGroup>
+      <ImageInputWithLabel
+        label="프로필 사진"
+        type="file" 
+        name="profileImg" 
+        onChange={imageChange}/>
       <br />
       <FormText color="muted">
-        뒤로가면 작성한 내용이 반영되지 않습니다.
+        뒤로가면 작성한 내용이 반영되지 않습니다.<br />
+        "저장하기" 버튼을 눌러주세요.
       </FormText>
+
       <br />
-      <br />
-      <FormGroup check row>
-        <Col sm={{ size: 10, offset: 2 }}>
-          <Button onClick={onModifyHandler}>Submit</Button>
-        </Col>
-      </FormGroup>
+
+        <Link
+          to="/professor/mypage/myinfo"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <BackButton>뒤로가기</BackButton>
+        </Link> 
+
+        <SubmitButton onClick={onModifyHandler}>
+          제출하기 
+        </SubmitButton>
+         
     </Form>
+    </InputBox>
     </Box>
   );
 }

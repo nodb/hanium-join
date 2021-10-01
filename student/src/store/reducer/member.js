@@ -40,7 +40,8 @@ export default handleActions(
     ...pender({
       type: LISTALL_MEMBER,
       onSuccess: (state, action) => {
-        return state.set("list", fromJS(action.payload.data));
+        const data = action.payload.data;
+        return state.set("list", fromJS(data));
       },
     }),
     ...pender({

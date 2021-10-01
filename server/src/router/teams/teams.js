@@ -19,6 +19,11 @@ export const saveTeamMd = async (ctx, next) => {
   await next();
 };
 
+export const saveRandomTeamMd = async (ctx, next) => {
+  const { teams, students } = ctx.state.reqBody;
+  let randteams = students / teams
+}
+
 export const readTeamAllMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { classCode } = ctx.params;
@@ -69,20 +74,6 @@ export const readTeamMemberAllMd = async (ctx, next) => {
     count: rows.length,
     results: rows,
   };
-
-  await next();
-};
-
-export const queryTeamMd = async (ctx, next) => {
-  const { name, classCode } = ctx.request.body;
-  const { conn } = ctx.state;
-
-  const rows = await conn.query(
-    "SELECT id, name, class_code FROM tb_team WHERE name = ? AND class_code = ?",
-    [name, classCode]
-  );
-
-  ctx.state.body = rows[0];
 
   await next();
 };
@@ -174,12 +165,39 @@ export const deleteStudentTeamMd = async (ctx, next) => {
   await next();
 };
 
+export const studentsNoTeamMd = async (ctx, next) => {
+  const { conn } = ctx.state;
+  const { classCode } = ctx.params;
+
+  const rows = await conn.query(
+    "SELECT m.id, m.name, m.department, m.grade from tb_enrol e \
+    LEFT JOIN tb_team_member tm ON e.member_id = tm.member_id \
+    JOIN tb_member m ON m.id = e.member_id \
+    WHERE e.class_code=? AND tm.team_id is null",
+    [classCode]
+  );
+
+  console.log(classCode);
+  ctx.state.body = {
+    count: rows.length,
+    results: rows,
+  }
+
+  await next();
+}
+
 export const create = [
   CommonMd.createConnectionMd,
   saveTeamMd,
-  queryTeamMd,
   CommonMd.responseMd,
 ];
+
+// 랜덤 팀 편성
+export const randomTeam = [
+  CommonMd.createConnectionMd,
+  saveRandomTeamMd,
+  CommonMd.responseMd,
+]
 
 // 팀원 전체 조회
 export const readAll = [
@@ -216,3 +234,10 @@ export const readStudentTeam = [
   readStudentTeamMd,
   CommonMd.responseMd,
 ];
+
+// 팀이 없는 학생 조회
+export const studentsNoTeam = [
+  CommonMd.createConnectionMd,
+  studentsNoTeamMd,
+  CommonMd.responseMd,
+]

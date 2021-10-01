@@ -1,4 +1,5 @@
 import Koa from "koa";
+import serve from 'koa-static';
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
 import cors from "koa-cors";
@@ -53,9 +54,8 @@ const main = async () => {
     app.use(jwtMd);
     app.use(socketMd);
     app.use(Router.routes()).use(Router.allowedMethods());
-
+    app.use(serve(path.join(__dirname, "../upload")));
     server.listen(3000);
-
     console.log("Join web server started [port:3000]");
   } catch (e) {
     console.log(e);

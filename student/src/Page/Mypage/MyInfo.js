@@ -4,7 +4,9 @@ import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
 import { Link } from "react-router-dom";
 
-const Box = styled.div``;
+const Box = styled.div`
+  width: 80%;
+`;
 
 const Page = styled.div`
   color: #3d3d3d;
@@ -16,7 +18,7 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 97%;
+  width: 100%;
   height: 0px;
   border: 4px solid #c4c4c4;
 `;
@@ -117,9 +119,9 @@ function MyInfo() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const professor = getDataFromStorage();
-        await getInfo(professor.id);
-        console.log(professor)
+        const student = getDataFromStorage();
+        await getInfo(student.id);
+        console.log(student)
       } catch (err) {
         console.log(err);
       }
@@ -133,20 +135,21 @@ function MyInfo() {
       <Page>내 프로필</Page>
       <Hr />
       <InfoBox>
-      <Myimg>
-          {/* { memberInfo.profileImg && (
+        {console.log(memberInfo.profileImg)}
+        <Myimg>
+          { memberInfo.profileImg ? (
           <img
-            src={memberInfo.profileImg}
+            src={`/${memberInfo.profileImg}`}
             alt="이미지"
-            /> )} */}
-          <img
+            /> ) : (<img
             src={require("../../images/person_default.png").default}
             alt="이미지"
-          />
+          />)}
+          
         </Myimg>
         <Info>
           <Name> {memberInfo.name} </Name>{" "}
-          <Major> ( {memberInfo.department} ) </Major>
+          <Major> ( {memberInfo.department} / {memberInfo.grade}학년 ) </Major>
           <Email>
             <img src={require("../../images/Email.png").default} alt="이메일" />
             {memberInfo.email}

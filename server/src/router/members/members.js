@@ -212,7 +212,7 @@ export const updateStudentMd = async (ctx, next) => {
   const { id } = ctx.params;
   const { conn } = ctx.state;
 
-  const { name, password, grade, department, studentID, mobile } =
+  let { name, password, grade, department, studentID, mobile } =
     ctx.request.body;
 
   const profileImg =
@@ -234,10 +234,9 @@ export const updateStudentMd = async (ctx, next) => {
   mobile = mobile === undefined ? row[0].mobile : mobile;
 
   if (password === undefined) {
-    password = row[0].password;
     await conn.query(
       "UPDATE tb_member SET name = ?, grade = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
-      [name, password, grade, department, studentID, imageName, mobile, id]
+      [name, grade, department, studentID, imageName, mobile, id]
     );
   } else {
     const sql =

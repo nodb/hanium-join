@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useTeams, useEnrolment } from "../../../components/Use";
-import TeamList from "./P07_TeamList";
+import { useTeams } from "../../../components/Use";
 
 const Text = styled.div`
 font-family: Roboto;
@@ -98,7 +97,7 @@ const AddArrow = styled.button`
 const StudentBox = styled.div`
   width: 180px;
   font-size: 18px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 `;
 
 const SBox = styled.div`
@@ -149,27 +148,36 @@ const TBox = styled.div`
 const TStudentBox = styled.div`
   width: 180px;
   font-size: 18px;
-  margin-bottom: 10px;
 `;
+
+const StudentHr = styled.hr`
+width: 300px;
+`
+
 
 
 function P07_05() {
   const { code } = useParams();
-  const { teamList, listAllTeams, insertStudentsApi, deleteStudentsApi } = useTeams();
-  const {studentList, studentListAll} = useEnrolment();
+  const { noteamList, studentsNoTeam, teamList, listAllTeams, insertStudentsApi, deleteStudentsApi } = useTeams();
+
 
   const fetch = async() => {
     try{
+      await studentsNoTeam(code);
       await listAllTeams(code);
+
     } catch (e) {
       alert(e);
     } 
   }
 
   const [students, setStudents] = useState(teamList.results[0]);
-  const [stud, setStud] = useState(
-    []
-  );
+  const [currentTeam, setcurrentTeams] = useState(0);
+  const [stud, setStud] = useState([]);
+
+  useEffect(() => {
+    setStudents(teamList.results[currentTeam])
+  }, [teamList.results])
 
   const stud_checkboxChange = (e) => {
     const {name, checked} = e.target;
@@ -206,13 +214,15 @@ function P07_05() {
   }
 
   const teamClick = (e) => {
-    setStudents(teamList.results[Number(e.target.value)-1]);
+    const target = e.target.value;
+    setStudents(teamList.results[Number(target)-1]);
+    setcurrentTeams(target-1);
   }
 
     
   const stud_studentCheck = (id) => {
-    let checked = [];
-    checked = stud.filter((data) => data.memberId === id );
+    let checked = [0];
+    checked = stud.filter((data) => data.memberId === id)
     return checked.length === 1;
   }
 
@@ -228,12 +238,12 @@ function P07_05() {
 
     try {
       await insertStudentsApi(code, body);
-      await studentListAll(code);
+      await studentsNoTeam(code);
       await listAllTeams(code);
       console.log("클릭!");
       fetch();
     } catch(e){
-      alert(e);
+      alert("이미 팀이 지정된 학생이 있습니다.");
     }
   }
 
@@ -246,8 +256,7 @@ function P07_05() {
     try {
       await deleteStudentsApi(`memberId=${members}&teamId=${students.id}`);
       await listAllTeams(code);
-      console.log(members);
-      await studentListAll(code);
+      await studentsNoTeam(code);
     } catch(e){
       alert(e);
     }
@@ -278,25 +287,27 @@ function P07_05() {
           <ListText>학생목록</ListText>
           <SBox>
         <Form>
-          {studentList.results.map((data) =>     
-              {students.team.map((student)=> { 
-                {(data.id !== student.member_id) ? (
-                      <StudentBox>
+          {noteamList.count > 0 && noteamList.results.map((data) =>     
+              { 
+                return(
+                    <StudentBox>
                         <FormGroup>
                           <Label check>    
                             <Input
                               type="checkbox"
-                              checked={stud_studentCheck(data.id)}
+                              checked={stud_studentCheck(data.id, data)}
                               name={data.id}
                               onChange={stud_checkboxChange}
                               style={{ marginRight: "5px" }}
                             />
                             {data.name}({data.grade}학년)
+                            <StudentHr />
                           </Label>
                         </FormGroup>
                       </StudentBox>
-                ) : (<></>) }
-          })})}
+                      )
+              }
+          )}
         </Form>
       </SBox>
       <AddArrow style={{ backgroundColor: "white" }} onClick={insertHandler}>
@@ -336,6 +347,7 @@ function P07_05() {
                         onChange={team_checkboxChange}
                       /> &nbsp;
                       {student.name}({student.grade}학년)
+                      <StudentHr />
                   </Label>
                 </FormGroup>
               </TStudentBox>

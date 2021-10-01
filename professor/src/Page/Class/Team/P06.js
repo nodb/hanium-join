@@ -20,22 +20,32 @@ const Box = styled.div`
   border: 1px solid #000000;
   width: 90%;
   height: 250px;
-  overflow: scroll;
+  overflow-y: scroll;
   margin-top: 10px;
   margin-bottom: 30px;
   padding: 30px 30px 30px 30px;
-  flex-wrap: nowrap;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: left;
 `;
 
-const DeleteButton = styled.div`
+const DeleteButton = styled.span`
 font-family: Roboto;
 font-style: normal;
 font-weight: normal;
 font-size: 19px;
 line-height: 18px;
-margin-left: 87%;
+margin-left: 0%;
+color: #7C7979;
+`
+
+const ModifyButton = styled.span`
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 19px;
+line-height: 18px;
+margin-left: 83%;
 margin-top: -30px;
 color: #7C7979;
 `
@@ -133,7 +143,7 @@ const P05_04 = () => {
   };
 
   const {studentList, studentListAll} = useEnrolment();
-  const {teamList, listAllTeams, deleteTeamApi } = useTeams();
+  const {teamList, listAllTeams, deleteTeamApi, createTeamApi } = useTeams();
 
   const deleteHandler = async(id) => {
     try{
@@ -148,7 +158,20 @@ const P05_04 = () => {
     } 
   }
 
-
+  
+  const createHandler = async(e) => {
+    try{
+      await createTeamApi(code);
+      alert("수정되었습니다.");
+      <Link
+        to={`/professor/class/${code}/enrol`}>
+      </Link>
+      await listAllTeams(code);
+    } catch(e){
+      alert(e);
+    }
+  }
+  
   const fetch = async() => {
     try{
       await studentListAll(code);
@@ -159,6 +182,7 @@ const P05_04 = () => {
       await setLoading(false);
     };
   }
+  
   
   useEffect(()=> {
     fetch();
@@ -200,17 +224,21 @@ const P05_04 = () => {
         return (
           <>
             <Text>Team{item.name}</Text>
+            <span>
+            <Link to={`/professor/class/${code}/assign`}
+                  style={{textDecoration: "none", color:"inherit"}}>
+              <ModifyButton>수정 | </ModifyButton>
+            </Link>
             <DeleteButton onClick={() => {deleteHandler(item.id)}}>삭제</DeleteButton>
+            </span>
             <Box>
               <StudentBox students={item.team}></StudentBox>
             </Box>
           </>
         );
       })}
-      <CreateBox>
-        <Link to={`/professor/class/${code}/assign`}>
+      <CreateBox onClick={() => {createHandler()}}>
           <img src={require('../../../images/plus_team.png').default} alt="팀 추가" />
-        </Link>
       </CreateBox>
       <Assign open={Modal} close={ModalClose}></Assign>
         </>

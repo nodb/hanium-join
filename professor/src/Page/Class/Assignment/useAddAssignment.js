@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Button, Form, FormGroup, Label, Input, Col } from "reactstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { useAssignments, useTeams } from "../../../components/Use";
-import styled from "styled-components";
 
 
 const P09_07 = () => {
@@ -51,7 +49,7 @@ const P09_07 = () => {
     console.log(image);
     try {
       await createAssignmentsApi(formData);
-      history.push(`/professor/class/${code}/assignmentList`);
+      history.goBack();
     } catch (e) {
       alert(e);
     }
@@ -60,7 +58,7 @@ const P09_07 = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await listAllTeams("AZSVBFV");
+        await listAllTeams(code);
       } catch (e) {
         alert(e);
       }

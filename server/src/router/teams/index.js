@@ -26,4 +26,5 @@ router.post("/students/:classCode", ...teams.insertStudentTeam);
 
 // 팀 삭제
 router.delete("/:teamId", ...teams.removeTeam);
+
 export default router;

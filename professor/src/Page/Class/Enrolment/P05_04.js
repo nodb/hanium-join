@@ -64,6 +64,8 @@ const P05_04 = ({ match }) => {
 
   const { loading, setLoading } = useLoading(true);
 
+  console.log(loading);
+
   const code = match.params.code;
 
   const fetch = async () => {

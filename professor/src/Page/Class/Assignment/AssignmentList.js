@@ -89,13 +89,17 @@ const assignmentList = () => {
     }
   };
 
+  const addHandler = () => {
+    history.push(`/professor/class/${code}/addAssignment`);
+  };
+
   return (
     <Box>
       <div className="d-flex justify-content-between pt-3 pb-2 mb-3">
         <p style={{ fontWeight: "bold" }}>등록된 과제 확인</p>
-        <Link to={`/professor/class/${code}/addAssignment`}>
-          <button size="sm">추가</button>
-        </Link>
+        <button size="sm" onClick={addHandler}>
+          추가
+        </button>
       </div>
       <Assignment>
         <Table size="sm">
@@ -113,7 +117,11 @@ const assignmentList = () => {
               return (
                 <tr>
                   <th>{index + 1}</th>
-                  <th onClick={() => handler(assignment.id)}>
+                  <th
+                    onClick={() => {
+                      handler(assignment.id);
+                    }}
+                  >
                     {assignment.name}
                   </th>
                   <th>{assignment.progress === 1 ? "진행 중" : "마감"}</th>

@@ -7,6 +7,7 @@ import { DateChange2, CommentDateChange } from "../../../utils/dateChange";
 import { useAssignments, useComments } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
+import { CTLoading, useLoading } from "../../../components";
 
 const Box = styled.div`
   width: 1100px;
@@ -31,14 +32,15 @@ const GoSubmit = styled.div`
   }
 `;
 
-export const Assignment = ({ match }) => {
+export const Assignment = () => {
   const history = useHistory();
-  const assignmentId = match.params.id;
   const { assignmentOne, getAssignment } = useAssignments();
-  const { code } = useParams();
+  const { code, id } = useParams();
 
   const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
     useComments();
+
+  const { loading, setLoading } = useLoading(true);
 
   const studentInfo = getDataFromStorage();
 
@@ -49,20 +51,12 @@ export const Assignment = ({ match }) => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await getAssignment(assignmentId);
+        await getAssignment(id);
+        await listAllComments(id);
       } catch (e) {
         alert(e);
-      }
-    };
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await listAllComments(assignmentId);
-      } catch (e) {
-        alert(e);
+      } finally {
+        setLoading(false);
       }
     };
     fetch();
@@ -72,11 +66,11 @@ export const Assignment = ({ match }) => {
     try {
       const request = {
         memberId: studentInfo.id,
-        assignmentId: assignmentId,
+        assignmentId: id,
         contents: data.contents,
       };
       await createCommentApi(request);
-      await listAllComments(assignmentId);
+      await listAllComments(id);
       setData({
         ...data,
         contents: "",
@@ -89,7 +83,7 @@ export const Assignment = ({ match }) => {
   const deleteCommentHandler = async (commentId) => {
     try {
       await deleteCommentApi(commentId);
-      await listAllComments(assignmentId);
+      await listAllComments(id);
       setData({
         ...data,
         contents: "",
@@ -107,16 +101,16 @@ export const Assignment = ({ match }) => {
   };
 
   const submitHandler = () => {
-    history.push(
-      `/student/class/${code}/main/assignment/${assignmentId}/submit`
-    );
+    history.push(`/student/class/${code}/main/assignment/${id}/submit`);
   };
 
   const listHandler = () => {
     history.push(`/student/class/${code}/main`);
   };
 
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <Form>
         <FormGroup

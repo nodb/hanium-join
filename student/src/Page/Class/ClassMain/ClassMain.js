@@ -8,6 +8,7 @@ import noTeam from "../../../images/support.png";
 
 import { useAssignments, useTeams } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
+import { useLoading, CTLoading } from "../../../components";
 
 const Text = styled.div`
   font-family: "Nanum Gothic", sans-serif;
@@ -44,27 +45,30 @@ const Img = styled.img`
 `;
 
 const S05_05_06 = () => {
-  const { assignmentsList, listAllByClassCode } = useAssignments();
+  const { assignmentByTeamList, getAssignmentsByTeam } = useAssignments();
   const { teamList, teamMemberList } = useTeams();
   const { code } = useParams();
+  const { loading, setLoading } = useLoading(true);
 
   const studentInfo = getDataFromStorage();
 
   useEffect(() => {
     const fetch = async () => {
-      await listAllByClassCode();
+      try {
+        await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
+        await getAssignmentsByTeam(teamList.teamId);
+      } catch (e) {
+        alert(e);
+      } finally {
+        setLoading(false);
+      }
     };
     fetch();
   }, []);
 
-  useEffect(() => {
-    const fetch = async () => {
-      await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
-    };
-    fetch();
-  }, []);
-
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <div>
       <div>
         <Text>팀원</Text>
@@ -86,7 +90,7 @@ const S05_05_06 = () => {
       </div>
       <div>
         <Text>과제</Text>
-        {assignmentsList.results.map((item) => (
+        {assignmentByTeamList.results.map((item) => (
           <AssignmentBox key={item.id} assignment={item} />
         ))}
       </div>

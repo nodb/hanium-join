@@ -24,8 +24,6 @@ export default handleActions(
     [CONCAT_CHATS]: (state, { payload: message }) => {
       let results = state.getIn(["list", "results"]);
       let count = state.getIn(["list", "count"]);
-      console.log(results);
-      console.log(count);
       count += 1;
       results = [...results, message];
       return state

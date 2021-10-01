@@ -4,15 +4,14 @@ import styled from "styled-components";
 import { useMember } from "../../components";
 import InputWithLabel from "./InputWithLabel";
 import LoginButton from "./LoginButton";
-import { saveDataToStorage } from "../../utils/storage"
+import { saveDataToStorage } from "../../utils/storage";
 import Header from "../../Common/Header";
 import Footer from "../../Common/Footer";
-
 
 const TextBox = styled.div`
   width: 730px;
   height: 117px;
-  background-color: #EF8F88;
+  background-color: #ef8f88;
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -23,9 +22,9 @@ const TextBox = styled.div`
   padding-top: 39px;
   margin-top: 85px;
 
-  color: #FFFFFF;
+  color: #ffffff;
   filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
-`
+`;
 
 const Box = styled.div`
   display: block;
@@ -33,10 +32,10 @@ const Box = styled.div`
   margin: 0 auto;
   margin-bottom: 100px;
   background-color: white;
-  border: 1px solid #EF8F88;
+  border: 1px solid #ef8f88;
   height: 502px;
 
-filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
 `;
 const Find = styled.div`
   margin-top: 22px;
@@ -53,36 +52,36 @@ const Find = styled.div`
 `;
 
 const RegisterButton = styled.div`
-text-align: center;
+  text-align: center;
   margin-left: 148px;
   margin-top: 14px;
   padding-top: 15px;
   padding-bottom: 15px;
-  
-background: #FFFFFF;
-  border: #EF8F88 2px solid;
-  width: 434px;
-height: 57px;
-  font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 23px;
-line-height: 27px;
-/* identical to box height */
 
-color: #EF8F88;
+  background: #ffffff;
+  border: #ef8f88 2px solid;
+  width: 434px;
+  height: 57px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 23px;
+  line-height: 27px;
+  /* identical to box height */
+
+  color: #ef8f88;
   cursor: pointer;
   user-select: none;
   transition: 0.2s all;
   margin-bottom: 1rem;
 
-  :hover{
-    background: #EF8F88;
+  :hover {
+    background: #ef8f88;
     color: white;
   }
-`
+`;
 
-const  Login = () => {
+const Login = () => {
   const history = useHistory();
   const { loginApi } = useMember();
   const [data, setData] = useState({
@@ -93,34 +92,34 @@ const  Login = () => {
   const handleChange = (e) => {
     setData({
       ...data,
-      [e.target.name] : e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
-    const submitHandler = async () => {
-      try {
-        const request = {
-          email: data.email,
-          password: data.password,
-        }
+  const submitHandler = async () => {
+    try {
+      const request = {
+        email: data.email,
+        password: data.password,
+      };
 
-        const response = await loginApi(request);
+      const response = await loginApi(request);
 
-        if (response.data) {
-          saveDataToStorage(response.data)
-        }
-
-        history.push("/student/main");
-      } catch(e) {
-        alert("로그인 실패");
+      if (response.data) {
+        saveDataToStorage(response.data);
       }
+
+      history.push("/student/main");
+    } catch (e) {
+      alert("로그인 실패");
+    }
   };
 
   return (
     <>
-<Header />
+      <Header />
 
-        <TextBox>로그인</TextBox>
+      <TextBox>로그인</TextBox>
       <Box>
         <InputWithLabel
           name="email"
@@ -136,9 +135,9 @@ const  Login = () => {
           value={data.password}
           onChange={handleChange}
         />
-       <Link
+        <Link
           to="/findIdPassword"
-          style={{ textDecoration: "none", color: "black", cursor: "pointer"}}
+          style={{ textDecoration: "none", color: "black", cursor: "pointer" }}
         >
           <Find>이메일 / 비밀번호 찾기</Find>
         </Link>
@@ -146,8 +145,7 @@ const  Login = () => {
         <Link
           to="/findIdPassword"
           style={{ textDecoration: "none", color: "black" }}
-        >
-        </Link>
+        ></Link>
         <br></br>
         <Link
           to="/register/terms"
@@ -159,6 +157,6 @@ const  Login = () => {
       <Footer />
     </>
   );
-}
+};
 
 export default withRouter(Login);

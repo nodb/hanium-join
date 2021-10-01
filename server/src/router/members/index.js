@@ -36,4 +36,6 @@ router.put("/professor/:id", ...members.updateProfessor);
 // 삭제
 router.delete("/:id", ...members.remove);
 
+router.put("/changePw", ...members.changePassword);
+
 export default router;

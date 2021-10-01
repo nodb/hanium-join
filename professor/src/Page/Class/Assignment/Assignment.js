@@ -5,6 +5,7 @@ import { useAssignments, useComments, useTeams } from "../../../components/Use";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { getDataFromStorage } from "../../../utils/storage";
 import styled from "styled-components";
+import { CTLoading, useLoading } from "../../../components";
 
 const Box = styled.div`
   width: 80%;
@@ -20,7 +21,6 @@ const Box = styled.div`
     width: 60px;
     height: 30px;
   }
-
 `;
 
 const assignment = ({ match }) => {
@@ -28,6 +28,10 @@ const assignment = ({ match }) => {
   const { code } = useParams();
   const assignmentId = match.params.id;
   const professorInfo = getDataFromStorage();
+
+  const { loading, setLoading } = useLoading(true);
+
+  console.log(loading);
 
   const [data, setData] = useState({
     contents: "",
@@ -45,38 +49,18 @@ const assignment = ({ match }) => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const fetch = async () => {
+    try {
+      await getAssignment(assignmentId);
+      await listAllTeams(code);
+      await listAllComments(assignmentId);
+    } catch (e) {
+      alert(e);
+    } finally {
+      await setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        await listAllTeams(code);
-      } catch (e) {
-        alert(e);
-      }
-    };
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await getAssignment(assignmentId);
-      } catch (e) {
-        alert(e);
-      }
-    };
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    console.log(match.params);
-    const fetch = async () => {
-      try {
-        await listAllComments(assignmentId);
-      } catch (e) {
-        alert(e);
-      }
-    };
     fetch();
   }, []);
 
@@ -97,7 +81,6 @@ const assignment = ({ match }) => {
     let valid = false;
     if (!assignmentOne.team) return valid;
     assignmentOne.team.map((item) => {
-      console.log(item.team_id);
       if (item.team_id === id) {
         valid = true;
       }
@@ -136,9 +119,9 @@ const assignment = ({ match }) => {
     }
   };
 
-  if (!data) return "로딩중";
-
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
         <button

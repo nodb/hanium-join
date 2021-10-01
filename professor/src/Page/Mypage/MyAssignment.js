@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "reactstrap";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useAssignments } from "../../components";
+import { getDataFromStorage } from "../../utils/storage";
+import {DateChange} from "../../utils/dateChange";
 
-const Box = styled.div``;
+const Box = styled.div`
+width: 80%;
+`;
 
 const Page = styled.div`
   color: #3d3d3d;
@@ -15,10 +20,10 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 1032px;
-  height: 0px;
-  border: 4px solid #c4c4c4;
-`;
+width: 100%;
+height: 0px;
+border: 4px solid #C4C4C4;
+`
 
 const IntroText = styled.div`
   padding-left: 30px;
@@ -70,70 +75,64 @@ const Assignment = styled.div`
   }
 `;
 
-const list = [
-  {
-    id: 1,
-    name: "시스템 프로그래밍",
-    content: "최종 과제 제출",
-    submit: true,
-    createdAt: "2021-06-04",
-  },
+const MyAssignment = () => {
 
-  {
-    id: 2,
-    name: "컴퓨터 네트워크",
-    content: "C 소켓 프로그래밍",
-    submit: true,
-    createdAt: "2021-06-01",
-  },
+  const { code } = useParams();
 
-  {
-    id: 3,
-    name: "소프트웨어 공학",
-    content: "Sprint 5",
-    submit: false,
-    createdAt: "2021-06-01",
-  },
-];
+  const { assignmentsTotal, ListTotalAssignments } = useAssignments();
 
-const MyAssignment = (props) => {
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const professor = getDataFromStorage();
+        await ListTotalAssignments(professor.id);
+      } catch(err){
+        console.log(err);
+      }
+    };
+    fetch();
+  }, []);
+
   return (
     <Box>
-      <Page>과제 제출하기</Page>
+      <Page>등록한 과제</Page>
       <Hr />
-      <IntroText>내용을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
+      <IntroText>과제명을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
       <Assignment>
-        <Table size="sm">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>과목</th>
-              <th>내용</th>
-              <th>제출여부</th>
-              <th>과제 등록일</th>
-              <th>과제 마감일</th>
-            </tr>
-          </thead>
-          <tbody>
-            {list &&
-              list.map((item) => {
-                return (
-                  <tr>
-                    <th scope="row">{item.id}</th>
-                    <td>{item.name}</td>
-                    <td>
-                      <Link
-                        to="/professor/class/assignment"
-                        style={{ textDecoration: "none", color: "black" }}
-                      >
-                        {item.content}
-                      </Link>
-                    </td>
-                    <td>{item.submit ? "제출" : "미제출"}</td>
-                    <td>{item.createdAt}</td>
-                  </tr>
-                );
-              })}
+      <Table size="sm">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>과목</th>
+            <th>과제명</th> 
+            <th>과제 등록일</th>
+            <th>과제 마감일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {assignmentsTotal.count === 0 && (
+            <>
+
+            </>
+          )}
+          {assignmentsTotal.results.map((item,index) => {
+              return (
+                <tr key={index}>
+                  <td>{index+1}</td>
+                  <td>{item.className}</td>
+                  <td>
+                  <Link
+                    to={`/professor/class/${item.code}/assignment/${index+1}`}
+                    style={{ textDecoration: "inherit", color: "inherit" }}
+                    >
+                    {item.assignmentName}
+                  </Link>
+                  </td>
+                  <td>{DateChange(item.startDate)}</td>
+                  <td>{DateChange(item.endDate)}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </Assignment>

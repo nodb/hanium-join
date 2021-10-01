@@ -6,6 +6,7 @@ import assignmentsReducer from "./assignments";
 import commentsReducer from "./comments";
 import teamsReducer from "./teams";
 import enrolmentReducer from "./enrolment";
+import reportReducer from "./report";
 
 export default combineReducers({
   pender: penderReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   comments: commentsReducer,
   teams: teamsReducer,
   enrol: enrolmentReducer,
+  report: reportReducer,
 });

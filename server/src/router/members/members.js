@@ -1,7 +1,9 @@
 import Boom from "@hapi/boom";
 import { v4 as UUID } from "uuid";
 import * as CommonMd from "../middlewares";
-import { generateToken } from "../../middlewares/jwtMd";
+import { generateToken, decodeToken } from "../../middlewares/jwtMd";
+import fs from "fs";
+import path from "path";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const { email, password, name, type, mobile, birthDate } = ctx.request.body;
@@ -118,7 +120,7 @@ export const readMemberIdMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department, birthDate \
+    "SELECT id, email, name, type, mobile, createdAt, studentID, grade, department, birthDate, profileImg \
     FROM tb_member WHERE id = ?",
     [id]
   );
@@ -221,7 +223,7 @@ export const updateStudentMd = async (ctx, next) => {
   const imageName = profileImg ? profileImg.name : null;
 
   const row = await conn.query(
-    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
+    "SELECT name, grade, department, studentID, profileImg, mobile FROM tb_member WHERE id = ?",
     [id]
   );
 
@@ -234,7 +236,7 @@ export const updateStudentMd = async (ctx, next) => {
   if (password === undefined) {
     password = row[0].password;
     await conn.query(
-      "UPDATE tb_member SET name = ?, password = ?, grade = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
+      "UPDATE tb_member SET name = ?, grade = ?, department = ?, studentID = ?, profileImg = ?, mobile = ?  WHERE id = ?",
       [name, password, grade, department, studentID, imageName, mobile, id]
     );
   } else {
@@ -261,7 +263,8 @@ export const updateProfessorMd = async (ctx, next) => {
   const { id } = ctx.params;
   const { conn } = ctx.state;
 
-  const { name, password, department, professorID, mobile } = ctx.request.body;
+
+  let { name, password, department, professorID, mobile } = ctx.request.body;
 
   const profileImg =
     ctx.request.files === undefined ? null : ctx.request.files.profileImg;
@@ -269,7 +272,7 @@ export const updateProfessorMd = async (ctx, next) => {
   const imageName = profileImg ? profileImg.name : null;
 
   const row = await conn.query(
-    "SELECT name, grade, department, studentID, profileImage, mobile FROM tb_member WHERE id = ?",
+    "SELECT name, grade, department, studentID, profileImg, mobile FROM tb_member WHERE id = ?",
     [id]
   );
 
@@ -301,6 +304,7 @@ export const updateProfessorMd = async (ctx, next) => {
 
   await next();
 };
+
 export const readMemberAllMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { conn } = ctx.state;
@@ -342,6 +346,36 @@ export const checkMd = async (ctx, next) => {
 
   await next();
 };
+
+export const getTokenMd = async (ctx, next) => {
+  const access_token = ctx.headers.authorization.split(" ")[1];;
+
+  if (!access_token) Boom.badRequest("invalid token");
+  console.log(access_token);
+  
+  const decoded = await decodeToken(access_token);
+  if (Date.now() / 1000 - decoded.iat > 60 * 10) {
+    throw Boom.badRequest("timeout");
+  }
+  console.log(decoded);
+  ctx.state.email = decoded.email;
+
+  await next();
+}
+
+export const changePasswordMd = async (ctx, next) => {
+  const { conn } = ctx.state;
+
+  const { password } = ctx.state.reqBody;
+  
+  const email = ctx.state.email;
+  await conn.query("UPDATE tb_member SET password = password(?) where email = ?", [password, email]);
+
+  ctx.state.body = {
+    success: true,
+  };
+  await next();
+}
 
 // eslint-disable-next-line max-len
 export const create = [
@@ -423,3 +457,11 @@ export const check = [
   checkMd,
   CommonMd.responseMd,
 ];
+
+export const changePassword = [
+  CommonMd.createConnectionMd,
+  getDataFromBodyMd,
+  getTokenMd,
+  changePasswordMd,
+  CommonMd.responseMd,
+]

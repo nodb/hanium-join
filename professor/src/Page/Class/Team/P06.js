@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 import StudentBox from "./P06_Student";
 import Assign from "./P07_Assign";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link, useParams} from "react-router-dom";
 
+import { CTLoading, useLoading } from "../../../components";
 import { useEnrolment, useTeams } from "../../../components/Use";
 import {getDataFromStorage} from "../../../utils/storage";
 
@@ -18,7 +18,7 @@ const WrapBox = styled.div`
 
 const Box = styled.div`
   border: 1px solid #000000;
-  width: 1100px;
+  width: 90%;
   height: 250px;
   overflow: scroll;
   margin-top: 10px;
@@ -29,17 +29,13 @@ const Box = styled.div`
   justify-content: space-between;
 `;
 
-const Buttons = styled.div`
-
-`
-
 const DeleteButton = styled.div`
 font-family: Roboto;
 font-style: normal;
 font-weight: normal;
-font-size: 15px;
+font-size: 19px;
 line-height: 18px;
-text-align: right;
+margin-left: 87%;
 margin-top: -30px;
 color: #7C7979;
 `
@@ -49,7 +45,7 @@ background: #FFFFFF;
 border: 1px dashed #000000;
 box-sizing: border-box;
 
-width: 1100px;
+width: 90%;
 height: 250px;
 margin-top: 92px;
 text-align: center;
@@ -70,7 +66,7 @@ const Text = styled.div`
 `;
 
 const TitleBox = styled.div`
-  width: 1100px;
+  width: 100%;
   height: 80px;
   display: flex;
   justify-content: space-between;
@@ -85,7 +81,12 @@ const LinkButton = styled.div`
   color: #426589;
   font-size: 18px;
   text-align: center;
-  margin-left: 980px;
+  margin-left: 80%;
+  cursor: pointer;
+  :hover{
+    background-color: #426589;
+    color: white;
+  }
 `;
 
 const NoBox = styled.div`
@@ -114,18 +115,19 @@ text-align: center;
 color: #000000;
 `
 
-const team = getDataFromStorage();
+const P05_04 = () => {
 
-function P05_04() {
+  const { code } = useParams();
 
   const history = useHistory();
 
-  const [Modal, setModalOpen] = useState(false);
 
+  const { loading, setLoading } = useLoading(true);
+
+  const [Modal, setModalOpen] = useState(false);
   const ModalOpen = () => {
     setModalOpen(true);
   };
-
   const ModalClose = () => {
     setModalOpen(false);
   };
@@ -133,48 +135,42 @@ function P05_04() {
   const {studentList, studentListAll} = useEnrolment();
   const {teamList, listAllTeams, deleteTeamApi } = useTeams();
 
-
   const deleteHandler = async(id) => {
     try{
       await deleteTeamApi(id);
       alert("수정되었습니다.");
-      history.push("/professor/class/team");
-      await listAllTeams("AZSVBFV");
+      <Link
+        to={`/professor/class/${code}/enrol`}>
+      </Link>
+      await listAllTeams(code);
     } catch(e) {
       alert(e);
     } 
   }
 
-  useEffect(()=> {
-    const fetch = async () =>{
-      try{
-        const classId = getDataFromStorage();
-        await studentListAll("AZSVBFV");
-      }
-      catch(e){
-        alert(e);
-      }
-    }
-    fetch();
-  },[])
 
+  const fetch = async() => {
+    try{
+      await studentListAll(code);
+      await listAllTeams(code);
+    } catch (e) {
+      alert(e);
+    } finally {
+      await setLoading(false);
+    };
+  }
+  
   useEffect(()=> {
-    const fetch = async () =>{
-      try{
-        const classId = getDataFromStorage();
-        await listAllTeams("AZSVBFV");
-      }
-      catch(e){
-        alert(e);
-      }
-    }
     fetch();
   },[])
 
   return (
+    loading ? (
+      <CTLoading />
+    ) : (
     <>
     <WrapBox>
-      {studentList.total === 0 &&
+      {studentList.count === 0 &&
         (
         <>
         <NoBox>
@@ -184,7 +180,7 @@ function P05_04() {
           <NoText>
           아직 수업에 학생이 없습니다. <br/>
           <Link
-            to="/professor/class/enrol"
+            to={`/professor/class/${code}/enrol`}
             style={{ textDecoration: "none", color: "blue" }}
           >
           수강생 관리
@@ -194,7 +190,7 @@ function P05_04() {
         </>
         )
       }
-      {studentList.total !== 0 &&
+      {studentList.count > 0 &&
       (
         <>
       <TitleBox>
@@ -203,18 +199,16 @@ function P05_04() {
       {teamList.results.map((item) => {
         return (
           <>
-            <Text>Team{item.id}</Text>
+            <Text>Team{item.name}</Text>
             <DeleteButton onClick={() => {deleteHandler(item.id)}}>삭제</DeleteButton>
             <Box>
-              {/* {studentList.results.map((data) => {
-                return <StudentBox student={data}></StudentBox>;
-              })} */}
+              <StudentBox students={item.team}></StudentBox>
             </Box>
           </>
         );
       })}
       <CreateBox>
-        <Link to="/professor/class/assign">
+        <Link to={`/professor/class/${code}/assign`}>
           <img src={require('../../../images/plus_team.png').default} alt="팀 추가" />
         </Link>
       </CreateBox>
@@ -225,6 +219,7 @@ function P05_04() {
       
     </WrapBox>
     </>
+    )
   );
 }
 

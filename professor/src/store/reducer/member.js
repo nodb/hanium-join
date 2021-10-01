@@ -19,6 +19,7 @@ export const getInfo = createAction(
 export const infoModifyApi = MemberApi.put;
 export const signupApi = MemberApi.signup;
 export const loginApi = MemberApi.login;
+export const changePwApi = MemberApi.changePw;
 
 const initialState = Map({ 
     list: Map({
@@ -28,12 +29,13 @@ const initialState = Map({
     info: Map({
         name: "",
         email: "",
-        professorID: "",
+        studentID: "",
         moblie: "",
         department: "",
         password: "",
         grade: "",
         birthDate: "",
+        profileImg: "",
     })
 });
 

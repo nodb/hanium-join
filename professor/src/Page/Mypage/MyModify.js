@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import InputWithLabel from "../Register/InputWithLabel";
 import {
   Col,
@@ -17,7 +17,10 @@ import styled from "styled-components";
 import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
-const Box = styled.div``;
+
+const Box = styled.div`
+  width: 80%;
+`;
 
 const Page = styled.div`
   color: #3d3d3d;
@@ -29,16 +32,15 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 1032px;
+  width: 100%;
   height: 0px;
   border: 4px solid #c4c4c4;
 `;
 
 function MyModify(props) {
   const history = useHistory();
-  // const changeMyInfo = () => {
-  //   history.push("/professor/mypage/myinfo");
-  // };
+
+  const { code } = useParams();
 
   const professor = getDataFromStorage();
 
@@ -58,7 +60,7 @@ function MyModify(props) {
       pw: memberInfo.password,
       pwC: memberInfo.password,
       mobile: memberInfo.mobile,
-      professorID: memberInfo.professorID,
+      professorID: memberInfo.studentID,
       department: memberInfo.department,
       birthDate: memberInfo.birthDate,
       type: "P",
@@ -138,9 +140,9 @@ function MyModify(props) {
       try {
         await infoModifyApi(professor.id, formData);
         alert("수정되었습니다.");
-        history.push("/professor/mypage/myinfo");
+        history.push(`/professor/mypage/myinfo`);
       } catch (e) {
-        alert("항목을 다 채워주세요.");
+        alert(e);
       }
     }
   };
@@ -239,73 +241,48 @@ function MyModify(props) {
           </Col>
         </FormGroup>
         <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="생년월일"
-            name="birth"
-            placeholder="생년월일"
-            type="date"
-            value={data.birthDate}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="전화번호"
-            name="mobile"
-            placeholder="전화번호"
-            type="text"
-            value={data.mobile}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="생년월일"
-            name="birthDate"
-            placeholder="생년월일"
-            type="date"
-            value={BirthDate(data.birthDate)}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="전화번호"
-            name="mobile"
-            placeholder="전화번호"
-            type="text"
-            value={data.mobile}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <br />
-        <FormGroup row>
-          <Label sm={2}>프로필 사진</Label>
-          <Col sm={10}>
-            <Input
-              type="file"
-              name="profileImg"
-              onChange={imageChange}
-              value={image}
-            />
-          </Col>
-        </FormGroup>
-        <br />
-        <FormText color="muted">
-          뒤로가면 작성한 내용이 반영되지 않습니다.
-        </FormText>
-        <br />
-        <br />
-        <FormGroup check row>
-          <Col sm={{ size: 10, offset: 2 }}>
-            <Button onClick={onModifyHandler}>Submit</Button>
-          </Col>
-        </FormGroup>
-      </Form>
+      <FormGroup row>
+      <InputWithLabel
+        label="생년월일"
+        name="birthDate"
+        placeholder="생년월일"
+        type="date"
+        value={BirthDate(data.birthDate)}
+        onChange={handleChange}
+      />
+      </FormGroup>
+      <br />
+      <FormGroup row>
+      <InputWithLabel
+        label="전화번호"
+        name="mobile"
+        placeholder="전화번호"
+        type="text"
+        value={data.mobile}
+        onChange={handleChange}
+      />
+      </FormGroup>
+      <br />
+      <FormGroup row>
+        <Label sm={2} for="imageFile">
+          프로필 사진
+        </Label>
+        <Col sm={10}>
+          <Input type="file" name="profileImg" onChange={imageChange}/>
+        </Col>
+      </FormGroup>
+      <br />
+      <FormText color="muted">
+        뒤로가면 작성한 내용이 반영되지 않습니다.
+      </FormText>
+      <br />
+      <br />
+      <FormGroup check row>
+        <Col sm={{ size: 10, offset: 2 }}>
+          <Button onClick={onModifyHandler}>Submit</Button>
+        </Col>
+      </FormGroup>
+    </Form>
     </Box>
   );
 }

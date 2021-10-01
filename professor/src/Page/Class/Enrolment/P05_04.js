@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -63,6 +63,8 @@ const P05_04 = ({ match }) => {
   } = useEnrolment();
 
   const { loading, setLoading } = useLoading(true);
+
+  console.log(loading);
 
   const code = match.params.code;
 

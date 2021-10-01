@@ -5,6 +5,7 @@ import Class from "./Class";
 import Register from "./Register";
 import Login from "./Page/Login";
 import FindIdPw from "./Page/FindIdPw";
+import ChangePw from "./Page/FindIdPw/ChangePw";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 import PrivateRoute from "./utils/privateRoute";
@@ -19,6 +20,7 @@ const App = () => {
         <PrivateRoute path="/professor/main" component={Main} exact />
         <PrivateRoute path="/professor/class" component={Class} />
         <PrivateRoute path="/professor/mypage" component={MyPage} />
+        <PrivateRoute path="/professor/changePw" component={ChangePw} />
         <Redirect to="/login" />
       </Switch>
     </>

@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ###
 
-PUT {{BASE_URL}}/assignments/1e927a41-edf4-4f01-b8c9-823b09e4d687
+PUT {{BASE_URL}}/assignments/1
 Content-Type: application/json
 
 {
@@ -28,8 +28,8 @@ Content-Type: application/json
     "point" : "100",
     "startDate" : "2021-08-04 14:39:22",
     "endDate" : "2021-08-04 14:39:22",
-    "classCode" : "AZXCSQ",
-    "teams":[1]
+    "classCode" : "1",
+    "teams":[1,2,3]
 }
 
 ###
@@ -106,17 +106,17 @@ Content-Type: image/jpg
 
 ###
 
-PUT {{BASE_URL}}/assignments/b156f59e-ad36-447f-ac55-3a5e3df1ad99
+PUT {{BASE_URL}}/assignments/1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="name"
 
-과제 수정 테스트
+과제 수정 테스트123
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="content"
 
-과제 수정 테스트 내용
+과제 수정 테스트 내용123
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="progress"
 
@@ -136,11 +136,11 @@ Content-Disposition: form-data; name="endDate"
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="classCode"
 
-ASDCZXC
+1
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="teams"
 
-[]
+[1]
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="image"; filename="taxonomy.jpg"
 Content-Type: image/jpg

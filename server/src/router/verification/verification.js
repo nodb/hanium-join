@@ -7,6 +7,7 @@ import Base64 from "crypto-js/enc-base64";
 import axios from "axios";
 import nodemailer from "nodemailer";
 import * as CommonMd from "../middlewares";
+import { generateToken } from "../../middlewares/jwtMd";
 
 export const getMobileFromBodyMd = async (ctx, next) => {
   const { mobile } = ctx.request.body;
@@ -155,7 +156,7 @@ export const validateEmailMd = async (ctx, next) => {
 
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
-  if (email.match(regExp)==null) {
+  if (!regExp.test(email)) {
     throw Boom.badRequest();
   }
 
@@ -211,8 +212,17 @@ export const confirmEmailVerifyCodeMd = async (ctx, next) => {
     throw Boom.badRequest();
   }
 
+  const payload = { email };
+
+  let token = null;
+
+  try {
+    token = await generateToken(payload);
+  } catch (e) {
+    ctx.throw(500, e);
+  }
   ctx.state.body = {
-    success: true,
+    access_token: token,
   };
 
   await next();

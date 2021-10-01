@@ -7,6 +7,7 @@ import commentsReducer from "./comments";
 import teamsReducer from "./teams";
 import chatsReducer from "./chats";
 import enrolmentReducer from "./enrolment";
+import discussReducer from "./discuss";
 
 export default combineReducers({
   pender: penderReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   teams: teamsReducer,
   chats: chatsReducer,
   enrol: enrolmentReducer,
+  discuss: discussReducer,
 });

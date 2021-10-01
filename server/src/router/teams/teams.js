@@ -19,11 +19,6 @@ export const saveTeamMd = async (ctx, next) => {
   await next();
 };
 
-export const saveRandomTeamMd = async (ctx, next) => {
-  const { teams, students } = ctx.state.reqBody;
-  let randteams = students / teams
-}
-
 export const readTeamAllMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { classCode } = ctx.params;
@@ -183,6 +178,52 @@ export const studentsNoTeamMd = async (ctx, next) => {
     results: rows,
   }
 
+  await next();
+}
+
+export const saveRandomTeamMd = async (ctx, next) => {
+
+  const { conn } = ctx.state;
+  const {classCode} = ctx.params;
+  const { teamNum, studentNum } = ctx.request.body;
+
+  await conn.query("DELETE FROM tb_team WHERE class_code = ?", [classCode]);
+
+  let array = [];
+  for(let i=1; i<=teamNum; i++) {
+    let temp = array.concat([[UUID(), i, classCode]]);
+    array = temp;
+  }
+
+  let teamIds = [];
+  for(let i = 0; i<teamNum; i++) {
+    let temp = teamIds.concat([array[i][0]]);
+    teamIds = temp;
+  }
+  await conn.batch(
+    "INSERT INTO tb_team (id, name, class_code) VALUES (?, ?, ?)",
+    array
+  );
+
+
+  const rows = await conn.query("select member_id from tb_enrol where class_code = ? AND isAccept = ?" , [classCode, 1]);
+
+  let students= [];
+  let idx = 0;
+  for(let i = 0; i < teamNum; i++) {
+    let temp = [];
+    for(let j = 0; j < studentNum; j++) {
+      if(idx < rows.length) {
+        let student = temp.concat([[teamIds[i],rows[idx].member_id]]);
+        temp = student;
+      }
+      idx++;
+    }
+    let tmp = students.concat(temp);
+    students = tmp;
+  }
+
+  await conn.batch("INSERT INTO tb_team_member (team_id, member_id) VALUES (?, ?)", (teamIds, students));
   await next();
 }
 

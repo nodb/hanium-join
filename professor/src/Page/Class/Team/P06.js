@@ -11,7 +11,7 @@ import {getDataFromStorage} from "../../../utils/storage";
 
 const WrapBox = styled.div`
   height: 785px;
-  overflow: scroll;
+
   padding: 20px;
   width: 80%;
 `;
@@ -83,16 +83,18 @@ const TitleBox = styled.div`
 `;
 
 const LinkButton = styled.div`
+margin-top:15px;
   width: 100px;
-  height: 32px;
+  height: 38px;
   border: 2px solid #426589;
   box-sizing: border-box;
   border-radius: 50px;
   color: #426589;
   font-size: 18px;
   text-align: center;
-  margin-left: 80%;
   cursor: pointer;
+  padding-top:3px;
+  margin-right: 10%;
   :hover{
     background-color: #426589;
     color: white;
@@ -114,6 +116,11 @@ img{
 }
 `;
 
+const TeamsBox = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 680px;
+`
 const NoText = styled.div`
 font-family: Roboto;
 font-style: normal;
@@ -181,6 +188,18 @@ const P05_04 = () => {
       await setLoading(false);
     };
   }
+
+  const ListText = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 23px;
+
+color: #3D3D3D;
+margin-top: 15px;
+
+`
   
   
   useEffect(()=> {
@@ -196,6 +215,7 @@ const P05_04 = () => {
       {studentList.count === 0 &&
         (
         <>
+        <ListText>구성팀 확인</ListText>
         <NoBox>
           <NoImg>
           <img src={require('../../../images/no_student.png').default} alt="학생없음이미지" />
@@ -217,8 +237,10 @@ const P05_04 = () => {
       (
         <>
       <TitleBox>
+        <ListText>구성팀 확인</ListText>
           <LinkButton onClick={ModalOpen}>자동 편성</LinkButton>
       </TitleBox>
+      <TeamsBox>
       {teamList.results.map((item) => {
         return (
           <>
@@ -240,6 +262,7 @@ const P05_04 = () => {
           <img src={require('../../../images/plus_team.png').default} alt="팀 추가" />
       </CreateBox>
       <Assign open={Modal} close={ModalClose}></Assign>
+      </TeamsBox>
         </>
       )
       }

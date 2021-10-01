@@ -31,8 +31,6 @@ router.put("/professor/:id", ...members.updateProfessor);
 router.put("/student/:id", ...members.updateStudent);
 
 
-router.put("/professor/:id", ...members.updateProfessor);
-
 // 삭제
 router.delete("/:id", ...members.remove);
 

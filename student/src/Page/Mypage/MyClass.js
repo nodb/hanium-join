@@ -77,12 +77,12 @@ function MyClass() {
       수강 과목
     </Page>
     <Hr />
-      <IntroText>과목을 클릭하면 해당 페이지로 이동합니다.</IntroText> <br />
+    <IntroText>강의를 클릭하면 해당 페이지로 이동합니다.</IntroText> <br />
       {classesList.results.map((item) => {
         return (
           <ClassText>
             <Link
-        to="/student/class/enrol"
+        to={`/student/class/${item.code}/main`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
                 <img src={require("../../images/Pencil.png").default} alt="수업"/>
@@ -92,21 +92,6 @@ function MyClass() {
           </ClassText>
         )
       })}
-      {/* {classes &&
-        classes.map((item) => {
-          return (
-            <Link
-              to="/professor/class/enrol"
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <ClassText>
-                <img src={require("../../images/Pencil.png").default} alt="수업"/>
-                {item.name}, 수업코드 : {item.code}
-                <hr />
-              </ClassText>
-            </Link>
-          );
-        })} */}
     </Box>
   );
 }

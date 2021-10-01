@@ -4,6 +4,16 @@ import { Form, FormGroup, Label, Input } from "reactstrap";
 import { useEnrolment, useTeams } from "../../../components/Use";
 import { useHistory, useParams } from "react-router-dom";
 
+
+const TStudentBox = styled.div`
+  width: 180px;
+  font-size: 18px;
+`;
+
+const StudentHr = styled.hr`
+width: 300px;
+`
+
 const Arrow = styled.button`
   margin-bottom: 25px;
   margin-left: 35px;
@@ -43,13 +53,25 @@ const StudentBox = styled.div`
 function P07_TeamList({ students }) {
   const { code } = useParams();
 
-  const {studentListAll} = useEnrolment();
-  const {teamList, listAllTeams, deleteTeamApi, deleteStudentsApi } = useTeams();
+  const { teamList, listAllTeams, studentsNoTeam } = useTeams();
 
+  const [students, setStudents] = useState(teamList.results[0]);
+  const [currentTeam, setcurrentTeams] = useState(0);
   const [stud, setStud] = useState([]);
 
-  const checkboxChange = (e) => {
-    const { name, checked } = e.target;
+  useEffect(() => {
+    setStudents(teamList.results[currentTeam])
+  }, [teamList.results])
+
+  const team_studentCheck = (id) => {
+    let checked = [];
+    checked = stud.filter((data) => data.memberId === id);
+
+    return checked.length === 1;
+  }
+
+  const team_checkboxChange = (e) => {
+    const {name, checked} = e.target;
 
     if (checked) {
       setStud([
@@ -65,58 +87,41 @@ function P07_TeamList({ students }) {
     }
   }
 
-  const studentCheck = (id) => {
-    let checked = [];
-    checked = stud.filter((data) => data.memberId === id);
-
-    return checked.length === 1;
-  }
-  
-  const deleteHandler= async (e) => {
-    let members = [];
-    stud.map((data) => {
-      members.push(data.memberId);
-    });
-    try {
-      await deleteStudentsApi(`memberId=${members}&teamId=${students.id}`);
+  const fetch = async() => {
+    try{
+      await studentsNoTeam(code);
       await listAllTeams(code);
-      console.log(members);
-      await studentListAll(code);
+
     } catch (e) {
       alert(e);
-    }
-  };
+    } 
+  }
+
+  useEffect(()=> {
+    fetch();
+  },[])
+  
   return (
     <>
-      <Box>
-        <Form>
-          {students &&
-            students.team.map((student) => {
-              return (
-                <StudentBox>
-                  <FormGroup>
-                    <Label check>
-                      <Input
+      {students && students.team.map((student) => {
+             return(
+                <TStudentBox>   
+                <FormGroup>
+                  <Label check>
+                  <Input
                         type="checkbox"
-                        checked={studentCheck(student.member_id)}
+                        checked={team_studentCheck(student.member_id)}
                         name={student.member_id}
-                        onChange={checkboxChange}
-                      />{" "}
-                      &nbsp;
+                        onChange={team_checkboxChange}
+                      /> &nbsp;
                       {student.name}({student.grade}학년)
-                    </Label>
-                  </FormGroup>
-                </StudentBox>
-              );
-            })}
-        </Form>
-      </Box>
-      <Arrow style={{ backgroundColor: "white" }} onClick={deleteHandler}>
-        <img
-          src={require("../../../images/toLeft.png").default}
-          alt="leftArrow"
-        ></img>
-      </Arrow>
+                      <StudentHr />
+                  </Label>
+                </FormGroup>
+              </TStudentBox>
+                   )
+           })}  
+
     </>
   );
 }

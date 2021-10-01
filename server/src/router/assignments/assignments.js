@@ -308,7 +308,7 @@ export const readAssignmentByStudentMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "select a.class_code, a.name, at.isCheck, a.startDate, a.endDate \
+    "select c.name as className, a.class_code, a.name, at.isCheck, a.startDate, a.endDate \
     from tb_team_member tm \
     JOIN tb_team t ON t.id = tm.team_id \
     JOIN tb_assignment_team at ON at.team_id = t.id \
@@ -332,7 +332,7 @@ export const readAssignmentByProfessorMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT c.name as className, a.name as assignmentName, a.startDate, a.endDate \
+    "SELECT c.name as className, c.code as classCode, a.id, a.name as assignmentName, a.startDate, a.endDate \
       FROM tb_class c \
       JOIN tb_assignment a ON a.class_code = c.code\
       JOIN tb_member m ON c.member_id = m.id\

@@ -10,6 +10,7 @@ const Box = styled.div`
   height: 785px;
   overflow-y: auto;
   overflow-x: hidden;
+  
   button {
     font-family: Roboto;
     font-style: normal;
@@ -113,9 +114,11 @@ const P09_07 = () => {
   return (
     <Box>
       <Form>
-        <button onClick={createHandler}>
-          완료
-        </button>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button onClick={createHandler}>
+            완료
+          </button>
+        </div>
         <FormGroup
           row
           style={{
@@ -245,14 +248,16 @@ const P09_07 = () => {
           ))}
         </FormGroup>
         <FormGroup style={{ marginTop: "30px" }}>
-          <Input
-            type="textarea"
-            name="content"
-            id="assignmentText"
-            value={data.content}
-            onChange={handleChange}
-            style={{ height: "300px" }}
-          />
+          <Label sm={11}  style={{ marginLeft: "5px" }}>
+            <Input
+              type="textarea"
+              name="content"
+              id="assignmentText"
+              value={data.content}
+              onChange={handleChange}
+              style={{ height: "300px" }}
+            />
+          </Label>
         </FormGroup>
         <FormGroup style={{ marginTop: "20px" }}>
           <Label

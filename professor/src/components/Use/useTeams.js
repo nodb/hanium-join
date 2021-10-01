@@ -22,6 +22,7 @@ const useTeams = () => {
     deleteStudentsApi: reducer.deleteStudentsApi,
     deleteTeamApi: reducer.deleteTeamApi,
     createTeamApi: reducer.createTeamApi,
+    createRandomTeamsApi: reducer.createRandomTeamsApi,
   };
 };
 export default useTeams;

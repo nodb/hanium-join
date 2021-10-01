@@ -7,7 +7,7 @@ const router = new Router();
 router.post("/:classCode", ...teams.create);
 
 // 랜덤 팀 생성
-// router.post("/random/:/classCode", ...teams.randomTeam);
+router.post("/random/:classCode", ...teams.randomTeam);
 
 // 팀 전체 조회
 router.get("/:classCode", ...teams.readAll);
@@ -26,5 +26,6 @@ router.post("/students/:classCode", ...teams.insertStudentTeam);
 
 // 팀 삭제
 router.delete("/:teamId", ...teams.removeTeam);
+
 
 export default router;

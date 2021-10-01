@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
 import { useEnrolment, useTeams } from "../../../components/Use";
@@ -19,10 +19,10 @@ const Arrow = styled.button`
   margin-left: 35px;
   width: 130px;
   height: 35px;
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
-  img{
+  img {
     text-align: center;
     margin-left: 50px;
     width: 25px;
@@ -30,11 +30,11 @@ const Arrow = styled.button`
     margin-top: 4px;
   }
   cursor: pointer;
-`
+`;
 
 const Box = styled.div`
-  background: #FFFFFF;
-  border: 2px solid #EF8F88;
+  background: #ffffff;
+  border: 2px solid #ef8f88;
   box-sizing: border-box;
   width: 400px;
   height: 626px;
@@ -42,9 +42,7 @@ const Box = styled.div`
   flex-wrap: wrap;
   padding: 30px 50px 30px;
   position: relative;
-
 `;
-
 
 const StudentBox = styled.div`
   width: 180px;
@@ -52,9 +50,7 @@ const StudentBox = styled.div`
   margin-bottom: 10px;
 `;
 
-
 function P07_TeamList({ students }) {
-
   const { code } = useParams();
 
   const { teamList, listAllTeams, studentsNoTeam } = useTeams();
@@ -77,7 +73,7 @@ function P07_TeamList({ students }) {
   const team_checkboxChange = (e) => {
     const {name, checked} = e.target;
 
-    if(checked) {
+    if (checked) {
       setStud([
         ...stud,
         {
@@ -127,8 +123,7 @@ function P07_TeamList({ students }) {
            })}  
 
     </>
-    
-    )
+  );
 }
 
 export default P07_TeamList;

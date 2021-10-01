@@ -25,7 +25,7 @@ const Box = styled.div`
     background-color: #ffffff;
     border-color: #426589;
     color: #426589;
-    width: 75px;
+    width: 60px;
     height: 30px;
   }
 `;
@@ -80,7 +80,7 @@ const assignmentList = () => {
     };
     fetch();
   }, []);
-  
+
   const handler = async (id) => {
     try {
       history.push(`/professor/class/${code}/assignment/${id}`);

@@ -9,6 +9,9 @@ import useAddAssignment from "./useAddAssignment";
 
 const Box = styled.div`
   width: 80%;
+  height: 785px;
+  overflow-y: auto;
+  overflow-x: hidden;
   button {
     font-family: Roboto;
     font-style: normal;
@@ -18,8 +21,9 @@ const Box = styled.div`
     background-color: #ffffff;
     border-color: #426589;
     color: #426589;
-    width: 75px;
+    width: 60px;
     height: 30px;
+    margin-top: 20px;
   }
 `;
 

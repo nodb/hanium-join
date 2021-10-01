@@ -7,7 +7,10 @@ import { DateChange3 } from "../../../utils/dateChange";
 import styled from "styled-components";
 
 const Box = styled.div`
-  width: 80%;
+  width: 90%;
+  height: 785px;
+  overflow-y: auto;
+  overflow-x: hidden;
   button {
     font-family: Roboto;
     font-style: normal;
@@ -17,10 +20,19 @@ const Box = styled.div`
     background-color: #ffffff;
     border-color: #426589;
     color: #426589;
-    width: 75px;
+    width: 60px;
     height: 30px;
   }
 `;
+
+const Text = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: 400;
+  color: #EF8F88;
+  margin-top : 10px;
+  margin-left : 160px;
+`
 
 const AssignmentModify = ({ match }) => {
   const assignmentId = match.params.id;
@@ -166,7 +178,7 @@ const AssignmentModify = ({ match }) => {
           >
             과제명
           </Label>
-          <Col sm={4}>
+          <Col sm={6}>
             <Input
               type="name"
               name="name"
@@ -313,6 +325,10 @@ const AssignmentModify = ({ match }) => {
           </Label>
           <Input type="file" name="solutionFile" id="solutionFile" />
         </FormGroup>
+        <Text>
+          * 해답 파일은 학생들에게 공개되지 않으며 자동 채점을 위한 비교 파일입니다.
+        </Text>
+        
       </Form>
     </Box>
   );

@@ -83,7 +83,7 @@ const TeamListItem = ({ assignment }) => {
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {teams.map((item) => {
               return (
-                <AssignmentBox>
+                <AssignmentBox key={item.id}>
                   TEAM {item.id}
                   <br />
                   {item.isSubmit ? "제출 완료" : "미제출"}
@@ -100,10 +100,10 @@ const TeamListItem = ({ assignment }) => {
 const P13 = () => {
   return (
     <div>
-      <h4 class="mt-2">과제 별 보기</h4>
+      <h4 className="mt-2">과제 별 보기</h4>
       <div style={{ overflowY: "scroll", width: "1150px" }}>
         {Assignments.map((assignment) => (
-          <Accordion defaultActiveKey="1" key={assignment.id} flush>
+          <Accordion defaultActiveKey="1" key={assignment.name} flush>
             <TeamListItem assignment={assignment} />
           </Accordion>
         ))}

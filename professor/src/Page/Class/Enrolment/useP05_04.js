@@ -24,7 +24,7 @@ const useP05_04 = () => {
       } catch (e) {
         alert(e);
       } finally {
-        await setLoading(false);
+        setLoading(false);
       }
     };
     fetch();
@@ -33,11 +33,13 @@ const useP05_04 = () => {
   const removeStudentHandler = async (student) => {
     try {
       const { id } = student;
-      await setLoading(true);
+      setLoading(true);
       await removeStudentApi(`memberId=${id}&classCode=${code}`);
       fetch();
     } catch (e) {
       alert(e);
+    } finally {
+      setLoading(false);
     }
   };
 

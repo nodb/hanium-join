@@ -5,7 +5,8 @@ import { getDataFromStorage } from "../../utils/storage";
 import { Link } from "react-router-dom";
 
 const Box = styled.div`
-  width: 80%`;
+  width: 80%;
+`;
 
 const Page = styled.div`
   color: #3d3d3d;
@@ -134,13 +135,13 @@ function MyInfo() {
       <Page>내 프로필</Page>
       <Hr />
       <InfoBox>
+        {console.log(memberInfo.profileImg)}
         <Myimg>
-          { memberInfo.profileImg && (
+          {/* { memberInfo.profileImg && (
           <img
-            // src={require("../../images/person_default.png").default}
             src={memberInfo.profileImg}
             alt="이미지"
-            /> )}
+            /> )} */}
           <img
             src={require("../../images/person_default.png").default}
             alt="이미지"

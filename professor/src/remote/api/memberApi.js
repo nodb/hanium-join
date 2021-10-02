@@ -11,3 +11,9 @@ export const signup = (form) =>
   httpClient.post(`${urls.member}/register`, form);
 export const login = (form) =>
   httpClient.post(`${urls.member}/professor/login`, form);
+
+export const changePw = (token, form) => httpClient.put(`${urls.member}/changePw`, form, {
+  headers: {
+    "Authorization": `Bearer ${token}`
+  }
+})

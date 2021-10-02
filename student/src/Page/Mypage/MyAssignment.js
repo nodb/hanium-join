@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Table } from "reactstrap";
 import styled from "styled-components";
 import { useAssignments } from "../../components";
+import { Link, useParams } from "react-router-dom";
 import { getDataFromStorage } from "../../utils/storage";
 import {DateChange} from "../../utils/dateChange";
 
@@ -39,6 +40,11 @@ const Assignment = styled.div`
     border-color: #ef8f88;
   }
 
+  tr {
+    height: 30px;
+
+  }
+
   thead th {
     font-family: Roboto;
     font-style: normal;
@@ -72,6 +78,17 @@ const Assignment = styled.div`
     color: #000000;
     text-align: center;
   }
+
+  Link td {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    padding-top: 11px;
+    color: #000000;
+    text-align: center;
+  }
 `;
 
 const MyAssignment = () => {
@@ -94,7 +111,7 @@ const MyAssignment = () => {
     <Box>
       <Page>과제 제출함</Page>
       <Hr />
-      <IntroText>내용을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
+      <IntroText>과제명을 클릭하면 해당페이지로 이동합니다.</IntroText> <br />
       <Assignment>
       <Table size="sm">
         <thead>
@@ -117,12 +134,18 @@ const MyAssignment = () => {
               return (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{item.className}</td>
-                  <td>{item.assignmentName}</td>
-                  {item.progress === 1 && (
+                  <td>{item.class_code}</td>
+                  <td>
+                  <Link
+                    to={`/student/class/${item.class_code}/main/assignment/${index+1}`}
+                    style={{ textDecoration: "inherit", color: "inherit"}}>
+                    {item.name}
+                  </Link>
+                  </td>
+                  {item.isCheck === 1 && (
                     <td>제출</td>
                   )}
-                  {item.progress === 0 && (
+                  {item.isCheck === 0 && (
                     <td>미제출</td>
                   )}
                   <td>{DateChange(item.startDate)}</td>

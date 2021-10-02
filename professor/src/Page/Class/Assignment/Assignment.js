@@ -260,7 +260,7 @@ const assignment = ({ match }) => {
     <CTLoading />
   ) : (
     <Box>
-      <ListText>과제 등록</ListText>
+      <ListText>과제</ListText>
       <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
         <ModifyButton
           onClick={modifyHandler}
@@ -405,7 +405,7 @@ const assignment = ({ match }) => {
               <a
                 href={`http://localhost:3000/api/v1/downloads/${assignmentOne.image}`}
                 download
-                target="_blank"
+                style={{ color: "black", textDecoration: "none" }}
               >
                 {assignmentOne.image}
               </a>
@@ -419,14 +419,23 @@ const assignment = ({ match }) => {
               alignItems: "center",
             }}
           >
-            <div style={{ fontWeight: "bold", paddingLeft: 0 }}>해답 파일</div>
-            <a
-              href={`http://localhost:3000/api/v1/downloads/${assignmentOne.image}`}
-              download
-              target="_blank"
-            >
-              {assignmentOne.answerFile}
-            </a>
+            <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  fontWeight: "bold",
+                  paddingLeft: 0,
+                }}
+              >
+                해답 파일
+              </div>
+              <a
+                href={`http://localhost:3000/api/v1/downloads/${assignmentOne.answerFile}`}
+                download
+                style={{ color: "black", textDecoration: "none" }}
+              >
+                {assignmentOne.answerFile}
+              </a>
+            </div>
           </FormGroup>
           <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
             댓글 {commentList.total}개

@@ -52,8 +52,8 @@ const main = async () => {
 
     app.use(errorHandleMd);
     app.use(jwtMd);
-    app.use(socketMd);
     app.use(Router.routes()).use(Router.allowedMethods());
+    app.use(socketMd);
     app.use(serve(path.join(__dirname, "../upload")));
     server.listen(3000);
     console.log("Join web server started [port:3000]");

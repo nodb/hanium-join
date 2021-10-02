@@ -16,7 +16,7 @@ const Label = styled.div`
   font-weight: bold;
   font-size: 20px;
   line-height: 23px;
-  width: 56px;
+  width: 60px;
 
   color: #3d3d3d;
   margin-bottom: 15px;

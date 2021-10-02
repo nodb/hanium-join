@@ -46,7 +46,7 @@ const P09_07 = () => {
     formData.append("classCode", code);
     formData.append("teams", team);
     formData.append("image", image);
-    formData.append("answerFile", answerFile);
+    formData.append("answerFile", file);
 
     try {
       await createAssignmentsApi(formData);
@@ -55,6 +55,7 @@ const P09_07 = () => {
       alert(e);
     }
   };
+  console.log(file);
 
   useEffect(() => {
     const fetch = async () => {

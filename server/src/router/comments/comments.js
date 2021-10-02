@@ -56,18 +56,7 @@ export const readCommentAllMd = async (ctx, next) => {
 
   ctx.state.body = {
     results: rows,
-  };
-
-  await next();
-};
-
-export const readCommentAllCountMd = async (ctx, next) => {
-  const { conn } = ctx.state;
-  const rows = await conn.query("SELECT COUNT(*) AS count  FROM tb_comment");
-
-  ctx.state.body = {
-    ...ctx.state.body,
-    total: rows[0].count,
+    total: rows.length,
   };
 
   await next();
@@ -94,7 +83,6 @@ export const readAll = [
   CommonMd.createConnectionMd,
   CommonMd.validataListParamMd,
   readCommentAllMd,
-  readCommentAllCountMd,
   CommonMd.responseMd,
 ];
 

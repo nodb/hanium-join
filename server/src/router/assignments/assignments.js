@@ -56,10 +56,21 @@ export const saveAssignmentMd = async (ctx, next) => {
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
 
+  const answerFile =
+    ctx.request.files === undefined ? null : ctx.request.files.answerFile;
+
   if (image != null) {
     var appDir = path.dirname(image.path);
     await fs.renameSync(image.path, `${appDir}/${image.name}`);
   }
+
+  if (answerFile != null) {
+    var appDir = path.dirname(answerFile.path);
+    await fs.renameSync(answerFile.path, `${appDir}/${answerFile.name}`);
+  }
+
+  console.log(image);
+  console.log(answerFile);
 
   const { conn } = ctx.state;
 
@@ -68,7 +79,7 @@ export const saveAssignmentMd = async (ctx, next) => {
   const payload = [];
   await conn.query(
     // eslint-disable-next-line max-len
-    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, class_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, class_code, answerFile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       assignmentId,
       name,
@@ -79,6 +90,7 @@ export const saveAssignmentMd = async (ctx, next) => {
       endDate,
       imageName,
       classCode,
+      answerFile,
     ]
   );
 
@@ -182,7 +194,7 @@ export const readAssignmentByIdMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?",
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code, answerFile FROM tb_assignment WHERE id = ?",
     [id]
   );
 
@@ -250,12 +262,24 @@ export const updateAssignmentMd = async (ctx, next) => {
   const array = teams.split(/,\s?/);
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
+  const answerFile =
+    ctx.request.files === undefined ? null : ctx.request.files.answerFile;
+
+  if (image != null) {
+    var appDir = path.dirname(answerFile.path);
+    await fs.renameSync(answerFile.path, `${appDir}/${answerFile.name}`);
+  }
+
+  if (answerFile != null) {
+    var appDir = path.dirname(answerFile.path);
+    await fs.renameSync(answerFile.path, `${appDir}/${answerFile.name}`);
+  }
 
   const imageName = image ? image.name : null;
 
   const sql =
     // eslint-disable-next-line max-len
-    "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, class_code = ?  WHERE id = ?";
+    "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, class_code = ?, answerFile=?  WHERE id = ?";
   await conn.query(sql, [
     name,
     content,
@@ -265,6 +289,7 @@ export const updateAssignmentMd = async (ctx, next) => {
     endDate,
     imageName,
     classCode,
+    answerFile,
     id,
   ]);
   await conn.query("DELETE FROM tb_assignment_team WHERE assignment_id = ?", [

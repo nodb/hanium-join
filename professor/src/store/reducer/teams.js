@@ -12,6 +12,7 @@ export const insertStudentsApi = TeamsApi.insertStudentTeam;
 export const deleteStudentsApi = TeamsApi.deleteStudentTeam;
 export const createTeamApi = TeamsApi.create;
 export const deleteTeamApi = TeamsApi.remove;
+export const createRandomTeamsApi = TeamsApi.createRandomTeams;
 
 export const studentsNoTeam = createAction(NOTEAM_STUDENTS, TeamsApi.studentsNoTeam);
 

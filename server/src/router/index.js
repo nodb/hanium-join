@@ -10,6 +10,7 @@ import report from "./report";
 import comments from "./comments";
 import discuss from "./discuss";
 import chats from "./chats";
+import downloads from "./downloads";
 
 const router = new Router({
   prefix: "/api/v1",
@@ -26,5 +27,6 @@ router.use("/discuss", discuss.routes());
 router.use("/report", report.routes());
 router.use("/comments", comments.routes());
 router.use("/chats", chats.routes());
+router.use("/downloads", downloads.routes());
 
 export default router;

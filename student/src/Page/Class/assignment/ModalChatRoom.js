@@ -159,6 +159,12 @@ const ModalChatRoom = ({ match, setOpen }) => {
     scrollToBottom();
   };
 
+  const onEnterPress = (e) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  };
+
   useEffect(() => {
     fetch();
   }, []);
@@ -244,7 +250,12 @@ const ModalChatRoom = ({ match, setOpen }) => {
           <div ref={scrollRef} style={{ padding: "5px" }} />
         </Box>
         <Bottom>
-          <input name="message" value={data.message} onChange={onTextChange} />
+          <input
+            name="message"
+            value={data.message}
+            onChange={onTextChange}
+            onKeyPress={onEnterPress}
+          />
           <button onClick={sendMessage}>전송</button>
         </Bottom>
       </ModalBox>

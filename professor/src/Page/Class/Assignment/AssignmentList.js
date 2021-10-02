@@ -5,63 +5,93 @@ import { useAssignments } from "../../../components/Use";
 import { endDateChange, DateChange } from "../../../utils/dateChange";
 import styled from "styled-components";
 
+const ListText = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 23px;
+
+color: #3D3D3D;
+margin-top: 42px;
+`
+
 const Box = styled.div`
   width: 80%;
-  p {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 20px;
-    padding-bottom: 10px;
-    text-align: center;
-  }
   button {
+
+  background: #FFFFFF;
+  border: 2px solid #426589;
+  box-sizing: border-box;
+
+    margin-bottom: 14px;
+    float: right;
+
     font-family: Roboto;
     font-style: normal;
-    font-weight: 400;
-    font-size: 17px;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
     text-align: center;
-    background-color: #ffffff;
-    border-color: #426589;
+
     color: #426589;
-    width: 75px;
-    height: 30px;
+    
+    width: 80px;
+    height: 35px;
+    :hover{
+      background-color: #426589;
+      color: white;
+    }
   }
 `;
 
 const Assignment = styled.div`
+  table {
+    border-color: #C4C4C4;
+
+  }
+
   thead th {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 17px;
-    line-height: 20px;
+    padding-top: 10px;
+    background-color: #426589;
     padding-bottom: 10px;
     text-align: center;
-    background-color: #426589;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #FFFFFF;
   }
 
   tbody th {
+    cursor: pointer;
+    height: 63px;
     font-family: Roboto;
     font-style: normal;
-    font-weight: 550;
-    font-size: 17px;
-    line-height: 20px;
-    padding-bottom: 15px;
-    padding-top: 15px;
+    font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+
+  color: #000000;
+    padding-top: 21px;
     text-align: center;
   }
 
   td {
+    cursor: pointer;
+    padding-top: 18px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 17px;
-    line-height: 20px;
-    padding-top: 15px;
+    font-size: 20px;
+    line-height: 23px;
+
     color: #000000;
-    text-align: center;
   }
 `;
 
@@ -80,7 +110,7 @@ const assignmentList = () => {
     };
     fetch();
   }, []);
-  
+
   const handler = async (id) => {
     try {
       history.push(`/professor/class/${code}/assignment/${id}`);
@@ -89,18 +119,22 @@ const assignmentList = () => {
     }
   };
 
+  const addHandler = () => {
+    history.push(`/professor/class/${code}/addAssignment`);
+  };
+
   return (
     <Box>
-      <div className="d-flex justify-content-between pt-3 pb-2 mb-3">
-        <p style={{ fontWeight: "bold" }}>등록된 과제 확인</p>
-        <Link to={`/professor/class/${code}/addAssignment`}>
-          <button size="sm">추가</button>
-        </Link>
+      <div>
+      <ListText>등록된 과제 확인</ListText>
+        <button size="sm" onClick={addHandler}>
+          추가
+        </button>
       </div>
       <Assignment>
         <Table size="sm">
           <thead>
-            <tr style={{ color: "white" }}>
+            <tr>
               <th>번호</th>
               <th>과제명</th>
               <th>진행</th>
@@ -113,7 +147,11 @@ const assignmentList = () => {
               return (
                 <tr>
                   <th>{index + 1}</th>
-                  <th onClick={() => handler(assignment.id)}>
+                  <th
+                    onClick={() => {
+                      handler(assignment.id);
+                    }}
+                  >
                     {assignment.name}
                   </th>
                   <th>{assignment.progress === 1 ? "진행 중" : "마감"}</th>

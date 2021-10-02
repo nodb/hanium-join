@@ -137,15 +137,15 @@ function MyInfo() {
       <InfoBox>
         {console.log(memberInfo.profileImg)}
         <Myimg>
-          {/* { memberInfo.profileImg && (
+          { memberInfo.profileImg ? (
           <img
-            src={memberInfo.profileImg}
+            src={`/${memberInfo.profileImg}`}
             alt="이미지"
-            /> )} */}
-          <img
+            /> ) : (<img
             src={require("../../images/person_default.png").default}
             alt="이미지"
-          />
+          />)}
+          
         </Myimg>
         <Info>
           <Name> {memberInfo.name} </Name>{" "}

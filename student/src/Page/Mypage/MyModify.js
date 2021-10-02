@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import InputWithLabel from "../Register/InputWithLabel";
+import { useHistory, Link } from "react-router-dom";
+import InputWithLabel from "./InputWithLabel";
+import ImageInputWithLabel from "./ImageInputWithLabel";
 import {
-  Col,
-  Button,
   Form,
-  FormGroup,
-  Label,
-  Input,
   FormText,
 } from "reactstrap";
 
@@ -17,8 +13,12 @@ import styled from "styled-components";
 import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
+const InputBox = styled.span`
+  overflow: scroll;
+  height: 730px;
+`
 const Box = styled.div`
-  width: 97%;
+  width: 80%;
 `;
 
 const Page = styled.div`
@@ -34,12 +34,36 @@ const Hr = styled.hr`
   width: 100%;
   height: 0px;
   border: 4px solid #c4c4c4;
+  margin-bottom: 38px;
 `;
 
-function MyModify(props) {
+const SubmitButton = styled.button`
+  width: 100px;
+  height: 28.36px;
+  left: 370px;
+  top: 830px;
+
+  background:  #6F91B5;
+  color: white;
+  border: #6F91B5;
+`
+const BackButton = styled.button`
+  width: 100px;
+  height: 28.36px;
+  left: 370px;
+  top: 830px;
+  margin-right: 10px;
+  margin-left: 220px;
+
+  background:  #EF8F88;
+  color: white;
+  border: #EF8F88;
+`
+
+function MyModify() {
   const history = useHistory();
 
-  const student = getDataFromStorage();
+  const professor = getDataFromStorage();
 
   const [data, setData] = useState();
 
@@ -57,8 +81,9 @@ function MyModify(props) {
       pw: memberInfo.password,
       pwC: memberInfo.password,
       mobile: memberInfo.mobile,
-      professorID: memberInfo.studentID,
+      studentID: memberInfo.studentID,
       department: memberInfo.department,
+      grade : memberInfo.grade,
       birthDate: memberInfo.birthDate,
       type: "S",
       errName: undefined,
@@ -69,7 +94,7 @@ function MyModify(props) {
   useEffect(() => {
     const fetch = async () => {
       try {
-        await getInfo(student.id);
+        await getInfo(professor.id);
       } catch (err) {
         console.log(err);
       }
@@ -129,17 +154,19 @@ function MyModify(props) {
       formData.append("name", data.name);
       formData.append("password", data.pw);
       formData.append("mobile", data.mobile);
-      formData.append("professorID", data.professorID);
+      formData.append("studentID", data.studentID);
       formData.append("department", data.department);
+      formData.append("grade", data.grade);
       formData.append("birthDate", data.birthDate);
       formData.append("profileImg", image);
 
       try {
-        await infoModifyApi(student.id, formData);
         alert("수정되었습니다.");
-        history.push("/professor/mypage/myinfo");
+        await infoModifyApi(professor.id, formData);
+        console.log("수정완!");
+        history.push(`/student/mypage/myinfo`);
       } catch (e) {
-        alert("항목을 다 채워주세요.");
+        alert(e);
       }
     }
   };
@@ -153,14 +180,10 @@ function MyModify(props) {
       {data.errName && data.errMessage && (
         <AlertBox available={false}>{data.errMessage}</AlertBox>
       )}
-
+    <InputBox>
       <Form>
-        <FormGroup row>
-          <Label for="" sm={2}>
-            이메일
-          </Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="이메일"
               type="email"
               name="email"
               id="exampleEmail"
@@ -168,40 +191,26 @@ function MyModify(props) {
               onChange={handleChange}
               value={data.email}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label for="" sm={2}>
-            비밀번호
-          </Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="비밀번호"
               type="password"
               name="pw"
               value={data.pw}
               onChange={handleChange}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>비밀번호 확인</Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="비밀번호 확인"
               type="password"
               name="pwC"
               id="examplePassword"
               onChange={handleChange}
               value={data.pwC}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>이름</Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="이름"
               type="name"
               name="name"
               id="exampleName"
@@ -209,75 +218,78 @@ function MyModify(props) {
               onChange={handleChange}
               value={data.name}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>학과</Label>
-          <Col sm={10}>
-            <Input
+        <InputWithLabel
+              label="학과"
               type="department"
               name="department"
               placeholder="학과를 입력하세요"
               onChange={handleChange}
               value={data.department}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <Label sm={2}>학번</Label>
-          <Col sm={10}>
-            <Input
-              type="professorID"
-              name="professorID"
+        <InputWithLabel
+              label="학번"
+              type="studentID"
+              name="studentID"
               placeholder="학번을 입력하세요"
               onChange={handleChange}
-              value={data.professorID}
+              value={data.studentID}
             />
-          </Col>
-        </FormGroup>
         <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="생년월일"
-            name="birthDate"
-            placeholder="생년월일"
-            type="date"
-            value={BirthDate(data.birthDate)}
-            onChange={handleChange}
-          />
-        </FormGroup>
+        <InputWithLabel
+              label="학년"
+              type="grade"
+              name="grade"
+              placeholder="학년을 입력하세요"
+              onChange={handleChange}
+              value={data.grade}
+            />
         <br />
-        <FormGroup row>
-          <InputWithLabel
-            label="전화번호"
-            name="mobile"
-            placeholder="전화번호"
-            type="text"
-            value={data.mobile}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <br />
-        <FormGroup row>
-          <Label sm={2}>프로필 사진</Label>
-          <Col sm={10}>
-            <Input type="file" name="profileImg" onChange={imageChange} />
-          </Col>
-        </FormGroup>
-        <br />
-        <FormText color="muted">
-          뒤로가면 작성한 내용이 반영되지 않습니다.
-        </FormText>
-        <br />
-        <br />
-        <FormGroup check row>
-          <Col sm={{ size: 10, offset: 2 }}>
-            <Button onClick={onModifyHandler}>Submit</Button>
-          </Col>
-        </FormGroup>
-      </Form>
+      <InputWithLabel
+        label="생년월일"
+        name="birthDate"
+        placeholder="생년월일"
+        type="date"
+        value={BirthDate(data.birthDate)}
+        onChange={handleChange}
+      />
+      <br />
+      <InputWithLabel
+        label="전화번호"
+        name="mobile"
+        placeholder="전화번호"
+        type="text"
+        value={data.mobile}
+        onChange={handleChange}
+      />
+      <br />
+      <ImageInputWithLabel
+        label="프로필 사진"
+        type="file" 
+        name="profileImg" 
+        onChange={imageChange}/>
+      <br />
+      <FormText color="muted">
+        뒤로가면 작성한 내용이 반영되지 않습니다.<br />
+        "저장하기" 버튼을 눌러주세요.
+      </FormText>
+
+      <br />
+
+        <Link
+          to="/student/mypage/myinfo"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <BackButton>뒤로가기</BackButton>
+        </Link> 
+
+        <SubmitButton onClick={onModifyHandler}>
+          제출하기 
+        </SubmitButton>
+         
+    </Form>
+    </InputBox>
     </Box>
   );
 }

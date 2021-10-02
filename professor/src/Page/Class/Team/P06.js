@@ -11,7 +11,7 @@ import {getDataFromStorage} from "../../../utils/storage";
 
 const WrapBox = styled.div`
   height: 785px;
-  overflow: scroll;
+
   padding: 20px;
   width: 80%;
 `;
@@ -20,22 +20,32 @@ const Box = styled.div`
   border: 1px solid #000000;
   width: 90%;
   height: 250px;
-  overflow: scroll;
+  overflow-y: scroll;
   margin-top: 10px;
   margin-bottom: 30px;
   padding: 30px 30px 30px 30px;
-  flex-wrap: nowrap;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: left;
 `;
 
-const DeleteButton = styled.div`
+const DeleteButton = styled.span`
 font-family: Roboto;
 font-style: normal;
 font-weight: normal;
 font-size: 19px;
 line-height: 18px;
-margin-left: 87%;
+margin-left: 0%;
+color: #7C7979;
+`
+
+const ModifyButton = styled.span`
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 19px;
+line-height: 18px;
+margin-left: 83%;
 margin-top: -30px;
 color: #7C7979;
 `
@@ -73,16 +83,18 @@ const TitleBox = styled.div`
 `;
 
 const LinkButton = styled.div`
+margin-top:15px;
   width: 100px;
-  height: 32px;
+  height: 38px;
   border: 2px solid #426589;
   box-sizing: border-box;
   border-radius: 50px;
   color: #426589;
   font-size: 18px;
   text-align: center;
-  margin-left: 80%;
   cursor: pointer;
+  padding-top:3px;
+  margin-right: 10%;
   :hover{
     background-color: #426589;
     color: white;
@@ -104,6 +116,11 @@ img{
 }
 `;
 
+const TeamsBox = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 680px;
+`
 const NoText = styled.div`
 font-family: Roboto;
 font-style: normal;
@@ -133,12 +150,12 @@ const P05_04 = () => {
   };
 
   const {studentList, studentListAll} = useEnrolment();
-  const {teamList, listAllTeams, deleteTeamApi } = useTeams();
+  const {teamList, listAllTeams, deleteTeamApi, createTeamApi } = useTeams();
 
   const deleteHandler = async(id) => {
     try{
       await deleteTeamApi(id);
-      alert("수정되었습니다.");
+      alert("삭제되었습니다.");
       <Link
         to={`/professor/class/${code}/enrol`}>
       </Link>
@@ -148,7 +165,19 @@ const P05_04 = () => {
     } 
   }
 
-
+  
+  const createHandler = async(e) => {
+    try{
+      await createTeamApi(code);
+      <Link
+        to={`/professor/class/${code}/enrol`}>
+      </Link>
+      await listAllTeams(code);
+    } catch(e){
+      alert(e);
+    }
+  }
+  
   const fetch = async() => {
     try{
       await studentListAll(code);
@@ -159,6 +188,19 @@ const P05_04 = () => {
       await setLoading(false);
     };
   }
+
+  const ListText = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 23px;
+
+color: #3D3D3D;
+margin-top: 15px;
+
+`
+  
   
   useEffect(()=> {
     fetch();
@@ -173,6 +215,7 @@ const P05_04 = () => {
       {studentList.count === 0 &&
         (
         <>
+        <ListText>구성팀 확인</ListText>
         <NoBox>
           <NoImg>
           <img src={require('../../../images/no_student.png').default} alt="학생없음이미지" />
@@ -194,25 +237,32 @@ const P05_04 = () => {
       (
         <>
       <TitleBox>
+        <ListText>구성팀 확인</ListText>
           <LinkButton onClick={ModalOpen}>자동 편성</LinkButton>
       </TitleBox>
+      <TeamsBox>
       {teamList.results.map((item) => {
         return (
           <>
             <Text>Team{item.name}</Text>
+            <span>
+            <Link to={`/professor/class/${code}/assign`}
+                  style={{textDecoration: "none", color:"inherit"}}>
+              <ModifyButton>수정 | </ModifyButton>
+            </Link>
             <DeleteButton onClick={() => {deleteHandler(item.id)}}>삭제</DeleteButton>
+            </span>
             <Box>
               <StudentBox students={item.team}></StudentBox>
             </Box>
           </>
         );
       })}
-      <CreateBox>
-        <Link to={`/professor/class/${code}/assign`}>
+      <CreateBox onClick={() => {createHandler()}}>
           <img src={require('../../../images/plus_team.png').default} alt="팀 추가" />
-        </Link>
       </CreateBox>
       <Assign open={Modal} close={ModalClose}></Assign>
+      </TeamsBox>
         </>
       )
       }

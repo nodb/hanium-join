@@ -41,7 +41,6 @@ const ClassParent = () => {
         />
         <Route
           path="/professor/class/:code/assignment/:id/modify"
-          exact
           component={AssignmentModify}
         />
         <Route
@@ -53,16 +52,6 @@ const ClassParent = () => {
           path="/professor/class/:code/addAssignment"
           exact
           component={AddAssignment}
-        />
-        <Route
-          path="/professor/class/:code/assignment/teamView"
-          exact
-          component={P12}
-        />
-        <Route
-          path="/professor/class/:code/assignment/assignView"
-          exact
-          component={P13}
         />
       </Switch>
     </>

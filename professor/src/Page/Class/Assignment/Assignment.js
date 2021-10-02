@@ -5,6 +5,27 @@ import { useAssignments, useComments, useTeams } from "../../../components/Use";
 import { DateChange, DateChange2 } from "../../../utils/dateChange";
 import { getDataFromStorage } from "../../../utils/storage";
 import styled from "styled-components";
+import { CTLoading, useLoading } from "../../../components";
+import oc from "open-color";
+
+const FormDiv = styled.div`
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 680px;
+`
+
+const ListText = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 20px;
+line-height: 23px;
+
+color: #3D3D3D;
+margin-top: 42px;
+
+`
+
 
 const Box = styled.div`
   width: 80%;
@@ -17,10 +38,113 @@ const Box = styled.div`
     background-color: #ffffff;
     border-color: #426589;
     color: #426589;
-    width: 75px;
+    width: 60px;
     height: 30px;
   }
+`;
 
+const Details = styled.div`
+display: inline-block;
+margin-right: 59px;
+font-family: Roboto;
+font-style: normal;
+font-size: 18px;
+line-height: 23px;
+width:100px;
+
+color: #FFFFFF;
+margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+`
+
+const ModifyButton = styled.button`
+background: #FFFFFF;
+border: 2px solid #426589;
+box-sizing: border-box;
+
+  margin-bottom: 30px;
+  margin-top: -40px;
+  float: right;
+  margin-right: 60px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+
+  color: #426589;
+  
+  width: 80px;
+  height: 35px;
+  :hover{
+    background-color: #426589;
+    color: white;
+  }
+`;
+
+const LabelText = styled.div`
+display: inline-block;
+margin-right: 59px;
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 23px;
+width:100px;
+
+color: #3D3D3D;
+margin-top: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+
+`;
+const EnterButton = styled.button`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  margin-top: 3px;
+  color: #426589;
+  background: #FFFFFF;
+border: 2px solid #426589;
+box-sizing: border-box;
+padding-top: 2px;
+:hover{
+    background-color: #426589;
+    color: white;
+  }
+`;
+
+const DeleteButton = styled.button`
+background: #FFFFFF;
+border: 2px solid #426589;
+box-sizing: border-box;
+
+  margin-bottom: 30px;
+  margin-top: -40px;
+  float: right;
+  margin-right: 60px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+
+  color: #426589;
+  
+  width: 80px;
+  height: 35px;
+  :hover{
+    background-color: #426589;
+    color: white;
+  }
 `;
 
 const assignment = ({ match }) => {
@@ -28,6 +152,10 @@ const assignment = ({ match }) => {
   const { code } = useParams();
   const assignmentId = match.params.id;
   const professorInfo = getDataFromStorage();
+
+  const { loading, setLoading } = useLoading(true);
+
+  console.log(loading);
 
   const [data, setData] = useState({
     contents: "",
@@ -45,38 +173,18 @@ const assignment = ({ match }) => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const fetch = async () => {
+    try {
+      await getAssignment(assignmentId);
+      await listAllTeams(code);
+      await listAllComments(assignmentId);
+    } catch (e) {
+      alert(e);
+    } finally {
+      await setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        await listAllTeams(code);
-      } catch (e) {
-        alert(e);
-      }
-    };
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await getAssignment(assignmentId);
-      } catch (e) {
-        alert(e);
-      }
-    };
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    console.log(match.params);
-    const fetch = async () => {
-      try {
-        await listAllComments(assignmentId);
-      } catch (e) {
-        alert(e);
-      }
-    };
     fetch();
   }, []);
 
@@ -97,7 +205,6 @@ const assignment = ({ match }) => {
     let valid = false;
     if (!assignmentOne.team) return valid;
     assignmentOne.team.map((item) => {
-      console.log(item.team_id);
       if (item.team_id === id) {
         valid = true;
       }
@@ -136,22 +243,24 @@ const assignment = ({ match }) => {
     }
   };
 
-  if (!data) return "로딩중";
-
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
+        <ListText>과제 등록</ListText>
       <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button
+        <ModifyButton
           onClick={modifyHandler}
           size="sm"
           style={{ marginRight: "20px" }}
         >
           수정
-        </button>
-        <button onClick={deleteHandler} size="sm">
+        </ModifyButton>
+        <DeleteButton onClick={deleteHandler} size="sm">
           삭제
-        </button>
+        </DeleteButton>
       </div>
+      <FormDiv>
       <Form>
         <FormGroup
           row
@@ -162,13 +271,9 @@ const assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Label
-            for="name"
-            sm={1}
-            style={{ fontWeight: "bold", paddingLeft: 0 }}
-          >
+          <LabelText>
             과제명
-          </Label>
+          </LabelText>
           <Col sm={10}>{assignmentOne.name}</Col>
         </FormGroup>
         <FormGroup
@@ -180,13 +285,13 @@ const assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Label
+          <LabelText
             for="point"
             sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             배점
-          </Label>
+          </LabelText>
           <Col sm={4}>{assignmentOne.point}</Col>
         </FormGroup>
         <FormGroup
@@ -198,13 +303,13 @@ const assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Label
+          <LabelText
             for="point"
             sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             공개일
-          </Label>
+          </LabelText>
           <Col sm={5}>{DateChange(assignmentOne.startDate)}</Col>
         </FormGroup>
         <FormGroup
@@ -216,13 +321,13 @@ const assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Label
+          <LabelText
             for="point"
             sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             마감일
-          </Label>
+          </LabelText>
           <Col sm={5}>{DateChange(assignmentOne.endDate)}</Col>
         </FormGroup>
         <FormGroup
@@ -234,13 +339,13 @@ const assignment = ({ match }) => {
             alignItems: "center",
           }}
         >
-          <Label
+          <LabelText
             for="team"
             sm={1}
             style={{ fontWeight: "bold", paddingLeft: 0 }}
           >
             팀지정
-          </Label>
+          </LabelText>
           {teamList.results.map((team) => (
             <Col sm={1}>
               <Input
@@ -256,12 +361,33 @@ const assignment = ({ match }) => {
         <FormGroup
           style={{
             marginLeft: 3,
+            padding: "15px 0px 150px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <p style={{
+            marginLeft: 20}}>{assignmentOne.content}</p>
+        </FormGroup>
+        <FormGroup
+          style={{
+            marginLeft: 3,
             padding: "15px 0px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
         >
-          <p>{assignmentOne.content}</p>
+          <div style={{ fontWeight: "bold", paddingLeft: 0 }}>첨부 파일</div>
+        </FormGroup>
+        <FormGroup
+          style={{
+            marginLeft: 3,
+            padding: "15px 0px",
+            borderBottom: "1px solid #C4C4C4",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ fontWeight: "bold", paddingLeft: 0 }}>해답 파일</div>
         </FormGroup>
         <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
           댓글 {commentList.total}개
@@ -276,17 +402,17 @@ const assignment = ({ match }) => {
                 borderBottom: "1px solid #C4C4C4",
               }}
             >
-              <Label
+              <LabelText
                 for="name"
                 sm={2}
                 style={{ fontWeight: "bold", paddingLeft: "5px" }}
               >
                 {comment.name} ({DateChange2(comment.createdAt)})
-              </Label>
-              <Label for="contents" sm={6} style={{ paddingLeft: "5px" }}>
+              </LabelText>
+              <LabelText for="contents" sm={6} style={{ paddingLeft: "5px" }}>
                 {comment.contents}
-              </Label>
-              <Label for="contents" sm={1} style={{ paddingLeft: "5px" }}>
+              </LabelText>
+              <LabelText for="contents" sm={1} style={{ paddingLeft: "5px" }}>
                 <Button
                   close
                   style={{ background: "none", border: 0, color: "red" }}
@@ -294,7 +420,7 @@ const assignment = ({ match }) => {
                     deleteCommentHandler(comment.id);
                   }}
                 />
-              </Label>
+              </LabelText>
             </FormGroup>
           );
         })}
@@ -314,12 +440,13 @@ const assignment = ({ match }) => {
             />
           </Col>
           <Col>
-            <button size="sm" onClick={submitCommentHandler}>
+            <EnterButton size="sm" onClick={submitCommentHandler}>
               확인
-            </button>
+            </EnterButton>
           </Col>
         </FormGroup>
       </Form>
+      </FormDiv>
     </Box>
   );
 };

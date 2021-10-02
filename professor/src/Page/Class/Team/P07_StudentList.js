@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useEnrolment, useTeams } from "../../../components/Use";
-import { CTLoading, useLoading } from "../../../components";
-import { useHistory, useParams } from "react-router-dom";
+import { useTeams } from "../../../components/Use";
+import { useParams } from "react-router-dom";
+
+
+const StudentHr = styled.hr`
+width: 300px;
+`
 
 const Arrow = styled.button`
   margin-bottom: 25px;
@@ -46,16 +50,19 @@ margin-top: 20px;
 function P07_StudnentList({students}){
 
   const { code } = useParams();
+
+  const { noteamList, studentsNoTeam } = useTeams();
+
+  const [stud, setStud] = useState([]);
+  // const [students, setStudents] = useState(teamList.results[0]);
   
-  const {studentList, studentListAll} = useEnrolment();
-  const { insertStudentsApi } = useTeams();
-  const { loading, setLoading } = useLoading(true);
+  const stud_studentCheck = (id) => {
+    let checked = [0];
+    checked = stud.filter((data) => data.memberId === id)
+    return checked.length === 1;
+  }
 
-  const [stud, setStud] = useState(
-    []
-  );
-
-  const checkboxChange = (e) => {
+  const stud_checkboxChange = (e) => {
     const {name, checked} = e.target;
 
     if(checked) {
@@ -71,78 +78,43 @@ function P07_StudnentList({students}){
       setStud(newStud);
     }
   }
-
-
-  console.log(stud);
   
-  const studentCheck = (id) => {
-    let checked = [];
-    checked = stud.filter((data) => data.memberId === id );
-    return checked.length === 1;
-  }
-
-  const insertHandler= async (e) => {
-    const body = stud;
-
-    try {
-      await insertStudentsApi(code, body);
-      await studentListAll(code);
-      console.log("클릭!");
-      fetch();
-    } catch(e){
+  const fetch = async() => {
+    try{
+      await studentsNoTeam(code);
+    } catch (e) {
       alert(e);
-    }
+    } 
   }
-   
-    const fetch = async() => {
-      try{
-        await studentListAll(code);
-      }catch(e){
-        alert(e);
-      }finally{
-        await setLoading(false);
-      }
-    }
 
-    useEffect(()=>{
-      fetch();
-    },[]);
+  useEffect(()=> {
+    fetch();
+  },[])
 
       return (
-      loading ? (
-      <CTLoading />
-    ) : (
     <>
-      <Box>
-        <Form>
-          {studentList.results.map((data) => {
-            return (
-              <StudentBox>
-                <FormGroup>
-                  <Label check>    
-                    <Input
-                      type="checkbox"
-                      checked={studentCheck(data.id)}
-                      name={data.id}
-                      onChange={checkboxChange}
-                      style={{ marginRight: "5px" }}
-                    />
-                    {data.name}({data.grade}학년)
-                  </Label>
-                </FormGroup>
-              </StudentBox>
-            );
-          })}
-        </Form>
-      </Box>
-      <Arrow style={{ backgroundColor: "white" }} onClick={insertHandler}>
-        <img
-          src={require("../../../images/toRight.png").default}
-          alt="rightArrow"
-        ></img>
-      </Arrow>
+      {noteamList.count > 0 && noteamList.results.map((data) =>     
+              { 
+                return(
+                    <StudentBox>
+                        <FormGroup>
+                          <Label check>    
+                            <Input
+                              type="checkbox"
+                              checked={stud_studentCheck(data.id, data)}
+                              name={data.id}
+                              onChange={stud_checkboxChange}
+                              style={{ marginRight: "5px" }}
+                            />
+                            {data.name}({data.grade}학년)
+                            <StudentHr />
+                          </Label>
+                        </FormGroup>
+                      </StudentBox>
+                      )
+              }
+          )}
     </>)
-  );
 }
 
 export default P07_StudnentList;

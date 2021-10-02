@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useClasses } from "../../../components/Use";
-import { getDataFromStorage } from "../../../utils/storage";
 
 const Block = styled.div`
   display: flex;
@@ -97,31 +95,7 @@ const Box = styled.div`
   padding-top: 50px;
 `;
 
-const P04_ClassAdd = ({ open, close }) => {
-  const [name, setName] = useState("");
-  const { createClassesApi, listAllClasses } = useClasses();
-  const professorInfo = getDataFromStorage();
-
-  const handleChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const createClass = async (e) => {
-    const body = {
-      name: name,
-      memberId: professorInfo.id,
-    };
-
-    try {
-      await createClassesApi(body);
-      await listAllClasses(professorInfo.id);
-    } catch (e) {
-      alert(e);
-    }
-
-    close();
-  };
-
+const P04_ClassAdd = ({ open, close, name, handleChange, createClass }) => {
   return (
     <>
       {open && (

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Collapse, Button, CardBody, Card } from "reactstrap";
+import React from "react";
 import styled from "styled-components";
+import { Accordion, Card } from "react-bootstrap";
+import { useAccordionButton } from "react-bootstrap/AccordionButton";
 
 const AssignmentBox = styled.div`
   width: 150px;
@@ -46,51 +47,66 @@ const teams = [
     name: "TEAM 2",
   },
 ];
-const TeamListItem = ({ team }) => {
-  const [isOpen, setIsOpen] = useState(false);
+
+const CustomToggle = ({ children, eventKey }) => {
+  const decoratedOnClick = useAccordionButton(eventKey, () =>
+    console.log("totally custom!")
+  );
 
   return (
-    <div>
-      <p
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        style={{ marginBottom: "2px" }}
-      >
-        {" "}
-        {isOpen ? "▼" : "▶"} TEAM {team.id}
-      </p>
-      <Collapse isOpen={isOpen}>
-        <Card
-          style={{
-            display: "flex",
-            width: "670px",
-            marginBottom: "10px",
-          }}
+    <button
+      type="button"
+      style={{
+        background: "none",
+        border: "none",
+        width: "100%",
+        textAlign: "left",
+      }}
+      onClick={decoratedOnClick}
+    >
+      {children}
+    </button>
+  );
+};
+
+const TeamListItem = ({ team }) => {
+  return (
+    <>
+      <Card style={{ marginBottom: "20px" }}>
+        <Card.Header
+          style={{ width: "1100px", background: "none", border: "none" }}
         >
-          <CardBody style={{ display: "inline-flex", flexWrap: "wrap" }}>
-            {Assignment.map((item) => {
-              return (
-                <AssignmentBox>
-                  {item.name}
-                  <br />
-                  {item.isSubmit ? "제출 완료" : "미제출"}
-                </AssignmentBox>
-              );
-            })}
-          </CardBody>
-        </Card>
-      </Collapse>
-    </div>
+          <CustomToggle eventKey="0">TEAM {team.id}</CustomToggle>
+        </Card.Header>
+        <Accordion.Collapse eventKey="0">
+          <Card.Body>
+            {" "}
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+              {Assignment.map((item) => {
+                return (
+                  <AssignmentBox key={item.name}>
+                    {item.name}
+                    <br />
+                    {item.isSubmit ? "제출 완료" : "미제출"}
+                  </AssignmentBox>
+                );
+              })}
+            </div>
+          </Card.Body>
+        </Accordion.Collapse>
+      </Card>
+    </>
   );
 };
 
 const P12 = () => {
   return (
     <div>
-      <h4 class="mt-2">팀별 보기</h4>
+      <h4 className="mt-2">팀별 보기</h4>
       {teams.map((team) => (
-        <TeamListItem team={team} />
+        <Accordion defaultActiveKey="1" key={team.id} flush>
+          <TeamListItem team={team} />
+        </Accordion>
       ))}
     </div>
   );

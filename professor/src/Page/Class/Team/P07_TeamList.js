@@ -49,7 +49,7 @@ const StudentBox = styled.div`
   margin-bottom: 10px;
 `;
 
-function P07_TeamList({ students }) {
+function P07_TeamList() {
   const { code } = useParams();
 
   const { teamList, listAllTeams, studentsNoTeam } = useTeams();

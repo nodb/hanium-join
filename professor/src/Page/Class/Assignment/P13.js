@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Collapse, Button, CardBody, Card } from "reactstrap";
+import { Accordion, Card } from "react-bootstrap";
+import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import styled from "styled-components";
 
 const AssignmentBox = styled.div`
@@ -48,29 +49,38 @@ const teams = [
     isSubmit: false,
   },
 ];
-const TeamListItem = ({ assignment }) => {
-  const [isOpen, setIsOpen] = useState(false);
+
+const CustomToggle = ({ children, eventKey }) => {
+  const decoratedOnClick = useAccordionButton(eventKey, () =>
+    console.log("totally custom!")
+  );
 
   return (
-    <div>
-      <p
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        style={{ marginBottom: "2px" }}
-      >
-        {" "}
-        {isOpen ? "▼" : "▶"} {assignment.name}
-      </p>
-      <Collapse isOpen={isOpen}>
-        <Card
-          style={{
-            display: "flex",
-            width: "670px",
-            marginBottom: "10px",
-          }}
-        >
-          <CardBody style={{ display: "inline-flex", flexWrap: "wrap" }}>
+    <button
+      type="button"
+      style={{
+        background: "none",
+        border: "none",
+        width: "100%",
+        textAlign: "left",
+      }}
+      onClick={decoratedOnClick}
+    >
+      {children}
+    </button>
+  );
+};
+
+const TeamListItem = ({ assignment }) => {
+  return (
+    <Card style={{ marginBottom: "20px", width: "1100px" }}>
+      <Card.Header style={{ background: "none", border: "none" }}>
+        <CustomToggle eventKey="0">{assignment.name}</CustomToggle>
+      </Card.Header>
+      <Accordion.Collapse eventKey="0">
+        <Card.Body>
+          {" "}
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
             {teams.map((item) => {
               return (
                 <AssignmentBox>
@@ -80,22 +90,26 @@ const TeamListItem = ({ assignment }) => {
                 </AssignmentBox>
               );
             })}
-          </CardBody>
-        </Card>
-      </Collapse>
-    </div>
+          </div>
+        </Card.Body>
+      </Accordion.Collapse>
+    </Card>
   );
 };
 
-const P12 = () => {
+const P13 = () => {
   return (
     <div>
       <h4 class="mt-2">과제 별 보기</h4>
-      {Assignments.map((assignment) => (
-        <TeamListItem assignment={assignment} />
-      ))}
+      <div style={{ overflowY: "scroll", width: "1150px" }}>
+        {Assignments.map((assignment) => (
+          <Accordion defaultActiveKey="1" key={assignment.id} flush>
+            <TeamListItem assignment={assignment} />
+          </Accordion>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default P12;
+export default P13;

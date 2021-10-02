@@ -121,7 +121,7 @@ export const readStudentListMd = async (ctx, next) => {
   };
 
   await next();
-};
+};  
 
 // 수강생 total
 export const readStudentCountMd = async (ctx, next) => {

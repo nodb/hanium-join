@@ -43,7 +43,7 @@ const useP05_04 = () => {
     }
   };
 
-  const AcceptHandler = async () => {
+  const AcceptHandler = async (student) => {
     const body = {
       memberId: student.id,
       classCode: code,

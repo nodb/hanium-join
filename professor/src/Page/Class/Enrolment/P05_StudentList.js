@@ -124,6 +124,7 @@ const P05_StudentList = ({ code, studentList, removeHandler }) => {
         <Box2 color="#426589">
           {studentList.results.map((item) => (
             <P05_StudentDetail
+              key={item.name}
               student={item}
               removeHandler={removeHandler}
             ></P05_StudentDetail>

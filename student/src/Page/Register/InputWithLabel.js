@@ -11,7 +11,8 @@ const Wrapper = styled.div`
 
 const Label = styled.div`
 display: inline-block;
-
+text-align: left;
+width: 100px;
 margin-right: 59px;
 margin-bottom: 31px;
   font-size: 1rem;

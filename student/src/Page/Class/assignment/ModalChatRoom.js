@@ -43,6 +43,32 @@ const Top = styled.div`
   }
 `;
 
+const Person = styled.div``;
+
+const Name = styled.span`
+  float: left;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  padding-right: 15px;
+  margin-bottom: 7px;
+
+  /* identical to box height */
+
+  color: #000000;
+`;
+const Profile = styled.div`
+  img {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin-left: 7px;
+    margin-right: 10px;
+  }
+`;
+
 const Bottom = styled.div`
   width: 400px;
   height: 50px;
@@ -87,9 +113,10 @@ const LeftBox = styled.div`
   width: fit-content;
   padding: 0.84rem;
   max-width: 70%;
-  margin-left: 2.5rem;
-  margin-top: 15px;
+  margin-left: 3.5rem;
+  margin-top: 20px;
   border-radius: 10px;
+  margin-bottom: 10px;
 `;
 
 const RightBox = styled.div`
@@ -104,7 +131,7 @@ const RightBox = styled.div`
   font-weight: bold;
   position: relative;
   padding: 0.84rem;
-  margin: 15px 2.5rem 0 auto;
+  margin: 15px 1rem 0 auto;
   border-radius: 10px;
 `;
 
@@ -226,7 +253,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
           </button>
         </Top>
         <Box>
-          {chatList.results.map((chat) => {
+          {chatList.results.map((chat, i) => {
             if (chat.id === studentInfo.id) {
               return (
                 <>
@@ -236,7 +263,28 @@ const ModalChatRoom = ({ match, setOpen }) => {
             } else {
               return (
                 <>
-                  <LeftBox>{chat.contents}</LeftBox>
+                  {i > 0 &&
+                  chatList.results[i].id === chatList.results[i - 1].id ? (
+                    <LeftBox>{chat.contents}</LeftBox>
+                  ) : (
+                    <>
+                      <Person>
+                        <Profile>
+                          <img
+                            src={
+                              chat.profileImg === null
+                                ? require("../../../images/person_default.png")
+                                    .default
+                                : `/${chat.profileImg}`
+                            }
+                            alt="이미지"
+                          />
+                        </Profile>
+                        <Name>{chat.name}</Name>
+                      </Person>
+                      <LeftBox>{chat.contents}</LeftBox>
+                    </>
+                  )}
                 </>
               );
             }

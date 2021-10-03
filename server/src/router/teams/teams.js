@@ -23,9 +23,10 @@ export const readTeamAllMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { classCode } = ctx.params;
 
-  const rows = await conn.query("SELECT * FROM tb_team WHERE class_code = ? ORDER BY name ASC", [
-    classCode,
-  ]);
+  const rows = await conn.query(
+    "SELECT * FROM tb_team WHERE class_code = ? ORDER BY name ASC",
+    [classCode]
+  );
 
   const members = await conn.query(
     "SELECT t.id as team_id, m.id as member_id, m.name, m.grade, m.department \
@@ -176,48 +177,53 @@ export const studentsNoTeamMd = async (ctx, next) => {
   ctx.state.body = {
     count: rows.length,
     results: rows,
-  }
+  };
 
   await next();
-}
+};
 
 export const saveRandomTeamMd = async (ctx, next) => {
-
   const { conn } = ctx.state;
-  const {classCode} = ctx.params;
+  const { classCode } = ctx.params;
   const { teamNum, studentNum } = ctx.request.body;
 
-  await conn.query("DELETE FROM tb_team WHERE class_code = ?", [classCode]);
+  const row = await conn.query("SELECT * FROM tb_team WHERE class_code = ?", [
+    classCode,
+  ]);
 
+  const count = row.length;
   let array = [];
-  for(let i=1; i<=teamNum; i++) {
+  for (let i = count + 1; i <= count + Number(teamNum); i++) {
     let temp = array.concat([[UUID(), i, classCode]]);
     array = temp;
   }
-  console.log(array);
 
   let teamIds = [];
-  for(let i = 0; i<teamNum; i++) {
+  for (let i = 0; i < teamNum; i++) {
     let temp = teamIds.concat([array[i][0]]);
     teamIds = temp;
   }
-  console.log("teamsId : " + teamIds);
 
   await conn.batch(
     "INSERT INTO tb_team (id, name, class_code) VALUES (?, ?, ?)",
     array
   );
 
+  const rows = await conn.query(
+    "select m.id as member_id from tb_enrol e \
+    LEFT JOIN tb_team_member tm ON e.member_id = tm.member_id\
+    JOIN tb_member m ON m.id = e.member_id\
+    WHERE e.class_code = ? AND e.isAccept = ? AND tm.team_id is null",
+    [classCode, 1]
+  );
 
-  const rows = await conn.query("select member_id from tb_enrol where class_code = ? AND isAccept = ?" , [classCode, 1]);
-
-  let students= [];
+  let students = [];
   let idx = 0;
-  for(let i = 0; i < teamNum; i++) {
+  for (let i = 0; i < teamNum; i++) {
     let temp = [];
-    for(let j = 0; j < studentNum; j++) {
-      if(idx < rows.length) {
-        let student = temp.concat([[teamIds[i],rows[idx].member_id]]);
+    for (let j = 0; j < studentNum; j++) {
+      if (idx < rows.length) {
+        let student = temp.concat([[teamIds[i], rows[idx].member_id]]);
         temp = student;
       }
       idx++;
@@ -225,10 +231,12 @@ export const saveRandomTeamMd = async (ctx, next) => {
     let tmp = students.concat(temp);
     students = tmp;
   }
-  console.log("students "+students);
-  await conn.batch("INSERT INTO tb_team_member (team_id, member_id) VALUES (?, ?)", (teamIds, students));
+  await conn.batch(
+    "INSERT INTO tb_team_member (team_id, member_id) VALUES (?, ?)",
+    (teamIds, students)
+  );
   await next();
-}
+};
 
 export const create = [
   CommonMd.createConnectionMd,
@@ -241,7 +249,7 @@ export const randomTeam = [
   CommonMd.createConnectionMd,
   saveRandomTeamMd,
   CommonMd.responseMd,
-]
+];
 
 // 팀원 전체 조회
 export const readAll = [
@@ -284,4 +292,4 @@ export const studentsNoTeam = [
   CommonMd.createConnectionMd,
   studentsNoTeamMd,
   CommonMd.responseMd,
-]
+];

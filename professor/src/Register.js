@@ -2,6 +2,8 @@ import React from "react";
 import DetailInfo from "./Page/Register/DetailInfo";
 import Terms from "./Page/Register/Terms";
 import { Route, Switch } from "react-router-dom";
+import styled from "styled-components";
+
 
 function Register() {
   return (

@@ -1,5 +1,5 @@
 import Koa from "koa";
-import serve from 'koa-static';
+import serve from "koa-static";
 import KoaBody from "koa-body";
 import mariadb from "mariadb";
 import cors from "koa-cors";

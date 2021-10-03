@@ -6,23 +6,22 @@ import { endDateChange, DateChange } from "../../../utils/dateChange";
 import styled from "styled-components";
 
 const ListText = styled.div`
-font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 20px;
-line-height: 23px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
 
-color: #3D3D3D;
-margin-top: 42px;
-`
+  color: #3d3d3d;
+  margin-top: 42px;
+`;
 
 const Box = styled.div`
-  width: 80%;
+  width: 70%;
   button {
-
-  background: #FFFFFF;
-  border: 2px solid #426589;
-  box-sizing: border-box;
+    background: #ffffff;
+    border: 2px solid #426589;
+    box-sizing: border-box;
 
     margin-bottom: 14px;
     float: right;
@@ -35,10 +34,10 @@ const Box = styled.div`
     text-align: center;
 
     color: #426589;
-    
+
     width: 80px;
     height: 35px;
-    :hover{
+    :hover {
       background-color: #426589;
       color: white;
     }
@@ -47,14 +46,13 @@ const Box = styled.div`
 
 const Assignment = styled.div`
   table {
-    border-color: #C4C4C4;
-
+    border-color: #c4c4c4;
   }
 
   thead th {
-    padding-top: 10px;
+    padding-top: 6px;
     background-color: #426589;
-    padding-bottom: 10px;
+    padding-bottom: 6px;
     text-align: center;
 
     font-family: Roboto;
@@ -63,33 +61,33 @@ const Assignment = styled.div`
     font-size: 20px;
     line-height: 23px;
 
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   tbody th {
     cursor: pointer;
-    height: 63px;
+    height: 50px;
     font-family: Roboto;
     font-style: normal;
     font-family: Roboto;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 23px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 23px;
 
-  color: #000000;
-    padding-top: 21px;
+    color: #000000;
+    padding-top: 13px;
     text-align: center;
   }
 
   td {
     cursor: pointer;
-    padding-top: 18px;
+    padding-top: 10px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
+    font-size: 17px;
+    line-height: 20px;
 
     color: #000000;
   }
@@ -126,7 +124,7 @@ const assignmentList = () => {
   return (
     <Box>
       <div>
-      <ListText>등록된 과제 확인</ListText>
+        <ListText>등록된 과제 확인</ListText>
         <button size="sm" onClick={addHandler}>
           추가
         </button>

@@ -27,7 +27,7 @@ const ListText = styled.div`
 `;
 
 const Box = styled.div`
-  width: 80%;
+  width: 70%;
   button {
     font-family: Roboto;
     font-style: normal;
@@ -100,10 +100,42 @@ const LabelText = styled.div`
   width: 100px;
 
   color: #3d3d3d;
-  margin-top: 10px;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-bottom: 8px;
   text-align: center;
 `;
+
+const CommentText = styled.div`
+  display: inline-block;
+  margin-right: 59px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 23px;
+  width: fit-content;
+
+  color: #3d3d3d;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+
+const CommentContentText = styled.div`
+  display: inline-block;
+  margin-right: 59px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 23px;
+  width: 600px;
+
+  color: #3d3d3d;
+  margin-top: 5px;
+  margin-bottom: 10px;
+`;
+
 const EnterButton = styled.button`
   font-family: Roboto;
   font-style: normal;
@@ -284,7 +316,9 @@ const assignment = ({ match }) => {
               alignItems: "center",
             }}
           >
-            <LabelText>과제명</LabelText>
+            <LabelText sm={1} style={{ fontWeight: "bold", paddingLeft: 0 }}>
+              과제명
+            </LabelText>
             <Col sm={10}>{assignmentOne.name}</Col>
           </FormGroup>
           <FormGroup
@@ -298,6 +332,7 @@ const assignment = ({ match }) => {
           >
             <LabelText
               for="point"
+              htmlFor="point"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
             >
@@ -316,6 +351,7 @@ const assignment = ({ match }) => {
           >
             <LabelText
               for="point"
+              htmlFor="point"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
             >
@@ -334,6 +370,7 @@ const assignment = ({ match }) => {
           >
             <LabelText
               for="point"
+              htmlFor="point"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
             >
@@ -352,6 +389,7 @@ const assignment = ({ match }) => {
           >
             <LabelText
               for="team"
+              htmlFor="team"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
             >
@@ -399,7 +437,13 @@ const assignment = ({ match }) => {
             }}
           >
             <div style={{ display: "flex" }}>
-              <div style={{ fontWeight: "bold", paddingLeft: 0 }}>
+              <div
+                style={{
+                  fontWeight: "bold",
+                  paddingLeft: "15px",
+                  marginRight: "85px",
+                }}
+              >
                 첨부 파일
               </div>
               <a
@@ -423,7 +467,8 @@ const assignment = ({ match }) => {
               <div
                 style={{
                   fontWeight: "bold",
-                  paddingLeft: 0,
+                  paddingLeft: "15px",
+                  marginRight: "85px",
                 }}
               >
                 해답 파일
@@ -437,7 +482,10 @@ const assignment = ({ match }) => {
               </a>
             </div>
           </FormGroup>
-          <div style={{ fontSize: "14px" }} class="mt-3 mb-3">
+          <div
+            style={{ fontSize: "14px", paddingLeft: "15px" }}
+            class="mt-3 mb-3"
+          >
             댓글 {commentList.total}개
           </div>
           {commentList.results.map((comment) => {
@@ -446,21 +494,35 @@ const assignment = ({ match }) => {
                 row
                 style={{
                   marginLeft: 3,
-                  padding: "7px 0px",
                   borderBottom: "1px solid #C4C4C4",
                 }}
               >
-                <LabelText
+                <CommentText
                   for="name"
-                  sm={2}
-                  style={{ fontWeight: "bold", paddingLeft: "5px" }}
+                  sm={4}
+                  style={{ fontWeight: "bold", paddingLeft: "15px" }}
                 >
-                  {comment.name} ({DateChange2(comment.createdAt)})
-                </LabelText>
-                <LabelText for="contents" sm={6} style={{ paddingLeft: "5px" }}>
+                  {comment.name}
+                </CommentText>
+                <CommentContentText
+                  for="contents"
+                  sm={6}
+                  style={{ paddingLeft: "45px" }}
+                >
                   {comment.contents}
-                </LabelText>
-                <LabelText for="contents" sm={1} style={{ paddingLeft: "5px" }}>
+                </CommentContentText>
+                <CommentText
+                  for="contents"
+                  sm={6}
+                  style={{ paddingLeft: "5px" }}
+                >
+                  ({DateChange2(comment.createdAt)})
+                </CommentText>
+                <CommentText
+                  for="contents"
+                  sm={1}
+                  style={{ paddingLeft: "5px" }}
+                >
                   <Button
                     close
                     style={{ background: "none", border: 0, color: "red" }}
@@ -468,17 +530,17 @@ const assignment = ({ match }) => {
                       deleteCommentHandler(comment.id);
                     }}
                   />
-                </LabelText>
+                </CommentText>
               </FormGroup>
             );
           })}
           <FormGroup
             row
             style={{
-              padding: "7px 0px",
+              padding: "7px 15px",
             }}
           >
-            <Col sm={7}>
+            <Col style={{ marginLeft: "150px" }}>
               <Input
                 type="conmment"
                 name="contents"

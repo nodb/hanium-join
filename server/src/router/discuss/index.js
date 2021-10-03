@@ -6,7 +6,7 @@ const router = new Router();
 // 토론 댓글 생성
 router.post("/", ...discuss.create);
 
-router.get("/:teamId/:assignmentId", ...discuss.readAll);
+router.get("/:assignmentTeamId", ...discuss.readAll);
 
 router.delete("/:id", ...discuss.remove);
 

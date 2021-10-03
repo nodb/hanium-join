@@ -14,7 +14,7 @@ const Label = styled.div`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 23px;
   width: 100px;
 

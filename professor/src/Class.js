@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import P05 from "./Page/Class/Enrolment/P05_04";
 import P06 from "./Page/Class/Team/P06";
-import P07 from "./Page/Class/Team/P07_05";
+import P07 from "./Page/Class/Team/SetTeam";
 import P12 from "./Page/Class/Assignment/P12";
 import P13 from "./Page/Class/Assignment/P13";
 
@@ -41,12 +41,23 @@ const ClassParent = () => {
         />
         <Route
           path="/professor/class/:code/assignment/:id/modify"
+          exact
           component={AssignmentModify}
         />
         <Route
           path="/professor/class/:code/assignmentList"
           exact
           component={AssignmentList}
+        />
+        <Route
+          path="/professor/class/:code/assignmentList/teamView"
+          exact
+          component={P12}
+        />
+        <Route
+          path="/professor/class/:code/assignmentList/assignView"
+          exact
+          component={P13}
         />
         <Route
           path="/professor/class/:code/addAssignment"

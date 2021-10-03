@@ -50,7 +50,7 @@ const P09_07 = () => {
 
     try {
       await createAssignmentsApi(formData);
-      history.goBack();
+      <Link to="/professor/class/:code/assignmentList" value={code}></Link>;
     } catch (e) {
       alert(e);
     }

@@ -187,10 +187,13 @@ export const saveRandomTeamMd = async (ctx, next) => {
   const { classCode } = ctx.params;
   const { teamNum, studentNum } = ctx.request.body;
 
-  await conn.query("DELETE FROM tb_team WHERE class_code = ?", [classCode]);
+  const row = await conn.query("SELECT * FROM tb_team WHERE class_code = ?", [
+    classCode,
+  ]);
 
+  const count = row.length;
   let array = [];
-  for (let i = 1; i <= teamNum; i++) {
+  for (let i = count + 1; i <= count + Number(teamNum); i++) {
     let temp = array.concat([[UUID(), i, classCode]]);
     array = temp;
   }
@@ -200,13 +203,17 @@ export const saveRandomTeamMd = async (ctx, next) => {
     let temp = teamIds.concat([array[i][0]]);
     teamIds = temp;
   }
+
   await conn.batch(
     "INSERT INTO tb_team (id, name, class_code) VALUES (?, ?, ?)",
     array
   );
 
   const rows = await conn.query(
-    "select member_id from tb_enrol where class_code = ? AND isAccept = ?",
+    "select m.id as member_id from tb_enrol e \
+    LEFT JOIN tb_team_member tm ON e.member_id = tm.member_id\
+    JOIN tb_member m ON m.id = e.member_id\
+    WHERE e.class_code = ? AND e.isAccept = ? AND tm.team_id is null",
     [classCode, 1]
   );
 

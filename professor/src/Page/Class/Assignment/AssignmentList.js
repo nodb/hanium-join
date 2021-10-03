@@ -17,7 +17,7 @@ const ListText = styled.div`
 `;
 
 const Box = styled.div`
-  width: 80%;
+  width: 70%;
   button {
     background: #ffffff;
     border: 2px solid #426589;
@@ -50,9 +50,9 @@ const Assignment = styled.div`
   }
 
   thead th {
-    padding-top: 10px;
+    padding-top: 6px;
     background-color: #426589;
-    padding-bottom: 10px;
+    padding-bottom: 6px;
     text-align: center;
 
     font-family: Roboto;
@@ -66,28 +66,28 @@ const Assignment = styled.div`
 
   tbody th {
     cursor: pointer;
-    height: 63px;
+    height: 50px;
     font-family: Roboto;
     font-style: normal;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 23px;
 
     color: #000000;
-    padding-top: 21px;
+    padding-top: 13px;
     text-align: center;
   }
 
   td {
     cursor: pointer;
-    padding-top: 18px;
+    padding-top: 10px;
     font-family: Roboto;
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
+    font-size: 17px;
+    line-height: 20px;
 
     color: #000000;
   }

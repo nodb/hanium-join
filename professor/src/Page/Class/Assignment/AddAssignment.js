@@ -43,6 +43,7 @@ const SubmitButton = styled.button`
     color: white;
   }
 `;
+
 const HeadLabel = styled.div`
   display: inline-block;
   margin-left: -12px;

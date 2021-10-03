@@ -4,7 +4,7 @@ import { v4 as UUID } from "uuid";
 export const createChatMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, assignmentTeamId, contents } = ctx.request.body;
- 
+
   const id = UUID();
   ctx.state.id = id;
 
@@ -12,7 +12,6 @@ export const createChatMd = async (ctx, next) => {
     "INSERT INTO tb_chat(id, member_id, contents, assignment_team_id) VALUES (?, ?, ?, ?)",
     [id, memberId, contents, assignmentTeamId]
   );
-  
 
   await next();
 };
@@ -20,18 +19,19 @@ export const createChatMd = async (ctx, next) => {
 export const queryChatMd = async (ctx, next) => {
   const { conn, io, id } = ctx.state;
   const { assignmentTeamId } = ctx.request.body;
-  
+
   const response = await conn.query(
     "SELECT m.id, m.name, m.profileImg, c.contents, c.createdAt \
     FROM tb_chat c JOIN tb_member m ON c.member_id = m.id\
     WHERE c.id = ?",
     [id]
-  )
+  );
 
+  console.log(io);
   const nsp = io.of(`/${assignmentTeamId}`);
   nsp.emit("message", response);
   await next();
-}
+};
 
 export const readChatLogMd = async (ctx, next) => {
   const { conn } = ctx.state;

@@ -14,14 +14,14 @@ const Label = styled.div`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 23px;
+  font-size: 18px;
+  line-height: 15px;
   width: 60px;
 
   color: #3d3d3d;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 const Input = styled.input`

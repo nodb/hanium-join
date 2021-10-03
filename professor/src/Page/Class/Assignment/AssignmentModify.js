@@ -17,7 +17,7 @@ const ListText = styled.div`
   line-height: 23px;
 
   color: #3d3d3d;
-  margin-top: 42px;
+  margin-top: 30px;
 `;
 const SubmitButton = styled.button`
   background: #ffffff;
@@ -57,8 +57,8 @@ const HeadLabel = styled.div`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 23px;
+  font-size: 18px;
+  line-height: 15px;
   width: 56px;
 
   color: #3d3d3d;
@@ -108,14 +108,14 @@ const Text = styled.div`
   font-weight: 400;
   color: #ef8f88;
   margin-top: 10px;
-  margin-left: 160px;
+  margin-left: 120px;
 `;
 
 const InputDiv = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   margin-top: 30px;
-  margin: 0 auto;
+  margin: 0 50px;
   width: 90%;
   height: 680px;
 `;

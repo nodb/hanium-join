@@ -15,6 +15,7 @@ import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
 const InputBox = styled.span`
+
   overflow: scroll;
   height: 730px;
 `
@@ -175,7 +176,6 @@ function MyModify() {
     <Box>
       <Page>개인 정보 수정</Page>
       <Hr />
-
       {data.errName && data.errMessage && (
         <AlertBox available={false}>{data.errMessage}</AlertBox>
       )}

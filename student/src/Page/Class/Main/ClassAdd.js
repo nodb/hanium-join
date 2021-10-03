@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useEnrolment } from "../../../components/Use";
-import { getDataFromStorage } from "../../../utils/storage";
 
 const Block = styled.div`
   display: flex;
@@ -97,30 +95,7 @@ const Box = styled.div`
   padding-top: 50px;
 `;
 
-function S04_ClassAdd({ open, close }) {
-  const [code, setCode] = useState("");
-  const { createEnrolApi } = useEnrolment();
-  const studentInfo = getDataFromStorage();
-
-  const handleChange = (e) => {
-    setCode(e.target.value);
-  };
-
-  const createEnrol = async (e) => {
-    const body = {
-      classCode: code,
-      memberId: studentInfo.id,
-    };
-
-    try {
-      await createEnrolApi(body);
-    } catch (e) {
-      alert(e);
-    }
-
-    close();
-  };
-
+const S04_ClassAdd = ({ open, close, code, handleChange, createEnrol }) => {
   return (
     <>
       {open && (
@@ -147,6 +122,6 @@ function S04_ClassAdd({ open, close }) {
       )}
     </>
   );
-}
+};
 
 export default S04_ClassAdd;

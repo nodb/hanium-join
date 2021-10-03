@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useEnrolment, useTeams } from "../../../components/Use";
-import { useHistory, useParams } from "react-router-dom";
+import { useTeams } from "../../../components/Use";
+import { useParams } from "react-router-dom";
+
+const Team = styled.div`
+display: flex;
+width: 561px;
+margin-top: 5px;
+`;
 
 const TStudentBox = styled.div`
   width: 180px;
@@ -10,30 +16,31 @@ const TStudentBox = styled.div`
 `;
 
 const StudentHr = styled.hr`
-  width: 300px;
-`;
+width: 300px;
+`
 
-const Arrow = styled.button`
-  margin-bottom: 25px;
-  margin-left: 35px;
+const DelArrow = styled.button`
+position: absolute;
+left: 749px;
+top: 530px;
   width: 130px;
   height: 35px;
-  background: #ffffff;
+  background: #FFFFFF;
   border: 1px solid #000000;
   box-sizing: border-box;
-  img {
+  img{
     text-align: center;
-    margin-left: 50px;
     width: 25px;
     height: 25px;
-    margin-top: 4px;
+    margin-top: 2px;
+    cursor: pointer;
   }
   cursor: pointer;
-`;
+`
 
-const Box = styled.div`
-  background: #ffffff;
-  border: 2px solid #ef8f88;
+const TBox = styled.div`
+  background: #FFFFFF;
+  border: 2px solid #EF8F88;
   box-sizing: border-box;
   width: 400px;
   height: 626px;
@@ -41,36 +48,31 @@ const Box = styled.div`
   flex-wrap: wrap;
   padding: 30px 50px 30px;
   position: relative;
+
 `;
 
-const StudentBox = styled.div`
-  width: 180px;
-  font-size: 18px;
-  margin-bottom: 10px;
-`;
-
-function P07_TeamList() {
+function P07_TeamList({ students }) {
   const { code } = useParams();
 
-  const { teamList, listAllTeams, studentsNoTeam } = useTeams();
+  const { teamList, listAllTeams, studentsNoTeam, deleteStudentsApi } = useTeams();
 
-  const [students, setStudents] = useState(teamList.results[0]);
+  const [studentIn, setStudentIn] = useState(teamList.results[0]);
   const [currentTeam, setcurrentTeams] = useState(0);
   const [stud, setStud] = useState([]);
 
   useEffect(() => {
-    setStudents(teamList.results[currentTeam]);
-  }, [teamList.results]);
+    setStudentIn(teamList.results[currentTeam])
+  }, [teamList.results])
 
   const team_studentCheck = (id) => {
     let checked = [];
     checked = stud.filter((data) => data.memberId === id);
 
     return checked.length === 1;
-  };
+  }
 
   const team_checkboxChange = (e) => {
-    const { name, checked } = e.target;
+    const {name, checked} = e.target;
 
     if (checked) {
       setStud([
@@ -84,44 +86,67 @@ function P07_TeamList() {
       const newStud = stud.filter((data) => data.memberId !== name);
       setStud(newStud);
     }
-  };
+  }
 
-  const fetch = async () => {
+  const deleteHandler= async (e) => {
+    let members = [];
+    stud.map((data)=>{
+      members.push(data.memberId); 
+    })
     try {
-      await studentsNoTeam(code);
+      await deleteStudentsApi(`memberId=${members}&teamId=${students.id}`);
       await listAllTeams(code);
-    } catch (e) {
+      await studentsNoTeam(code);
+    } catch(e){
       alert(e);
     }
-  };
+  }
 
-  useEffect(() => {
+  const fetch = async() => {
+    try{
+      await studentsNoTeam(code);
+      await listAllTeams(code);
+
+    } catch (e) {
+      alert(e);
+    } 
+  }
+
+  useEffect(()=> {
     fetch();
-  }, []);
-
+  },[])
+  
   return (
-    <>
-      {students &&
-        students.team.map((student) => {
-          return (
-            <TStudentBox>
-              <FormGroup>
-                <Label check>
+    <Team>
+      <DelArrow style={{ backgroundColor: "white" }} onClick={deleteHandler}> 
+        <img
+          src={require("../../../images/toLeft.png").default}
+          alt="leftArrow"
+        ></img>
+      </DelArrow>
+              <TBox>
+      <Form>
+      {students && students.team.map((student) => {
+             return(
+                <TStudentBox>   
+                <FormGroup>
+                  <Label check>
                   <Input
-                    type="checkbox"
-                    checked={team_studentCheck(student.member_id)}
-                    name={student.member_id}
-                    onChange={team_checkboxChange}
-                  />{" "}
-                  &nbsp;
-                  {student.name}({student.grade}학년)
-                  <StudentHr />
-                </Label>
-              </FormGroup>
-            </TStudentBox>
-          );
-        })}
-    </>
+                        type="checkbox"
+                        checked={team_studentCheck(student.member_id)}
+                        name={student.member_id}
+                        onChange={team_checkboxChange}
+                      /> &nbsp;
+                      {student.name}({student.grade}학년)
+                      <StudentHr />
+                  </Label>
+                </FormGroup>
+              </TStudentBox>
+                   )
+           })}  
+                   </Form>
+      </TBox>
+    </Team>
   );
 }
 

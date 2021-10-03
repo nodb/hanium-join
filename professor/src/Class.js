@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import P05 from "./Page/Class/Enrolment/P05_04";
 import P06 from "./Page/Class/Team/P06";
-import P07 from "./Page/Class/Team/SetTeam";
+import P07 from "./Page/Class/Team/P07_05";
 import P12 from "./Page/Class/Assignment/P12";
 import P13 from "./Page/Class/Assignment/P13";
 
@@ -20,10 +20,11 @@ import Footer from "./Common/Footer";
 
 import styled from "styled-components";
 
-const Contents = styled.div`
-  display: flex;
-  margin-top: 28px;
-`;
+const ContentBox = styled.div`
+ width: 1440px;
+ margin: 0 auto;
+ display: flex;
+`
 
 const ClassParent = () => {
   return (
@@ -74,9 +75,9 @@ const Class = () => {
     <>
       <Header />
       <Switch>
-        <Contents>
+        <ContentBox>
           <Route path="/professor/class/:code" component={ClassParent} />
-        </Contents>
+        </ContentBox>
       </Switch>
       <Footer />
     </>

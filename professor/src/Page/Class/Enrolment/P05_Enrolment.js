@@ -81,7 +81,7 @@ const EnrolmentDetail = ({ student, AcceptHandler, RefuseHandler }) => {
         </div>
       </div>
       <ButtonBox>
-        <Delete onClick={AcceptHandler} src={check} />
+        <Delete onClick={() => AcceptHandler(student)} src={check} />
         <Delete onClick={RefuseHandler} src={refuse} />
       </ButtonBox>
     </StudentBox>

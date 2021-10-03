@@ -80,13 +80,13 @@ const S05_05_06 = () => {
             </SmallBox>
           </NoTeamBox>
         )}
+          <TeamBox>
         {teamList.results.map((item) => {
           return (
-            <TeamBox>
               <StudentBox key={item.id} student={item} />
-            </TeamBox>
           );
         })}
+            </TeamBox>
       </div>
       <div>
         <Text>과제</Text>

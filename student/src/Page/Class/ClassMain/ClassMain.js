@@ -72,21 +72,21 @@ const S05_05_06 = () => {
     <div>
       <div>
         <Text>팀원</Text>
-        {teamList.count === 0 && (
+        {teamList.count === 0 ? (
           <NoTeamBox>
             <SmallBox>
               <Img src={noTeam} alt="noteam"></Img>
               <div>아직 팀이 맺어지지 않았어요!</div>
             </SmallBox>
           </NoTeamBox>
-        )}
+        ):(
           <TeamBox>
         {teamList.results.map((item) => {
           return (
               <StudentBox key={item.id} student={item} />
           );
         })}
-            </TeamBox>
+            </TeamBox>)}
       </div>
       <div>
         <Text>과제</Text>

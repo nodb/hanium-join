@@ -1,12 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-
-import check from "../../../images/check.png";
-import refuse from "../../../images/x.png";
-
-import { getDataFromStorage } from "../../../utils/storage";
-import { useEnrolment } from "../../../components/Use";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+
+import refuse from "../../../images/x.png";
 
 const Box = styled.div`
   width: 1100px;
@@ -54,7 +50,6 @@ const CopyButton = styled.button`
   height: 30px;
 `;
 
-
 const StudentBox = styled.div`
   border: 2px solid #c4c4c4;
   padding: 15px;
@@ -85,9 +80,15 @@ const Name = styled.div`
   margin-bottom: 11px;
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+`;
+
 const P05_StudentDetail = ({ student, removeHandler }) => {
   return (
-      <StudentBox>
+    <StudentBox>
       <div>
         <Name>{student.name}</Name>
         <div>
@@ -101,12 +102,13 @@ const P05_StudentDetail = ({ student, removeHandler }) => {
   );
 };
 
-
-
-const P05_StudentList = ({ code, studentList, removeHandler  }) => {
+const P05_StudentList = ({ code, studentList, removeHandler }) => {
   return (
     <>
-    <Text>수강생 목록</Text>
+      <Header>
+        <Text>수강생 목록</Text>
+        <div>총 수강생 : {studentList.count}명</div>
+      </Header>
       {studentList.count === 0 && (
         <Box color="#426589">
           <Img src="https://cdn-icons-png.flaticon.com/512/1387/1387940.png"></Img>
@@ -120,15 +122,15 @@ const P05_StudentList = ({ code, studentList, removeHandler  }) => {
       )}
       {studentList.count > 0 && (
         <Box2 color="#426589">
-          {studentList.results.map((item) => ( 
-            <P05_StudentDetail 
-            student={item} 
-            removeHandler={removeHandler}></P05_StudentDetail>
-            )
-         )}
+          {studentList.results.map((item) => (
+            <P05_StudentDetail
+              student={item}
+              removeHandler={removeHandler}
+            ></P05_StudentDetail>
+          ))}
         </Box2>
       )}
-      </>
+    </>
   );
 };
 

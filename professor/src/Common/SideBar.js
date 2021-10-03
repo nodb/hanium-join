@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Collapse } from "reactstrap";
 import styled from "styled-components";
 
 const Nav = styled.div`
@@ -34,36 +33,12 @@ const Menus = styled.div`
   margin-top: 18px;
   text-align: center;
   list-style: none;
-  a:link {
-    font-family: Roboto;
-    color: #7c7979;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    text-decoration: none;
-  }
-  a:visited {
-    font-family: Roboto;
-    color: #7c7979;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    text-decoration: none;
-  }
-  a:hover {
-    font-family: Roboto;
-    color: #000;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    text-decoration: none;
-  }
   li {
     margin: 18px 0px;
   }
 `;
 
-const SideBar = ({ list }) => {
+const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { code } = useParams();
 
@@ -92,7 +67,7 @@ const SideBar = ({ list }) => {
       <BarHr />
       <Menus>
         {defaultList.map((item) => (
-          <li>
+          <li key={item.title}>
             {item.title !== "과제 관리" && (
               <Link
                 to={item.url}
@@ -105,39 +80,44 @@ const SideBar = ({ list }) => {
               </Link>
             )}
             {item.title === "과제 관리" && (
-              <Link
-                to={`/professor/class/${code}/assignmentList`}
-                style={{ textDecoration: "none", color: "black" }}
-                className="nav-link active"
-                aria-current="page"
-              >
-                <span data-feather="assignment-management" />
-                <div
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                  }}
+              <>
+                <Link
+                  to={`/professor/class/${code}/assignmentList`}
+                  style={{ textDecoration: "none", color: "black" }}
+                  className="nav-link active"
+                  aria-current="page"
                 >
-                  {isOpen ? "▼" : "▶"} 과제 관리
-                </div>
-                <Collapse isOpen={isOpen}>
-                  <Link
-                    to={`/professor/class/${code}/assignment/teamView`}
-                    style={{ textDecoration: "none", color: "black" }}
-                    className="nav-link active"
-                    aria-current="page"
+                  <span data-feather="assignment-management" />
+                  <div
+                    style={{ transitionDuration: "2s" }}
+                    onClick={() => {
+                      setIsOpen(!isOpen);
+                    }}
                   >
-                    ▶ 팀별 보기
-                  </Link>
-                  <Link
-                    to={`/professor/class/${code}/assignment/assignView`}
-                    style={{ textDecoration: "none", color: "black" }}
-                    className="nav-link active"
-                    aria-current="page"
-                  >
-                    ▶ 과제 별 보기
-                  </Link>
-                </Collapse>
-              </Link>
+                    {isOpen ? "▼" : "▶"} 과제 관리
+                  </div>
+                </Link>
+                {isOpen && (
+                  <div>
+                    <Link
+                      to={`/professor/class/${code}/assignmentList/teamView`}
+                      style={{ textDecoration: "none", color: "black" }}
+                      className="nav-link active"
+                      aria-current="page"
+                    >
+                      팀별 보기
+                    </Link>
+                    <Link
+                      to={`/professor/class/${code}/assignmentList/assignView`}
+                      style={{ textDecoration: "none", color: "black" }}
+                      className="nav-link active"
+                      aria-current="page"
+                    >
+                      과제 별 보기
+                    </Link>
+                  </div>
+                )}
+              </>
             )}
           </li>
         ))}

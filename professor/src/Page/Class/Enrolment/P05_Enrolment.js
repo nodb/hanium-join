@@ -4,8 +4,6 @@ import styled from "styled-components";
 import check from "../../../images/check.png";
 import refuse from "../../../images/x.png";
 
-import { useEnrolment } from "../../../components/Use";
-
 const StudentBox = styled.div`
   border: 2px solid #c4c4c4;
   padding: 15px;
@@ -36,41 +34,44 @@ const Delete = styled.img`
   margin-bottom: 10px;
 `;
 
-const P05_Enrolment = ({ code, student }) => {
-  const { enrolListAll, studentListAll, updateEnrolApi, removeEnrolApi } =
-    useEnrolment();
+const Text = styled.span`
+  font-family: "Nanum Gothic", sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  width: 500px;
+  padding: 20px 0px 20px 0px;
+`;
 
-  const AcceptHandler = () => {
-    const body = {
-      memberId: student.id,
-      classCode: code,
-    };
-    const fetch = async () => {
-      try {
-        await updateEnrolApi(body);
-        await studentListAll(code);
-        await enrolListAll(code);
-      } catch (e) {
-        alert(e);
-      }
-    };
+const Box2 = styled.div`
+  width: 1100px;
+  height: 300px;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 30px 30px;
+  border: 2px solid ${(props) => props.color};
+  margin-bottom: 20px;
+`;
 
-    fetch();
-  };
+const Box = styled.div`
+  width: 1100px;
+  height: 300px;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  border: 2px solid ${(props) => props.color};
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+`;
 
-  const RefuseHandler = () => {
-    const fetch = async () => {
-      try {
-        await removeEnrolApi(`memberId=${student.id}&classCode=${code}`);
-        await enrolListAll(code);
-      } catch (e) {
-        alert(e);
-      }
-    };
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+`;
 
-    fetch();
-  };
-
+const EnrolmentDetail = ({ student, AcceptHandler, RefuseHandler }) => {
   return (
     <StudentBox>
       <div>
@@ -84,6 +85,35 @@ const P05_Enrolment = ({ code, student }) => {
         <Delete onClick={RefuseHandler} src={refuse} />
       </ButtonBox>
     </StudentBox>
+  );
+};
+
+const P05_Enrolment = ({ enrolList, AcceptHandler, RefuseHandler }) => {
+  return (
+    <>
+      <Header>
+        <Text>수강신청 목록</Text>
+        <div>총 신청 : {enrolList.count}건</div>
+      </Header>
+      {enrolList.count === 0 && (
+        <Box color="#EF8F88">
+          <p>새로운 수강 신청이 없습니다.</p>
+        </Box>
+      )}
+      {enrolList.count > 0 && (
+        <Box2 color="#EF8F88">
+          {enrolList.results.map((item) => {
+            return (
+              <EnrolmentDetail
+                student={item}
+                AcceptHandler={AcceptHandler}
+                RefuseHandler={RefuseHandler}
+              ></EnrolmentDetail>
+            );
+          })}
+        </Box2>
+      )}
+    </>
   );
 };
 

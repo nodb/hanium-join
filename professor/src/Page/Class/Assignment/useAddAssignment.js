@@ -3,7 +3,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useAssignments, useTeams } from "../../../components/Use";
 
-
 const P09_07 = () => {
   const history = useHistory();
   const { code } = useParams();
@@ -26,6 +25,7 @@ const P09_07 = () => {
   };
 
   const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
 
   const createHandler = async () => {
     const team = [];
@@ -46,14 +46,16 @@ const P09_07 = () => {
     formData.append("classCode", code);
     formData.append("teams", team);
     formData.append("image", image);
-    console.log(image);
+    formData.append("answerFile", file);
+
     try {
       await createAssignmentsApi(formData);
-      history.goBack();
+      <Link to="/professor/class/:code/assignmentList" value={code}></Link>;
     } catch (e) {
       alert(e);
     }
   };
+  console.log(file);
 
   useEffect(() => {
     const fetch = async () => {
@@ -69,6 +71,9 @@ const P09_07 = () => {
   const imageChange = (e) => {
     setImage(e.target.files[0]);
   };
+  const answerFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   const handleChange = (e) => {
     setData({
@@ -77,12 +82,16 @@ const P09_07 = () => {
     });
   };
 
-  console.log(teams);
-  console.log(JSON.stringify(teams));
-
-  return{
-    imageChange, handleChange, checkboxChange, teamList, createHandler, data, teams, image
-  }
+  return {
+    imageChange,
+    handleChange,
+    checkboxChange,
+    answerFileChange,
+    teamList,
+    createHandler,
+    data,
+    teams,
+  };
 };
 
 export default P09_07;

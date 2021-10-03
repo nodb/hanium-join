@@ -56,6 +56,16 @@ const S05_05_06 = () => {
     const fetch = async () => {
       try {
         await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
         await getAssignmentsByTeam(teamList.teamId);
       } catch (e) {
         alert(e);
@@ -64,7 +74,7 @@ const S05_05_06 = () => {
       }
     };
     fetch();
-  }, []);
+  }, [teamList]);
 
   return loading ? (
     <CTLoading />

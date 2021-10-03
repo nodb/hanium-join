@@ -6,6 +6,7 @@ const urls = {
   teams: "/api/v1/teams",
   enrolment: "/api/v1/enrol",
   report: "/api/v1/report",
+  downloads: "/api/v1/downloads",
 };
 
 export default urls;

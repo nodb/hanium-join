@@ -68,6 +68,7 @@ const SubmitAndDiscuss = () => {
   useEffect(() => {
     getAssignmentTeam(id, teamList.teamId);
     getAssignment(id);
+    console.log(assignmentTeamOne.id);
   }, [teamList]);
 
   const toggle = (tab) => {

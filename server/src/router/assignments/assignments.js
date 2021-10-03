@@ -52,23 +52,35 @@ export const saveAssignmentMd = async (ctx, next) => {
     teams,
   } = ctx.request.body;
 
-  const array = teams.split(/,\s?/);
+  let array = [];
+  if (teams !== null) {
+    array = teams.split(/,\s?/);
+  }
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
+
+  const answerFile =
+    ctx.request.files === undefined ? null : ctx.request.files.answerFile;
 
   if (image != null) {
     var appDir = path.dirname(image.path);
     await fs.renameSync(image.path, `${appDir}/${image.name}`);
   }
 
+  if (answerFile != null) {
+    var appDir = path.dirname(answerFile.path);
+    await fs.renameSync(answerFile.path, `${appDir}/${answerFile.name}`);
+  }
+
   const { conn } = ctx.state;
 
   const assignmentId = UUID();
   const imageName = image ? image.name : null;
+  const answerFileName = answerFile ? answerFile.name : null;
   const payload = [];
   await conn.query(
     // eslint-disable-next-line max-len
-    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, class_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO tb_assignment(id, name, content, progress, point, startDate, endDate, image, class_code, answerFile) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       assignmentId,
       name,
@@ -79,6 +91,7 @@ export const saveAssignmentMd = async (ctx, next) => {
       endDate,
       imageName,
       classCode,
+      answerFileName,
     ]
   );
 
@@ -103,7 +116,7 @@ export const queryAssignmentMd = async (ctx, next) => {
 
   const rows = await conn.query(
     // eslint-disable-next-line max-len
-    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?",
+    "SELECT id, name, content, progress, point, startDate, endDate, image, answerFile, class_code FROM tb_assignment WHERE id = ?",
     [id]
   );
 
@@ -182,7 +195,7 @@ export const readAssignmentByIdMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
   const rows = await conn.query(
-    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code FROM tb_assignment WHERE id = ?",
+    "SELECT id, name, content, progress, point, startDate, endDate, image, class_code, answerFile FROM tb_assignment WHERE id = ?",
     [id]
   );
 
@@ -246,27 +259,89 @@ export const updateAssignmentMd = async (ctx, next) => {
     classCode,
     teams,
   } = ctx.request.body;
-
-  const array = teams.split(/,\s?/);
+  let array = [];
+  if (teams !== null) {
+    array = teams.split(/,\s?/);
+  }
   const image =
     ctx.request.files === undefined ? null : ctx.request.files.image;
+  const answerFile =
+    ctx.request.files === undefined ? null : ctx.request.files.answerFile;
+
+  if (image != null) {
+    var appDir = path.dirname(image.path);
+    await fs.renameSync(image.path, `${appDir}/${image.name}`);
+  }
+
+  if (answerFile != null) {
+    var appDir = path.dirname(answerFile.path);
+    await fs.renameSync(answerFile.path, `${appDir}/${answerFile.name}`);
+  }
 
   const imageName = image ? image.name : null;
+  const answerFileName = answerFile ? answerFile.name : null;
 
-  const sql =
-    // eslint-disable-next-line max-len
-    "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, class_code = ?  WHERE id = ?";
-  await conn.query(sql, [
-    name,
-    content,
-    progress,
-    point,
-    startDate,
-    endDate,
-    imageName,
-    classCode,
-    id,
-  ]);
+  if (imageName === null && answerFileName === null) {
+    const sql =
+      // eslint-disable-next-line max-len
+      "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, class_code = ? WHERE id = ?";
+    await conn.query(sql, [
+      name,
+      content,
+      progress,
+      point,
+      startDate,
+      endDate,
+      classCode,
+      id,
+    ]);
+  } else if (imageName === null) {
+    const sql =
+      "UPDATE tb_assignment \
+      SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, class_code = ?, answerFile=?  WHERE id = ?";
+    await conn.query(sql, [
+      name,
+      content,
+      progress,
+      point,
+      startDate,
+      endDate,
+      classCode,
+      answerFileName,
+      id,
+    ]);
+  } else if (answerFileName === null) {
+    const sql =
+      "UPDATE tb_assignment \
+      SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, class_code = ?  WHERE id = ?";
+    await conn.query(sql, [
+      name,
+      content,
+      progress,
+      point,
+      startDate,
+      endDate,
+      imageName,
+      classCode,
+      id,
+    ]);
+  } else {
+    const sql =
+      // eslint-disable-next-line max-len
+      "UPDATE tb_assignment SET name = ?, content = ?, progress = ?, point = ?, startDate = ?, endDate = ?, image = ?, class_code = ?, answerFile=?  WHERE id = ?";
+    await conn.query(sql, [
+      name,
+      content,
+      progress,
+      point,
+      startDate,
+      endDate,
+      imageName,
+      classCode,
+      answerFileName,
+      id,
+    ]);
+  }
   await conn.query("DELETE FROM tb_assignment_team WHERE assignment_id = ?", [
     id,
   ]);

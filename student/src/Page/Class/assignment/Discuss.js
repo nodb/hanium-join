@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { useDiscuss } from "../../../components/Use";
+import { useDiscuss, useAssignments, useTeams } from "../../../components/Use";
 import styled from "styled-components";
 import { getDataFromStorage } from "../../../utils/storage";
 
@@ -53,17 +53,19 @@ const Btn = styled.button`
 `;
 
 const Discuss = () => {
-  const { id } = useParams();
+  const { id, code } = useParams();
   const history = useHistory();
   const studentInfo = getDataFromStorage();
 
   const { createDiscussApi, DiscussList, listAllDiscuss } = useDiscuss();
   const [data, setData] = useState("");
 
+  const { assignmentTeamOne, getAssignmentTeam } = useAssignments();
+  const { teamList, teamMemberList } = useTeams();
   useEffect(() => {
     const fetch = async () => {
       try {
-        await listAllDiscuss("1", id);
+        await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
       } catch (e) {
         alert(e);
       }
@@ -72,15 +74,26 @@ const Discuss = () => {
     fetch();
   }, []);
 
+  useEffect(() => {
+    getAssignmentTeam(id, teamList.teamId);
+    console.log(teamList);
+  }, [teamList]);
+
+  useEffect(() => {
+    listAllDiscuss(assignmentTeamOne.id, id);
+    console.log(assignmentTeamOne);
+  }, [assignmentTeamOne]);
+
   const submitHandler = async () => {
     try {
       const body = {
-        assignmentTeamId: 1,
+        assignmentTeamId: assignmentTeamOne.id,
         memberId: studentInfo.id,
         content: data,
       };
+      console.log(body);
       await createDiscussApi(body);
-      await listAllDiscuss("1", id);
+      await listAllDiscuss(assignmentTeamOne.id);
     } catch (e) {
       alert(e);
     }

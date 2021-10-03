@@ -43,6 +43,7 @@ const SubmitButton = styled.button`
     color: white;
   }
 `;
+
 const HeadLabel = styled.div`
   display: inline-block;
   margin-left: -12px;
@@ -52,7 +53,7 @@ const HeadLabel = styled.div`
   font-weight: bold;
   font-size: 20px;
   line-height: 23px;
-  width: 56px;
+  width: 60px;
 
   color: #3d3d3d;
   margin-bottom: 15px;
@@ -114,6 +115,7 @@ const AssignmentView = () => {
     imageChange,
     handleChange,
     checkboxChange,
+    answerFileChange,
     teamList,
     createHandler,
     data,
@@ -212,6 +214,7 @@ const AssignmentView = () => {
               type="file"
               name="solutionFile"
               id="solutionFile"
+              onChange={answerFileChange}
             />
 
             <Text>

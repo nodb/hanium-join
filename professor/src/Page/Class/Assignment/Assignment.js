@@ -7,6 +7,7 @@ import { getDataFromStorage } from "../../../utils/storage";
 import styled from "styled-components";
 import { CTLoading, useLoading } from "../../../components";
 import oc from "open-color";
+import { DownloadsApi } from "../../../remote";
 
 const FormDiv = styled.div`
   overflow-y: scroll;
@@ -26,7 +27,7 @@ const ListText = styled.div`
 `;
 
 const Box = styled.div`
-  width: 80%;
+  width: 70%;
   button {
     font-family: Roboto;
     font-style: normal;
@@ -40,7 +41,12 @@ const Box = styled.div`
     height: 30px;
   }
 `;
-
+const Myimg = styled.div`
+  img {
+    width: 180px;
+    height: 180px;
+  }
+`;
 const Details = styled.div`
   display: inline-block;
   margin-right: 59px;
@@ -94,10 +100,42 @@ const LabelText = styled.div`
   width: 100px;
 
   color: #3d3d3d;
-  margin-top: 10px;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-bottom: 8px;
   text-align: center;
 `;
+
+const CommentText = styled.div`
+  display: inline-block;
+  margin-right: 59px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 23px;
+  width: fit-content;
+
+  color: #3d3d3d;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+`;
+
+const CommentContentText = styled.div`
+  display: inline-block;
+  margin-right: 59px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 23px;
+  width: 600px;
+
+  color: #3d3d3d;
+  margin-top: 5px;
+  margin-bottom: 10px;
+`;
+
 const EnterButton = styled.button`
   font-family: Roboto;
   font-style: normal;
@@ -151,6 +189,7 @@ const assignment = ({ match }) => {
   const professorInfo = getDataFromStorage();
 
   const { loading, setLoading } = useLoading(true);
+  const getFile = DownloadsApi.get;
 
   console.log(loading);
 
@@ -240,15 +279,21 @@ const assignment = ({ match }) => {
     }
   };
 
+  const fileDownLoadHandler = () => {
+    try {
+      console.log("돼라");
+      getFile(assignmentOne.image);
+    } catch (e) {
+      alert(e);
+    }
+  };
+
   return loading ? (
     <CTLoading />
   ) : (
     <Box>
-      <ListText>과제 등록</ListText>
-      <div
-        className="mt-3"
-        style={{ display: "flex", justifyContent: "flex-end" }}
-      >
+      <ListText>과제</ListText>
+      <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
         <ModifyButton
           onClick={modifyHandler}
           size="sm"
@@ -271,7 +316,9 @@ const assignment = ({ match }) => {
               alignItems: "center",
             }}
           >
-            <LabelText>과제명</LabelText>
+            <LabelText sm={1} style={{ fontWeight: "bold", paddingLeft: 0 }}>
+              과제명
+            </LabelText>
             <Col sm={10}>{assignmentOne.name}</Col>
           </FormGroup>
           <FormGroup
@@ -284,6 +331,7 @@ const assignment = ({ match }) => {
             }}
           >
             <LabelText
+              for="point"
               htmlFor="point"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
@@ -302,6 +350,7 @@ const assignment = ({ match }) => {
             }}
           >
             <LabelText
+              for="point"
               htmlFor="point"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
@@ -320,6 +369,7 @@ const assignment = ({ match }) => {
             }}
           >
             <LabelText
+              for="point"
               htmlFor="point"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
@@ -338,6 +388,7 @@ const assignment = ({ match }) => {
             }}
           >
             <LabelText
+              for="team"
               htmlFor="team"
               sm={1}
               style={{ fontWeight: "bold", paddingLeft: 0 }}
@@ -364,6 +415,11 @@ const assignment = ({ match }) => {
               alignItems: "center",
             }}
           >
+            <Myimg>
+              {assignmentOne.image !== null && (
+                <img src={`/${assignmentOne.image}`} alt="이미지" />
+              )}
+            </Myimg>
             <p
               style={{
                 marginLeft: 20,
@@ -380,7 +436,24 @@ const assignment = ({ match }) => {
               alignItems: "center",
             }}
           >
-            <div style={{ fontWeight: "bold", paddingLeft: 0 }}>첨부 파일</div>
+            <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  fontWeight: "bold",
+                  paddingLeft: "15px",
+                  marginRight: "85px",
+                }}
+              >
+                첨부 파일
+              </div>
+              <a
+                href={`http://localhost:3000/api/v1/downloads/${assignmentOne.image}`}
+                download
+                style={{ color: "black", textDecoration: "none" }}
+              >
+                {assignmentOne.image}
+              </a>
+            </div>
           </FormGroup>
           <FormGroup
             style={{
@@ -390,9 +463,29 @@ const assignment = ({ match }) => {
               alignItems: "center",
             }}
           >
-            <div style={{ fontWeight: "bold", paddingLeft: 0 }}>해답 파일</div>
+            <div style={{ display: "flex" }}>
+              <div
+                style={{
+                  fontWeight: "bold",
+                  paddingLeft: "15px",
+                  marginRight: "85px",
+                }}
+              >
+                해답 파일
+              </div>
+              <a
+                href={`http://localhost:3000/api/v1/downloads/${assignmentOne.answerFile}`}
+                download
+                style={{ color: "black", textDecoration: "none" }}
+              >
+                {assignmentOne.answerFile}
+              </a>
+            </div>
           </FormGroup>
-          <div style={{ fontSize: "14px" }} className="mt-3 mb-3">
+          <div
+            style={{ fontSize: "14px", paddingLeft: "15px" }}
+            class="mt-3 mb-3"
+          >
             댓글 {commentList.total}개
           </div>
           {commentList.results.map((comment) => {
@@ -401,26 +494,32 @@ const assignment = ({ match }) => {
                 row
                 style={{
                   marginLeft: 3,
-                  padding: "7px 0px",
                   borderBottom: "1px solid #C4C4C4",
                 }}
               >
-                <LabelText
-                  htmlFor="name"
-                  sm={2}
-                  style={{ fontWeight: "bold", paddingLeft: "5px" }}
+                <CommentText
+                  for="name"
+                  sm={4}
+                  style={{ fontWeight: "bold", paddingLeft: "15px" }}
                 >
-                  {comment.name} ({DateChange2(comment.createdAt)})
-                </LabelText>
-                <LabelText
-                  htmlFor="contents"
+                  {comment.name}
+                </CommentText>
+                <CommentContentText
+                  for="contents"
+                  sm={6}
+                  style={{ paddingLeft: "45px" }}
+                >
+                  {comment.contents}
+                </CommentContentText>
+                <CommentText
+                  for="contents"
                   sm={6}
                   style={{ paddingLeft: "5px" }}
                 >
-                  {comment.contents}
-                </LabelText>
-                <LabelText
-                  htmlFor="contents"
+                  ({DateChange2(comment.createdAt)})
+                </CommentText>
+                <CommentText
+                  for="contents"
                   sm={1}
                   style={{ paddingLeft: "5px" }}
                 >
@@ -431,17 +530,17 @@ const assignment = ({ match }) => {
                       deleteCommentHandler(comment.id);
                     }}
                   />
-                </LabelText>
+                </CommentText>
               </FormGroup>
             );
           })}
           <FormGroup
             row
             style={{
-              padding: "7px 0px",
+              padding: "7px 15px",
             }}
           >
-            <Col sm={7}>
+            <Col style={{ marginLeft: "150px" }}>
               <Input
                 type="conmment"
                 name="contents"

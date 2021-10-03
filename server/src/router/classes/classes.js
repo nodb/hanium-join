@@ -23,7 +23,10 @@ export const readClassStudentMd = async (ctx, next) => {
 
   const rows = await conn.query(
     // eslint-disable-next-line max-len
-    "SELECT c.name as className, c.code, m.name as professorName , e.isAccept FROM tb_class c JOIN tb_enrol e ON e.class_code = c.code JOIN tb_member m ON c.member_id = m.id WHERE e.member_id = ?",
+    "SELECT c.name as className, c.code, m.name as professorName , e.isAccept \
+    FROM tb_class c JOIN tb_enrol e ON e.class_code = c.code \
+    JOIN tb_member m ON c.member_id = m.id \
+    WHERE e.member_id = ? ORDER BY e.isAccept DESC",
     [memberId]
   );
 

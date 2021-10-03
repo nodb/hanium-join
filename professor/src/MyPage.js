@@ -11,22 +11,24 @@ import MySideBar from "./Common/SideBar_Mypage";
 import Header from "./Common/Header";
 import Footer from "./Common/Footer";
 
-const Contents = styled.div`
-  display: flex;
-  margin-top: 28px;
+const ContentBox = styled.div`
+ width: 1440px;
+ margin: 0 auto;
+ display: flex;
 `
+
 
 function App() {
   return (
     <>
       <Header />
-      <Contents>
+      <ContentBox>
           <MySideBar />
             <Route path="/professor/mypage/myinfo" exact component={MyInfo} />
             <Route path="/professor/mypage/class" exact component={MyClass} />
             <Route path="/professor/mypage/assignment" exact component={MyAssignment} />
             <Route path="/professor/mypage/modify" exact component={MyModify} />
-      </Contents>
+      </ContentBox>
       <Footer />
     </>
   );

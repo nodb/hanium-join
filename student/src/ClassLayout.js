@@ -10,10 +10,12 @@ import ClassMain from "./Page/Class/ClassMain/ClassMain";
 
 import styled from "styled-components";
 
-const Contents = styled.div`
-  display: flex;
-  margin-top: 28px;
-`;
+const ContentBox = styled.div`
+ width: 1440px;
+ margin: 0 auto;
+ display: flex;
+`
+
 
 const ClassParent = () => {
   return (
@@ -41,9 +43,9 @@ const Class = () => {
     <>
       <Header />
       <Switch>
-        <Contents>
+        <ContentBox>
           <Route path="/student/class/:code" component={ClassParent} />
-        </Contents>
+        </ContentBox>
       </Switch>
       <Footer />
     </>

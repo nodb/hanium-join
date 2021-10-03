@@ -12,16 +12,17 @@ import MyModify from "./Page/Mypage/MyModify";
 
 import MySideBar from "./Common/SideBar_Mypage";
 
-const Contents = styled.div`
-  display: flex;
-  margin-top: 28px;
+const ContentBox = styled.div`
+ width: 1440px;
+ margin: 0 auto;
+ display: flex;
 `
 
 function MyPage() {
   return (
     <>
       <Header />
-      <Contents>
+      <ContentBox>
           <MySideBar />
           <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <Route path="/student/mypage/myinfo" exact component={MyInfo} />
@@ -33,7 +34,7 @@ function MyPage() {
             />
             <Route path="/student/mypage/modify" exact component={MyModify} />
           </main>
-      </Contents>
+      </ContentBox>
       <Footer />
     </>
   );

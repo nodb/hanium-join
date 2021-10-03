@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-import { useEnrolment, useTeams } from "../../../components/Use";
-import { useHistory, useParams } from "react-router-dom";
+import { useTeams } from "../../../components/Use";
+import { useParams } from "react-router-dom";
 
+const Team = styled.div`
+display: flex;
+width: 561px;
+margin-top: 5px;
+`;
 
 const TStudentBox = styled.div`
   width: 180px;
@@ -14,27 +19,28 @@ const StudentHr = styled.hr`
 width: 300px;
 `
 
-const Arrow = styled.button`
-  margin-bottom: 25px;
-  margin-left: 35px;
+const DelArrow = styled.button`
+position: absolute;
+left: 749px;
+top: 530px;
   width: 130px;
   height: 35px;
-  background: #ffffff;
+  background: #FFFFFF;
   border: 1px solid #000000;
   box-sizing: border-box;
-  img {
+  img{
     text-align: center;
-    margin-left: 50px;
     width: 25px;
     height: 25px;
-    margin-top: 4px;
+    margin-top: 2px;
+    cursor: pointer;
   }
   cursor: pointer;
-`;
+`
 
-const Box = styled.div`
-  background: #ffffff;
-  border: 2px solid #ef8f88;
+const TBox = styled.div`
+  background: #FFFFFF;
+  border: 2px solid #EF8F88;
   box-sizing: border-box;
   width: 400px;
   height: 626px;
@@ -42,25 +48,20 @@ const Box = styled.div`
   flex-wrap: wrap;
   padding: 30px 50px 30px;
   position: relative;
-`;
 
-const StudentBox = styled.div`
-  width: 180px;
-  font-size: 18px;
-  margin-bottom: 10px;
 `;
 
 function P07_TeamList({ students }) {
   const { code } = useParams();
 
-  const { teamList, listAllTeams, studentsNoTeam } = useTeams();
+  const { teamList, listAllTeams, studentsNoTeam, deleteStudentsApi } = useTeams();
 
-  const [students, setStudents] = useState(teamList.results[0]);
+  const [studentIn, setStudentIn] = useState(teamList.results[0]);
   const [currentTeam, setcurrentTeams] = useState(0);
   const [stud, setStud] = useState([]);
 
   useEffect(() => {
-    setStudents(teamList.results[currentTeam])
+    setStudentIn(teamList.results[currentTeam])
   }, [teamList.results])
 
   const team_studentCheck = (id) => {
@@ -87,6 +88,20 @@ function P07_TeamList({ students }) {
     }
   }
 
+  const deleteHandler= async (e) => {
+    let members = [];
+    stud.map((data)=>{
+      members.push(data.memberId); 
+    })
+    try {
+      await deleteStudentsApi(`memberId=${members}&teamId=${students.id}`);
+      await listAllTeams(code);
+      await studentsNoTeam(code);
+    } catch(e){
+      alert(e);
+    }
+  }
+
   const fetch = async() => {
     try{
       await studentsNoTeam(code);
@@ -102,7 +117,15 @@ function P07_TeamList({ students }) {
   },[])
   
   return (
-    <>
+    <Team>
+      <DelArrow style={{ backgroundColor: "white" }} onClick={deleteHandler}> 
+        <img
+          src={require("../../../images/toLeft.png").default}
+          alt="leftArrow"
+        ></img>
+      </DelArrow>
+              <TBox>
+      <Form>
       {students && students.team.map((student) => {
              return(
                 <TStudentBox>   
@@ -121,8 +144,9 @@ function P07_TeamList({ students }) {
               </TStudentBox>
                    )
            })}  
-
-    </>
+                   </Form>
+      </TBox>
+    </Team>
   );
 }
 

@@ -13,12 +13,16 @@ import styled from "styled-components";
 import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
-const InputBox = styled.span`
-  overflow: scroll;
-  height: 730px;
+const InputBox = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
+ margin-top: 30px;
+width: 100%;
+height: 680px;
 `
 const Box = styled.div`
-  width: 80%;
+  width: 95%;
+  height: 785px;
 `;
 
 const Page = styled.div`
@@ -176,10 +180,6 @@ function MyModify() {
     <Box>
       <Page>개인 정보 수정</Page>
       <Hr />
-
-      {data.errName && data.errMessage && (
-        <AlertBox available={false}>{data.errMessage}</AlertBox>
-      )}
     <InputBox>
       <Form>
         <InputWithLabel
@@ -192,6 +192,9 @@ function MyModify() {
               value={data.email}
             />
         <br />
+        {data.errName && data.errMessage && (
+        <AlertBox available={false}>{data.errMessage}</AlertBox>
+      )}
         <InputWithLabel
               label="비밀번호"
               type="password"

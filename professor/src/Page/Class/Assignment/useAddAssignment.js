@@ -49,13 +49,12 @@ const P09_07 = () => {
     formData.append("answerFile", file);
 
     try {
-      await createAssignmentsApi(formData);
-      <Link to="/professor/class/:code/assignmentList" value={code}></Link>;
+      createAssignmentsApi(formData);
     } catch (e) {
       alert(e);
     }
+    history.push(`/professor/class/${code}/assignmentList`);
   };
-  console.log(file);
 
   useEffect(() => {
     const fetch = async () => {

@@ -53,7 +53,7 @@ export const saveAssignmentMd = async (ctx, next) => {
   } = ctx.request.body;
 
   let array = [];
-  if (teams !== null) {
+  if (teams !== "") {
     array = teams.split(/,\s?/);
   }
   const image =
@@ -260,7 +260,7 @@ export const updateAssignmentMd = async (ctx, next) => {
     teams,
   } = ctx.request.body;
   let array = [];
-  if (teams !== null) {
+  if (teams !== "") {
     array = teams.split(/,\s?/);
   }
   const image =

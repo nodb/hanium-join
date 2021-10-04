@@ -17,7 +17,7 @@ const ImgBox = styled.div`
   width: 100%;
   height: 125px;
   border: none;
-  background-color: #ef8f88;
+  background-color: ${(props) => props.color};
   border-radius: 25px 25px 0 0;
   display: flex;
   justify-content: space-between;
@@ -97,7 +97,7 @@ const NoText = styled.div`
 const ClassBoxDetail = ({ item, professor, ClickHandler }) => {
   return (
     <ClassBox>
-      <ImgBox onClick={() => ClickHandler(item.code)}>
+      <ImgBox color={item.color} onClick={() => ClickHandler(item.code)}>
         <ClassName>{item.name}</ClassName>
         <ProfessorName>{professor.name}</ProfessorName>
       </ImgBox>

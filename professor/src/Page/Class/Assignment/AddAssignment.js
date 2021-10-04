@@ -51,7 +51,7 @@ const HeadLabel = styled.div`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 23px;
   width: 60px;
 
@@ -105,8 +105,8 @@ const InputDiv = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   margin-top: 30px;
-  margin: 0 auto;
-  width: 90%;
+  margin: 0 10px;
+  width: 95%;
   height: 680px;
 `;
 
@@ -172,7 +172,7 @@ const AssignmentView = () => {
               row
               style={{
                 marginLeft: 3,
-                padding: "15px 0px",
+                padding: "8px 0px",
                 alignItems: "center",
               }}
             >

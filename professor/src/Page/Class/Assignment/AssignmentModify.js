@@ -227,7 +227,7 @@ const AssignmentModify = () => {
       formData.append("image", image);
       formData.append("answerFile", file);
 
-      await updateAssignmentsApi(id, formData);
+      updateAssignmentsApi(id, formData);
     } catch (e) {
       alert(e);
     } finally {

@@ -27,7 +27,6 @@ export const queryChatMd = async (ctx, next) => {
     [id]
   );
 
-  console.log(io);
   const nsp = io.of(`/${assignmentTeamId}`);
   nsp.emit("message", response);
   await next();

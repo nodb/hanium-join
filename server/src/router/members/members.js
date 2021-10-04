@@ -267,9 +267,12 @@ export const updateProfessorMd = async (ctx, next) => {
 
   const profileImg =
     ctx.request.files === undefined ? null : ctx.request.files.profileImg;
-
-  const imageName = profileImg ? profileImg.name : null;
-
+  let imageName = null;
+  if (profileImg!= null) {
+    const appDir = path.dirname(profileImg.path);
+    imageName = `${Date.now()}_${profileImg.name}`;
+    await fs.renameSync(profileImg.path, `${appDir}/${imageName}`);
+  }
   const row = await conn.query(
     "SELECT name, grade, department, studentID, profileImg, mobile FROM tb_member WHERE id = ?",
     [id]

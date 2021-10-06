@@ -11,9 +11,7 @@ import { getDataFromStorage } from "../../../utils/storage";
 
 const WrapBox = styled.div`
   height: 785px;
-
   padding: 20px;
-  width: 80%;
 `;
 
 const Box = styled.div`

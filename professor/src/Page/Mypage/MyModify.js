@@ -3,6 +3,7 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import InputWithLabel from "./InputWithLabel";
 import ImageInputWithLabel from "./ImageInputWithLabel";
 import { Form, FormGroup, FormText } from "reactstrap";
+import { useLoading, CTLoading } from "../../components";
 
 import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
@@ -15,7 +16,6 @@ const InputBox = styled.span`
   height: 730px;
 `;
 const Box = styled.div`
-  width: 80%;
 `;
 
 const Page = styled.div`
@@ -28,7 +28,7 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 100%;
+  width: 1032px;
   height: 0px;
   border: 4px solid #c4c4c4;
   margin-bottom: 38px;
@@ -58,6 +58,7 @@ const BackButton = styled.button`
 `;
 
 function MyModify() {
+  const { loading, setLoading } = useLoading(true);
   const history = useHistory();
 
   const professor = getDataFromStorage();
@@ -93,6 +94,8 @@ function MyModify() {
         await getInfo(professor.id);
       } catch (err) {
         console.log(err);
+      } finally{
+        setLoading(false);
       }
     };
     fetch();
@@ -167,7 +170,9 @@ function MyModify() {
 
   if (!data) return "로딩중";
   console.log(image);
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <Page>개인 정보 수정</Page>
       <Hr />

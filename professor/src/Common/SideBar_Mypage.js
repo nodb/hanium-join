@@ -65,7 +65,8 @@ const SideBar = () => {
       <Menus>
         {defaultList.map((item) => (
           <li key={item.title}>
-            <Link to={item.url} aria-current="page">
+            <Link to={item.url} aria-current="page"
+             style={{ textDecoration: "none", color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer"}}>
               <span data-feather="home" />
               {item.title}
             </Link>

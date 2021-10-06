@@ -85,6 +85,7 @@ const Submit = () => {
     handleChange,
     handleChangeFile,
     deleteHandler,
+    backHandler,
   } = useSubmit();
 
   return (
@@ -126,9 +127,7 @@ const Submit = () => {
           )}
         </Dropzone>
         <ButtonBox>
-          <Link to="/student/class/main/assignment">
-            <Btn2 color="#EF8F88">취소</Btn2>
-          </Link>
+            <Btn2 color="#EF8F88" onClick={backHandler}>취소</Btn2>
           <Btn2 color="#6F91B5" onClick={submitHandler}>
             제출
           </Btn2>

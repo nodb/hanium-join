@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useHistory, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Form, FormGroup, Label, Col, Input, Button } from "reactstrap";
 import { DateChange2, CommentDateChange } from "../../../utils/dateChange";
-import { useAssignments, useComments } from "../../../components/Use";
-import { getDataFromStorage } from "../../../utils/storage";
+import { Form, FormGroup, Label, Col, Input, Button } from "reactstrap";
+
 import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
-import { CTLoading, useLoading } from "../../../components";
+import useAssignment from "./useAssignment";
 
 const Box = styled.div`
   width: 1100px;
@@ -32,81 +29,115 @@ const GoSubmit = styled.div`
   }
 `;
 
-export const Assignment = () => {
-  const history = useHistory();
-  const { assignmentOne, getAssignment } = useAssignments();
-  const { code, id } = useParams();
+const Comment = () => {
+  const {
+    data,
+    studentInfo,
+    commentList,
+    deleteCommentHandler,
+    submitCommentHandler,
+    handleChange,
+  } = useAssignment();
 
-  const { commentList, listAllComments, createCommentApi, deleteCommentApi } =
-    useComments();
+  return (
+    <Form>
+      <FormGroup
+        row
+        style={{
+          marginLeft: 3,
+          padding: "4px 0px",
+          borderBottom: "1px solid #C4C4C4",
+        }}
+      >
+        <Label
+          for="name"
+          sm={2}
+          style={{
+            fontWeight: "bold",
+            paddingLeft: "5px",
+            color: "#EF8F88",
+            fontSize: "20px",
+          }}
+        >
+          댓글
+        </Label>
+      </FormGroup>
+      {commentList.results.map((comment) => {
+        return (
+          <FormGroup
+            row
+            style={{
+              marginLeft: 5,
+              padding: "7px 0px",
+            }}
+          >
+            <Label
+              for="name"
+              sm={2}
+              style={{
+                fontWeight: "bold",
+                paddingLeft: "5px",
+                fontSize: "15px",
+              }}
+            >
+              {comment.name} ({CommentDateChange(comment.createdAt)})
+            </Label>
+            <Label
+              for="contents"
+              sm={6}
+              style={{ paddingLeft: "5px", fontSize: "15px" }}
+            >
+              {comment.contents}
+            </Label>
+            {comment.memberId === studentInfo.id && (
+              <Label for="contents" sm={1} style={{ paddingLeft: "5px" }}>
+                <Button
+                  close
+                  style={{ background: "none", border: 0, color: "red" }}
+                  onClick={() => {
+                    deleteCommentHandler(comment.id);
+                  }}
+                />
+              </Label>
+            )}
+          </FormGroup>
+        );
+      })}
 
-  const { loading, setLoading } = useLoading(true);
+      <FormGroup
+        row
+        style={{
+          marginLeft: 3,
+          padding: "15px 0px",
+          borderBottom: "1px solid #C4C4C4",
+          alignItems: "center",
+        }}
+      >
+        <Col sm={8}>
+          <Input
+            type="conmment"
+            name="contents"
+            id="contents"
+            value={data.contents}
+            onChange={handleChange}
+          />
+        </Col>
+        <Col>
+          <button
+            class="btn btn-secondary btn-sm"
+            onClick={submitCommentHandler}
+          >
+            확인
+          </button>
+        </Col>
+      </FormGroup>
+    </Form>
+  );
+};
 
-  const studentInfo = getDataFromStorage();
-
-  const [data, setData] = useState({
-    contents: "",
-  });
-
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await getAssignment(id);
-        await listAllComments(id);
-      } catch (e) {
-        alert(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch();
-  }, []);
-
-  const submitCommentHandler = async () => {
-    try {
-      const request = {
-        memberId: studentInfo.id,
-        assignmentId: id,
-        contents: data.contents,
-      };
-      await createCommentApi(request);
-      await listAllComments(id);
-      setData({
-        ...data,
-        contents: "",
-      });
-    } catch (e) {
-      alert(e);
-    }
-  };
-
-  const deleteCommentHandler = async (commentId) => {
-    try {
-      await deleteCommentApi(commentId);
-      await listAllComments(id);
-      setData({
-        ...data,
-        contents: "",
-      });
-    } catch (e) {
-      alert(e);
-    }
-  };
-
-  const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const submitHandler = () => {
-    history.push(`/student/class/${code}/main/assignment/${id}/submit`);
-  };
-
-  const listHandler = () => {
-    history.push(`/student/class/${code}/main`);
-  };
+const Assignment = () => {
+  const { loading, CTLoading, assignmentOne, submitHandler, listHandler } =
+    useAssignment();
 
   return loading ? (
     <CTLoading />
@@ -219,100 +250,9 @@ export const Assignment = () => {
           {assignmentOne.content}
         </FormGroup>
       </Form>
-      <Form>
-        <FormGroup
-          row
-          style={{
-            marginLeft: 3,
-            padding: "4px 0px",
-            borderBottom: "1px solid #C4C4C4",
-          }}
-        >
-          <Label
-            for="name"
-            sm={2}
-            style={{
-              fontWeight: "bold",
-              paddingLeft: "5px",
-              color: "#EF8F88",
-              fontSize: "20px",
-            }}
-          >
-            댓글
-          </Label>
-        </FormGroup>
-        {commentList.results.map((comment) => {
-          return (
-            <FormGroup
-              row
-              style={{
-                marginLeft: 5,
-                padding: "7px 0px",
-              }}
-            >
-              <Label
-                for="name"
-                sm={2}
-                style={{
-                  fontWeight: "bold",
-                  paddingLeft: "5px",
-                  fontSize: "15px",
-                }}
-              >
-                {comment.name} ({CommentDateChange(comment.createdAt)})
-              </Label>
-              <Label
-                for="contents"
-                sm={6}
-                style={{ paddingLeft: "5px", fontSize: "15px" }}
-              >
-                {comment.contents}
-              </Label>
-              {comment.memberId === studentInfo.id && (
-                <Label for="contents" sm={1} style={{ paddingLeft: "5px" }}>
-                  <Button
-                    close
-                    style={{ background: "none", border: 0, color: "red" }}
-                    onClick={() => {
-                      deleteCommentHandler(comment.id);
-                    }}
-                  />
-                </Label>
-              )}
-            </FormGroup>
-          );
-        })}
-
-        <FormGroup
-          row
-          style={{
-            marginLeft: 3,
-            padding: "15px 0px",
-            borderBottom: "1px solid #C4C4C4",
-            alignItems: "center",
-          }}
-        >
-          <Col sm={8}>
-            <Input
-              type="conmment"
-              name="contents"
-              id="contents"
-              value={data.contents}
-              onChange={handleChange}
-            />
-          </Col>
-          <Col>
-            <button
-              class="btn btn-secondary btn-sm"
-              onClick={submitCommentHandler}
-            >
-              확인
-            </button>
-          </Col>
-        </FormGroup>
-      </Form>
+      <Comment />
       <GoSubmit onClick={submitHandler}>
-        <img src={GoSubmitAssignment} />
+        <img alt="assignmentImg" src={GoSubmitAssignment} />
         <p style={{ marginLeft: "5px" }}>과제 제출하러 가기</p>
       </GoSubmit>
       <tr>

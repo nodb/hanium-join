@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from "reactstrap";
-import { useParams } from "react-router-dom";
-import { useAssignments, useTeams } from "../../../components/Use";
+import React from "react";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import styled from "styled-components";
 
 import classnames from "classnames";
 import Submit from "./Submit";
 import Discuss from "./Discuss";
 import Modal from "./Modal";
-import { getDataFromStorage } from "../../../utils/storage";
-import { CTLoading, useLoading } from "../../../components";
+
+import useSubmitAndDiscuss from "./useSubmitAndDiscuss";
+
 const AssignmentTitle = styled.div`
   width: 152px;
   height: 23px;
@@ -43,37 +42,14 @@ const Title = styled.div`
 `;
 
 const SubmitAndDiscuss = () => {
-  const [activeTab, setActiveTab] = useState(true);
-  const { loading, setLoading } = useLoading(true);
-  const { id, code } = useParams();
-
-  const { assignmentOne, getAssignment, assignmentTeamOne, getAssignmentTeam } =
-    useAssignments();
-  const { teamList, teamMemberList } = useTeams();
-  const studentInfo = getDataFromStorage();
-  const fetch = async () => {
-    try {
-      await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
-    } catch (e) {
-      alert(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    getAssignmentTeam(id, teamList.teamId);
-    getAssignment(id);
-    console.log(assignmentTeamOne.id);
-  }, [teamList]);
-
-  const toggle = (tab) => {
-    if (activeTab !== tab) setActiveTab(tab);
-  };
+  const {
+    activeTab,
+    loading,
+    CTLoading,
+    assignmentOne,
+    assignmentTeamOne,
+    toggle,
+  } = useSubmitAndDiscuss();
 
   return loading ? (
     <CTLoading />

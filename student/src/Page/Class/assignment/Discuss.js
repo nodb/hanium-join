@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import { useDiscuss, useAssignments, useTeams } from "../../../components/Use";
+import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getDataFromStorage } from "../../../utils/storage";
+import { DateChange4 } from "../../../utils/dateChange";
 
-import DiscussBox from "./DiscussBox";
+import useDiscusses from "./useDiscusses";
 
 const Box = styled.div`
   width: 1100px;
@@ -52,60 +51,66 @@ const Btn = styled.button`
   margin-right: 10px;
 `;
 
+const Box2 = styled.div`
+  width: 1040px;
+  height: 80px;
+  border-bottom: 1px solid #7c7979;
+  padding-top: 10px;
+  margin: 0px 0px 10px 20px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Name = styled.div`
+  width: 500px;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+  color: #7c7979;
+  margin-bottom: 10px;
+`;
+
+const Contents = styled.div`
+  width: 900px;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+`;
+
+const Delete = styled.button`
+  width: 50px;
+  border: none;
+  color: #ef8f88;
+  background: none;
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 16px;
+`;
+
+const DiscussBox = ({ data, DeleteHandler }) => {
+  return (
+    <Box2>
+      <div>
+        <Name>
+          {data.name}&nbsp;&nbsp;({DateChange4(data.createdAt)})
+        </Name>
+        <Contents>{data.content}</Contents>
+      </div>
+      <Delete onClick={() => DeleteHandler(data.id)}>삭제</Delete>
+    </Box2>
+  );
+};
+
 const Discuss = () => {
-  const { id, code } = useParams();
-  const history = useHistory();
-  const studentInfo = getDataFromStorage();
-
-  const { createDiscussApi, DiscussList, listAllDiscuss } = useDiscuss();
-  const [data, setData] = useState("");
-
-  const { assignmentTeamOne, getAssignmentTeam } = useAssignments();
-  const { teamList, teamMemberList } = useTeams();
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
-      } catch (e) {
-        alert(e);
-      }
-    };
-
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    getAssignmentTeam(id, teamList.teamId);
-    console.log(teamList);
-  }, [teamList]);
-
-  useEffect(() => {
-    listAllDiscuss(assignmentTeamOne.id, id);
-    console.log(assignmentTeamOne);
-  }, [assignmentTeamOne]);
-
-  const submitHandler = async () => {
-    try {
-      const body = {
-        assignmentTeamId: assignmentTeamOne.id,
-        memberId: studentInfo.id,
-        content: data,
-      };
-      console.log(body);
-      await createDiscussApi(body);
-      await listAllDiscuss(assignmentTeamOne.id);
-    } catch (e) {
-      alert(e);
-    }
-  };
-
+  const { data, setData, DiscussList, submitHandler, DeleteHandler } =
+    useDiscusses();
   return (
     <>
       <div>
         <Box>
           {DiscussList.count === 0 && <p>글을 작성해주세요.</p>}
           {DiscussList.results.map((item) => {
-            return <DiscussBox data={item} id={id} />;
+            return <DiscussBox DeleteHandler={DeleteHandler} data={item} />;
           })}
         </Box>
         <InputBox>

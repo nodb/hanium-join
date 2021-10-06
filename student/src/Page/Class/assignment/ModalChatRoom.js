@@ -6,7 +6,6 @@ import { useChats } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 import { concatChat } from "../../../store/reducer/chats";
 import Draggable from "react-draggable";
-import Chat from "../../../images/chat.png";
 
 const Box = styled.div`
   width: 400px;
@@ -43,22 +42,17 @@ const Top = styled.div`
   }
 `;
 
-const Person = styled.div``;
-
 const Name = styled.span`
   float: left;
   font-family: Roboto;
-  font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 14px;
   padding-right: 15px;
   margin-bottom: 7px;
-
-  /* identical to box height */
-
   color: #000000;
 `;
+
 const Profile = styled.div`
   img {
     width: 40px;
@@ -99,17 +93,12 @@ const Bottom = styled.div`
   }
 `;
 
-const UserBox = styled.div``;
-
 const LeftBox = styled.div`
   font-family: Roboto;
   position: relative;
-
   height: fit-content;
-
   background-color: #ebe7e7;
   font-weight: bold;
-
   width: fit-content;
   padding: 0.84rem;
   max-width: 70%;
@@ -123,11 +112,9 @@ const RightBox = styled.div`
   font-family: Roboto;
   height: fit-content;
   width: fit-content;
-
   max-width: 70%;
   text-align: right;
   background-color: #89c0b7;
-
   font-weight: bold;
   position: relative;
   padding: 0.84rem;
@@ -268,7 +255,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
                     <LeftBox>{chat.contents}</LeftBox>
                   ) : (
                     <>
-                      <Person>
+                      <div>
                         <Profile>
                           <img
                             src={
@@ -281,7 +268,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
                           />
                         </Profile>
                         <Name>{chat.name}</Name>
-                      </Person>
+                      </div>
                       <LeftBox>{chat.contents}</LeftBox>
                     </>
                   )}

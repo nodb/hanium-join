@@ -12,13 +12,13 @@ const StudentBox = styled.div`
   font-size: 15px;
 `;
 
-function S05_Student({ student }) {
+const S05_Student = ({ student }) => {
   return (
     <StudentBox>
       {student.name}({student.grade}학년)<br></br>
       {student.department}
     </StudentBox>
   );
-}
+};
 
 export default S05_Student;

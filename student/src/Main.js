@@ -20,7 +20,6 @@ const Main = () => {
       <ContentBox />
       <Route path="/student/main" exact component={S04} />
       <ContentBox />
-      <Footer />
     </>
   );
 };

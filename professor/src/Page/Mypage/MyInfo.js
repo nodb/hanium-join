@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
 import { Link } from "react-router-dom";
+import { useLoading, CTLoading } from "../../components";
 
 const Box = styled.div`
-  width: 80%;
+
 `;
 
 const Page = styled.div`
@@ -18,7 +19,7 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 100%;
+  width: 1032px;
   height: 0px;
   border: 4px solid #c4c4c4;
 `;
@@ -114,6 +115,8 @@ const Modify = styled.div`
 `;
 
 function MyInfo() {
+
+  const { loading, setLoading } = useLoading(true);
   const { memberInfo, getInfo } = useMember();
 
   useEffect(() => {
@@ -124,13 +127,17 @@ function MyInfo() {
         console.log(professor)
       } catch (err) {
         console.log(err);
+      } finally{
+        setLoading(false);
       }
     };
     fetch();
   }, []);
   
   
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <Page>내 프로필</Page>
       <Hr />

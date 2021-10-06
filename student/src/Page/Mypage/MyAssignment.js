@@ -5,9 +5,9 @@ import { useAssignments } from "../../components";
 import { Link, useParams } from "react-router-dom";
 import { getDataFromStorage } from "../../utils/storage";
 import {DateChange} from "../../utils/dateChange";
+import { useLoading, CTLoading } from "../../components";
 
 const Box = styled.div`
-width: 97%;
 `;
 
 const Page = styled.div`
@@ -20,7 +20,7 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-width: 100%;
+width: 1032px;
 height: 0px;
 border: 4px solid #C4C4C4;
 `
@@ -93,6 +93,7 @@ const Assignment = styled.div`
 
 const MyAssignment = () => {
 
+  const { loading, setLoading } = useLoading(true);
   const { assignmentsTotal, ListTotalAssignments } = useAssignments();
 
   useEffect(() => {
@@ -102,12 +103,16 @@ const MyAssignment = () => {
         await ListTotalAssignments(student.id);
       } catch(err){
         console.log(err);
+      }finally{
+        setLoading(false);
       }
     };
     fetch();
   }, []);
-
-  return (
+  
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <Page>과제 제출함</Page>
       <Hr />
@@ -142,10 +147,10 @@ const MyAssignment = () => {
                     {item.name}
                   </Link>
                   </td>
-                  {item.progress === 1 && (
+                  {item.isCheck === 1 && (
                     <td>제출</td>
                   )}
-                  {item.progress === 0 && (
+                  {item.isCheck === 0 && (
                     <td>미제출</td>
                   )}
                   <td>{DateChange(item.startDate)}</td>

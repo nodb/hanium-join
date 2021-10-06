@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
 import InputWithLabel from "./InputWithLabel";
 import ImageInputWithLabel from "./ImageInputWithLabel";
-import {
-  Form,
-  FormGroup,
-  FormText,
-} from "reactstrap";
+import { Form, FormGroup, FormText } from "reactstrap";
 
 import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
@@ -15,10 +11,9 @@ import AlertBox from "../Register/AlertBox";
 import { BirthDate } from "../../utils/dateChange";
 
 const InputBox = styled.span`
-
   overflow: scroll;
   height: 730px;
-`
+`;
 const Box = styled.div`
   width: 80%;
 `;
@@ -45,10 +40,10 @@ const SubmitButton = styled.button`
   left: 370px;
   top: 830px;
 
-  background:  #6F91B5;
+  background: #6f91b5;
   color: white;
-  border: #6F91B5;
-`
+  border: #6f91b5;
+`;
 const BackButton = styled.button`
   width: 100px;
   height: 28.36px;
@@ -57,10 +52,10 @@ const BackButton = styled.button`
   margin-right: 10px;
   margin-left: 220px;
 
-  background:  #EF8F88;
+  background: #ef8f88;
   color: white;
-  border: #EF8F88;
-`
+  border: #ef8f88;
+`;
 
 function MyModify() {
   const history = useHistory();
@@ -162,7 +157,7 @@ function MyModify() {
 
       try {
         alert("수정되었습니다.");
-        await infoModifyApi(professor.id, formData);
+        infoModifyApi(professor.id, formData);
         history.push("/professor/mypage/myinfo");
       } catch (e) {
         alert(e);
@@ -179,109 +174,108 @@ function MyModify() {
       {data.errName && data.errMessage && (
         <AlertBox available={false}>{data.errMessage}</AlertBox>
       )}
-    <InputBox>
-      <Form>
-        <InputWithLabel
-              label="이메일"
-              type="email"
-              name="email"
-              id="exampleEmail"
-              placeholder="이메일을 입력하세요."
+      <InputBox>
+        <Form>
+          <InputWithLabel
+            label="이메일"
+            type="email"
+            name="email"
+            id="exampleEmail"
+            placeholder="이메일을 입력하세요."
+            onChange={handleChange}
+            value={data.email}
+          />
+          <br />
+          <InputWithLabel
+            label="비밀번호"
+            type="password"
+            name="pw"
+            value={data.pw}
+            onChange={handleChange}
+          />
+          <br />
+          <InputWithLabel
+            label="비밀번호 확인"
+            type="password"
+            name="pwC"
+            id="examplePassword"
+            onChange={handleChange}
+            value={data.pwC}
+          />
+          <br />
+          <InputWithLabel
+            label="이름"
+            type="name"
+            name="name"
+            id="exampleName"
+            placeholder={memberInfo.name}
+            onChange={handleChange}
+            value={data.name}
+          />
+          <br />
+          <InputWithLabel
+            label="학과"
+            type="department"
+            name="department"
+            placeholder="학과를 입력하세요"
+            onChange={handleChange}
+            value={data.department}
+          />
+          <br />
+          <InputWithLabel
+            label="학번"
+            type="professorID"
+            name="professorID"
+            placeholder="학번을 입력하세요"
+            onChange={handleChange}
+            value={data.professorID}
+          />
+          <br />
+          <FormGroup row>
+            <InputWithLabel
+              label="생년월일"
+              name="birthDate"
+              placeholder="생년월일"
+              type="date"
+              value={BirthDate(data.birthDate)}
               onChange={handleChange}
-              value={data.email}
             />
-        <br />
-        <InputWithLabel
-              label="비밀번호"
-              type="password"
-              name="pw"
-              value={data.pw}
-              onChange={handleChange}
-            />
-        <br />
-        <InputWithLabel
-              label="비밀번호 확인"
-              type="password"
-              name="pwC"
-              id="examplePassword"
-              onChange={handleChange}
-              value={data.pwC}
-            />
-        <br />
-        <InputWithLabel
-              label="이름"
-              type="name"
-              name="name"
-              id="exampleName"
-              placeholder={memberInfo.name}
-              onChange={handleChange}
-              value={data.name}
-            />
-        <br />
-        <InputWithLabel
-              label="학과"
-              type="department"
-              name="department"
-              placeholder="학과를 입력하세요"
-              onChange={handleChange}
-              value={data.department}
-            />
-        <br />
-        <InputWithLabel
-              label="학번"
-              type="professorID"
-              name="professorID"
-              placeholder="학번을 입력하세요"
-              onChange={handleChange}
-              value={data.professorID}
-            />
-        <br />
-      <FormGroup row>
-      <InputWithLabel
-        label="생년월일"
-        name="birthDate"
-        placeholder="생년월일"
-        type="date"
-        value={BirthDate(data.birthDate)}
-        onChange={handleChange}
-      />
-      </FormGroup>
-      <br />
-      <InputWithLabel
-        label="전화번호"
-        name="mobile"
-        placeholder="전화번호"
-        type="text"
-        value={data.mobile}
-        onChange={handleChange}
-      />
-      <br />
-      <ImageInputWithLabel
-        label="프로필 사진"
-        type="file" 
-        name="profileImg" 
-        onChange={imageChange}/>
-      <br />
-      <FormText color="muted">
-        뒤로가면 작성한 내용이 반영되지 않습니다.<br />
-        "저장하기" 버튼을 눌러주세요.
-      </FormText>
+          </FormGroup>
+          <br />
+          <InputWithLabel
+            label="전화번호"
+            name="mobile"
+            placeholder="전화번호"
+            type="text"
+            value={data.mobile}
+            onChange={handleChange}
+          />
+          <br />
+          <ImageInputWithLabel
+            label="프로필 사진"
+            type="file"
+            name="profileImg"
+            onChange={imageChange}
+          />
+          <br />
+          <FormText color="muted">
+            뒤로가면 작성한 내용이 반영되지 않습니다.
+            <br />
+            "저장하기" 버튼을 눌러주세요.
+          </FormText>
 
-      <br />
+          <br />
 
-        <Link
-          to="/professor/mypage/myinfo"
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <BackButton>뒤로가기</BackButton>
-        </Link> 
+          <Link
+            to="/professor/mypage/myinfo"
+            style={{ textDecoration: "none", color: "black" }}
+          >
+            <BackButton>뒤로가기</BackButton>
+          </Link>
 
-        <SubmitButton onClick={onModifyHandler}>
-          제출하기 
-        </SubmitButton>
-         
-    </Form>
-    </InputBox>
+          <SubmitButton onClick={onModifyHandler}>제출하기</SubmitButton>
+        </Form>
+      </InputBox>
     </Box>
   );
 }

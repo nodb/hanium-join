@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { DateChange } from "../../../utils/dateChange";
+
+const Text = styled.div`
+  font-family: "Nanum Gothic", sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  width: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+`;
 
 const AssignmentBox = styled.div`
   display: flex;
@@ -27,14 +33,7 @@ const RightBox = styled.div`
   justify-content: space-between;
 `;
 
-const S05_Assignment = ({ assignment }) => {
-  const { code } = useParams();
-
-  const history = useHistory();
-  const clickHandler = (assignmentId) => {
-    history.push(`/student/class/${code}/main/assignment/${assignmentId}`);
-  };
-
+const AssignmentDetail = ({ assignment, clickHandler, DateChange }) => {
   return (
     <AssignmentBox
       onClick={() => {
@@ -47,6 +46,22 @@ const S05_Assignment = ({ assignment }) => {
         <div>제출</div>
       </RightBox>
     </AssignmentBox>
+  );
+};
+
+const S05_Assignment = ({ List, DateChange, clickHandler }) => {
+  return (
+    <div>
+      <Text>과제</Text>
+      {List.results.map((item) => (
+        <AssignmentDetail
+          key={item.id}
+          assignment={item}
+          DateChange={DateChange}
+          clickHandler={clickHandler}
+        />
+      ))}
+    </div>
   );
 };
 

@@ -43,6 +43,7 @@ const SubmitButton = styled.button`
     color: white;
   }
 `;
+
 const HeadLabel = styled.div`
   display: inline-block;
   margin-left: -12px;
@@ -50,9 +51,9 @@ const HeadLabel = styled.div`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 23px;
-  width: 56px;
+  width: 60px;
 
   color: #3d3d3d;
   margin-bottom: 15px;
@@ -104,8 +105,8 @@ const InputDiv = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   margin-top: 30px;
-  margin: 0 auto;
-  width: 90%;
+  margin: 0 10px;
+  width: 95%;
   height: 680px;
 `;
 
@@ -114,6 +115,7 @@ const AssignmentView = () => {
     imageChange,
     handleChange,
     checkboxChange,
+    answerFileChange,
     teamList,
     createHandler,
     data,
@@ -170,7 +172,7 @@ const AssignmentView = () => {
               row
               style={{
                 marginLeft: 3,
-                padding: "15px 0px",
+                padding: "8px 0px",
                 alignItems: "center",
               }}
             >
@@ -212,6 +214,7 @@ const AssignmentView = () => {
               type="file"
               name="solutionFile"
               id="solutionFile"
+              onChange={answerFileChange}
             />
 
             <Text>

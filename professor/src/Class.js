@@ -21,10 +21,10 @@ import Footer from "./Common/Footer";
 import styled from "styled-components";
 
 const ContentBox = styled.div`
- width: 1440px;
- margin: 0 auto;
- display: flex;
-`
+  width: 1440px;
+  margin: 0 auto;
+  display: flex;
+`;
 
 const ClassParent = () => {
   return (
@@ -51,12 +51,12 @@ const ClassParent = () => {
           component={AssignmentList}
         />
         <Route
-          path="/professor/class/:code/assignmentList/teamView"
+          path="/professor/class/:code/report/teamView"
           exact
           component={P12}
         />
         <Route
-          path="/professor/class/:code/assignmentList/assignView"
+          path="/professor/class/:code/report/assignView"
           exact
           component={P13}
         />

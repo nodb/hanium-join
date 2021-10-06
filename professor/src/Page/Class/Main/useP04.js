@@ -52,7 +52,7 @@ const useP04 = () => {
       alert(e);
     }
 
-    close();
+    ModalClose();
   };
 
   return {

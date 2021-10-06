@@ -6,7 +6,6 @@ import { useChats } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 import { concatChat } from "../../../store/reducer/chats";
 import Draggable from "react-draggable";
-import Chat from "../../../images/chat.png";
 
 const Box = styled.div`
   width: 400px;
@@ -43,32 +42,26 @@ const Top = styled.div`
   }
 `;
 
-const Person = styled.div`
-`
-
 const Name = styled.span`
-float: left;
-font-family: Roboto;
-font-style: normal;
-font-weight: 500;
-font-size: 12px;
-line-height: 14px;
-padding-right: 15px;
-margin-bottom: 7px;
+  float: left;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  padding-right: 15px;
+  margin-bottom: 7px;
+  color: #000000;
+`;
 
-/* identical to box height */
-
-color: #000000;
-`
 const Profile = styled.div`
-  img{
+  img {
     width: 40px;
     height: 40px;
     float: left;
     margin-left: 7px;
     margin-right: 10px;
   }
-`
+`;
 
 const Bottom = styled.div`
   width: 400px;
@@ -100,22 +93,17 @@ const Bottom = styled.div`
   }
 `;
 
-const UserBox = styled.div``;
-
 const LeftBox = styled.div`
   font-family: Roboto;
   position: relative;
-
   height: fit-content;
-
   background-color: #ebe7e7;
   font-weight: bold;
-
   width: fit-content;
   padding: 0.84rem;
   max-width: 70%;
   margin-left: 3.5rem;
-  margin-top: 30px;
+  margin-top: 20px;
   border-radius: 10px;
   margin-bottom: 10px;
 `;
@@ -124,11 +112,9 @@ const RightBox = styled.div`
   font-family: Roboto;
   height: fit-content;
   width: fit-content;
-
   max-width: 70%;
   text-align: right;
   background-color: #89c0b7;
-
   font-weight: bold;
   position: relative;
   padding: 0.84rem;
@@ -254,7 +240,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
           </button>
         </Top>
         <Box>
-          {chatList.results.map((chat) => {
+          {chatList.results.map((chat, i) => {
             if (chat.id === studentInfo.id) {
               return (
                 <>
@@ -264,16 +250,28 @@ const ModalChatRoom = ({ match, setOpen }) => {
             } else {
               return (
                 <>
-                <Person>
-                <Profile>
-                  <img
-                    src={require("../../../images/person_default.png").default}
-                    alt="이미지"
-                  />
-                </Profile>
-                <Name>조재영</Name>
-                </Person>
-                  <LeftBox>{chat.contents}</LeftBox>
+                  {i > 0 &&
+                  chatList.results[i].id === chatList.results[i - 1].id ? (
+                    <LeftBox>{chat.contents}</LeftBox>
+                  ) : (
+                    <>
+                      <div>
+                        <Profile>
+                          <img
+                            src={
+                              chat.profileImg === null
+                                ? require("../../../images/person_default.png")
+                                    .default
+                                : `/${chat.profileImg}`
+                            }
+                            alt="이미지"
+                          />
+                        </Profile>
+                        <Name>{chat.name}</Name>
+                      </div>
+                      <LeftBox>{chat.contents}</LeftBox>
+                    </>
+                  )}
                 </>
               );
             }

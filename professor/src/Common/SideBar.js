@@ -57,7 +57,7 @@ const SideBar = () => {
     },
     {
       title: "리포트 확인",
-      url: `/professor/class/${code}/report`,
+      url: `/professor/class/${code}/report/teamView`,
     },
   ];
 
@@ -68,7 +68,7 @@ const SideBar = () => {
       <Menus>
         {defaultList.map((item) => (
           <li key={item.title}>
-            {item.title !== "과제 관리" && (
+            {item.title !== "리포트 확인" && (
               <Link
                 to={item.url}
                 style={{ textDecoration: "none", color: "black" }}
@@ -79,28 +79,21 @@ const SideBar = () => {
                 {item.title}
               </Link>
             )}
-            {item.title === "과제 관리" && (
+            {item.title === "리포트 확인" && (
               <>
-                <Link
-                  to={`/professor/class/${code}/assignmentList`}
-                  style={{ textDecoration: "none", color: "black" }}
-                  className="nav-link active"
-                  aria-current="page"
+                <span data-feather="assignment-management" />
+                <div
+                  style={{ transitionDuration: "2s" }}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                  }}
                 >
-                  <span data-feather="assignment-management" />
-                  <div
-                    style={{ transitionDuration: "2s" }}
-                    onClick={() => {
-                      setIsOpen(!isOpen);
-                    }}
-                  >
-                    {isOpen ? "▼" : "▶"} 과제 관리
-                  </div>
-                </Link>
+                  {isOpen ? "▼" : "▶"} 리포트 확인
+                </div>
                 {isOpen && (
                   <div>
                     <Link
-                      to={`/professor/class/${code}/assignmentList/teamView`}
+                      to={`/professor/class/${code}/report/teamView`}
                       style={{ textDecoration: "none", color: "black" }}
                       className="nav-link active"
                       aria-current="page"
@@ -108,7 +101,7 @@ const SideBar = () => {
                       팀별 보기
                     </Link>
                     <Link
-                      to={`/professor/class/${code}/assignmentList/assignView`}
+                      to={`/professor/class/${code}/report/assignView`}
                       style={{ textDecoration: "none", color: "black" }}
                       className="nav-link active"
                       aria-current="page"

@@ -13,6 +13,8 @@ const S05_05_06 = () => {
     assignmentByTeamList,
     clickHandler,
     DateChange,
+    array,
+    pageHandler,
   } = useClassMain();
 
   return loading ? (
@@ -24,6 +26,8 @@ const S05_05_06 = () => {
         List={assignmentByTeamList}
         DateChange={DateChange}
         clickHandler={clickHandler}
+        setData={pageHandler}
+        array={array}
       />
     </div>
   );

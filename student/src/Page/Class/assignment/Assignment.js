@@ -7,7 +7,7 @@ import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
 import useAssignment from "./useAssignment";
 
 const Box = styled.div`
-  width: 1100px;
+  width: 1000px;
   button {
     color: white;
     background-color: #6f91b5;
@@ -15,7 +15,7 @@ const Box = styled.div`
   }
 `;
 const Top = styled.div`
-  width: 1100px;
+  width: 960px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -66,6 +66,7 @@ const Comment = () => {
         style={{
           marginLeft: 3,
           padding: "4px 0px",
+          width: "960px",
           borderBottom: "1px solid #C4C4C4",
         }}
       >
@@ -89,6 +90,7 @@ const Comment = () => {
             style={{
               marginLeft: 5,
               padding: "7px 0px",
+              width: "960px",
               borderBottom: "1px solid #c4c4c4",
             }}
           >
@@ -209,6 +211,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -229,6 +232,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -247,6 +251,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -265,6 +270,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -287,6 +293,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "30px 10px",
+            width: "960px",
             borderBottom: "3px solid #C4C4C4",
             fontSize: "16px",
           }}

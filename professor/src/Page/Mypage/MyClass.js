@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { useClasses } from "../../components/Use";
 import { getDataFromStorage } from "../../utils/storage";
+import { useLoading, CTLoading } from "../../components";
 
 const Box = styled.div`
-  width: 80%;
 `;
 
 const Page = styled.div`
@@ -18,7 +18,7 @@ margin-top: 27px;
 `;
 
 const Hr = styled.hr`
-width: 100%;
+width: 1032px;
 height: 0px;
 border: 4px solid #C4C4C4;
 `
@@ -55,6 +55,7 @@ margin-bottom: 20px;
 `;
 
 function MyClass() {
+  const { loading, setLoading } = useLoading(true);
   const { code } = useParams();
   const { classesList, listAllClasses } = useClasses();
 
@@ -65,13 +66,17 @@ function MyClass() {
         await listAllClasses(professorInfo.id);
       } catch (e) {
         alert(e);
+      }finally{
+        setLoading(false);
       }
     };
 
     fetch();
   }, []);
 
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
     <Page>
       강의 과목

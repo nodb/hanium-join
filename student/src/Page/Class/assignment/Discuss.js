@@ -102,7 +102,7 @@ const DiscussBox = ({ data, DeleteHandler }) => {
 };
 
 const Discuss = () => {
-  const { data, setData, DiscussList, submitHandler, DeleteHandler } =
+  const { data, setData, DiscussList, submitHandler, DeleteHandler, backHandler } =
     useDiscusses();
   return (
     <>
@@ -123,9 +123,7 @@ const Discuss = () => {
       </div>
       <div>
         <ButtonBox>
-          <Link to="/student/class/main/assignment">
-            <Btn color="#EF8F88">취소</Btn>
-          </Link>
+            <Btn color="#EF8F88" onClick={backHandler}>취소</Btn>
           <Btn color="#6F91B5">제출</Btn>
         </ButtonBox>
       </div>

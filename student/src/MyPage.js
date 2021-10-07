@@ -24,7 +24,6 @@ function MyPage() {
       <Header />
       <ContentBox>
           <MySideBar />
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <Route path="/student/mypage/myinfo" exact component={MyInfo} />
             <Route path="/student/mypage/class" exact component={MyClass} />
             <Route
@@ -33,7 +32,7 @@ function MyPage() {
               component={MyAssignment}
             />
             <Route path="/student/mypage/modify" exact component={MyModify} />
-          </main>
+
       </ContentBox>
       <Footer />
     </>

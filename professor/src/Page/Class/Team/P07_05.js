@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useTeams } from "../../../components/Use";
 import P07_TeamList from "./P07_TeamList";
 import P07_StudentList from "./P07_StudentList";
+import { useLoading, CTLoading } from "../../../components";
 
 const Text = styled.div`
 font-family: Roboto;
@@ -32,7 +33,7 @@ const LinkButton = styled.div`
   color: #426589;
   font-size: 18px;
   text-align: center;
-  margin-left: 842px;
+  margin-left: 865px;
   cursor: pointer;
   :hover{
     background-color: #426589;
@@ -40,22 +41,19 @@ const LinkButton = styled.div`
   }
 `;
 const Box = styled.div`
-width: 80%;
 `
 const Head = styled.div`
-width: 100%;
 display: flex;
 margin-bottom: 44px; 
 `
 const Cont = styled.div`
 display: flex;
-margin-top: -10px;
-
 `
 const Student = styled.div`
-width: 30%;
+width: 561px;
 `
 const Team = styled.div`
+width: 561px;
 `
 const ListText = styled.span`
 font-family: Roboto;
@@ -67,13 +65,10 @@ line-height: 23px;
 color: #3D3D3D;
 margin-top: 42px;
 `
-const RelatvieBox = styled.span`
-  margin-top: 303px;
-  width: 215px;
-  right: 135px;
-`;
+
 
 function P07_05() {
+  const { loading, setLoading } = useLoading(true);
   const { code } = useParams();
   const { studentsNoTeam, teamList, listAllTeams } = useTeams();
 
@@ -85,7 +80,9 @@ function P07_05() {
 
     } catch (e) {
       alert(e);
-    } 
+    } finally{
+      setLoading(false);
+    }
   }
 
   const [students, setStudents] = useState(teamList.results[0]);
@@ -108,7 +105,9 @@ function P07_05() {
   },[])
   
 
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <Head>
         <Text>팀편성</Text>
@@ -127,8 +126,8 @@ function P07_05() {
           <ListText>학생목록</ListText>
           <P07_StudentList students={students}/>
         </Student>
-        <RelatvieBox>
-      </RelatvieBox>
+
+   
         <Team>
           <div >
             <ListText>팀목록</ListText>

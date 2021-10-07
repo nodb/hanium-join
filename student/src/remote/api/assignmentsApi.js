@@ -14,8 +14,8 @@ export const put = (id, form) =>
   httpClient.put(`${urls.assignments}/${id}`, form);
 export const remove = (id) => httpClient.delete(`${urls.assignments}/${id}`);
 
-export const assignmentByTeamId = (id) =>
-  httpClient.get(`${urls.assignments}/byTeam/${id}`);
+export const assignmentByTeamId = (id, qs = "") =>
+  httpClient.get(`${urls.assignments}/byTeam/${id}?${qs}`);
 
 // 마이페이지 모든 과제들 get
 export const listAllAssignments = (id, qs = "") =>

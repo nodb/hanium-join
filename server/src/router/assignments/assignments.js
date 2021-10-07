@@ -383,6 +383,17 @@ export const readAssignmentByStudentMd = async (ctx, next) => {
   const { skip, limit } = ctx.state.query;
   const { conn } = ctx.state;
 
+  const row = await conn.query(
+    "select c.name as className, a.class_code, a.name, at.isCheck, a.startDate, a.endDate \
+    from tb_team_member tm \
+    JOIN tb_team t ON t.id = tm.team_id \
+    JOIN tb_assignment_team at ON at.team_id = t.id \
+    JOIN tb_assignment a ON a.id = at.assignment_id \
+    JOIN tb_class c ON c.code = a.class_code \
+    WHERE tm.member_id = ?",
+    [memberId]
+  );
+
   const rows = await conn.query(
     "select c.name as className, a.class_code, a.name, at.isCheck, a.startDate, a.endDate \
     from tb_team_member tm \
@@ -395,6 +406,7 @@ export const readAssignmentByStudentMd = async (ctx, next) => {
   );
 
   ctx.state.body = {
+    total: row.length,
     count: rows.length,
     results: rows,
   };
@@ -427,8 +439,8 @@ export const readAssignmentByProfessorMd = async (ctx, next) => {
 export const readAssignmentByTeamMd = async (ctx, next) => {
   const { id } = ctx.params;
   const { conn } = ctx.state;
-
-  const rows = await conn.query(
+  const { skip, limit } = ctx.state.query;
+  const row = await conn.query(
     "select a.id, a.name, a.content, at.isCheck, a.startDate, a.endDate " +
       "from tb_team t " +
       "JOIN tb_assignment_team at ON at.team_id = t.id " +
@@ -436,8 +448,17 @@ export const readAssignmentByTeamMd = async (ctx, next) => {
       "WHERE t.id = ?",
     [id]
   );
+  const rows = await conn.query(
+    "select a.id, a.name, a.content, at.isCheck, a.startDate, a.endDate " +
+      "from tb_team t " +
+      "JOIN tb_assignment_team at ON at.team_id = t.id " +
+      "JOIN tb_assignment a ON at.assignment_id = a.id " +
+      "WHERE t.id = ? LIMIT ?, ?",
+    [id, skip, limit]
+  );
 
   ctx.state.body = {
+    total: row.length,
     count: rows.length,
     results: rows,
   };
@@ -484,6 +505,7 @@ export const readByProfessor = [
 
 export const readByTeam = [
   CommonMd.createConnectionMd,
+  CommonMd.validataListParamMd,
   readAssignmentByTeamMd,
   CommonMd.responseMd,
 ];

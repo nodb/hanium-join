@@ -18,6 +18,8 @@ const useSubmitAndDiscuss = () => {
     const fetch = async () => {
       try {
         await teamMemberList(`classCode=${code}&memberId=${studentInfo.id}`);
+        await getAssignmentTeam(id, teamList.teamId);
+        await getAssignment(id);
       } catch (e) {
         alert(e);
       } finally {
@@ -25,11 +27,9 @@ const useSubmitAndDiscuss = () => {
       }
     };
     fetch();
-    getAssignmentTeam(id, teamList.teamId);
-    getAssignment(id);
   }, [
     teamMemberList,
-    teamList,
+    teamList.teamId,
     code,
     getAssignment,
     getAssignmentTeam,

@@ -17,7 +17,7 @@ const ImgBox = styled.div`
   width: 100%;
   height: 125px;
   border: none;
-  background: #ef8f88;
+  background-color: ${(props) => props.color};
   border-radius: 25px 25px 0 0;
   display: flex;
   justify-content: space-between;
@@ -99,7 +99,7 @@ const ClassBoxDetail = ({ item, ClickHandler }) => {
     <>
       {item.isAccept === 0 && (
         <ClassBox style={{ opacity: "0.7" }}>
-          <ImgBox>
+          <ImgBox color={item.color}>
             <ClassName>{item.className}</ClassName>
             <ProfessorName>{item.professorName}</ProfessorName>
           </ImgBox>
@@ -115,7 +115,7 @@ const ClassBoxDetail = ({ item, ClickHandler }) => {
       )}
       {item.isAccept === 1 && (
         <ClassBox>
-          <ImgBox onClick={() => ClickHandler(item.code)}>
+          <ImgBox color={item.color} onClick={() => ClickHandler(item.code)}>
             <ClassName>{item.className}</ClassName>
             <ProfessorName>{item.professorName}</ProfessorName>
           </ImgBox>

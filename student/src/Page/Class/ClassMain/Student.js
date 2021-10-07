@@ -8,11 +8,24 @@ const StudentBox = styled.div`
   height: 80px;
   margin-right: 50px;
   padding: 15px;
-border: 2px solid #C4C4C4;
+border: 3px solid #C4C4C4;
 box-sizing: border-box;
   font-family: "Nanum Gothic Coding", monospace;
   font-weight: 500;
   font-size: 15px;
+`;
+
+const MeBox = styled.div`
+width: 230px;
+height: 80px;
+margin-right: 50px;
+padding: 15px;
+
+border: 4px solid #B7E1E4;
+box-sizing: border-box;
+font-family: "Nanum Gothic Coding", monospace;
+font-weight: 500;
+font-size: 15px;
 `;
 
 const Text = styled.div`
@@ -60,6 +73,7 @@ const Img = styled.img`
 
 
 const S05_Student = ({ List, me }) => {
+  console.log(me);
   return (
     <div>
       <Text>팀원</Text>
@@ -73,9 +87,14 @@ const S05_Student = ({ List, me }) => {
       ):(
       <TeamBox>
         {List.results.map((item) => {
-          {item.memberId === me ? (
+          return(
             <>
-            오잉?
+          {item.memberId === me ?  (
+            <>
+          <MeBox>
+            {item.name}({item.grade}학년)<br></br>
+            {item.department}
+          </MeBox>
             </>
           ):(
           <StudentBox>
@@ -83,7 +102,7 @@ const S05_Student = ({ List, me }) => {
             {item.department}
           </StudentBox>
             )
-          }
+          }</>)
         })
         }
       </TeamBox>

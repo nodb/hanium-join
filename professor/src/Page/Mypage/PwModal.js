@@ -1,5 +1,8 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import styled from "styled-components";
+import { useMember } from "../../components";
+import { getDataFromStorage } from "../../utils/storage";
+import {useHistory} from "react-router-dom"
 
 
 const Block = styled.div`
@@ -129,19 +132,32 @@ margin-right: 11px;
 
 const PwModal = ({open, close}) => {
 
-    const SubButton = async(e) => {
-        const body = {
+  const [password, setPassword] = useState("");
 
-        };
+  const { changePwApi } = useMember();
 
-        try{
-            <Link
-                to={`/professor/mypage/modify`}>
-            </Link>
-        } catch (err){
-            alert(e);
-        }
-    }
+  const professor = getDataFromStorage();
+
+  const history = useHistory();
+
+  const handleChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const SubButton = async(e) => {
+      const body = {
+        password: password
+      };
+
+      try{
+        await changePwApi(professor.access_token,body);
+        history.push(`/professor/mypage/modify`)
+      } catch (err){
+          alert(err);
+      }
+  }
+
+
 
     return (
         <>
@@ -149,7 +165,7 @@ const PwModal = ({open, close}) => {
                 <Block State={open}>
                     <ModalBlock>
                         <Header>비밀번호를 입력하세요</Header>
-                        <PwInput></PwInput>
+                        <PwInput type="password" name="password" value={password} onChange={handleChange} placeholder="비밀번호를 입력하세요."/>
                         <Buttons>
                             <CloseButton onClick={close}>
                                 취소

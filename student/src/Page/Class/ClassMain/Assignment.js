@@ -15,22 +15,95 @@ const AssignmentBox = styled.div`
   width: 1032px;
   height: 80px;
   margin-bottom: 20px;
-  background-color: #e5e5e5;
+  background: rgba(229, 229, 229, 0.6);
+  padding: 25px 30px 25px 30px;
+  justify-content: space-between;
+  cursor: pointer;
+`;
+
+const EndAssignmentBox = styled.div`
+  display: flex;
+  width: 1032px;
+  height: 80px;
+  margin-bottom: 20px;
+  background: rgba(188, 188, 188, 0.67);
   padding: 25px 30px 25px 30px;
   justify-content: space-between;
   cursor: pointer;
 `;
 
 const AssignmentName = styled.div`
-  font-family: "Nanum Gothic", sans-serif;
-  font-size: 18px;
-  font-weight: 400;
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+`
+
+const EndAssignmentName = styled.div`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+
+
+color: rgba(0, 0, 0, 0.51);
 `;
 
-const RightBox = styled.div`
+const SubmitBox = styled.div`
   display: flex;
   width: 300px;
   justify-content: space-between;
+
+  font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+/* identical to box height */
+
+color: #6F91B5;
+`;
+
+const EndSubmitBox = styled.div`
+  display: flex;
+  width: 300px;
+  justify-content: space-between;
+
+  font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+/* identical to box height */
+
+color: rgba(111, 145, 181, 0.48);
+
+`;
+
+const UnSubmitBox = styled.div`
+  display: flex;
+  width: 300px;
+  justify-content: space-between;
+
+  font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+/* identical to box height */
+
+color: #EF8F88;
+`;
+
+const EndUnSubmitBox = styled.div`
+  display: flex;
+  width: 300px;
+  justify-content: space-between;
+
+  font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+/* identical to box height */
+
+color: rgba(239, 143, 136, 0.56);
 `;
 
 const Page = styled.div`
@@ -56,20 +129,58 @@ line-height: 18px;
   }
 `
 
+const Cover = styled.div`
+  display: flex;
+  width: 1032px;
+  height: 80px;
+  margin-bottom: 20px;
+  background: rgba(150, 150, 150, 0.67);
+  justify-content: space-between;
+  z-index: 100;
+  `
+
 const AssignmentDetail = ({ assignment, clickHandler, DateChange }) => {
-  return (
+
+  const now = new Date();
+
+  return(
+    <>
+  {new Date(assignment.endDate) > now ? (
     <AssignmentBox
-      onClick={() => {
-        clickHandler(assignment.id);
-      }}
-    >
+      onClick={() => {clickHandler(assignment.id);}}>
       <AssignmentName>{assignment.name}</AssignmentName>
-      <RightBox>
+      {assignment.isCheck === 1 ? (
+        <SubmitBox>
         <div>{DateChange(assignment.endDate)}</div>
         <div>제출</div>
-      </RightBox>
+      </SubmitBox>
+      ) : (
+      <UnSubmitBox>
+        <div>{DateChange(assignment.endDate)}</div>
+        <div>미제출</div>
+      </UnSubmitBox>
+      )}    
     </AssignmentBox>
-  );
+  ) : (
+    <EndAssignmentBox
+      onClick={() => {clickHandler(assignment.id);}}>
+      <EndAssignmentName>{assignment.name}</EndAssignmentName>
+      {assignment.isCheck === 1 ? (
+        <EndSubmitBox>
+        <div>{DateChange(assignment.endDate)}</div>
+        <div>제출</div>
+      </EndSubmitBox>
+      ) : (
+      <EndUnSubmitBox>
+        <div>{DateChange(assignment.endDate)}</div>
+        <div>미제출</div>
+      </EndUnSubmitBox>
+      )}
+    </EndAssignmentBox>
+  )}
+  </>
+  )
+  
 };
 
 const S05_Assignment = ({ List, DateChange, clickHandler, setData, array }) => {

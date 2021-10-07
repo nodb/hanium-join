@@ -12,7 +12,7 @@ const Text = styled.div`
 
 const AssignmentBox = styled.div`
   display: flex;
-  width: 1100px;
+  width: 1032px;
   height: 80px;
   margin-bottom: 20px;
   background-color: #e5e5e5;
@@ -43,6 +43,19 @@ const Button = styled.button`
   border-color: transparent;
 `;
 
+const NoAssign = styled.div`
+  text-align: center;
+  margin-top: 70px;
+  div{
+    margin-top: 30px;
+    font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 18px;
+  }
+`
+
 const AssignmentDetail = ({ assignment, clickHandler, DateChange }) => {
   return (
     <AssignmentBox
@@ -63,27 +76,39 @@ const S05_Assignment = ({ List, DateChange, clickHandler, setData, array }) => {
   return (
     <div>
       <Text>과제</Text>
-      {List.results.map((item) => (
-        <AssignmentDetail
-          key={item.id}
-          assignment={item}
-          DateChange={DateChange}
-          clickHandler={clickHandler}
-        />
-      ))}
-      <Page>
-        {array.map((idx) => {
-          return (
-            <Button
-              onClick={() => {
-                setData(idx);
-              }}
-            >
-              {idx}
-            </Button>
-          );
-        })}
-      </Page>
+      {List.count === 0 ? (<>
+      <NoAssign>
+        <img src={require("../../../images/no_assignments.png").default} alt="과제없음 이미지" />
+        <div>
+          아직 과제가 없어요!
+        </div>
+        </NoAssign>
+      </>) : (
+        <>
+        {List.results.map((item) => (
+          <AssignmentDetail
+            key={item.id}
+            assignment={item}
+            DateChange={DateChange}
+            clickHandler={clickHandler}
+          />
+        ))}
+        <Page>
+          {array.map((idx) => {
+            return (
+              <Button
+                onClick={() => {
+                  setData(idx);
+                }}
+              >
+                {idx}
+              </Button>
+            );
+          })}
+        </Page>
+        </>
+      )}
+      
     </div>
   );
 };

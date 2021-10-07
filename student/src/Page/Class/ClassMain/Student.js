@@ -8,7 +8,8 @@ const StudentBox = styled.div`
   height: 80px;
   margin-right: 50px;
   padding: 15px;
-  border: 0.5px solid #d8d8d8;
+border: 2px solid #C4C4C4;
+box-sizing: border-box;
   font-family: "Nanum Gothic Coding", monospace;
   font-weight: 500;
   font-size: 15px;
@@ -24,7 +25,7 @@ const Text = styled.div`
 `;
 
 const TeamBox = styled.div`
-  width: 1100px;
+  width: 1032px;
   height: 200px;
   display: flex;
   overflow-y: scroll;
@@ -32,48 +33,61 @@ const TeamBox = styled.div`
 `;
 
 const NoTeamBox = styled.div`
-  width: 1100px;
-  height: 200px;
+  width: 1032px;
+  padding-bottom: 60px;
   border-bottom: 1px solid #c4c4c4;
+  text-align: center;
 `;
 
 const SmallBox = styled.div`
   width: 300px;
   margin: 0 auto;
+  div{
+    margin-top: 10px;
+    font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 18px;
+line-height: 18px;
+  }
 `;
 
 const Img = styled.img`
-  margin-left: 50px;
+  text-align: center;
   width: 100px;
   padding-bottom: 20px;
 `;
 
-const StudentDetail = ({ student }) => {
-  return (
-    <StudentBox>
-      {student.name}({student.grade}학년)<br></br>
-      {student.department}
-    </StudentBox>
-  );
-};
 
-const S05_Student = ({ List }) => {
+const S05_Student = ({ List, me }) => {
   return (
     <div>
       <Text>팀원</Text>
-      {List.count === 0 && (
+      {List.count === 0 ? (
         <NoTeamBox>
           <SmallBox>
             <Img src={noTeam} alt="noteam"></Img>
             <div>아직 팀이 맺어지지 않았어요!</div>
           </SmallBox>
         </NoTeamBox>
-      )}
+      ):(
       <TeamBox>
         {List.results.map((item) => {
-          return <StudentDetail key={item.id} student={item} />;
-        })}
+          {item.memberId === me ? (
+            <>
+            오잉?
+            </>
+          ):(
+          <StudentBox>
+            {item.name}({item.grade}학년)<br></br>
+            {item.department}
+          </StudentBox>
+            )
+          }
+        })
+        }
       </TeamBox>
+      )}
     </div>
   );
 };

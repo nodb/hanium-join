@@ -292,10 +292,12 @@ const Assignment = () => {
           row
           style={{
             marginLeft: 3,
-            padding: "30px 10px",
+            padding: "15px 0px 0px 10px",
             width: "960px",
             borderBottom: "3px solid #C4C4C4",
             fontSize: "16px",
+            minHeight: "300px",
+            height: "fit-content",
           }}
         >
           <Myimg>

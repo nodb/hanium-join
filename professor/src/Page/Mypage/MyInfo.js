@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
 import { Link } from "react-router-dom";
 import { useLoading, CTLoading } from "../../components";
+import PwModal from "./PwModal";
 
 const Box = styled.div`
 
@@ -101,6 +102,7 @@ const Phone = styled.div`
 `;
 
 const Modify = styled.div`
+cursor: pointer;
   background-color: #6f91b5;
   width: 160px;
   height: 39px;
@@ -118,7 +120,15 @@ function MyInfo() {
 
   const { loading, setLoading } = useLoading(true);
   const { memberInfo, getInfo } = useMember();
+  const [Modal, setModalOpen] = useState(false);
 
+  const ModalOpen = () => {
+      setModalOpen(true);
+  }
+
+  const ModalClose = () => {
+      setModalOpen(false);
+  }
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -173,12 +183,8 @@ function MyInfo() {
             {memberInfo.mobile}
           </Phone>
         </Info>
-        <Link
-          to="/professor/mypage/modify"
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <Modify>정보 수정</Modify>
-        </Link>
+          <Modify onClick={ModalOpen}>정보 수정</Modify>
+          <PwModal open={Modal} close={ModalClose}></PwModal>
       </InfoBox>
     </Box>
   );

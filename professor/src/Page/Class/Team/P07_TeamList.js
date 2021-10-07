@@ -21,10 +21,10 @@ width: 300px;
 
 const DelArrow = styled.button`
   margin-top: 300px;
-  margin-left: -143px;
-  margin-right: 30px;
-  width: 130px;
-  height: 35px;
+  margin-left: -170px;
+  margin-right: 43px;
+  width: 129px;
+  height: 34px;
   background: #FFFFFF;
   border: 1px solid #000000;
   box-sizing: border-box;

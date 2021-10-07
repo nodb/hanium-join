@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import PwModal from "../Page/Mypage/PwModal";
 
 const Nav = styled.div`
   background-color: #e5e5e5;
@@ -38,6 +39,14 @@ const Menus = styled.div`
   }
 `;
 
+const Modify = styled.div`
+  text-decoration: none;
+  color: rgba(124, 121, 121, 0.9);
+  font-weight: bold;
+  cursor: pointer;
+
+`
+
 const defaultList = [
   {
     title: "개인 정보",
@@ -58,6 +67,15 @@ const defaultList = [
 ];
 
 const SideBar = () => {
+  const [Modal, setModalOpen] = useState(false);
+
+  const ModalOpen = () => {
+      setModalOpen(true);
+  }
+
+  const ModalClose = () => {
+      setModalOpen(false);
+  }
   return (
     <Nav>
       <Page>마이페이지</Page>
@@ -65,14 +83,27 @@ const SideBar = () => {
       <Menus>
         {defaultList.map((item) => (
           <li key={item.title}>
-            <Link to={item.url} aria-current="page"
-             style={{ textDecoration: "none", color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer"}}>
+            {item.title === "개인 정보 수정" ? (
+              <>
               <span data-feather="home" />
-              {item.title}
-            </Link>
+              <Modify onClick={ModalOpen}>
+             {item.title} 
+             </Modify>
+             </>
+            ): (
+              <Link to={item.url} aria-current="page"
+              style={{ textDecoration: "none", color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer"}}>
+               <span data-feather="home" />
+               {item.title}
+             </Link>
+            )}
+
+          
           </li>
+          
         ))}
       </Menus>
+      <PwModal open={Modal} close={ModalClose}></PwModal>
     </Nav>
   );
 };

@@ -34,7 +34,7 @@ margin-top: 20px;
 const AddArrow = styled.button`
   margin-top: 250px;
   margin-bottom: 25px;
-  margin-left: 17px;
+  margin-left: 43px;
   width: 130px;
   height: 35px;
   background: #FFFFFF;

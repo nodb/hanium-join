@@ -14,13 +14,15 @@ font-size: 20px;
 line-height: 23px;
 
 color: #3D3D3D;
-margin-top: 30px;
+padding-top: 20px;
 `;
 const Select = styled.select`
   width: 100px;
   height: 30px;
-  margin-left: 249px;
+  float: right;
+  margin-right: 118px;
   margin-bottom: 6px;
+  margin-bottom: 12px;
 `;
 
 const LinkButton = styled.div`
@@ -41,6 +43,7 @@ const LinkButton = styled.div`
   }
 `;
 const Box = styled.div`
+  justify-content: space-between;
 `
 const Head = styled.div`
 display: flex;
@@ -54,6 +57,8 @@ width: 561px;
 `
 const Team = styled.div`
 width: 561px;
+padding-left: 42px;
+
 `
 const ListText = styled.span`
 font-family: Roboto;

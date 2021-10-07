@@ -15,13 +15,14 @@ const S05_05_06 = () => {
     DateChange,
     array,
     pageHandler,
+    studentInfo,
   } = useClassMain();
 
   return loading ? (
     <CTLoading />
   ) : (
     <div>
-      <StudentBox List={teamList} />
+      <StudentBox List={teamList} me={studentInfo.id} />
       <AssignmentBox
         List={assignmentByTeamList}
         DateChange={DateChange}

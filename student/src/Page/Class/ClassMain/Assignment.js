@@ -14,7 +14,7 @@ const AssignmentBox = styled.div`
   display: flex;
   width: 1100px;
   height: 80px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   background-color: #e5e5e5;
   padding: 25px 30px 25px 30px;
   justify-content: space-between;
@@ -33,6 +33,16 @@ const RightBox = styled.div`
   justify-content: space-between;
 `;
 
+const Page = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+`;
+const Button = styled.button`
+  background-color: transparent;
+  border-color: transparent;
+`;
+
 const AssignmentDetail = ({ assignment, clickHandler, DateChange }) => {
   return (
     <AssignmentBox
@@ -49,7 +59,7 @@ const AssignmentDetail = ({ assignment, clickHandler, DateChange }) => {
   );
 };
 
-const S05_Assignment = ({ List, DateChange, clickHandler }) => {
+const S05_Assignment = ({ List, DateChange, clickHandler, setData, array }) => {
   return (
     <div>
       <Text>과제</Text>
@@ -61,6 +71,19 @@ const S05_Assignment = ({ List, DateChange, clickHandler }) => {
           clickHandler={clickHandler}
         />
       ))}
+      <Page>
+        {array.map((idx) => {
+          return (
+            <Button
+              onClick={() => {
+                setData(idx);
+              }}
+            >
+              {idx}
+            </Button>
+          );
+        })}
+      </Page>
     </div>
   );
 };

@@ -10,7 +10,7 @@ import useP04 from "./useP04";
 const Box = styled.div`
   margin: 0 auto;
   width: 1440px;
-  height: 650px;
+  height: 900px;
   background: rgba(229, 229, 229, 0.6);
   border-radius: 30px;
   padding: 50px;

@@ -228,6 +228,23 @@ export const confirmEmailVerifyCodeMd = async (ctx, next) => {
   await next();
 };
 
+export const getPasswordFromBodyMd = async (ctx, next) => {
+  const { password, id } = ctx.request.body;
+  ctx.state.reqBody = { password };
+  await next();
+}
+
+export const readPasswordMd = async (ctx, next) => {
+  const { password, id } = ctx.state.reqBody;
+  const { dbPool } = ctx;
+  const conn = await dbPool.getConnection();
+  const rows = conn.query("SELECT id, email FROM tb_member WHERE password = password(?) AND id = ?", [password, id]);
+  if (!rows) {
+    throw Boom.badRequest();
+  }
+  ctx.state.body = { success: true };
+}
+
 export const postVerifySms = [
   getDataFromBodyMd,
   validateMobileMd,
@@ -255,5 +272,11 @@ export const confirmVerifyEmail = [
   getEmailDataFromBodyMd,
   validateEmailMd,
   confirmEmailVerifyCodeMd,
+  CommonMd.responseMd,
+];
+
+export const verifyPassword = [
+  getPasswordFromBodyMd,
+  readPasswordMd,
   CommonMd.responseMd,
 ];

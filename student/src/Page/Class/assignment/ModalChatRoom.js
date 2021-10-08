@@ -6,6 +6,8 @@ import { useChats } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 import { concatChat } from "../../../store/reducer/chats";
 import Draggable from "react-draggable";
+import { useParams } from "react-router-dom";
+import { useAssignments } from "../../../components";
 
 const Box = styled.div`
   width: 400px;
@@ -157,12 +159,13 @@ let socket;
 const ModalChatRoom = ({ match, setOpen }) => {
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [data, setData] = useState({ name: "", message: "", open: false });
-
+  const {id} = useParams();
   const studentInfo = getDataFromStorage();
   const dispatch = useDispatch();
   const scrollRef = useRef();
 
   const { createChatApi, chatList, listAllChats } = useChats();
+  const { assignmentOne, getAssignment } = useAssignments();
 
   const fetch = async () => {
     socket = io.connect(`http://localhost:3000/${match.assignmentTeamId}`, {
@@ -170,6 +173,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
       rejectUnauthorized: false,
     });
     await listAllChats(match.assignmentTeamId);
+    await getAssignment(id);
     scrollToBottom();
   };
 
@@ -230,7 +234,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
     <Draggable onDrag={(data) => trackPos(data)}>
       <ModalBox>
         <Top>
-          <div>수업 명1</div>
+          <div>{assignmentOne.name}</div>
           <button
             onClick={() => {
               setOpen(false);

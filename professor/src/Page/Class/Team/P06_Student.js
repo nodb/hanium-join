@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 const StudentBox = styled.div`
   border: 0.5px solid #EF8F88;
-  padding: 15px;
+  padding: 10px;
+  padding-left: 14px;
   width: 208px;
   height: 61px;
   justify-content: space-between;

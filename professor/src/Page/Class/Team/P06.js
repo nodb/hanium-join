@@ -7,7 +7,6 @@ import { useHistory, Link, useParams } from "react-router-dom";
 
 import { CTLoading, useLoading } from "../../../components";
 import { useEnrolment, useTeams } from "../../../components/Use";
-import { getDataFromStorage } from "../../../utils/storage";
 
 const WrapBox = styled.div`
   height: 785px;
@@ -18,8 +17,8 @@ const Box = styled.div`
   border: 1px solid #000000;
   width: 991px;
   height: 250px;
-  overflow-y: scroll;
-  margin-top: 10px;
+  overflow-y: auto;
+  margin-top: 5px;
   margin-bottom: 30px;
   padding: 30px 30px 30px 30px;
   display: flex;
@@ -114,7 +113,7 @@ const NoImg = styled.div`
 const TeamsBox = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  height: 680px;
+  height: 730px;
 `;
 const NoText = styled.div`
   font-family: Roboto;
@@ -134,13 +133,11 @@ const ListText = styled.div`
   font-size: 20px;
 
   color: #3d3d3d;
-  padding: 20px 0px 20px 0px;
+  padding: 20px 0px 0px 0px;
 `;
 
 const P05_04 = () => {
   const { code } = useParams();
-
-  const history = useHistory();
 
   const { loading, setLoading } = useLoading(true);
 

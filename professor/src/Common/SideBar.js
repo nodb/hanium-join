@@ -36,6 +36,30 @@ const Menus = styled.div`
   margin-top: 18px;
   text-align: center;
   list-style: none;
+  a:link {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:visited {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:hover {
+    font-family: Roboto;
+    color: #000;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
   li {
     margin: 18px 0px;
   }

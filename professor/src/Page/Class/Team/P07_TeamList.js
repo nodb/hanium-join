@@ -44,8 +44,8 @@ const TBox = styled.div`
   border: 2px solid #EF8F88;
   box-sizing: border-box;
   width: 400px;
-  height: 626px;
-  overflow: scroll;
+  height: 658px;
+  overflow: auto;
   flex-wrap: wrap;
   padding: 30px 50px 30px;
   position: relative;

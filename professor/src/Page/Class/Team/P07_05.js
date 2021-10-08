@@ -47,7 +47,7 @@ const Box = styled.div`
 `
 const Head = styled.div`
 display: flex;
-margin-bottom: 44px; 
+margin-bottom: 30px; 
 `
 const Cont = styled.div`
 display: flex;

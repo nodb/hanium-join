@@ -7,20 +7,18 @@ import { useHistory, Link, useParams } from "react-router-dom";
 
 import { CTLoading, useLoading } from "../../../components";
 import { useEnrolment, useTeams } from "../../../components/Use";
-import { getDataFromStorage } from "../../../utils/storage";
 
 const WrapBox = styled.div`
   height: 785px;
   width: 1032px;
-  margin-top: 17px;
 `;
 
 const Box = styled.div`
   border: 1px solid #000000;
   width: 991px;
   height: 250px;
-  overflow-y: scroll;
-  margin-top: 10px;
+  overflow-y: auto;
+  margin-top: 5px;
   margin-bottom: 30px;
   padding: 30px 30px 30px 30px;
   display: flex;
@@ -47,9 +45,7 @@ const ModifyButton = styled.span`
   color: #7c7979;
 `;
 
-const Buttons = styled.span`
-`;
-
+const Buttons = styled.span``;
 
 const CreateBox = styled.div`
   background: #ffffff;
@@ -82,7 +78,7 @@ const TitleBox = styled.div`
 
 const LinkButton = styled.div`
   margin-top: 15px;
-  float : right;
+  float: right;
   width: 100px;
   height: 38px;
   border: 2px solid #426589;
@@ -92,7 +88,6 @@ const LinkButton = styled.div`
   font-size: 18px;
   text-align: center;
   cursor: pointer;
-  padding-top: 3px;
   margin-right: 39px;
   :hover {
     background-color: #426589;
@@ -118,7 +113,7 @@ const NoImg = styled.div`
 const TeamsBox = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  height: 680px;
+  height: 730px;
 `;
 const NoText = styled.div`
   font-family: Roboto;
@@ -136,16 +131,13 @@ const ListText = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 23px;
 
   color: #3d3d3d;
-  padding-top: 20px;
+  padding: 20px 0px 0px 0px;
 `;
 
 const P05_04 = () => {
   const { code } = useParams();
-
-  const history = useHistory();
 
   const { loading, setLoading } = useLoading(true);
 

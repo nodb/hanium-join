@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useClasses } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 
@@ -46,13 +46,12 @@ const useP04 = () => {
     };
 
     try {
+      ModalClose();
       await createClassesApi(body);
       await listAllClasses(professorInfo.id);
     } catch (e) {
       alert(e);
     }
-
-    ModalClose();
   };
 
   return {

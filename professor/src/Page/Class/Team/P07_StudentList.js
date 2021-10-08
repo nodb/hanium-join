@@ -20,8 +20,8 @@ const StudentBox = styled.div`
 
 const SBox = styled.div`
   width: 400px;
-  height: 626px;
-  overflow: scroll;
+  height: 658px;
+  overflow: auto;
   flex-wrap: wrap;
   padding: 30px 50px 30px;
   position: relative;

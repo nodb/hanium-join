@@ -218,7 +218,7 @@ const assignment = ({ match }) => {
     } catch (e) {
       alert(e);
     } finally {
-      await setLoading(false);
+      setLoading(false);
     }
   };
   useEffect(() => {

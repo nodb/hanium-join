@@ -54,6 +54,12 @@ margin-bottom: 20px;
 }
 `;
 
+const List = styled.div`
+
+overflow-y: auto;
+overflow-x: hidden;
+`
+
 function MyClass() {
   const { loading, setLoading } = useLoading(true);
   const { code } = useParams();
@@ -82,6 +88,7 @@ function MyClass() {
       강의 과목
     </Page>
     <Hr />
+    <List>
       <IntroText>강의를 클릭하면 해당 페이지로 이동합니다.</IntroText> <br />
       {classesList.results.map((item) => {
         return (
@@ -97,6 +104,7 @@ function MyClass() {
           </ClassText>
         )
       })}
+      </List>
     </Box>
   );
 }

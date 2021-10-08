@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
+
+import { useClasses } from "../components";
+import { TextLoading, useLoading } from "../components";
 
 const Nav = styled.div`
   background-color: #e5e5e5;
@@ -33,6 +36,30 @@ const Menus = styled.div`
   margin-top: 18px;
   text-align: center;
   list-style: none;
+  a:link {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:visited {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:hover {
+    font-family: Roboto;
+    color: #000;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
   li {
     margin: 18px 0px;
   }
@@ -41,6 +68,8 @@ const Menus = styled.div`
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { code } = useParams();
+  const { loading, setLoading } = useLoading(true);
+  const { classOne, getClasses } = useClasses();
 
   const defaultList = [
     {
@@ -61,9 +90,22 @@ const SideBar = () => {
     },
   ];
 
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await getClasses(code);
+      } catch (e) {
+        alert(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetch();
+  }, []);
+
   return (
     <Nav>
-      <Page>수업명</Page>
+      {loading ? <TextLoading /> : <Page>{classOne.name}</Page>}
       <BarHr />
       <Menus>
         {defaultList.map((item) => (

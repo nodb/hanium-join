@@ -59,7 +59,7 @@ const Img = styled.img`
 
 const BoxClass = styled.div`
   width: 100%;
-  height: 510px;
+  height: 800px;
   display: flex;
   flex-wrap: wrap;
 `;

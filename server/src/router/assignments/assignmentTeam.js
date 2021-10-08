@@ -27,17 +27,16 @@ export const updateAssignmentTeamMd = async (ctx, next) => {
     await fs.renameSync(file.path, `${appDir}/${fileName}`);
   }
   const rows = await conn.query(
-    "SELECT at.id "
-    + "FROM tb_assignment_team at "
-    + "JOIN tb_team t ON t.id = at.team_id "
-    + "JOIN tb_team_member tm ON tm.team_id = t.id "
-    + "WHERE tm.member_id = ? AND at.assignment_id = ?",
+    "SELECT at.id " +
+      "FROM tb_assignment_team at " +
+      "JOIN tb_team t ON t.id = at.team_id " +
+      "JOIN tb_team_member tm ON tm.team_id = t.id " +
+      "WHERE tm.member_id = ? AND at.assignment_id = ?",
     [memberId, assignmentId]
   );
   const id = rows[0].id;
   await conn.query(
-    "UPDATE tb_assignment_team SET contents = ?, file = ? "
-    + "WHERE id = ?",
+    "UPDATE tb_assignment_team SET contents = ?, file = ? " + "WHERE id = ?",
     [contents, fileName, id]
   );
   ctx.state.id = id;

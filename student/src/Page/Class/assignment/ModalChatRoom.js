@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 import styled from "styled-components";
-import { useChats } from "../../../components/Use";
+import { useChats, useAssignments } from "../../../components/Use";
 import { getDataFromStorage } from "../../../utils/storage";
 import { concatChat } from "../../../store/reducer/chats";
 import Draggable from "react-draggable";
@@ -163,7 +163,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
   const scrollRef = useRef();
 
   const { createChatApi, chatList, listAllChats } = useChats();
-
+  const { assignmentOne } = useAssignments();
   const fetch = async () => {
     socket = io.connect(`http://localhost:3000/${match.assignmentTeamId}`, {
       path: "/socket.io",
@@ -230,7 +230,7 @@ const ModalChatRoom = ({ match, setOpen }) => {
     <Draggable onDrag={(data) => trackPos(data)}>
       <ModalBox>
         <Top>
-          <div>수업 명1</div>
+          <div>{assignmentOne.name}</div>
           <button
             onClick={() => {
               setOpen(false);

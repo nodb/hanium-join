@@ -360,7 +360,7 @@ export const getTokenMd = async (ctx, next) => {
     throw Boom.badRequest("timeout");
   }
   console.log(decoded);
-  ctx.state.email = decoded.email;
+  ctx.state.id = decoded.id;
 
   await next();
 }
@@ -368,10 +368,10 @@ export const getTokenMd = async (ctx, next) => {
 export const changePasswordMd = async (ctx, next) => {
   const { conn } = ctx.state;
 
-  const { password } = ctx.state.reqBody;
+  const { password } = ctx.request.body;
   
-  const email = ctx.state.email;
-  await conn.query("UPDATE tb_member SET password = password(?) where email = ?", [password, email]);
+  const id = ctx.state.id;
+  await conn.query("UPDATE tb_member SET password = password(?) where id = ?", [password, id]);
 
   ctx.state.body = {
     success: true,
@@ -462,7 +462,6 @@ export const check = [
 
 export const changePassword = [
   CommonMd.createConnectionMd,
-  getDataFromBodyMd,
   getTokenMd,
   changePasswordMd,
   CommonMd.responseMd,

@@ -9,7 +9,7 @@ const StudentBox = styled.div`
   justify-content: space-between;
   background-color: white;
   margin-bottom: 20px;
-  margin-left: 30px;
+  margin-left: 20px;
   display: flex;
   font-size: 13px;
   font-weight: 500;

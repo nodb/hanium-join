@@ -57,7 +57,7 @@ export const readTeamMemberAllMd = async (ctx, next) => {
   const rows = await conn.query(
     // eslint-disable-next-line max-len
     // eslint-disable-next-line no-multi-str
-    "SELECT t.id as teamId, t.name as teamName, m.name, m.grade, m.department \
+    "SELECT t.id as teamId, m.id as memberId,t.name as teamName, m.name, m.grade, m.department \
     FROM tb_team t \
     JOIN tb_team_member tm ON t.id = tm.team_id \
     JOIN tb_member m ON tm.member_id = m.id \
@@ -122,7 +122,7 @@ export const readStudentTeamMd = async (ctx, next) => {
   const { conn } = ctx.state;
   const { memberId, classCode } = ctx.query;
   const rows = await conn.query(
-    "select m.name, m.grade, m.department, a.teamId \
+    "select m.id as memberId ,m.name, m.grade, m.department, a.teamId \
     FROM (SELECT t.id as teamId FROM tb_team_member tm \
     JOIN tb_member m ON m.id = tm.member_id \
     JOIN tb_team t ON t.id = tm.team_id WHERE t.class_code = ? AND m.id = ?) a \

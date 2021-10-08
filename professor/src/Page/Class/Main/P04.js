@@ -10,10 +10,15 @@ import useP04 from "./useP04";
 const Box = styled.div`
   margin: 0 auto;
   width: 1440px;
-  height: 900px;
+  height: 800px;
+  overflow-y: auto;
   background: rgba(229, 229, 229, 0.6);
   border-radius: 30px;
   padding: 50px;
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 const P04 = () => {

@@ -46,13 +46,12 @@ const useP04 = () => {
     };
 
     try {
+      ModalClose();
       await createClassesApi(body);
       await listAllClasses(professorInfo.id);
     } catch (e) {
       alert(e);
     }
-
-    ModalClose();
   };
 
   return {

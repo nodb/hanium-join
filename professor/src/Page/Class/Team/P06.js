@@ -7,7 +7,6 @@ import { useHistory, Link, useParams } from "react-router-dom";
 
 import { CTLoading, useLoading } from "../../../components";
 import { useEnrolment, useTeams } from "../../../components/Use";
-import { getDataFromStorage } from "../../../utils/storage";
 
 const WrapBox = styled.div`
   height: 785px;
@@ -46,9 +45,7 @@ const ModifyButton = styled.span`
   color: #7c7979;
 `;
 
-const Buttons = styled.span`
-`;
-
+const Buttons = styled.span``;
 
 const CreateBox = styled.div`
   background: #ffffff;
@@ -81,7 +78,7 @@ const TitleBox = styled.div`
 
 const LinkButton = styled.div`
   margin-top: 15px;
-  float : right;
+  float: right;
   width: 100px;
   height: 38px;
   border: 2px solid #426589;
@@ -91,7 +88,6 @@ const LinkButton = styled.div`
   font-size: 18px;
   text-align: center;
   cursor: pointer;
-  padding-top: 3px;
   margin-right: 39px;
   :hover {
     background-color: #426589;
@@ -142,8 +138,6 @@ const ListText = styled.div`
 
 const P05_04 = () => {
   const { code } = useParams();
-
-  const history = useHistory();
 
   const { loading, setLoading } = useLoading(true);
 

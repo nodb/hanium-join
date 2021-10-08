@@ -36,6 +36,8 @@ const IntroText = styled.div`
 `;
 
 const Assignment = styled.div`
+overflow-x: hidden;
+overflow-y: auto;
   table {
     border-color: #ef8f88;
   }

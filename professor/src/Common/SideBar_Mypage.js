@@ -34,18 +34,45 @@ const Menus = styled.div`
   margin-top: 18px;
   text-align: center;
   list-style: none;
+  a:link {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:visited {
+    font-family: Roboto;
+    color: #7c7979;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  a:hover {
+    font-family: Roboto;
+    color: #000;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+  }
   li {
     margin: 18px 0px;
   }
 `;
 
 const Modify = styled.div`
-  text-decoration: none;
-  color: rgba(124, 121, 121, 0.9);
   font-weight: bold;
   cursor: pointer;
-
+  color : #7c7979;
+  :hover {
+    color: #000;
+  }
 `
+
+
 
 const defaultList = [
   {
@@ -92,7 +119,7 @@ const SideBar = () => {
              </>
             ): (
               <Link to={item.url} aria-current="page"
-              style={{ textDecoration: "none", color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer"}}>
+              >
                <span data-feather="home" />
                {item.title}
              </Link>

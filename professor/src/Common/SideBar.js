@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
+
+import { useClasses } from "../components";
+import { TextLoading, useLoading } from "../components";
 
 const Nav = styled.div`
   background-color: #e5e5e5;
@@ -41,6 +44,8 @@ const Menus = styled.div`
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { code } = useParams();
+  const { loading, setLoading } = useLoading(true);
+  const { classOne, getClasses } = useClasses();
 
   const defaultList = [
     {
@@ -61,9 +66,22 @@ const SideBar = () => {
     },
   ];
 
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await getClasses(code);
+      } catch (e) {
+        alert(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetch();
+  }, []);
+
   return (
     <Nav>
-      <Page>수업명</Page>
+      {loading ? <TextLoading /> : <Page>{classOne.name}</Page>}
       <BarHr />
       <Menus>
         {defaultList.map((item) => (

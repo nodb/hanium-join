@@ -35,28 +35,31 @@ const Delete = styled.img`
 `;
 
 const Text = styled.span`
-  font-family: "Nanum Gothic", sans-serif;
+  width: 150px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
   font-size: 20px;
-  font-weight: 900;
-  width: 500px;
+
+  color: #3d3d3d;
   padding: 20px 0px 20px 0px;
 `;
 
 const Box2 = styled.div`
-  width: 1100px;
+  width: 1032px;
   height: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
-  padding: 30px 30px 30px;
+  padding: 30px 70px 30px;
   border: 2px solid ${(props) => props.color};
   margin-bottom: 20px;
 `;
 
 const Box = styled.div`
-  width: 1100px;
+  width: 1032px;
   height: 300px;
-  overflow-y: scroll;
   display: flex;
   flex-wrap: wrap;
   border: 2px solid ${(props) => props.color};
@@ -67,6 +70,7 @@ const Box = styled.div`
 
 const Header = styled.div`
   display: flex;
+  width: 1032px;
   justify-content: space-between;
   align-items: baseline;
 `;

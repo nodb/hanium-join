@@ -4,14 +4,51 @@ import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import styled from "styled-components";
 
 const AssignmentBox = styled.div`
-  width: 150px;
-  height: 60px;
+  width: 250px;
+  height: 90px;
   margin-right: 50px;
-  margin-bottom: 5px;
-  padding: 10px;
+  margin-bottom: 30px;
+  padding: 15px;
   border: 0.5px solid #d8d8d8;
-  font-weight: 500;
   font-size: 13px;
+`;
+
+const Box = styled.div`
+  width: 1032px;
+  height: 710px;
+  overflow-y: auto;
+  overflow-x: hidden;
+`;
+
+const ListText = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+
+  color: #3d3d3d;
+  padding: 20px 0px 20px 0px;
+`;
+
+const TopText = styled.div`
+  width: 215px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const NameText = styled.div`
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+`;
+
+const TeamText = styled.div`
+  font-family: Roboto;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
 `;
 
 const Assignments = [
@@ -61,7 +98,7 @@ const CustomToggle = ({ children, eventKey }) => {
       style={{
         background: "none",
         border: "none",
-        width: "100%",
+        width: "1032px",
         textAlign: "left",
       }}
       onClick={decoratedOnClick}
@@ -73,20 +110,26 @@ const CustomToggle = ({ children, eventKey }) => {
 
 const TeamListItem = ({ assignment }) => {
   return (
-    <Card style={{ marginBottom: "20px", width: "1100px" }}>
+    <Card style={{ marginBottom: "20px", width: "1032px" }}>
       <Card.Header style={{ background: "none", border: "none" }}>
-        <CustomToggle eventKey="0">{assignment.name}</CustomToggle>
+        <CustomToggle eventKey="0">
+          <NameText>{assignment.name}</NameText>
+        </CustomToggle>
       </Card.Header>
       <Accordion.Collapse eventKey="0">
         <Card.Body>
           {" "}
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", width: "1032px" }}>
             {teams.map((item) => {
               return (
                 <AssignmentBox key={item.id}>
-                  TEAM {item.id}
-                  <br />
-                  {item.isSubmit ? "제출 완료" : "미제출"}
+                  <TopText>
+                    <TeamText>{item.name}</TeamText>
+                    <div>{item.isSubmit ? "제출 완료" : "미제출"}</div>
+                  </TopText>
+                  <TopText>
+                    <div>점수:10/10</div>
+                  </TopText>
                 </AssignmentBox>
               );
             })}
@@ -100,14 +143,14 @@ const TeamListItem = ({ assignment }) => {
 const P13 = () => {
   return (
     <div>
-      <h4 className="mt-2">과제 별 보기</h4>
-      <div style={{ overflowY: "scroll", width: "1150px" }}>
+      <ListText>과제 별 보기</ListText>
+      <Box>
         {Assignments.map((assignment) => (
           <Accordion defaultActiveKey="1" key={assignment.name} flush>
             <TeamListItem assignment={assignment} />
           </Accordion>
         ))}
-      </div>
+      </Box>
     </div>
   );
 };

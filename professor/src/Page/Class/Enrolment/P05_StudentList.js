@@ -5,9 +5,8 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import refuse from "../../../images/x.png";
 
 const Box = styled.div`
-  width: 1100px;
+  width: 1032px;
   height: 300px;
-  overflow-y: scroll;
   display: flex;
   flex-wrap: wrap;
   border: 2px solid ${(props) => props.color};
@@ -17,23 +16,26 @@ const Box = styled.div`
 `;
 
 const Box2 = styled.div`
-  width: 1100px;
+  width: 1032px;
   height: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
-  padding: 30px 30px 30px;
+  padding: 30px 70px 30px;
   border: 2px solid ${(props) => props.color};
   margin-bottom: 20px;
 `;
 
 const Text = styled.div`
-  font-family: "Nanum Gothic", sans-serif;
-  font-size: 20px;
-  font-weight: 900;
   width: 150px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+
+  color: #3d3d3d;
+  padding: 20px 0px 20px 0px;
 `;
 
 const Img = styled.img`
@@ -82,6 +84,7 @@ const Name = styled.div`
 
 const Header = styled.div`
   display: flex;
+  width: 1032px;
   justify-content: space-between;
   align-items: baseline;
 `;

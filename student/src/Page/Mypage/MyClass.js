@@ -54,6 +54,11 @@ margin-bottom: 20px;
 }
 `;
 
+const List = styled.div`
+overflow-x: hidden;
+overflow-y: auto;
+`
+
 
 function MyClass() {
   const { loading, setLoading } = useLoading(true);
@@ -83,6 +88,7 @@ function MyClass() {
       수강 과목
     </Page>
     <Hr />
+    <List>
     <IntroText>강의를 클릭하면 해당 페이지로 이동합니다.</IntroText> <br />
       {classesList.results.map((item) => {
         return (
@@ -92,12 +98,13 @@ function MyClass() {
         style={{ textDecoration: "none", color: "inherit" }}
       >
                 <img src={require("../../images/Pencil.png").default} alt="수업"/>
-                {item.name} ({item.code})
+                {item.className} ({item.code})
                 <hr />
                 </Link>
           </ClassText>
         )
       })}
+      </List>
     </Box>
   );
 }

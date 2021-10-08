@@ -12,4 +12,6 @@ router.get("/student/:memberId", ...classes.readStudentAll);
 // 강의 생성
 router.post("/", ...classes.create);
 
+router.get("/:code", ...classes.readOne);
+
 export default router;

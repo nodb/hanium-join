@@ -108,6 +108,19 @@ export const queryClassMdByCode = async (ctx, next) => {
   await next();
 };
 
+export const readOneMd = async (ctx, next) => {
+  const { code } = ctx.params;
+  const { conn } = ctx.state;
+  const rows = await conn.query("SELECT name FROM tb_class WHERE code = ?", [
+    code,
+  ]);
+
+  ctx.state.body = {
+    ...rows[0],
+  };
+  await next();
+};
+
 export const readProfessorAll = [
   CommonMd.createConnectionMd,
   readClassProfessorMd,
@@ -127,5 +140,11 @@ export const create = [
   createCodeMd,
   saveClassMd,
   queryClassMdByCode,
+  CommonMd.responseMd,
+];
+
+export const readOne = [
+  CommonMd.createConnectionMd,
+  readOneMd,
   CommonMd.responseMd,
 ];

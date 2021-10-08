@@ -15,4 +15,6 @@ router.post("/email", ...verification.postVerifyEmail);
 // 이메일 인증번호 확인
 router.post("/email/verify", ...verification.confirmVerifyEmail);
 
+router.post("/pw", ...verification.verifyPassword);
+
 export default router;

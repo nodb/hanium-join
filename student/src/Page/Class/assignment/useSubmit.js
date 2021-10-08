@@ -5,7 +5,7 @@ import { useAssignments } from "../../../components/Use";
 
 const useSubmit = () => {
   const history = useHistory();
-  const { id } = useParams();
+  const { id, code } = useParams();
   const { submitAssignmentsApi } = useAssignments();
   const [imgBase64, setImgBase64] = useState([]); // 파일 base64
   const [imgFile, setImgFile] = useState(null); //파일
@@ -35,6 +35,10 @@ const useSubmit = () => {
       alert(e);
     }
   };
+
+  const backHandler = async () => {
+    history.push(`/student/class/${code}/main/assignment/${id}`)
+  }
 
   const handleChange = (e) => {
     setData({
@@ -85,6 +89,7 @@ const useSubmit = () => {
     handleChange,
     handleChangeFile,
     deleteHandler,
+    backHandler,
   };
 };
 

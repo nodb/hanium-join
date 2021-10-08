@@ -122,7 +122,7 @@ const CommentText = styled.div`
 `;
 
 const CommentContentText = styled.div`
-  display: inline-block;
+  display: flex;
   margin-right: 59px;
   font-family: Roboto;
   font-style: normal;
@@ -144,6 +144,7 @@ const EnterButton = styled.button`
   line-height: 23px;
   text-align: center;
   margin-top: 3px;
+  margin-left: 25px;
   color: #426589;
   background: #ffffff;
   border: 2px solid #426589;
@@ -312,6 +313,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "8px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -326,6 +328,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "8px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -345,6 +348,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "8px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -364,6 +368,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "8px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -383,6 +388,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "8px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -411,6 +417,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "15px 0px 150px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -432,6 +439,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "15px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -459,6 +467,7 @@ const assignment = ({ match }) => {
             style={{
               marginLeft: 3,
               padding: "15px 0px",
+              width: "960px",
               borderBottom: "1px solid #C4C4C4",
               alignItems: "center",
             }}
@@ -494,43 +503,38 @@ const assignment = ({ match }) => {
                 row
                 style={{
                   marginLeft: 3,
+                  width: "960px",
                   borderBottom: "1px solid #C4C4C4",
                 }}
               >
-                <CommentText
+                <Label
                   for="name"
-                  sm={4}
-                  style={{ fontWeight: "bold", paddingLeft: "15px" }}
+                  sm={2}
+                  style={{
+                    fontWeight: "bold",
+                    paddingLeft: "15px",
+                    fontSize: "15px",
+                  }}
                 >
                   {comment.name}
-                </CommentText>
-                <CommentContentText
+                </Label>
+                <Label
                   for="contents"
                   sm={6}
-                  style={{ paddingLeft: "45px" }}
+                  style={{ paddingLeft: "10px", fontSize: "15px" }}
                 >
                   {comment.contents}
-                </CommentContentText>
-                <CommentText
-                  for="contents"
-                  sm={6}
-                  style={{ paddingLeft: "5px" }}
-                >
+                </Label>
+                <CommentText for="date" sm={2} style={{ paddingLeft: "5px" }}>
                   ({DateChange2(comment.createdAt)})
                 </CommentText>
-                <CommentText
-                  for="contents"
-                  sm={1}
-                  style={{ paddingLeft: "5px" }}
-                >
-                  <Button
-                    close
-                    style={{ background: "none", border: 0, color: "red" }}
-                    onClick={() => {
-                      deleteCommentHandler(comment.id);
-                    }}
-                  />
-                </CommentText>
+                <Button
+                  close
+                  style={{ background: "none", border: 0, color: "red" }}
+                  onClick={() => {
+                    deleteCommentHandler(comment.id);
+                  }}
+                />
               </FormGroup>
             );
           })}
@@ -540,7 +544,7 @@ const assignment = ({ match }) => {
               padding: "7px 15px",
             }}
           >
-            <Col style={{ marginLeft: "150px" }}>
+            <Col sm={10}>
               <Input
                 type="conmment"
                 name="contents"

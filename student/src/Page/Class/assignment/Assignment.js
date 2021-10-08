@@ -7,22 +7,42 @@ import GoSubmitAssignment from "../../../images/goSubmitAssignment.png";
 import useAssignment from "./useAssignment";
 
 const Box = styled.div`
-  width: 1100px;
+  width: 1000px;
   button {
     color: white;
     background-color: #6f91b5;
     font-weight: bold;
   }
 `;
-
+const Top = styled.div`
+  width: 960px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 3;
+  padding: 10px 0px;
+  margin-top: 10px;
+  border-bottom: 3px solid #c4c4c4;
+  div {
+    display: flex;
+    align-items: center;
+  }
+`;
+const Myimg = styled.div`
+  img {
+    width: 180px;
+    height: 180px;
+  }
+`;
 const GoSubmit = styled.div`
   display: flex;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  cursor: pointer;
+  align-items: center;
   width: fit-content;
   vertical-align: middle;
-
+  margin-right: 10px;
   p {
+    margin: 0;
     font-family: Roboto;
     font-weight: bold;
     color: #6f91b5;
@@ -46,6 +66,7 @@ const Comment = () => {
         style={{
           marginLeft: 3,
           padding: "4px 0px",
+          width: "960px",
           borderBottom: "1px solid #C4C4C4",
         }}
       >
@@ -69,25 +90,38 @@ const Comment = () => {
             style={{
               marginLeft: 5,
               padding: "7px 0px",
+              width: "960px",
+              borderBottom: "1px solid #c4c4c4",
             }}
           >
             <Label
               for="name"
-              sm={2}
+              sm={1}
               style={{
                 fontWeight: "bold",
                 paddingLeft: "5px",
                 fontSize: "15px",
               }}
             >
-              {comment.name} ({CommentDateChange(comment.createdAt)})
+              {comment.name}
             </Label>
             <Label
               for="contents"
-              sm={6}
-              style={{ paddingLeft: "5px", fontSize: "15px" }}
+              sm={8}
+              style={{ paddingLeft: "10px", fontSize: "15px" }}
             >
               {comment.contents}
+            </Label>
+            <Label
+              for="name"
+              sm={2}
+              style={{
+                fontWeight: "normal",
+                paddingLeft: "5px",
+                fontSize: "15px",
+              }}
+            >
+              ({CommentDateChange(comment.createdAt)})
             </Label>
             {comment.memberId === studentInfo.id && (
               <Label for="contents" sm={1} style={{ paddingLeft: "5px" }}>
@@ -109,11 +143,10 @@ const Comment = () => {
         style={{
           marginLeft: 3,
           padding: "15px 0px",
-          borderBottom: "1px solid #C4C4C4",
           alignItems: "center",
         }}
       >
-        <Col sm={8}>
+        <Col sm={9}>
           <Input
             type="conmment"
             name="contents"
@@ -143,28 +176,42 @@ const Assignment = () => {
     <CTLoading />
   ) : (
     <Box>
-      <Form>
-        <FormGroup
-          row
-          style={{
-            marginLeft: 3,
-            padding: "15px 0px",
-            borderBottom: "3px solid #C4C4C4",
-          }}
+      <Top>
+        <Label
+          for="name"
+          sm={2}
+          style={{ fontWeight: "bold", paddingLeft: "5px", fontSize: "20px" }}
         >
-          <Label
-            for="name"
-            sm={2}
-            style={{ fontWeight: "bold", paddingLeft: "5px", fontSize: "20px" }}
+          과제
+        </Label>
+        <div>
+          <GoSubmit onClick={submitHandler}>
+            <img alt="assignmentImg" src={GoSubmitAssignment} />
+            <p style={{ marginLeft: "5px" }}>과제 제출하러 가기</p>
+          </GoSubmit>
+          <button
+            href="#"
+            class="btn btn-secondary btn-sm"
+            style={{ fontSize: "14px" }}
+            onClick={listHandler}
           >
-            과제
-          </Label>
-        </FormGroup>
+            목록
+          </button>
+        </div>
+      </Top>
+      <Form
+        style={{
+          overflowY: "scroll",
+          overflowX: "hidden",
+          height: "718px",
+        }}
+      >
         <FormGroup
           row
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -185,6 +232,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -203,6 +251,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -221,6 +270,7 @@ const Assignment = () => {
           style={{
             marginLeft: 3,
             padding: "5px 0px",
+            width: "960px",
             borderBottom: "1px solid #C4C4C4",
             alignItems: "center",
           }}
@@ -242,29 +292,23 @@ const Assignment = () => {
           row
           style={{
             marginLeft: 3,
-            padding: "30px 10px",
+            padding: "15px 0px 0px 10px",
+            width: "960px",
             borderBottom: "3px solid #C4C4C4",
             fontSize: "16px",
+            minHeight: "300px",
+            height: "fit-content",
           }}
         >
+          <Myimg>
+            {assignmentOne.image !== null && (
+              <img src={`/${assignmentOne.image}`} alt="이미지" />
+            )}
+          </Myimg>
           {assignmentOne.content}
         </FormGroup>
+        <Comment />
       </Form>
-      <Comment />
-      <GoSubmit onClick={submitHandler}>
-        <img alt="assignmentImg" src={GoSubmitAssignment} />
-        <p style={{ marginLeft: "5px" }}>과제 제출하러 가기</p>
-      </GoSubmit>
-      <tr>
-        <button
-          href="#"
-          class="btn btn-secondary btn-sm"
-          style={{ fontSize: "12px" }}
-          onClick={listHandler}
-        >
-          목록
-        </button>
-      </tr>
     </Box>
   );
 };

@@ -32,9 +32,9 @@ margin-top: 20px;
 `;
 
 const AddArrow = styled.button`
-margin-top: 250px;
+  margin-top: 250px;
   margin-bottom: 25px;
-  margin-left: 35px;
+  margin-left: 43px;
   width: 130px;
   height: 35px;
   background: #FFFFFF;
@@ -44,8 +44,9 @@ margin-top: 250px;
     text-align: center;
     width: 25px;
     height: 25px;
-    margin-top: 2px;
+    margin-top: 1px;
     cursor: pointer;
+    padding-left: 1px;
   }
   cursor: pointer;
 `

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { getDataFromStorage } from "../../../utils/storage";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDiscuss, useAssignments, useTeams } from "../../../components/Use";
 
 const useDiscusses = () => {
+  const history = useHistory();
   const studentInfo = getDataFromStorage();
   const { id, code } = useParams();
   const { teamList, teamMemberList } = useTeams();
@@ -59,6 +60,10 @@ const useDiscusses = () => {
     }
   };
 
+  const backHandler = async () => {
+    history.push(`/student/class/${code}/main/assignment/${id}`)
+  }
+
   return {
     data,
     id,
@@ -66,6 +71,7 @@ const useDiscusses = () => {
     DiscussList,
     submitHandler,
     DeleteHandler,
+    backHandler,
   };
 };
 

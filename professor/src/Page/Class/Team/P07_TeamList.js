@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 const Team = styled.div`
 display: flex;
 width: 561px;
-margin-top: 5px;
+margin-top: 8px;
 `;
 
 const TStudentBox = styled.div`
@@ -20,11 +20,11 @@ width: 300px;
 `
 
 const DelArrow = styled.button`
-position: absolute;
-left: 749px;
-top: 530px;
-  width: 130px;
-  height: 35px;
+  margin-top: 300px;
+  margin-left: -170px;
+  margin-right: 43px;
+  width: 129px;
+  height: 34px;
   background: #FFFFFF;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -32,8 +32,9 @@ top: 530px;
     text-align: center;
     width: 25px;
     height: 25px;
-    margin-top: 2px;
+    margin-top: 1px;
     cursor: pointer;
+    padding-right: 1px;
   }
   cursor: pointer;
 `

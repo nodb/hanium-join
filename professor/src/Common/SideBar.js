@@ -89,7 +89,7 @@ const SideBar = () => {
             {item.title !== "리포트 확인" && (
               <Link
                 to={item.url}
-                style={{ textDecoration: "none", color: "black" }}
+                style={{ textDecoration: "none", color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer"}}
                 className="nav-link active"
                 aria-current="page"
               >
@@ -101,7 +101,7 @@ const SideBar = () => {
               <>
                 <span data-feather="assignment-management" />
                 <div
-                  style={{ transitionDuration: "2s" }}
+                  style={{ transitionDuration: "2s" ,color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer"}}
                   onClick={() => {
                     setIsOpen(!isOpen);
                   }}
@@ -112,7 +112,7 @@ const SideBar = () => {
                   <div>
                     <Link
                       to={`/professor/class/${code}/report/teamView`}
-                      style={{ textDecoration: "none", color: "black" }}
+                      style={{ textDecoration: "none", color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer" }}
                       className="nav-link active"
                       aria-current="page"
                     >
@@ -120,7 +120,7 @@ const SideBar = () => {
                     </Link>
                     <Link
                       to={`/professor/class/${code}/report/assignView`}
-                      style={{ textDecoration: "none", color: "black" }}
+                      style={{ textDecoration: "none", color: "rgba(124, 121, 121, 0.9)", fontWeight: "bold", cursor: "pointer" }}
                       className="nav-link active"
                       aria-current="page"
                     >

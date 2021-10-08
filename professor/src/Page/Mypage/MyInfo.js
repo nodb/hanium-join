@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useMember } from "../../components";
 import { getDataFromStorage } from "../../utils/storage";
 import { Link } from "react-router-dom";
+import { useLoading, CTLoading } from "../../components";
+import PwModal from "./PwModal";
 
 const Box = styled.div`
-  width: 80%;
+
 `;
 
 const Page = styled.div`
@@ -18,7 +20,7 @@ const Page = styled.div`
 `;
 
 const Hr = styled.hr`
-  width: 100%;
+  width: 1032px;
   height: 0px;
   border: 4px solid #c4c4c4;
 `;
@@ -100,6 +102,7 @@ const Phone = styled.div`
 `;
 
 const Modify = styled.div`
+cursor: pointer;
   background-color: #6f91b5;
   width: 160px;
   height: 39px;
@@ -114,8 +117,18 @@ const Modify = styled.div`
 `;
 
 function MyInfo() {
-  const { memberInfo, getInfo } = useMember();
 
+  const { loading, setLoading } = useLoading(true);
+  const { memberInfo, getInfo } = useMember();
+  const [Modal, setModalOpen] = useState(false);
+
+  const ModalOpen = () => {
+      setModalOpen(true);
+  }
+
+  const ModalClose = () => {
+      setModalOpen(false);
+  }
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -124,13 +137,17 @@ function MyInfo() {
         console.log(professor)
       } catch (err) {
         console.log(err);
+      } finally{
+        setLoading(false);
       }
     };
     fetch();
   }, []);
   
   
-  return (
+  return loading ? (
+    <CTLoading />
+  ) : (
     <Box>
       <Page>내 프로필</Page>
       <Hr />
@@ -166,12 +183,8 @@ function MyInfo() {
             {memberInfo.mobile}
           </Phone>
         </Info>
-        <Link
-          to="/professor/mypage/modify"
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <Modify>정보 수정</Modify>
-        </Link>
+          <Modify onClick={ModalOpen}>정보 수정</Modify>
+          <PwModal open={Modal} close={ModalClose}></PwModal>
       </InfoBox>
     </Box>
   );

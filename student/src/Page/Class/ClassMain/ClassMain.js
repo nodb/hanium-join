@@ -13,17 +13,22 @@ const S05_05_06 = () => {
     assignmentByTeamList,
     clickHandler,
     DateChange,
+    array,
+    pageHandler,
+    studentInfo,
   } = useClassMain();
 
   return loading ? (
     <CTLoading />
   ) : (
     <div>
-      <StudentBox List={teamList} />
+      <StudentBox List={teamList} me={studentInfo.id} />
       <AssignmentBox
         List={assignmentByTeamList}
         DateChange={DateChange}
         clickHandler={clickHandler}
+        setData={pageHandler}
+        array={array}
       />
     </div>
   );

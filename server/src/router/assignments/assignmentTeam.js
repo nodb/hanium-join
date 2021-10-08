@@ -1,4 +1,6 @@
 import * as CommonMd from "../middlewares";
+import fs from "fs";
+import path from "path";
 
 export const getDataFromBodyMd = async (ctx, next) => {
   const { contents } = ctx.request.body;
@@ -18,8 +20,12 @@ export const updateAssignmentTeamMd = async (ctx, next) => {
   console.log(assignmentId);
   const { contents } = ctx.state.reqBody;
   const file = ctx.request.files === undefined ? null : ctx.request.files.file;
-
-  const fileName = file ? file.name : null;
+  let fileName = null;
+  if(file!=null){
+    const appDir = path.dirname(file.path);
+    fileName = `${Date.now()}_${file.name}`;
+    await fs.renameSync(file.path, `${appDir}/${fileName}`);
+  }
   const rows = await conn.query(
     "SELECT at.id "
     + "FROM tb_assignment_team at "

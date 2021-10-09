@@ -27,7 +27,7 @@ const Label = styled.div`
 const Input = styled.input`
   margin-top: 10px;
   display: inline;
-  width: 903px;
+  width: 800px;
   height: 26px;
   border: 1px solid ${oc.gray[3]};
   outline: none;
@@ -42,7 +42,7 @@ const Input = styled.input`
 const Hr = styled.hr`
   border: 1px solid #c4c4c4;
   transform: rotate(-0.16deg);
-  width: 88%;
+  width: 95%;
   margin-bottom: 20px;
 `;
 

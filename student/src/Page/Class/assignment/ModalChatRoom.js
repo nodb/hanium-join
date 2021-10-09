@@ -158,7 +158,7 @@ let socket;
 const ModalChatRoom = ({ match, setOpen }) => {
   const [position, setPosition] = useState({ x: 50, y: 50 });
   const [data, setData] = useState({ name: "", message: "", open: false });
-  const {id} = useParams();
+  const { id } = useParams();
   const studentInfo = getDataFromStorage();
   const dispatch = useDispatch();
   const scrollRef = useRef();

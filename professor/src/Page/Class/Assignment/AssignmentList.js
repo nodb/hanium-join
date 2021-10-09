@@ -15,33 +15,36 @@ const ListText = styled.div`
 
   color: #3d3d3d;
 `;
-
-const Box = styled.div`
-  width: 70%;
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
   button {
     background: #ffffff;
     border: 2px solid #426589;
     box-sizing: border-box;
+    justify-content: flex-end;
 
-    margin-bottom: 14px;
     float: right;
-
+    margin-top: 20px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 23px;
     text-align: center;
 
     color: #426589;
 
-    width: 80px;
-    height: 35px;
+    width: 60px;
+    height: 30px;
     :hover {
       background-color: #426589;
       color: white;
     }
   }
+`;
+const Box = styled.div`
+  width: 1032px;
 `;
 
 const Assignment = styled.div`
@@ -123,12 +126,12 @@ const assignmentList = () => {
 
   return (
     <Box>
-      <div>
+      <Top>
         <ListText>등록된 과제 확인</ListText>
         <button size="sm" onClick={addHandler}>
           추가
         </button>
-      </div>
+      </Top>
       <Assignment>
         <Table size="sm">
           <thead>
@@ -152,7 +155,11 @@ const assignmentList = () => {
                   >
                     {assignment.name}
                   </th>
-                  <th>{assignment.progress === 1 ? "진행 중" : "마감"}</th>
+                  <th>
+                    {new Date(assignment.endDate) > new Date(Date.now())
+                      ? "진행 중"
+                      : "마감"}
+                  </th>
                   <th>{assignment.point}</th>
                   <th>{endDateChange(assignment.endDate)}</th>
                 </tr>

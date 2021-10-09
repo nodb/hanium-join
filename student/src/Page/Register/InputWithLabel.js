@@ -10,17 +10,17 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.div`
-display: inline-block;
-text-align: left;
-width: 100px;
-margin-right: 59px;
-margin-bottom: 31px;
+  display: inline-block;
+  text-align: left;
+  width: 110px;
+  margin-right: 59px;
+  margin-bottom: 31px;
   font-size: 1rem;
   color: ${oc.gray[6]};
 `;
 
 const Input = styled.input`
-display:inline;
+  display: inline;
   width: 313px;
   height: 24px;
   border: 1px solid ${oc.gray[3]};
@@ -31,7 +31,7 @@ display:inline;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   margin-bottom: 31px;
-background: #EBE7E7;
+  background: #ebe7e7;
 `;
 
 // rest 쪽에는 onChange, type, name, value, placeholder 등의 input 에서 사용 하는 값들을 넣어줄수 있다.

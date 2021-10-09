@@ -60,18 +60,18 @@ const HeadLabel = styled.div`
   text-align: center;
 `;
 const Box = styled.div`
-  width: 80%;
+  width: 1032px;
   height: 785px;
 `;
 
 const Hr = styled.hr`
   border: 1px solid #c4c4c4;
   transform: rotate(-0.16deg);
-  width: 88%;
+  width: 95%;
 `;
 
 const TextArea = styled.input`
-  width: 1037px;
+  width: 920px;
   height: 367px;
 
   background: #ffffff;
@@ -84,7 +84,7 @@ const CheckText = styled.span`
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 21px;
 
   color: #000000;
@@ -176,7 +176,7 @@ const AssignmentView = () => {
                 alignItems: "center",
               }}
             >
-              <Label for="point" sm={1}>
+              <Label for="point" sm={1} style={{ marginRight: "25px" }}>
                 <HeadLabel>팀지정</HeadLabel>
               </Label>
               {teamList.results.map((team) => (

@@ -280,15 +280,6 @@ const assignment = ({ match }) => {
     }
   };
 
-  const fileDownLoadHandler = () => {
-    try {
-      console.log("돼라");
-      getFile(assignmentOne.image);
-    } catch (e) {
-      alert(e);
-    }
-  };
-
   return loading ? (
     <CTLoading />
   ) : (
@@ -409,7 +400,7 @@ const assignment = ({ match }) => {
                   disabled={true}
                   style={{ marginRight: "5px" }}
                 />
-                {team.name}
+                {team.name}팀
               </Col>
             ))}
           </FormGroup>

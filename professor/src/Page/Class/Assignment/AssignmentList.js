@@ -17,7 +17,7 @@ const ListText = styled.div`
 `;
 
 const Box = styled.div`
-  width: 70%;
+  width: 1032px;
   button {
     background: #ffffff;
     border: 2px solid #426589;
@@ -152,7 +152,11 @@ const assignmentList = () => {
                   >
                     {assignment.name}
                   </th>
-                  <th>{assignment.progress === 1 ? "진행 중" : "마감"}</th>
+                  <th>
+                    {new Date(assignment.endDate) > new Date(Date.now())
+                      ? "진행 중"
+                      : "마감"}
+                  </th>
                   <th>{assignment.point}</th>
                   <th>{endDateChange(assignment.endDate)}</th>
                 </tr>

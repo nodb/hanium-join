@@ -360,7 +360,7 @@ export const getTokenMd = async (ctx, next) => {
     throw Boom.badRequest("timeout");
   }
   console.log(decoded);
-  ctx.state.id = decoded.id;
+  ctx.state.email = decoded.email;
 
   await next();
 }
@@ -370,8 +370,8 @@ export const changePasswordMd = async (ctx, next) => {
 
   const { password } = ctx.request.body;
   
-  const id = ctx.state.id;
-  await conn.query("UPDATE tb_member SET password = password(?) where id = ?", [password, id]);
+  const email = ctx.state.email;
+  await conn.query("UPDATE tb_member SET password = password(?) where email = ?", [password, email]);
 
   ctx.state.body = {
     success: true,

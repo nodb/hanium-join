@@ -113,7 +113,7 @@ const Submit = () => {
         })} */}
         {data.file?
           <FileItem>
-            <a href={`/downloads/${data.file}`} download>
+            <a href={`http://localhost:3000/api/v1/downloads/${data.file}`} download>
               <span style={{ fontSize: "14px" }}>
                 {data.file}
               </span>

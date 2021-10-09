@@ -6,6 +6,8 @@ const PlusIcon = styled.div`
   height: 50px;
   cursor: pointer;
   margin-left: 1300px;
+  position: absolute;
+  top: 800px;
 `;
 
 const S04_Plus = ({ open }) => {

@@ -98,7 +98,7 @@ const ClassBoxDetail = ({ item, ClickHandler }) => {
   return (
     <>
       {item.isAccept === 0 && (
-        <ClassBox style={{ opacity: "0.7" }}>
+        <ClassBox style={{ opacity: "0.4" }}>
           <ImgBox color={item.color}>
             <ClassName>{item.className}</ClassName>
             <ProfessorName>{item.professorName}</ProfessorName>

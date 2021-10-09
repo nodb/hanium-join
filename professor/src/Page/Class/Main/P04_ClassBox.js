@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import Class from "../../../images/noclass.png";
@@ -59,7 +58,6 @@ const Img = styled.img`
 
 const BoxClass = styled.div`
   width: 100%;
-  height: 800px;
   display: flex;
   flex-wrap: wrap;
 `;

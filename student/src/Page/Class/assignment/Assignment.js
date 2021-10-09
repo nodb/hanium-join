@@ -19,9 +19,8 @@ const Top = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-left: 3;
-  padding: 10px 0px;
-  margin-top: 10px;
+  // margin-left: 3;
+  // padding: 10px 0px;
   border-bottom: 3px solid #c4c4c4;
   div {
     display: flex;
@@ -180,7 +179,7 @@ const Assignment = () => {
         <Label
           for="name"
           sm={2}
-          style={{ fontWeight: "bold", paddingLeft: "5px", fontSize: "20px" }}
+          style={{ fontWeight: "bold", paddingLeft: "5px", fontSize: "20px" ,  padding: "20px 0px 20px 0px"}}
         >
           과제
         </Label>

@@ -37,6 +37,8 @@ const useMain = () => {
 
     try {
       await createEnrolApi(body);
+      ModalClose();
+      await listAllClasses(studentInfo.id);
     } catch (e) {
       alert(e);
     }

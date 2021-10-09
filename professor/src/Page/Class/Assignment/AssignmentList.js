@@ -10,10 +10,10 @@ const ListText = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 23px;
+  // line-height: 23px;
+  padding: 20px 0px 20px 0px;
 
   color: #3d3d3d;
-  margin-top: 42px;
 `;
 
 const Box = styled.div`

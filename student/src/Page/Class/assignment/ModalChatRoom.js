@@ -7,7 +7,6 @@ import { getDataFromStorage } from "../../../utils/storage";
 import { concatChat } from "../../../store/reducer/chats";
 import Draggable from "react-draggable";
 import { useParams } from "react-router-dom";
-import { useAssignments } from "../../../components";
 
 const Box = styled.div`
   width: 400px;

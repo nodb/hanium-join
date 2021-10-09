@@ -89,7 +89,7 @@ const SideBar = () => {
       <Page>수강 과목</Page>
       <BarHr />
       <Menus>
-          {classesList.results.slice(0).reverse().map((item)=>(
+          {classesList.results.slice(0).reverse().filter((item)=>(item.isAccept)).map((item)=>(
             <li key={item.code}>
               <Link to={`/student/class/${item.code}/main`} aria-current="page">
                 <span data-feather="home" />

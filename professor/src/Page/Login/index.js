@@ -123,11 +123,8 @@ const Login = () => {
 
   return (
     <>
-      <HeaderBar>
-        <Logo />
-      </HeaderBar>
 
-      <TextBox>로그인</TextBox>
+      <TextBox>JOIN</TextBox>
       <Box>
         <InputWithLabel
           name="email"
@@ -158,7 +155,6 @@ const Login = () => {
           <RegisterButton>회원가입</RegisterButton>
         </Link>
       </Box>
-      <Footer />
     </>
   );
 };

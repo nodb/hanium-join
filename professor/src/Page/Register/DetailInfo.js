@@ -12,14 +12,13 @@ import Footer from "../../Common/Footer";
 
 const Box = styled.div`
 display: block;
-padding-left: 65px;
-  width: 1041px;
-  height: 590px;
-  margin-top: 30px;
-  margin-bottom: 200px;
-  padding: 0 auto;
-  padding-top: 80px;
-  margin: 0 auto;
+width: 1041px;
+height: 590px;
+margin-top: 30px;
+margin-bottom: 200px;
+padding: 0 auto;
+padding-top: 80px;
+margin: 0 auto;
   background-color: white;
   border: 4px solid #89C0B7;
   filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
@@ -37,7 +36,7 @@ height: 116.19px;
   margin: 0 auto;
   padding-top: 39px;
   margin-top: 85px;
-
+  text-align: center;
   color: #FFFFFF;
   filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
 `;
@@ -135,7 +134,6 @@ function Register(props) {
 
   return (
     <>
-    <Header />
       <TextBox>회원가입</TextBox>
     <Box>
       <InputWithLabel
@@ -151,10 +149,10 @@ function Register(props) {
         name="email"
         value={data.email}
         onChange={handleChange}
-      />
-      {data.errName=="email" && data.errMessage && (
-      <AlertBox available={false}>{data.errMessage}</AlertBox>
-      )}
+      >
+        {data.errName=="email" && data.errMessage && (
+        <AlertBox available={false}>{data.errMessage}</AlertBox>)}
+      </InputWithLabel>
 
       <InputWithLabel
         label="비밀번호"
@@ -162,20 +160,21 @@ function Register(props) {
         type="password"
         value={data.pw}
         onChange={handleChange}
-      />
-      {data.errName=="pw" && data.errMessage && (
-      <AlertBox available={false}>{data.errMessage}</AlertBox>
-      )}
+      >
+        {data.errName=="pw" && data.errMessage && (
+        <AlertBox available={false}>{data.errMessage}</AlertBox>)}
+      </InputWithLabel>
       <InputWithLabel
         label="비밀번호 확인"
         name="pwC"
         type="password"
         value={data.pwC}
         onChange={handleChange}
-      />
-      {data.errName=="pwC" && data.errMessage && (
-      <AlertBox available={false}>{data.errMessage}</AlertBox>
-      )}
+      >
+        {data.errName=="pwC" && data.errMessage && (
+          <AlertBox available={false}>{data.errMessage}</AlertBox>)}
+      </InputWithLabel>
+
       <InputWithLabel
         label="전화번호"
         name="mobile"
@@ -193,7 +192,6 @@ function Register(props) {
       <RegisterButton onClick={onSubmitHandler}>가입하기</RegisterButton>
       <BackButton>뒤로가기</BackButton>
     </Box>
-    <Footer />
     </>
   );
 }

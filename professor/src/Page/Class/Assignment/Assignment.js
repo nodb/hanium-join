@@ -15,19 +15,25 @@ const FormDiv = styled.div`
   height: 680px;
 `;
 
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+`;
+
 const ListText = styled.div`
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 23px;
-
+  // line-height: 23px;
+  padding: 20px 0px 20px 0px;
   color: #3d3d3d;
-  margin-top: 42px;
+  // margin-top: 42px;
 `;
 
 const Box = styled.div`
-  width: 70%;
+  width: 1032px;
   button {
     font-family: Roboto;
     font-style: normal;
@@ -68,7 +74,7 @@ const ModifyButton = styled.button`
   box-sizing: border-box;
 
   margin-bottom: 30px;
-  margin-top: -40px;
+  margin-top: 20px;
   float: right;
   margin-right: 60px;
 
@@ -162,9 +168,8 @@ const DeleteButton = styled.button`
   box-sizing: border-box;
 
   margin-bottom: 30px;
-  margin-top: -40px;
+  margin-top: 20px;
   float: right;
-  margin-right: 60px;
 
   font-family: Roboto;
   font-style: normal;
@@ -284,19 +289,21 @@ const assignment = ({ match }) => {
     <CTLoading />
   ) : (
     <Box>
-      <ListText>과제</ListText>
-      <div class="mt-3" style={{ display: "flex", justifyContent: "flex-end" }}>
-        <ModifyButton
-          onClick={modifyHandler}
-          size="sm"
-          style={{ marginRight: "20px" }}
-        >
-          수정
-        </ModifyButton>
-        <DeleteButton onClick={deleteHandler} size="sm">
-          삭제
-        </DeleteButton>
-      </div>
+      <Top>
+        <ListText>과제</ListText>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <ModifyButton
+            onClick={modifyHandler}
+            size="sm"
+            style={{ marginRight: "20px" }}
+          >
+            수정
+          </ModifyButton>
+          <DeleteButton onClick={deleteHandler} size="sm">
+            삭제
+          </DeleteButton>
+        </div>
+      </Top>
       <FormDiv>
         <Form>
           <FormGroup

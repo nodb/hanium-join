@@ -11,10 +11,16 @@ const ListText = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 23px;
+  // line-height: 23px;
+  padding: 20px 0px 20px 0px;
 
   color: #3d3d3d;
-  margin-top: 42px;
+  // margin-top: 42px;
+`;
+
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const SubmitButton = styled.button`
@@ -23,21 +29,20 @@ const SubmitButton = styled.button`
   box-sizing: border-box;
 
   margin-bottom: 30px;
-  margin-top: -20px;
+  margin-top: 20px;
   float: right;
-  margin-right: 60px;
 
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 20px;
+  font-size: 17px;
   line-height: 23px;
   text-align: center;
 
   color: #426589;
 
-  width: 80px;
-  height: 35px;
+  width: 60px;
+  height: 30px;
   :hover {
     background-color: #426589;
     color: white;
@@ -73,7 +78,7 @@ const Hr = styled.hr`
 const TextArea = styled.input`
   width: 920px;
   height: 367px;
-
+  margin-left: 10px;
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -104,9 +109,7 @@ const Text = styled.div`
 const InputDiv = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  margin-top: 30px;
-  margin: 0 10px;
-  width: 95%;
+  margin-left: 10px;
   height: 680px;
 `;
 
@@ -124,13 +127,13 @@ const AssignmentView = () => {
   return (
     <>
       <Box>
-        <ListText>과제 등록</ListText>
+        <Top>
+          <ListText>과제 등록</ListText>
+          <SubmitButton size="sm" onClick={createHandler}>
+            완료
+          </SubmitButton>
+        </Top>
         <Form>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <SubmitButton size="sm" onClick={createHandler}>
-              완료
-            </SubmitButton>
-          </div>
           <InputDiv>
             <InputWithLabel
               label="과제명"

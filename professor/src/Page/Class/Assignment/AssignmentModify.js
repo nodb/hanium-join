@@ -26,7 +26,6 @@ const SubmitButton = styled.button`
   margin-bottom: 30px;
   margin-top: -20px;
   float: right;
-  margin-right: 60px;
 
   font-family: Roboto;
   font-style: normal;
@@ -95,7 +94,7 @@ const CheckText = styled.span`
 const TextArea = styled.input`
   width: 920px;
   height: 367px;
-
+  margin-left: 10px;
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -113,9 +112,7 @@ const Text = styled.div`
 const InputDiv = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  margin-top: 30px;
-  margin: 0 10px;
-  width: 95%;
+  margin-left: 10px;
   height: 680px;
 `;
 

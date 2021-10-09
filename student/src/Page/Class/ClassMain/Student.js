@@ -41,7 +41,7 @@ const TeamBox = styled.div`
   width: 1032px;
   height: 200px;
   display: flex;
-  overflow-y: scroll;
+  overflow-y: auto;
   border-bottom: 1px solid #c4c4c4;
 `;
 

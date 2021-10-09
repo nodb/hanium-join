@@ -53,7 +53,7 @@ const Btn = styled.button`
 
 const Box2 = styled.div`
   width: 1040px;
-  height: 80px;
+  height: fit-content;
   border-bottom: 1px solid #7c7979;
   padding-top: 10px;
   margin: 0px 0px 10px 20px;

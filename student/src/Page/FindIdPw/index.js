@@ -1,11 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import InputWithLabel from "./InputWithLabel";
 import FindButton from "./FindButton";
 import Modal from "./Modal";
 import Header from "../../Common/Header";
 import Footer from "../../Common/Footer";
+import { saveDataToStorage } from "../../utils/storage";
 
 const Label = styled.div`
 font-family: Roboto;
@@ -14,9 +16,20 @@ font-weight: 500;
 font-size: 25px;
 line-height: 29px;
 margin-left: 144px;
-margin-top: 60px;
+margin-top: 30px;
 color: #686868;
 margin-bottom: 20px;
+`;
+const InnerLabel = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 29px;
+  // margin-left: 144px;
+  margin-top: 30px;
+  color: #686868;
+  margin-bottom: 20px;
 `;
 const Box = styled.div`
   display: block;
@@ -45,7 +58,7 @@ const TextBox = styled.div`
 
   color: #FFFFFF;
   filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
-`
+`;
 
 const SendBox = styled.button`
   padding: 6px 12px;
@@ -69,6 +82,7 @@ const EmailText = styled.div`
 `;
 
 const FindIdPw = () => {
+  const history = useHistory();
   const [data, setData] = useState({
     findEmail: false,
     findPw: false,
@@ -100,16 +114,27 @@ const FindIdPw = () => {
       ...data,
       findEmail: false,
       sended: false,
+      name: "",
+      mobile: "",
+      email: "",
+      verifyCode: "",
+      emailRes: false,
     });
   };
 
+  const closeFindPw = () => {
+    setData({
+      ...data,
+      findPw: false,
+    })
+  }
   const sendSmsHandler = async () => {
     console.log("문자전송");
     const body = {
       name: data.name,
       mobile: data.mobile,
     };
-    const res = await axios.post("/api/v1//verify/sms", body);
+    const res = await axios.post("/api/v1/verify/sms", body);
 
     if (res.data.success) {
       setData({
@@ -119,7 +144,31 @@ const FindIdPw = () => {
     }
   };
 
-  const submitHandler = async () => {
+  const openFindPw = async () => {
+    const regExp 
+      = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    if(!regExp.test(data.email)){
+      alert("잘못된 이메일 형식입니다.");
+      return;
+    }
+    const body = { email: data.email };
+    try {
+      const response = await axios.post("/api/v1/verify/email", body);
+      if(response.data.success){
+        setData({
+          ...data,
+          findPw: true,
+        })
+      } else {
+        alert("이메일 전송 실패");
+      }
+    } catch (e) {
+      console.log(e);
+      alert("이메일 전송 실패");
+    }
+  }
+
+  const smsSubmitHandler = async () => {
     const body = {
       name: data.name,
       mobile: data.mobile,
@@ -140,6 +189,23 @@ const FindIdPw = () => {
     }
   };
 
+  const emailSubmitHandler = async () => {
+    const body = {
+      email: data.email,
+      verifyCode: data.verifyCode,
+    };
+    try {
+      const response = await axios.post("/api/v1/verify/email/verify", body);
+      if(response.data){
+        saveDataToStorage(response.data);
+      }
+      console.log("인증성공");
+      history.push("/professor/changePw");
+    } catch (e) {
+      alert("인증번호가 틀렸습니다.");
+    }
+  }
+
   useEffect(() => {
     if (data.mobile.length === 10) {
       setData({
@@ -157,8 +223,7 @@ const FindIdPw = () => {
 
   return (
     <>
-    <Header />
-      <TextBox>이메일/비밀번호 찾기</TextBox>
+    <TextBox>이메일/비밀번호 찾기</TextBox>
     <Box>
       <Label>이메일 찾기</Label>
       <FindButton onClick={openFindEmail}>이메일 찾기</FindButton>
@@ -171,14 +236,14 @@ const FindIdPw = () => {
         value={data.email}
         onChange={changeHandler}
       />
-      <FindButton>비밀번호 찾기</FindButton>
+      <FindButton onClick={openFindPw}>비밀번호 찾기</FindButton>
 
 
 
     </Box>
-      <Modal open={ data.findEmail } close={ closeFindEmail } submit={ submitHandler } header="이메일 찾기">
+      <Modal open={ data.findEmail } close={ closeFindEmail } submit={ smsSubmitHandler } header="이메일 찾기">
         {data.emailRes ? <EmailText>이메일은 { data.emailRes }입니다</EmailText> : null }
-        <Label>이름</Label>
+        <InnerLabel>이름</InnerLabel>
         <InputWithLabel
           name="name"
           placeholder="이름"
@@ -186,7 +251,7 @@ const FindIdPw = () => {
           value={data.name}
           onChange={changeHandler}
         />
-        <Label>전화번호</Label>
+        <InnerLabel>전화번호</InnerLabel>
         <InputWithLabel
           name="mobile"
           placeholder="숫자만 입력"
@@ -195,7 +260,7 @@ const FindIdPw = () => {
           onChange={changeHandler}
         />
         <SendBox onClick={sendSmsHandler}>{!data.sended? "전송" : "재전송"}</SendBox>
-        <Label>인증번호</Label>
+        <InnerLabel>인증번호</InnerLabel>
         <InputWithLabel
           name="verifyCode"
           placeholder="인증번호"
@@ -204,7 +269,17 @@ const FindIdPw = () => {
           onChange={changeHandler}
         />
       </Modal>
-    <Footer />
+
+      <Modal open={ data.findPw } close={ closeFindPw } submit={ emailSubmitHandler } header="비밀번호 변경">
+        <InnerLabel>인증번호</InnerLabel>
+        <InputWithLabel
+          name="verifyCode"
+          placeholder="인증번호"
+          type="text"
+          value={data.verifyCode}
+          onChange={changeHandler}
+        />
+      </Modal>
     </>
   );
 }

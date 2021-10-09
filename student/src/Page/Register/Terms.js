@@ -5,7 +5,7 @@ import styled from "styled-components";
 import AlertBox from "./AlertBox";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
-import Header from "../../Common/Header";
+import Logo from "../../Common/Logo";
 import Footer from "../../Common/Footer";
 
 const HeaderBar = styled.div`
@@ -32,8 +32,8 @@ height: 116.19px;
 `;
 const RegistBox = styled.div`
 display: block;
-padding-left: 65px;
-  width: 1041px;
+// padding-left: 65px;
+width: 1041px;
   height: 496px;
   margin-top: 50px;
   margin-bottom: 200px;
@@ -75,7 +75,9 @@ margin-bottom: 20px;
 
 color: #232323;
 `;
-
+const TermWrapper = styled.div`
+  margin-left: 65px;
+`;
 const RegisterBox = () => {
 
   const [terms, setTerms] = useState("");
@@ -101,16 +103,17 @@ const RegisterBox = () => {
 
   return (
     <>
-    <Header />
     <TextBox>회원가입</TextBox>
     <RegistBox>
-      <Sub>이용 약관 동의</Sub>
-      <TermBox><pre>{terms}</pre></TermBox>
+      <TermWrapper>
+        <Sub>이용 약관 동의</Sub>
+        <TermBox><pre>{terms}</pre></TermBox>
 
-      <AgreeBox>
-        <input type="checkbox" onChange={handleChange}/>
-        <span>동의합니다</span>
-      </AgreeBox>
+        <AgreeBox>
+          <input type="checkbox" onChange={handleChange}/>
+          <span>동의합니다</span>
+        </AgreeBox>
+      </TermWrapper>
         <RegisterButton
           style={{
             margin: "0 auto",
@@ -123,7 +126,6 @@ const RegisterBox = () => {
           동의하고 넘어가기
         </RegisterButton>
     </RegistBox>
-    <Footer/>
     </>
   );
 }

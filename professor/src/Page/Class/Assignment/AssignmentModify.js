@@ -9,7 +9,6 @@ import InputWithLabel from "./InputWithLabel";
 import FileInputWithLabel from "./FileInputWithLabel";
 
 const ListText = styled.div`
-  margin-left: 30px;
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -27,7 +26,6 @@ const SubmitButton = styled.button`
   margin-bottom: 30px;
   margin-top: -20px;
   float: right;
-  margin-right: 60px;
 
   font-family: Roboto;
   font-style: normal;
@@ -48,7 +46,7 @@ const SubmitButton = styled.button`
 const Hr = styled.hr`
   border: 1px solid #c4c4c4;
   transform: rotate(-0.16deg);
-  width: 88%;
+  width: 95%;
 `;
 const HeadLabel = styled.div`
   display: inline-block;
@@ -66,7 +64,7 @@ const HeadLabel = styled.div`
   text-align: center;
 `;
 const Box = styled.div`
-  width: 90%;
+  width: 1032px;
 
   button {
     font-family: Roboto;
@@ -85,7 +83,7 @@ const CheckText = styled.span`
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 21px;
 
   color: #000000;
@@ -94,9 +92,9 @@ const CheckText = styled.span`
 `;
 
 const TextArea = styled.input`
-  width: 1037px;
+  width: 920px;
   height: 367px;
-
+  margin-left: 10px;
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -114,9 +112,7 @@ const Text = styled.div`
 const InputDiv = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  margin-top: 30px;
-  margin: 0 50px;
-  width: 90%;
+  margin-left: 10px;
   height: 680px;
 `;
 
@@ -244,7 +240,7 @@ const AssignmentModify = () => {
 
   return (
     <Box>
-      <ListText>과제 등록</ListText>
+      <ListText>과제 수정</ListText>
       <Form>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <SubmitButton size="sm" onClick={modifyHandler}>
@@ -289,11 +285,11 @@ const AssignmentModify = () => {
             row
             style={{
               marginLeft: 3,
-              padding: "15px 0px",
+              padding: "8px 0px",
               alignItems: "center",
             }}
           >
-            <Label for="point" sm={1}>
+            <Label for="point" sm={1} style={{ marginRight: "25px" }}>
               <HeadLabel>팀지정</HeadLabel>
             </Label>
             {teamList.results.map((team) => (

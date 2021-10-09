@@ -11,10 +11,16 @@ const ListText = styled.div`
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 23px;
+  // line-height: 23px;
+  padding: 20px 0px 20px 0px;
 
   color: #3d3d3d;
-  margin-top: 42px;
+  // margin-top: 42px;
+`;
+
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const SubmitButton = styled.button`
@@ -23,21 +29,20 @@ const SubmitButton = styled.button`
   box-sizing: border-box;
 
   margin-bottom: 30px;
-  margin-top: -20px;
+  margin-top: 20px;
   float: right;
-  margin-right: 60px;
 
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 20px;
+  font-size: 17px;
   line-height: 23px;
   text-align: center;
 
   color: #426589;
 
-  width: 80px;
-  height: 35px;
+  width: 60px;
+  height: 30px;
   :hover {
     background-color: #426589;
     color: white;
@@ -60,20 +65,20 @@ const HeadLabel = styled.div`
   text-align: center;
 `;
 const Box = styled.div`
-  width: 80%;
+  width: 1032px;
   height: 785px;
 `;
 
 const Hr = styled.hr`
   border: 1px solid #c4c4c4;
   transform: rotate(-0.16deg);
-  width: 88%;
+  width: 95%;
 `;
 
 const TextArea = styled.input`
-  width: 1037px;
+  width: 920px;
   height: 367px;
-
+  margin-left: 10px;
   background: #ffffff;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -84,7 +89,7 @@ const CheckText = styled.span`
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 21px;
 
   color: #000000;
@@ -104,9 +109,7 @@ const Text = styled.div`
 const InputDiv = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  margin-top: 30px;
-  margin: 0 10px;
-  width: 95%;
+  margin-left: 10px;
   height: 680px;
 `;
 
@@ -124,13 +127,13 @@ const AssignmentView = () => {
   return (
     <>
       <Box>
-        <ListText>과제 등록</ListText>
+        <Top>
+          <ListText>과제 등록</ListText>
+          <SubmitButton size="sm" onClick={createHandler}>
+            완료
+          </SubmitButton>
+        </Top>
         <Form>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <SubmitButton size="sm" onClick={createHandler}>
-              완료
-            </SubmitButton>
-          </div>
           <InputDiv>
             <InputWithLabel
               label="과제명"
@@ -176,7 +179,7 @@ const AssignmentView = () => {
                 alignItems: "center",
               }}
             >
-              <Label for="point" sm={1}>
+              <Label for="point" sm={1} style={{ marginRight: "25px" }}>
                 <HeadLabel>팀지정</HeadLabel>
               </Label>
               {teamList.results.map((team) => (

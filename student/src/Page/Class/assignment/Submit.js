@@ -80,7 +80,9 @@ const Btn = styled.button`
 const Submit = () => {
   const {
     data,
-    imgBase64,
+    setData,
+    teamFile,
+    setTeamFile,
     submitHandler,
     handleChange,
     handleChangeFile,
@@ -99,7 +101,7 @@ const Submit = () => {
           onChange={handleChange}
         ></ContentBox>
 
-        {imgBase64.map((item) => {
+        {/* {imgBase64.map((item) => {
           return (
             <FileItem>
               <span style={{ fontSize: "14px" }}>{item.name}</span>
@@ -108,26 +110,41 @@ const Submit = () => {
               </Btn>
             </FileItem>
           );
-        })}
-        <Dropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
+        })} */}
+        {data.file?
+          <FileItem>
+            <a href={`http://localhost:3000/api/v1/downloads/${data.file}`} download>
+              <span style={{ fontSize: "14px" }}>
+                {data.file}
+              </span>
+            </a>
+            <Btn name={data.file} onClick={deleteHandler}>
+              x
+            </Btn>
+          </FileItem>
+        :null}
+        <Dropzone onDrop={(acceptedFiles) => {
+          console.log(acceptedFiles);
+          setTeamFile(acceptedFiles[0]);
+          setData({ ...data, file: acceptedFiles[0].name});
+        }}>
           {({ getRootProps, getInputProps }) => (
             <section>
               <div {...getRootProps()}>
-                <input {...getInputProps()} onChange={handleChangeFile} />
+                <input {...getInputProps()} type="file" onChange={handleChangeFile} />
                 <Title>파일 첨부</Title>
                 <DropBox>
-                  <Img src={filePlus} alt="file" />
-                  <DropText>
-                    버튼 선택 혹은 첨부 파일을 선택하여 이곳에 드래그 & 드롭
-                    해주세요
-                  </DropText>
+                <Img src={filePlus} alt="file" />
+                <DropText>
+                  버튼 선택 혹은 첨부 파일을 선택하여 이곳에 드래그 & 드롭해주세요
+                </DropText>
                 </DropBox>
               </div>
             </section>
           )}
         </Dropzone>
         <ButtonBox>
-            <Btn2 color="#EF8F88" onClick={backHandler}>취소</Btn2>
+          <Btn2 color="#EF8F88" onClick={backHandler}>취소</Btn2>
           <Btn2 color="#6F91B5" onClick={submitHandler}>
             제출
           </Btn2>

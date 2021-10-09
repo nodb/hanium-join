@@ -9,7 +9,7 @@ export const downloadMd = async (ctx, next) => {
   const { fileName } = ctx.params;
 
   var filePath = path.join(__dirname, "../../../upload");
-  const pathFile = filePath + "\\" + fileName;
+  const pathFile = filePath + "/" + fileName;
   var mimeType = mime.lookup(filePath + fileName);
   const body = await fs.createReadStream(pathFile);
   ctx.response.set("Content-type", mimeType);

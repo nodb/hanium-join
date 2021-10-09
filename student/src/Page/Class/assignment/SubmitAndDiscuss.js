@@ -16,8 +16,9 @@ const AssignmentTitle = styled.div`
   font-family: Roboto;
   font-weight: bold;
   font-size: 20px;
-  line-height: 23px;
-
+  // line-height: 23px;
+  padding: 6px 0px 20px 0px;
+  
   color: #3d3d3d;
 `;
 

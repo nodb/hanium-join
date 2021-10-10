@@ -27,13 +27,16 @@ const Top = styled.div`
   justify-content: space-between;
 
   div {
-    margin-left: 170px;
+    /* margin-left: 170px; */
     margin-top: 10px;
   }
   button {
+    position: absolute;
+    top:0;
+    right:0;
     font-weight: bold;
     background-color: transparent;
-    color: #000000;
+    color: #ffffff;
     border: 0;
     border-radius: 10px;
     height: 35px;
@@ -107,6 +110,11 @@ const LeftBox = styled.div`
   margin-top: 20px;
   border-radius: 10px;
   margin-bottom: 10px;
+`;
+
+const AssignmentName = styled.div`
+  width: 400px;
+  text-align: center;
 `;
 
 const RightBox = styled.div`
@@ -233,13 +241,13 @@ const ModalChatRoom = ({ match, setOpen }) => {
     <Draggable onDrag={(data) => trackPos(data)}>
       <ModalBox>
         <Top>
-          <div>{assignmentOne.name}</div>
+          <AssignmentName>{assignmentOne.name}</AssignmentName>
           <button
             onClick={() => {
               setOpen(false);
             }}
           >
-            X
+            x
           </button>
         </Top>
         <Box>

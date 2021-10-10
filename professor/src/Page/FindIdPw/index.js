@@ -16,9 +16,20 @@ font-weight: 500;
 font-size: 25px;
 line-height: 29px;
 margin-left: 144px;
-margin-top: 60px;
+margin-top: 30px;
 color: #686868;
 margin-bottom: 20px;
+`;
+const InnerLabel = styled.div`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 29px;
+  // margin-left: 144px;
+  margin-top: 30px;
+  color: #686868;
+  margin-bottom: 20px;
 `;
 const Box = styled.div`
   display: block;
@@ -47,7 +58,7 @@ const TextBox = styled.div`
 
   color: #FFFFFF;
   filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
-`
+`;
 
 const SendBox = styled.button`
   padding: 6px 12px;
@@ -103,6 +114,11 @@ const FindIdPw = () => {
       ...data,
       findEmail: false,
       sended: false,
+      name: "",
+      mobile: "",
+      email: "",
+      verifyCode: "",
+      emailRes: false,
     });
   };
 
@@ -207,8 +223,7 @@ const FindIdPw = () => {
 
   return (
     <>
-    <Header />
-      <TextBox>이메일/비밀번호 찾기</TextBox>
+    <TextBox>이메일/비밀번호 찾기</TextBox>
     <Box>
       <Label>이메일 찾기</Label>
       <FindButton onClick={openFindEmail}>이메일 찾기</FindButton>
@@ -228,7 +243,7 @@ const FindIdPw = () => {
     </Box>
       <Modal open={ data.findEmail } close={ closeFindEmail } submit={ smsSubmitHandler } header="이메일 찾기">
         {data.emailRes ? <EmailText>이메일은 { data.emailRes }입니다</EmailText> : null }
-        <Label>이름</Label>
+        <InnerLabel>이름</InnerLabel>
         <InputWithLabel
           name="name"
           placeholder="이름"
@@ -236,7 +251,7 @@ const FindIdPw = () => {
           value={data.name}
           onChange={changeHandler}
         />
-        <Label>전화번호</Label>
+        <InnerLabel>전화번호</InnerLabel>
         <InputWithLabel
           name="mobile"
           placeholder="숫자만 입력"
@@ -245,7 +260,7 @@ const FindIdPw = () => {
           onChange={changeHandler}
         />
         <SendBox onClick={sendSmsHandler}>{!data.sended? "전송" : "재전송"}</SendBox>
-        <Label>인증번호</Label>
+        <InnerLabel>인증번호</InnerLabel>
         <InputWithLabel
           name="verifyCode"
           placeholder="인증번호"
@@ -256,7 +271,7 @@ const FindIdPw = () => {
       </Modal>
 
       <Modal open={ data.findPw } close={ closeFindPw } submit={ emailSubmitHandler } header="비밀번호 변경">
-        <Label>인증번호</Label>
+        <InnerLabel>인증번호</InnerLabel>
         <InputWithLabel
           name="verifyCode"
           placeholder="인증번호"
@@ -265,8 +280,6 @@ const FindIdPw = () => {
           onChange={changeHandler}
         />
       </Modal>
-
-      <Footer />
     </>
   );
 }

@@ -66,16 +66,25 @@ const FileItem = styled.div`
   position: relative;
   width: 600px;
   height: 26px;
+  a{
+    text-decoration: none;
+    color : black;
+    font-size: 20px;
+    font-weight: bold;
+  }
 `;
 
 const Btn = styled.button`
-  position: absolute;
   top: 0px;
   right: 0px;
   height: 26px;
   width: 26px;
   text-align: middle;
   vertical-align: center;
+  background : none;
+  border: none;
+  color: red;
+  font-size: 20px;
 `;
 const Submit = () => {
   const {
@@ -113,7 +122,7 @@ const Submit = () => {
         })} */}
         {data.file?
           <FileItem>
-            <a href={`/downloads/${data.file}`} download>
+            <a href={`http://localhost:3000/api/v1/downloads/${data.file}`} download>
               <span style={{ fontSize: "14px" }}>
                 {data.file}
               </span>

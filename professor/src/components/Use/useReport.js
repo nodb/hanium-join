@@ -6,16 +6,22 @@ import {
 } from "./components";
 
 const useReport = () => {
-  const reportList = useShallowEqualSelectorToJS((state) =>
+  const reportByTeam = useShallowEqualSelectorToJS((state) =>
+    state.report.get("list")
+  );
+
+  const reportByAssign = useShallowEqualSelectorToJS((state) =>
     state.report.get("list")
   );
 
   const actions = useActions(reducer);
 
   return {
-    reportList, 
-  
-    listAllByProf: actions.listAllByProf,
+    reportByAssign,
+    reportByTeam,
+
+    listAllByTeam: actions.listAllByTeam,
+    listAllByAssign: actions.listAllByAssign,
   };
 };
 

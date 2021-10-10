@@ -16,11 +16,11 @@ const Label = styled.div`
 `;
 
 const Input = styled.input`
-margin-top: 21px;
-display: block;
- margin: 0 auto;
+    margin-top: 21px;
+    display: block;
+    margin: 0 auto;
     width: 434px;
-height: 44px;
+    height: 44px;
     border: 1px solid white;
     outline: none;
     background: #EBE7E7;

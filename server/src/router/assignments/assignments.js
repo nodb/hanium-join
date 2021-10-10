@@ -453,7 +453,7 @@ export const readAssignmentByTeamMd = async (ctx, next) => {
       "from tb_team t " +
       "JOIN tb_assignment_team at ON at.team_id = t.id " +
       "JOIN tb_assignment a ON at.assignment_id = a.id " +
-      "WHERE t.id = ? ORDER BY a.createdAt ASC LIMIT ?, ?",
+      "WHERE t.id = ? ORDER BY a.endDate DESC LIMIT ?, ?",
     [id, skip, limit]
   );
 

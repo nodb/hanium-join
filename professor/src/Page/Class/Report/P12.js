@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Accordion, Card } from "react-bootstrap";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
+
+import { useParams } from "react-router-dom";
+import { useReport } from "../../../components/Use";
+import { CTLoading, useLoading } from "../../../components";
 
 const AssignmentBox = styled.div`
   width: 250px;
@@ -9,7 +13,7 @@ const AssignmentBox = styled.div`
   margin-right: 50px;
   margin-bottom: 30px;
   padding: 15px;
-  border: 0.5px solid #d8d8d8;
+  border: 0.5px solid ${(props) => props.color};
   font-size: 13px;
 `;
 
@@ -51,40 +55,6 @@ const NameText = styled.div`
   line-height: 16px;
 `;
 
-const Assignment = [
-  {
-    name: "과제 1",
-    isSubmit: true,
-  },
-  {
-    name: "과제 2",
-    isSubmit: false,
-  },
-  {
-    name: "과제 3",
-    isSubmit: true,
-  },
-  {
-    name: "과제 4",
-    isSubmit: false,
-  },
-  {
-    name: "과제 5",
-    isSubmit: true,
-  },
-];
-
-const teams = [
-  {
-    id: 1,
-    name: "TEAM 1",
-  },
-  {
-    id: 2,
-    name: "TEAM 2",
-  },
-];
-
 const CustomToggle = ({ children, eventKey }) => {
   const decoratedOnClick = useAccordionButton(eventKey, () =>
     console.log("totally custom!")
@@ -118,24 +88,35 @@ const TeamListItem = ({ team }) => {
         style={{ width: "1032px", background: "none", border: "none" }}
       >
         <CustomToggle eventKey="0">
-          <TeamText>TEAM {team.id}</TeamText>
+          <TeamText>TEAM {team.name}</TeamText>
         </CustomToggle>
       </Card.Header>
       <Accordion.Collapse eventKey="0">
         <Card.Body>
           {" "}
           <div style={{ display: "flex", flexWrap: "wrap", width: "1032px" }}>
-            {Assignment.map((item) => {
+            {team.assignment.map((item) => {
               return (
-                <AssignmentBox key={item.name}>
-                  <TopText>
-                    <NameText>{item.name}</NameText>
-                    <div>{item.isSubmit ? "제출 완료" : "미제출"}</div>
-                  </TopText>
-                  <TopText>
-                    <div>점수:10/10</div>
-                  </TopText>
-                </AssignmentBox>
+                <>
+                  {item.isCheck ? (
+                    <AssignmentBox key={item.id} color="#426589">
+                      <TopText>
+                        <NameText>{item.assignmentName}</NameText>
+                        <div>제출 완료</div>
+                      </TopText>
+                      <TopText>
+                        <div>점수:10/10</div>
+                      </TopText>
+                    </AssignmentBox>
+                  ) : (
+                    <AssignmentBox key={item.id} color="#EF8F88">
+                      <TopText>
+                        <NameText>{item.assignmentName}</NameText>
+                        <div>미제출</div>
+                      </TopText>
+                    </AssignmentBox>
+                  )}
+                </>
               );
             })}
           </div>
@@ -146,11 +127,29 @@ const TeamListItem = ({ team }) => {
 };
 
 const P12 = () => {
+  const { code } = useParams();
+  const { loading, setLoading } = useLoading(true);
+  const { reportByTeam, listAllByTeam } = useReport();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await listAllByTeam(code);
+      } catch (e) {
+        alert(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetch();
+  }, []);
+
   return (
     <div>
       <ListText>팀별 보기</ListText>
       <Box>
-        {teams.map((team) => (
+        {reportByTeam.results.map((team) => (
           <Accordion defaultActiveKey="1" key={team.id} flush>
             <TeamListItem team={team} />
           </Accordion>

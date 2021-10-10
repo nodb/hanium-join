@@ -7,7 +7,7 @@ import {
 
 const useReport = () => {
   const reportByTeam = useShallowEqualSelectorToJS((state) =>
-    state.report.get("list")
+    state.report.get("teamList")
   );
 
   const reportByAssign = useShallowEqualSelectorToJS((state) =>

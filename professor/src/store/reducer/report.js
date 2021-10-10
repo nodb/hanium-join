@@ -17,6 +17,10 @@ const initialState = Map({
     count: 0,
     results: List([]),
   }),
+  teamList: Map({
+    count: 0,
+    results: List([]),
+  }),
 });
 
 export default handleActions(
@@ -24,7 +28,7 @@ export default handleActions(
     ...pender({
       type: LISTALL_TEAM,
       onSuccess: (state, action) => {
-        return state.set("list", fromJS(action.payload.data));
+        return state.set("teamList", fromJS(action.payload.data));
       },
     }),
     ...pender({

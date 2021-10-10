@@ -102,8 +102,14 @@ const DiscussBox = ({ data, DeleteHandler }) => {
 };
 
 const Discuss = () => {
-  const { data, setData, DiscussList, submitHandler, DeleteHandler, backHandler } =
-    useDiscusses();
+  const {
+    data,
+    setData,
+    DiscussList,
+    submitHandler,
+    DeleteHandler,
+    backHandler,
+  } = useDiscusses();
   return (
     <>
       <div>
@@ -123,7 +129,9 @@ const Discuss = () => {
       </div>
       <div>
         <ButtonBox>
-            <Btn color="#EF8F88" onClick={backHandler}>취소</Btn>
+          <Btn color="#EF8F88" onClick={backHandler}>
+            취소
+          </Btn>
           <Btn color="#6F91B5">제출</Btn>
         </ButtonBox>
       </div>

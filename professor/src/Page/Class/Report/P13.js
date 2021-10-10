@@ -94,7 +94,7 @@ const TeamListItem = ({ assignment }) => {
                   {item.isCheck ? (
                     <AssignmentBox key={item.id} color="#426589">
                       <TopText>
-                        <TeamText>TEAM{item.teamName}</TeamText>
+                        <TeamText>TEAM {item.teamName}</TeamText>
                         <div>제출 완료</div>
                       </TopText>
                       <TopText>
@@ -104,7 +104,7 @@ const TeamListItem = ({ assignment }) => {
                   ) : (
                     <AssignmentBox key={item.id} color="#EF8F88">
                       <TopText>
-                        <TeamText>TEAM{item.teamName}</TeamText>
+                        <TeamText>TEAM {item.teamName}</TeamText>
                         <div>미제출</div>
                       </TopText>
                     </AssignmentBox>

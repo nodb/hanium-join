@@ -71,7 +71,7 @@ export const readReportByTeamMd = async (ctx, next) => {
     "SELECT t.id as team_id,a.point as maxPoint, a.name as assignmentName, at.isCheck, at.report_file, at.point \
     FROM tb_team t JOIN tb_assignment_team at ON t.id = at.team_id \
     JOIN tb_assignment a ON a.id = at.assignment_id\
-    WHERE t.class_code = ?",
+    WHERE t.class_code = ? ORDER BY a.createdAt ASC",
     [classCode]
   );
 
@@ -102,7 +102,7 @@ export const readReportByAssignmentMd = async (ctx, next) => {
     "SELECT a.id as assignment_id, t.name as teamName, a.point as maxPoint,at.isCheck, at.report_file, at.point \
     FROM tb_assignment a JOIN tb_assignment_team at ON a.id = at.assignment_id \
     JOIN tb_team t ON t.id = at.team_id\
-    WHERE t.class_code = ?",
+    WHERE t.class_code = ? ORDER BY t.name ASC",
     [classCode]
   );
 

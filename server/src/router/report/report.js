@@ -1,5 +1,6 @@
 import Boom from "@hapi/boom";
 import * as CommonMd from "../middlewares";
+import { v4 as UUID } from "uuid";
 import { insertStudentTeamMd } from "../teams/teams";
 
 export const readReportAllMd = async (ctx, next) => {
@@ -120,6 +121,35 @@ export const readReportByAssignmentMd = async (ctx, next) => {
   await next();
 };
 
+export const saveReport = async (ctx, next) => {
+
+  const { conn } = ctx.state;
+  const { assignmentTeamId } = ctx.request.body;
+
+  const studentKeyword = ctx.request.files.studentKeyword;
+
+  const professorKeyword = ctx.request.files.professorKeyword;
+
+
+  if (studentKeyword != null) {
+    var appDir = path.dirname(studentKeyword.path);
+    await fs.renameSync(image.path, `${appDir}/${studentKeyword.name}`);
+  }
+
+  if (professorKeyword != null) {
+    var appDir = path.dirname(professorKeyword.path);
+    await fs.renameSync(answerFile.path, `${appDir}/${professorKeyword.name}`);
+  }
+
+  await conn.query(
+    "INSERT INTO tb_report(id, student_keyword, professor_keyword, assignment_team_id VALUES (?,?,?,?)",
+    [UUID(), studentKeyword, professorKeyword, assignmentTeamId]
+    )
+
+    await next();
+}
+
+
 export const readAll = [
   CommonMd.validataListParamMd,
   readReportAllMd,
@@ -138,3 +168,9 @@ export const readReportByAssignment = [
   readReportByAssignmentMd,
   CommonMd.responseMd,
 ];
+
+export const saveReport = [
+  CommonMd.createConnectionMd,
+  saveReport,
+  CommonMd.responseMd,
+]

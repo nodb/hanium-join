@@ -12,4 +12,6 @@ router.get("/byTeam/:classCode", ...report.readReportByTeam);
 // 과제별 팀 조회
 router.get("/byAssignment/:classCode", ...report.readReportByAssignment);
 
+router.post("/", ...report)
+
 export default router;
